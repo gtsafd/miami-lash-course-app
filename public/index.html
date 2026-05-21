@@ -230,7 +230,7 @@
 
       const ui = {
         en: {
-          studentName: "Student name", accessCode: "Access code", unlock: "Unlock Course", demoCode: "Demo code",
+          studentName: "Student name", accessCode: "Access code", unlock: "Unlock Course",
           admin: "Admin", adminLogin: "Admin Login", password: "Password", login: "Login", logout: "Logout",
           home: "Home", lessons: "Lessons", files: "Files", settings: "Settings", premiumTraining: "Premium Online Training",
           statsLessons: "Lessons", statsDone: "Done", statsProgress: "Progress", continueTraining: "Continue Training",
@@ -247,7 +247,7 @@
           wrong: "Access denied. Check the code or password.", codeCopied: "Code created."
         },
         ru: {
-          studentName: "Имя ученицы", accessCode: "Код доступа", unlock: "Открыть курс", demoCode: "Демо-код",
+          studentName: "Имя ученицы", accessCode: "Код доступа", unlock: "Открыть курс",
           admin: "Админ", adminLogin: "Вход в админку", password: "Пароль", login: "Войти", logout: "Выйти",
           home: "Главная", lessons: "Уроки", files: "Файлы", settings: "Настройки", premiumTraining: "Премиум онлайн-обучение",
           statsLessons: "Уроков", statsDone: "Пройдено", statsProgress: "Прогресс", continueTraining: "Продолжить обучение",
@@ -329,8 +329,15 @@
         };
 
         if (loading) return <Shell><main className="screen"><p className="notice">{t.loading}</p></main></Shell>;
-        if (!client.token && view !== "admin-login") return <LoginScreen t={t} lang={lang} setLang={setLang} setClient={setClient} setCourse={setCourse} setUser={setUser} setView={setView} />;
         if (view === "admin-login") return <AdminLogin t={t} lang={lang} setLang={setLang} setClient={setClient} setAdmin={setAdmin} setView={setView} />;
+        if (!client.token && (view === "admin" || client.adminToken)) {
+          return (
+            <Shell course={{ settings: { eyebrow: "Lash Artist | Hanna Kozak", brand: "MIAMI LASH COURSE" } }} lang={lang} setLang={setLang} signOut={signOut}>
+              <AdminScreen t={t} lang={lang} setLang={setLang} client={client} course={course || { lessons: [], resources: [] }} setCourse={setCourse} />
+            </Shell>
+          );
+        }
+        if (!client.token) return <LoginScreen t={t} lang={lang} setLang={setLang} setClient={setClient} setCourse={setCourse} setUser={setUser} setView={setView} />;
         if (!course) return <Shell><main className="screen"><p className="notice">{error || t.serverError}</p><button className="primary" onClick={refreshCourse}>{t.loading}</button></main></Shell>;
 
         const activeLesson = course.lessons.find((lesson) => lesson.id === activeLessonId) || course.lessons[0];
@@ -415,7 +422,6 @@
                 <button className="primary">{t.unlock}</button>
                 <div style={{ height: 10 }} />
                 <button type="button" className="secondary" style={{ width: "100%" }} onClick={() => setView("admin-login")}>{t.adminLogin}</button>
-                <p style={{ margin: "12px 0 0", fontSize: 11, fontWeight: 800, color: "rgba(29,29,29,.55)", lineHeight: 1.5 }}>{t.demoCode}: LASH-MIAMI-2026</p>
               </form>
             </main>
           </div>
@@ -521,7 +527,13 @@
         const [selectedResourceId, setSelectedResourceId] = useState(course.resources[0]?.id);
         const [newCode, setNewCode] = useState("");
         const adminHeaders = { Authorization: `Bearer ${client.adminToken}` };
-        const loadAdmin = async () => setAdminState(await request("/api/admin/state", { headers: adminHeaders }));
+        const loadAdmin = async () => {
+          const data = await request("/api/admin/state", { headers: adminHeaders });
+          setAdminState(data);
+          setCourse(data.course);
+          if (!selectedLessonId && data.course.lessons[0]) setSelectedLessonId(data.course.lessons[0].id);
+          if (!selectedResourceId && data.course.resources[0]) setSelectedResourceId(data.course.resources[0].id);
+        };
         useEffect(() => { loadAdmin(); }, []);
         const saveCourse = async (nextCourse) => {
           const data = await request("/api/admin/course", { method: "PUT", headers: adminHeaders, body: JSON.stringify({ course: nextCourse }) });
