@@ -4,6 +4,7 @@ const path = require("node:path");
 const { handleApi } = require("./lib/app");
 
 const root = __dirname;
+const publicDir = path.join(root, "public");
 const dataDir = path.join(root, "data");
 const port = Number(process.env.PORT || 5188);
 
@@ -22,8 +23,8 @@ server.listen(port, () => {
 function serveStatic(req, res) {
   const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
   const requested = url.pathname === "/" ? "/index.html" : decodeURIComponent(url.pathname);
-  const filePath = path.normalize(path.join(root, requested));
-  if (!filePath.startsWith(root) || filePath.startsWith(dataDir)) {
+  const filePath = path.normalize(path.join(publicDir, requested));
+  if (!filePath.startsWith(publicDir) || filePath.startsWith(dataDir)) {
     res.writeHead(403);
     return res.end("Forbidden");
   }
