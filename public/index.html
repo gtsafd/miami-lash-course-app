@@ -102,6 +102,8 @@
       .polaroid.main { right: -16px; top: 0; width: 78%; transform: rotate(6deg); }
       .polaroid.small { left: -8px; bottom: 18px; width: 58%; transform: rotate(-8deg); }
       .polaroid img { width: 100%; height: 210px; object-fit: cover; }
+      .polaroid.main img { object-position: 78% 34%; }
+      .polaroid.small img { object-position: 68% 72%; }
       .polaroid.small img { height: 145px; }
       .paper-note {
         position: absolute;
@@ -174,7 +176,7 @@
         flex-direction: column;
         justify-content: flex-end;
         color: #fff;
-        background: linear-gradient(180deg, rgba(29,29,29,.08), rgba(29,29,29,.76)), url("./assets/girls-miami.png") center 20% / cover;
+        background: linear-gradient(180deg, rgba(29,29,29,.08), rgba(29,29,29,.76)), url("./assets/girls-miami-clean.png") center / cover;
       }
       .course-hero h1 { margin: 0; font-family: "Bebas Neue", Impact, sans-serif; font-size: 58px; line-height: .82; text-transform: uppercase; }
       .course-hero p { margin: 8px 0 0; font-size: 12px; font-weight: 800; }
@@ -408,8 +410,8 @@
                 </div>
                 <h1 className="hero-title">Girls<br /><span className="script">Miami</span></h1>
                 <div className="polaroid-stack">
-                  <div className="polaroid main"><img src="./assets/girls-miami.png" alt="Girls Miami lash course" /></div>
-                  <div className="polaroid small"><img src="./assets/premium-lash-supplies.png" alt="Miami lash supplies poster" /></div>
+                  <div className="polaroid main"><img src="./assets/girls-miami-clean.png" alt="Miami lash course visual" /></div>
+                  <div className="polaroid small"><img src="./assets/premium-supplies-clean.png" alt="Miami lash supplies" /></div>
                   <div className="paper-note"><p>Premium quality</p><p>Long lasting</p><p>Comfort and care</p></div>
                 </div>
               </div>
@@ -573,7 +575,11 @@
         return <div className="card admin-form" style={{ padding: 12 }}><label className="field-label">{t.resourcesTitle}<input className="input" value={content.title} onChange={(e) => setContent({ title: e.target.value })} /></label><label className="field-label">{t.resourcesText}<textarea className="textarea" value={content.text} onChange={(e) => setContent({ text: e.target.value })} /></label></div>;
       }
 
-      if ("serviceWorker" in navigator && location.protocol !== "file:") navigator.serviceWorker.register("./sw.js").catch(() => {});
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.getRegistrations?.().then((registrations) => {
+          registrations.forEach((registration) => registration.unregister());
+        }).catch(() => {});
+      }
       ReactDOM.createRoot(document.getElementById("root")).render(<App />);
     </script>
   </body>
