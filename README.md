@@ -4,6 +4,12 @@
 
 Теперь проект работает в server mode: курс, коды и админка проверяются backend-ом, а не только браузером.
 
+Production:
+
+```text
+https://miami-lash-course-app.vercel.app/
+```
+
 ## Что уже есть
 
 - Два языка интерфейса и материалов: English / Русский.
@@ -39,11 +45,17 @@ Set with ADMIN_PASSWORD. Example: hanna2026
 5. Выбрать урок или файл.
 6. Изменить название, описание, шаги или ссылку на обложку.
 
-Изменения сохраняются на сервере в `data/store.json`.
+Локально изменения сохраняются в `data/store.json`.
+
+На production изменения сохраняются в private GitHub repository:
+
+```text
+gtsafd/miami-lash-course-data
+```
 
 ## Важно про безопасность
 
-GitHub Pages не подходит для защищенной версии, потому что он не запускает backend. Для защищенного MVP деплойте именно `server.js` на Render, Railway, Fly.io, VPS или другой Node hosting.
+GitHub Pages не подходит для защищенной версии, потому что он не запускает backend. Production сейчас задеплоен на Vercel.
 
 Сейчас уже добавлен базовый backend:
 
@@ -76,25 +88,30 @@ ADMIN_PASSWORD='your-admin-password' TOKEN_SECRET='long-random-secret' node serv
 http://127.0.0.1:5188
 ```
 
-## Деплой
+## Production Setup
 
-Для защищенной версии лучше Render/Railway/VPS:
+Используется:
 
-1. Repository лучше держать private.
-2. Build command не нужен.
-3. Start command:
+- Public app repo: `gtsafd/miami-lash-course-app`
+- Private data repo: `gtsafd/miami-lash-course-data`
+- Hosting: Vercel
+- Production URL: `https://miami-lash-course-app.vercel.app/`
 
-```bash
-node server.js
-```
-
-4. Environment variables:
+Vercel environment variables:
 
 ```text
 ADMIN_PASSWORD=your-real-admin-password
 TOKEN_SECRET=long-random-secret
+GITHUB_TOKEN=github-token-with-repo-access
+GITHUB_REPO=gtsafd/miami-lash-course-data
+GITHUB_BRANCH=main
+GITHUB_STORE_PATH=private/store.json
 ```
 
-5. Нужен persistent disk или внешняя база данных, чтобы `data/store.json` не сбрасывался после redeploy.
+Redeploy manually:
 
-Для финальной продающей версии лучше Supabase/PostgreSQL вместо JSON-файла.
+```bash
+vercel --prod
+```
+
+Для финальной версии с большим количеством учениц лучше Supabase/PostgreSQL вместо GitHub JSON-файла.
