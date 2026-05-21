@@ -157,14 +157,15 @@
         width: min(100%, 430px);
         transform: translateX(-50%);
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+        grid-template-columns: repeat(5, 1fr);
+        padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
         background: rgba(255,241,236,.92);
         border-top: 1px solid rgba(233,77,123,.16);
         backdrop-filter: blur(18px);
       }
-      .tabbar button { min-height: 54px; border: 0; border-radius: 18px; background: transparent; color: rgba(29,29,29,.55); font-size: 10px; font-weight: 900; text-transform: uppercase; }
+      .tabbar button { position: relative; min-height: 54px; border: 0; border-radius: 14px; background: transparent; color: rgba(29,29,29,.55); font-size: 9px; font-weight: 900; text-transform: uppercase; }
       .tabbar button.active { background: rgba(233,77,123,.12); color: var(--pink-dark); }
+      .tab-badge { position: absolute; top: 8px; right: 6px; min-width: 16px; height: 16px; border-radius: 99px; background: var(--pink); color: #fff; font-size: 9px; font-weight: 900; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
       .section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
       .section-head h1, .section-head h2 { margin: 0; color: var(--pink); font-family: "Bebas Neue", Impact, sans-serif; font-size: 44px; line-height: .9; text-transform: uppercase; }
       .section-head p { margin: 4px 0 0; font-size: 12px; font-weight: 800; color: rgba(29,29,29,.58); }
@@ -210,6 +211,39 @@
       .modal-card { width: 100%; max-width: 340px; border-radius: 24px; padding: 28px 20px 20px; background: #fff8f4; box-shadow: 0 24px 60px rgba(29,29,29,.28); display: grid; gap: 10px; text-align: center; }
       .modal-card p { margin: 0 0 8px; font-size: 16px; font-weight: 800; }
       .video-iframe { width: 100%; height: 226px; border: 0; display: block; border-radius: 8px; }
+      .watermark-center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 5; }
+      .watermark-center span { color: rgba(255,255,255,.13); font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 3px; text-shadow: 0 1px 3px rgba(0,0,0,.3); transform: rotate(-20deg); white-space: nowrap; }
+      .buy-btn { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; border-radius: 16px; border: 2px solid var(--pink); background: transparent; color: var(--pink-dark); font-size: 13px; font-weight: 900; text-transform: uppercase; text-decoration: none; cursor: pointer; }
+      .buy-btn:hover { background: rgba(233,77,123,.07); }
+      .product-grid { display: grid; gap: 14px; }
+      .product-card { border: 1px solid rgba(233,77,123,.14); border-radius: 14px; background: rgba(255,255,255,.82); overflow: hidden; box-shadow: 0 8px 24px rgba(201,54,98,.1); }
+      .product-card > img { width: 100%; height: 180px; object-fit: cover; display: block; }
+      .product-card-placeholder { width: 100%; height: 120px; background: linear-gradient(135deg, var(--pink-soft), var(--cream)); display: flex; align-items: center; justify-content: center; font-size: 32px; }
+      .product-info { padding: 12px 14px 14px; }
+      .product-info strong { display: block; font-size: 15px; font-weight: 900; text-transform: uppercase; color: var(--ink); }
+      .product-info p { margin: 5px 0 10px; font-size: 12px; font-weight: 600; color: rgba(29,29,29,.65); line-height: 1.5; }
+      .product-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+      .product-price { font-size: 18px; font-weight: 900; color: var(--pink-dark); }
+      .sold-out { font-size: 11px; font-weight: 900; color: rgba(29,29,29,.4); text-transform: uppercase; }
+      .cart-panel { margin-top: 20px; border: 1px solid rgba(233,77,123,.2); border-radius: 16px; padding: 16px; background: rgba(255,255,255,.88); }
+      .cart-panel h3 { margin: 0 0 12px; font-family: "Bebas Neue", Impact, sans-serif; font-size: 28px; color: var(--pink); }
+      .cart-item { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid rgba(233,77,123,.1); font-size: 13px; font-weight: 700; }
+      .cart-item span:first-child { flex: 1; }
+      .cart-item button { width: 28px; height: 28px; border-radius: 99px; border: 1px solid rgba(201,54,98,.25); background: rgba(201,54,98,.08); color: var(--pink-dark); font-size: 16px; font-weight: 900; cursor: pointer; }
+      .cart-total { padding: 10px 0; font-size: 15px; font-weight: 900; color: var(--pink-dark); text-align: right; }
+      .admin-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 14px; }
+      .admin-tabs button { min-height: 38px; border: 1px solid rgba(233,77,123,.18); border-radius: 10px; background: rgba(255,255,255,.7); font-size: 9px; font-weight: 900; text-transform: uppercase; }
+      .admin-tabs button.active { background: rgba(233,77,123,.14); color: var(--pink-dark); }
+      .accordion-item { border: 1px solid rgba(233,77,123,.15); border-radius: 10px; overflow: hidden; background: rgba(255,255,255,.8); }
+      .accordion-head { display: flex; align-items: center; gap: 10px; padding: 10px 12px; cursor: pointer; background: transparent; border: 0; width: 100%; text-align: left; }
+      .accordion-head img { width: 48px; height: 48px; object-fit: cover; border-radius: 6px; flex-shrink: 0; background: var(--pink-soft); }
+      .accordion-head-placeholder { width: 48px; height: 48px; border-radius: 6px; background: var(--pink-soft); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+      .accordion-head-info { flex: 1; min-width: 0; }
+      .accordion-head-info strong { display: block; font-size: 13px; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .accordion-head-info span { font-size: 10px; font-weight: 700; color: rgba(29,29,29,.5); }
+      .accordion-arrow { font-size: 12px; color: rgba(29,29,29,.4); flex-shrink: 0; }
+      .accordion-body { padding: 0 12px 12px; border-top: 1px solid rgba(233,77,123,.1); }
+      .instock-toggle { display: flex; align-items: center; gap: 8px; padding: 10px 0; font-size: 12px; font-weight: 800; cursor: pointer; }
       .admin-form, .admin-panel { display: grid; gap: 10px; }
       .admin-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
       .admin-tabs button { min-height: 42px; border: 1px solid rgba(233,77,123,.18); border-radius: 12px; background: rgba(255,255,255,.7); font-size: 10px; font-weight: 900; text-transform: uppercase; }
@@ -255,7 +289,14 @@
           todayOne: "Practice clean isolation on sponge or mannequin before client work.",
           todayTwo: "Take close-up shots after every finished set to track direction and symmetry.",
           loading: "Loading...", serverError: "Server is not available. Run npm start or deploy the backend.",
-          wrong: "Access denied. Check the code or password.", codeCopied: "Code created."
+          wrong: "Access denied. Check the code or password.", codeCopied: "Code created.",
+          shop: "Shop", buyCourse: "Buy Course", cartTitle: "Cart", addToCart: "Add to Cart",
+          inCart: "In Cart", outOfStock: "Out of stock", checkoutBtn: "Order via Instagram",
+          cartEmpty: "Cart is empty", cartTotal: "Total", shopEmpty: "Products coming soon",
+          products: "Products", addProduct: "+ Add Product", productTitle: "Product name",
+          productDesc: "Description", productPrice: "Price", productImage: "Photo URL",
+          productCurrency: "Currency", inStock: "In stock", saveProduct: "Save Product",
+          content: "Content"
         },
         ru: {
           studentName: "Имя ученицы", accessCode: "Код доступа", unlock: "Открыть курс",
@@ -274,7 +315,14 @@
           todayOne: "Отработайте чистую изоляцию на спонже или манекене перед работой с клиентом.",
           todayTwo: "Делайте крупные фото после каждого сета, чтобы отслеживать направление и симметрию.",
           loading: "Загрузка...", serverError: "Сервер недоступен. Запустите npm start или задеплойте backend.",
-          wrong: "Доступ запрещен. Проверьте код или пароль.", codeCopied: "Код создан."
+          wrong: "Доступ запрещен. Проверьте код или пароль.", codeCopied: "Код создан.",
+          shop: "Магазин", buyCourse: "Купить курс", cartTitle: "Корзина", addToCart: "В корзину",
+          inCart: "В корзине", outOfStock: "Нет в наличии", checkoutBtn: "Заказать в Instagram",
+          cartEmpty: "Корзина пуста", cartTotal: "Итого", shopEmpty: "Товары скоро появятся",
+          products: "Товары", addProduct: "+ Добавить товар", productTitle: "Название товара",
+          productDesc: "Описание", productPrice: "Цена", productImage: "Фото (URL)",
+          productCurrency: "Валюта", inStock: "В наличии", saveProduct: "Сохранить товар",
+          content: "Контент"
         }
       };
 
@@ -305,6 +353,8 @@
         return data;
       }
 
+      const CART_KEY = "miami-lash-cart-v1";
+
       function App() {
         const [client, setClient] = useState(getClient);
         const [course, setCourse] = useState(null);
@@ -314,6 +364,9 @@
         const [activeLessonId, setActiveLessonId] = useState("");
         const [loading, setLoading] = useState(Boolean(client.token));
         const [error, setError] = useState("");
+        const [cart, setCartRaw] = useState(() => { try { return JSON.parse(localStorage.getItem(CART_KEY) || "[]"); } catch { return []; } });
+        const setCart = (next) => { setCartRaw(next); localStorage.setItem(CART_KEY, JSON.stringify(next)); };
+        const cartCount = cart.reduce((s, i) => s + i.qty, 0);
         const lang = client.lang || "en";
         const t = ui[lang];
 
@@ -367,11 +420,15 @@
             {currentView === "lessons" && <LessonsScreen course={course} t={t} lang={lang} user={user} setView={setView} setActiveLessonId={setActiveLessonId} />}
             {currentView === "lesson" && <LessonScreen course={course} t={t} lang={lang} user={user} lesson={activeLesson} setUser={setUser} token={client.token} />}
             {currentView === "resources" && <ResourcesScreen course={course} t={t} lang={lang} />}
+            {currentView === "shop" && <ShopScreen course={course} t={t} lang={lang} cart={cart} setCart={setCart} />}
             {currentView === "admin" && admin && <AdminScreen t={t} lang={lang} setLang={setLang} client={client} course={course} setCourse={setCourse} />}
             {currentView === "admin" && !admin && <AdminLogin t={t} lang={lang} setLang={setLang} setClient={setClient} setAdmin={setAdmin} setView={setView} />}
             <nav className="tabbar">
-              {[["home", t.home], ["lessons", t.lessons], ["resources", t.files], ["admin", t.admin]].map(([id, label]) => (
-                <button key={id} className={currentView === id ? "active" : ""} onClick={() => setView(id)}>{label}</button>
+              {[["home", t.home], ["lessons", t.lessons], ["resources", t.files], ["shop", t.shop], ["admin", t.admin]].map(([id, label]) => (
+                <button key={id} className={currentView === id ? "active" : ""} onClick={() => setView(id)}>
+                  {id === "shop" && cartCount > 0 && <span className="tab-badge">{cartCount}</span>}
+                  {label}
+                </button>
               ))}
             </nav>
           </Shell>
@@ -453,6 +510,10 @@
                 <div style={{ height: 12 }} />
                 <button className="primary">{t.unlock}</button>
                 <div style={{ height: 10 }} />
+                <a href="https://instagram.com/alex_kozak_" target="_blank" rel="noopener noreferrer" className="buy-btn">
+                  <span style={{ fontSize: 16 }}>✦</span> {t.buyCourse}
+                </a>
+                <div style={{ height: 8 }} />
                 <button type="button" className="secondary" style={{ width: "100%" }} onClick={() => setView("admin-login")}>{t.adminLogin}</button>
               </form>
             </main>
@@ -550,26 +611,16 @@
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                   allowFullScreen
                 />
-                {/* Blocks YouTube title/logo click at the top — cannot navigate to YouTube */}
-                <div
-                  onContextMenu={(e) => e.preventDefault()}
-                  style={{ position: "absolute", top: 0, left: 0, right: 0, height: 48, zIndex: 10, cursor: "default" }}
-                />
-                <div className="watermark">{Array.from({ length: 8 }).map((_, i) => <span key={i}>{user.name} · {user.code}</span>)}</div>
+                <div onContextMenu={(e) => e.preventDefault()} style={{ position: "absolute", top: 0, left: 0, right: 0, height: 48, zIndex: 10, cursor: "default" }} />
+                <div className="watermark-center"><span>{user.name}</span></div>
               </div>
             ) : isDirectVideo ? (
               <div style={{ position: "relative", borderRadius: 8, overflow: "hidden", background: "#000" }}>
-                <video
-                  controls
-                  controlsList="nodownload"
-                  onContextMenu={(e) => e.preventDefault()}
-                  style={{ width: "100%", maxHeight: 260, display: "block", background: "#000" }}
-                  src={videoUrl}
-                />
-                <div className="watermark">{Array.from({ length: 8 }).map((_, i) => <span key={i}>{user.name} · {user.code}</span>)}</div>
+                <video controls controlsList="nodownload" onContextMenu={(e) => e.preventDefault()} style={{ width: "100%", maxHeight: 260, display: "block", background: "#000" }} src={videoUrl} />
+                <div className="watermark-center"><span>{user.name}</span></div>
               </div>
             ) : (
-              <div className="video-box" style={{ "--poster": `url(${lesson.poster})` }}><button className="play">▶</button><div className="watermark">{Array.from({ length: 8 }).map((_, index) => <span key={index}>{user.name} · {user.code}</span>)}</div></div>
+              <div className="video-box" style={{ "--poster": `url(${lesson.poster})` }}><button className="play">▶</button><div className="watermark-center"><span>{user.name}</span></div></div>
             )}
             <div className="lesson-body"><p className="eyebrow">{content.meta}</p><h1>{content.title}</h1><p>{content.note}</p><ul className="steps">{content.steps.map((step, index) => <li key={`${step}-${index}`}><strong>{index + 1}.</strong> {step}</li>)}</ul><button className="primary" onClick={markDone}>{isDone ? t.completed : t.markComplete}</button></div>
           </main>
@@ -605,149 +656,270 @@
         );
       }
 
+      function ShopScreen({ course, t, lang, cart, setCart }) {
+        const [showCart, setShowCart] = useState(false);
+        const products = course.products || [];
+        const addToCart = (product) => {
+          const exists = cart.find((i) => i.productId === product.id);
+          setCart(exists ? cart.map((i) => i.productId === product.id ? { ...i, qty: i.qty + 1 } : i) : [...cart, { productId: product.id, qty: 1 }]);
+        };
+        const removeFromCart = (productId) => setCart(cart.filter((i) => i.productId !== productId));
+        const cartCount = cart.reduce((s, i) => s + i.qty, 0);
+        const cartTotal = cart.reduce((s, i) => { const p = products.find((x) => x.id === i.productId); return s + (p ? p.price * i.qty : 0); }, 0);
+        const currency = cart.length ? (products.find((p) => p.id === cart[0].productId)?.currency || "USD") : "USD";
+        const checkout = () => window.open("https://instagram.com/alex_kozak_", "_blank");
+        return (
+          <main className="screen">
+            <div className="section-head">
+              <div><h1>{t.shop}</h1><p>{lang === "ru" ? "Материалы для наращивания" : "Lash supplies & tools"}</p></div>
+              {cartCount > 0 && (
+                <button className="icon-button" style={{ position: "relative", gap: 4 }} onClick={() => setShowCart(!showCart)}>
+                  🛒 <span style={{ fontWeight: 900 }}>{cartCount}</span>
+                </button>
+              )}
+            </div>
+            {showCart && cartCount > 0 && (
+              <div className="cart-panel">
+                <h3>{t.cartTitle}</h3>
+                {cart.map((item) => {
+                  const p = products.find((x) => x.id === item.productId);
+                  if (!p) return null;
+                  return (
+                    <div className="cart-item" key={item.productId}>
+                      <span>{p.content[lang].title} × {item.qty}</span>
+                      <span style={{ fontWeight: 900, color: "var(--pink-dark)" }}>{p.price * item.qty} {p.currency}</span>
+                      <button onClick={() => removeFromCart(item.productId)}>×</button>
+                    </div>
+                  );
+                })}
+                <div className="cart-total">{t.cartTotal}: {cartTotal} {currency}</div>
+                <button className="primary" onClick={checkout}>{t.checkoutBtn}</button>
+              </div>
+            )}
+            {products.length === 0 ? (
+              <p className="notice" style={{ marginTop: 16 }}>{t.shopEmpty}</p>
+            ) : (
+              <div className="product-grid" style={{ marginTop: 16 }}>
+                {products.filter((p) => p.inStock !== false || true).map((product) => {
+                  const content = product.content[lang] || product.content["ru"] || {};
+                  const inCart = cart.find((i) => i.productId === product.id);
+                  return (
+                    <div className="product-card" key={product.id}>
+                      {product.image ? <img src={product.image} alt={content.title} /> : <div className="product-card-placeholder">💎</div>}
+                      <div className="product-info">
+                        <strong>{content.title}</strong>
+                        {content.description && <p>{content.description}</p>}
+                        <div className="product-footer">
+                          <span className="product-price">{product.price} {product.currency}</span>
+                          {product.inStock !== false ? (
+                            <button className="primary" style={{ minHeight: 36, padding: "0 14px", fontSize: 11, width: "auto" }} onClick={() => addToCart(product)}>
+                              {inCart ? `${t.inCart} (${inCart.qty})` : t.addToCart}
+                            </button>
+                          ) : <span className="sold-out">{t.outOfStock}</span>}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </main>
+        );
+      }
+
       function AdminScreen({ t, lang, setLang, client, course, setCourse }) {
-        const [tab, setTab] = useState("lessons");
+        const [tab, setTab] = useState("content");
         const [adminState, setAdminState] = useState(null);
-        const [selectedLessonId, setSelectedLessonId] = useState(course.lessons[0]?.id);
-        const [selectedResourceId, setSelectedResourceId] = useState(course.resources[0]?.id);
+        const [openLessonId, setOpenLessonId] = useState(null);
+        const [openResourceId, setOpenResourceId] = useState(null);
+        const [openProductId, setOpenProductId] = useState(null);
         const [newCode, setNewCode] = useState("");
         const [editLang, setEditLang] = useState(lang);
         const [status, setStatus] = useState("");
         const [busy, setBusy] = useState(false);
         const adminHeaders = { Authorization: `Bearer ${client.adminToken}` };
+
         const loadAdmin = async () => {
-          setBusy(true);
-          setStatus("");
+          setBusy(true); setStatus("");
           try {
             const data = await request("/api/admin/state", { headers: adminHeaders });
-            setAdminState(data);
-            setCourse(data.course);
-            if (!selectedLessonId && data.course.lessons[0]) setSelectedLessonId(data.course.lessons[0].id);
-            if (!selectedResourceId && data.course.resources[0]) setSelectedResourceId(data.course.resources[0].id);
-            setStatus(t.loaded);
-          } catch (err) {
-            setStatus(err.message || t.wrong);
-          } finally {
-            setBusy(false);
-          }
+            setAdminState(data); setCourse(data.course); setStatus(t.loaded);
+          } catch (err) { setStatus(err.message || t.wrong); } finally { setBusy(false); }
         };
         useEffect(() => { loadAdmin(); }, []);
+
         const saveCourse = async (nextCourse) => {
-          setBusy(true);
-          setStatus("");
+          setBusy(true); setStatus("");
           try {
             const data = await request("/api/admin/course", { method: "PUT", headers: adminHeaders, body: JSON.stringify({ course: nextCourse }) });
-            setCourse(data.course);
-            setStatus(t.saved);
-          } catch (err) {
-            setStatus(err.message || t.wrong);
-          } finally {
-            setBusy(false);
-          }
+            setCourse(data.course); setStatus(t.saved);
+          } catch (err) { setStatus(err.message || t.wrong); } finally { setBusy(false); }
         };
+
         const createCode = async () => {
-          setBusy(true);
-          setStatus("");
+          setBusy(true); setStatus("");
           try {
             const data = await request("/api/admin/codes", { method: "POST", headers: adminHeaders, body: JSON.stringify({ code: newCode.trim() || undefined }) });
-            setNewCode("");
-            setAdminState(data);
-            setStatus(t.codeCopied);
-          } catch (err) {
-            setStatus(err.message || t.wrong);
-          } finally {
-            setBusy(false);
-          }
+            setNewCode(""); setAdminState(data); setStatus(t.codeCopied);
+          } catch (err) { setStatus(err.message || t.wrong); } finally { setBusy(false); }
         };
         const deleteCode = async (code) => {
           setBusy(true);
-          try {
-            setAdminState(await request(`/api/admin/codes/${encodeURIComponent(code)}`, { method: "DELETE", headers: adminHeaders }));
-            setStatus(t.saved);
-          } catch (err) {
-            setStatus(err.message || t.wrong);
-          } finally {
-            setBusy(false);
-          }
+          try { setAdminState(await request(`/api/admin/codes/${encodeURIComponent(code)}`, { method: "DELETE", headers: adminHeaders })); setStatus(t.saved); }
+          catch (err) { setStatus(err.message || t.wrong); } finally { setBusy(false); }
         };
         const resetStudent = async (code) => {
           setBusy(true);
-          try {
-            setAdminState(await request(`/api/admin/students/${encodeURIComponent(code)}`, { method: "DELETE", headers: adminHeaders }));
-            setStatus(t.saved);
-          } catch (err) {
-            setStatus(err.message || t.wrong);
-          } finally {
-            setBusy(false);
-          }
+          try { setAdminState(await request(`/api/admin/students/${encodeURIComponent(code)}`, { method: "DELETE", headers: adminHeaders })); setStatus(t.saved); }
+          catch (err) { setStatus(err.message || t.wrong); } finally { setBusy(false); }
         };
-        const selectedLesson = course.lessons.find((lesson) => lesson.id === selectedLessonId) || course.lessons[0];
-        const selectedResource = course.resources.find((resource) => resource.id === selectedResourceId) || course.resources[0];
-        const replaceLesson = (lesson) => saveCourse({ ...course, lessons: course.lessons.map((item) => item.id === lesson.id ? lesson : item) });
-        const replaceResource = (resource) => saveCourse({ ...course, resources: course.resources.map((item) => item.id === resource.id ? resource : item) });
+        const copyCode = (code) => { navigator.clipboard?.writeText(code); setStatus(`${t.copied}: ${code}`); };
+        const exitAdmin = () => { saveClient({ adminToken: null, token: null, user: null }); window.location.reload(); };
+
+        const replaceLesson = (lesson) => saveCourse({ ...course, lessons: course.lessons.map((l) => l.id === lesson.id ? lesson : l) });
+        const deleteLesson = (id) => { setOpenLessonId(null); saveCourse({ ...course, lessons: course.lessons.filter((l) => l.id !== id) }); };
         const addLesson = () => {
           const id = `lesson-${Date.now()}`;
-          const lesson = {
-            id,
-            poster: "./assets/girls-miami-clean.png",
-            content: {
-              en: { title: "New Lesson", meta: "New module", note: "Add lesson description here.", steps: ["First step"] },
-              ru: { title: "Новый урок", meta: "Новый модуль", note: "Добавьте описание урока.", steps: ["Первый шаг"] }
-            }
-          };
-          setSelectedLessonId(id);
-          saveCourse({ ...course, lessons: [...course.lessons, lesson] });
+          const lesson = { id, poster: "./assets/girls-miami-clean.png", videoUrl: "", content: { en: { title: "New Lesson", meta: "New module", note: "Description.", steps: ["Step 1"] }, ru: { title: "Новый урок", meta: "Модуль", note: "Описание.", steps: ["Шаг 1"] } } };
+          setOpenLessonId(id); saveCourse({ ...course, lessons: [...course.lessons, lesson] });
         };
-        const deleteLesson = (id) => {
-          const nextLessons = course.lessons.filter((lesson) => lesson.id !== id);
-          setSelectedLessonId(nextLessons[0]?.id || "");
-          saveCourse({ ...course, lessons: nextLessons });
-        };
+
+        const replaceResource = (resource) => saveCourse({ ...course, resources: course.resources.map((r) => r.id === resource.id ? resource : r) });
+        const deleteResource = (id) => { setOpenResourceId(null); saveCourse({ ...course, resources: course.resources.filter((r) => r.id !== id) }); };
         const addResource = () => {
           const id = `resource-${Date.now()}`;
-          const resource = {
-            id,
-            content: {
-              en: { title: "New File", text: "Add file notes, link, or checklist here." },
-              ru: { title: "Новый файл", text: "Добавьте заметку, ссылку или чеклист." }
-            }
-          };
-          setSelectedResourceId(id);
-          saveCourse({ ...course, resources: [...course.resources, resource] });
+          const resource = { id, url: "", content: { en: { title: "New File", text: "Description or link." }, ru: { title: "Новый файл", text: "Описание или ссылка." } } };
+          setOpenResourceId(id); saveCourse({ ...course, resources: [...course.resources, resource] });
         };
-        const deleteResource = (id) => {
-          const nextResources = course.resources.filter((resource) => resource.id !== id);
-          setSelectedResourceId(nextResources[0]?.id || "");
-          saveCourse({ ...course, resources: nextResources });
+
+        const replaceProduct = (product) => saveCourse({ ...course, products: (course.products || []).map((p) => p.id === product.id ? product : p) });
+        const deleteProduct = (id) => { setOpenProductId(null); saveCourse({ ...course, products: (course.products || []).filter((p) => p.id !== id) }); };
+        const addProduct = () => {
+          const id = `prod-${Date.now()}`;
+          const product = { id, image: "", price: 0, currency: "USD", inStock: true, content: { en: { title: "New Product", description: "" }, ru: { title: "Новый товар", description: "" } } };
+          setOpenProductId(id); saveCourse({ ...course, products: [...(course.products || []), product] });
         };
-        const exitAdmin = () => {
-          setLang(lang);
-          const next = saveClient({ adminToken: null, token: null, user: null });
-          window.location.reload();
-        };
-        const copyCode = (code) => {
-          navigator.clipboard?.writeText(code);
-          setStatus(`${t.copied}: ${code}`);
-        };
+
         return (
           <main className="screen">
             <div className="section-head"><div><h1>{t.admin}</h1><p>{t.settings}</p></div><button className="icon-button" onClick={() => setLang(lang === "en" ? "ru" : "en")}>{lang.toUpperCase()}</button></div>
-            <p className="notice">{t.adminNotice}</p>
-            {status && <p className="status">{busy ? t.loading : status}</p>}
-            <div className="admin-tabs"><button className={tab === "lessons" ? "active" : ""} onClick={() => setTab("lessons")}>{t.editContent}</button><button className={tab === "codes" ? "active" : ""} onClick={() => setTab("codes")}>{t.accessCodes}</button><button className={tab === "data" ? "active" : ""} onClick={() => setTab("data")}>{t.data}</button></div>
-            {tab === "lessons" && <div className="admin-panel">
-              <label className="field-label">{t.editorLanguage}<select className="select" value={editLang} onChange={(e) => setEditLang(e.target.value)}><option value="en">English content</option><option value="ru">Русский контент</option></select></label>
-              <div className="admin-actions"><button className="secondary" onClick={addLesson}>{t.addLesson}</button><button className="secondary" onClick={addResource}>{t.addFile}</button></div>
-              <label className="field-label">{t.lessons}<select className="select" value={selectedLesson?.id || ""} onChange={(e) => setSelectedLessonId(e.target.value)}>{course.lessons.map((lesson) => <option key={lesson.id} value={lesson.id}>{lesson.content[editLang].title}</option>)}</select></label>
-              {selectedLesson && <LessonEditor lesson={selectedLesson} lang={editLang} t={t} replaceLesson={replaceLesson} deleteLesson={deleteLesson} />}
-              <label className="field-label">{t.files}<select className="select" value={selectedResource?.id || ""} onChange={(e) => setSelectedResourceId(e.target.value)}>{course.resources.map((resource) => <option key={resource.id} value={resource.id}>{resource.content[editLang].title}</option>)}</select></label>
-              {selectedResource && <ResourceEditor resource={selectedResource} lang={editLang} t={t} replaceResource={replaceResource} deleteResource={deleteResource} />}
-            </div>}
-            {tab === "codes" && <div className="admin-panel">
-              <div className="card" style={{ padding: 12 }}><label className="field-label">{t.newCode}<input className="input" value={newCode} onChange={(e) => setNewCode(e.target.value.toUpperCase())} placeholder="Leave empty for auto code" /></label><div style={{ height: 10 }} /><button className="primary" disabled={busy} onClick={createCode}>{t.newCode}</button></div>
-              {(adminState?.codes || []).map((item) => <div className="admin-row" key={item.code}><div><strong>{item.code}</strong><span>{item.redeemed ? `${t.activated}: ${item.studentName}` : t.available}</span></div><div className="row-actions"><span className="check">{item.redeemed ? t.used : "NEW"}</span><button className="secondary" onClick={() => copyCode(item.code)}>Copy</button>{item.redeemed && <button className="secondary" onClick={() => resetStudent(item.code)}>{t.resetStudent}</button>}<button className="danger" onClick={() => deleteCode(item.code)}>{t.delete}</button></div></div>)}
-            </div>}
-            {tab === "data" && <div className="admin-panel"><button className="secondary" onClick={loadAdmin}>{t.refresh}</button><button className="danger" onClick={exitAdmin}>{t.exitAdmin}</button><p className="notice">Production data is stored in private GitHub repo gtsafd/miami-lash-course-data. Use Refresh to reload latest codes and content.</p></div>}
+            {status && <p className="status" style={{ marginBottom: 10 }}>{busy ? t.loading : status}</p>}
+            <div className="admin-tabs">
+              {[["content", t.content], ["products", t.products], ["codes", t.accessCodes], ["data", t.data]].map(([id, label]) => (
+                <button key={id} className={tab === id ? "active" : ""} onClick={() => setTab(id)}>{label}</button>
+              ))}
+            </div>
+
+            {tab === "content" && (
+              <div className="admin-panel">
+                <label className="field-label">{t.editorLanguage}
+                  <select className="select" value={editLang} onChange={(e) => setEditLang(e.target.value)}>
+                    <option value="ru">Русский</option><option value="en">English</option>
+                  </select>
+                </label>
+                <p style={{ margin: "4px 0 6px", fontSize: 11, fontWeight: 800, color: "rgba(29,29,29,.5)", textTransform: "uppercase" }}>{t.lessons}</p>
+                <button className="secondary" style={{ width: "100%", marginBottom: 8 }} onClick={addLesson}>{t.addLesson}</button>
+                <div style={{ display: "grid", gap: 6 }}>
+                  {course.lessons.map((lesson, idx) => {
+                    const c = lesson.content[editLang];
+                    const isOpen = openLessonId === lesson.id;
+                    return (
+                      <div className="accordion-item" key={lesson.id}>
+                        <button className="accordion-head" onClick={() => setOpenLessonId(isOpen ? null : lesson.id)}>
+                          {lesson.poster ? <img src={lesson.poster} alt="" /> : <div className="accordion-head-placeholder">🎬</div>}
+                          <div className="accordion-head-info"><strong>{String(idx+1).padStart(2,"0")} · {c.title}</strong><span>{c.meta}</span></div>
+                          <span className="accordion-arrow">{isOpen ? "▲" : "▼"}</span>
+                        </button>
+                        {isOpen && <div className="accordion-body"><LessonEditor lesson={lesson} lang={editLang} t={t} replaceLesson={replaceLesson} deleteLesson={deleteLesson} /></div>}
+                      </div>
+                    );
+                  })}
+                </div>
+                <p style={{ margin: "14px 0 6px", fontSize: 11, fontWeight: 800, color: "rgba(29,29,29,.5)", textTransform: "uppercase" }}>{t.files}</p>
+                <button className="secondary" style={{ width: "100%", marginBottom: 8 }} onClick={addResource}>{t.addFile}</button>
+                <div style={{ display: "grid", gap: 6 }}>
+                  {course.resources.map((resource) => {
+                    const c = resource.content[editLang];
+                    const isOpen = openResourceId === resource.id;
+                    return (
+                      <div className="accordion-item" key={resource.id}>
+                        <button className="accordion-head" onClick={() => setOpenResourceId(isOpen ? null : resource.id)}>
+                          <div className="accordion-head-placeholder">📄</div>
+                          <div className="accordion-head-info"><strong>{c.title}</strong><span>{resource.url ? "Ссылка добавлена" : "Без ссылки"}</span></div>
+                          <span className="accordion-arrow">{isOpen ? "▲" : "▼"}</span>
+                        </button>
+                        {isOpen && <div className="accordion-body"><ResourceEditor resource={resource} lang={editLang} t={t} replaceResource={replaceResource} deleteResource={deleteResource} /></div>}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {tab === "products" && (
+              <div className="admin-panel">
+                <label className="field-label">{t.editorLanguage}
+                  <select className="select" value={editLang} onChange={(e) => setEditLang(e.target.value)}>
+                    <option value="ru">Русский</option><option value="en">English</option>
+                  </select>
+                </label>
+                <button className="secondary" style={{ width: "100%", marginBottom: 8 }} onClick={addProduct}>{t.addProduct}</button>
+                {(course.products || []).length === 0 && <p className="notice">{t.shopEmpty}</p>}
+                <div style={{ display: "grid", gap: 8 }}>
+                  {(course.products || []).map((product) => {
+                    const c = product.content[editLang] || {};
+                    const isOpen = openProductId === product.id;
+                    return (
+                      <div className="accordion-item" key={product.id}>
+                        <button className="accordion-head" onClick={() => setOpenProductId(isOpen ? null : product.id)}>
+                          {product.image ? <img src={product.image} alt="" /> : <div className="accordion-head-placeholder">📦</div>}
+                          <div className="accordion-head-info">
+                            <strong>{c.title || "—"}</strong>
+                            <span>{product.price} {product.currency} · {product.inStock !== false ? (lang === "ru" ? "В наличии" : "In stock") : (lang === "ru" ? "Нет в наличии" : "Out of stock")}</span>
+                          </div>
+                          <span className="accordion-arrow">{isOpen ? "▲" : "▼"}</span>
+                        </button>
+                        {isOpen && <div className="accordion-body"><ProductEditor product={product} lang={editLang} t={t} replaceProduct={replaceProduct} deleteProduct={deleteProduct} /></div>}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {tab === "codes" && (
+              <div className="admin-panel">
+                <div className="card" style={{ padding: 12 }}>
+                  <label className="field-label">{t.newCode}<input className="input" value={newCode} onChange={(e) => setNewCode(e.target.value.toUpperCase())} placeholder={lang === "ru" ? "Пусто = авто-генерация" : "Empty = auto generate"} /></label>
+                  <div style={{ height: 10 }} />
+                  <button className="primary" disabled={busy} onClick={createCode}>{t.newCode}</button>
+                </div>
+                <div style={{ display: "grid", gap: 8, marginTop: 4 }}>
+                  {(adminState?.codes || []).map((item) => (
+                    <div className="admin-row" key={item.code} style={{ flexWrap: "wrap" }}>
+                      <div style={{ flex: 1 }}>
+                        <strong style={{ fontSize: 14 }}>{item.code}</strong>
+                        <span style={{ display: "block", marginTop: 2 }}>{item.redeemed ? `${t.activated}: ${item.studentName}` : t.available}</span>
+                      </div>
+                      <div className="row-actions">
+                        <span className="check" style={{ background: item.redeemed ? "rgba(233,77,123,.15)" : "rgba(100,200,100,.15)", color: item.redeemed ? "var(--pink-dark)" : "#2a8a2a" }}>{item.redeemed ? t.used : "NEW"}</span>
+                        <button className="secondary" onClick={() => copyCode(item.code)}>Copy</button>
+                        {item.redeemed && <button className="secondary" onClick={() => resetStudent(item.code)}>{t.resetStudent}</button>}
+                        <button className="danger" onClick={() => deleteCode(item.code)}>{t.delete}</button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {tab === "data" && (
+              <div className="admin-panel">
+                <button className="secondary" onClick={loadAdmin}>{t.refresh}</button>
+                <button className="danger" onClick={exitAdmin}>{t.exitAdmin}</button>
+                <p className="notice">Данные хранятся в приватном репозитории GitHub: gtsafd/miami-lash-course-data</p>
+              </div>
+            )}
           </main>
         );
       }
@@ -795,6 +967,44 @@
               <input className="input" value={draft.url} onChange={(e) => setDraft({ ...draft, url: e.target.value })} placeholder="https://drive.google.com/... или https://..." />
             </label>
             <div className="admin-actions"><button className="primary" onClick={save}>{t.saveFile}</button><button className="danger" onClick={() => deleteResource(resource.id)}>{t.delete}</button></div>
+          </div>
+        );
+      }
+
+      function ProductEditor({ product, lang, t, replaceProduct, deleteProduct }) {
+        const initial = product.content[lang] || {};
+        const [draft, setDraft] = useState({
+          title: initial.title || "", description: initial.description || "",
+          image: product.image || "", price: product.price || 0,
+          currency: product.currency || "USD", inStock: product.inStock !== false
+        });
+        useEffect(() => {
+          const c = product.content[lang] || {};
+          setDraft({ title: c.title || "", description: c.description || "", image: product.image || "", price: product.price || 0, currency: product.currency || "USD", inStock: product.inStock !== false });
+        }, [product.id, lang]);
+        const save = () => replaceProduct({ ...product, image: draft.image, price: Number(draft.price), currency: draft.currency, inStock: draft.inStock, content: { ...product.content, [lang]: { title: draft.title, description: draft.description } } });
+        return (
+          <div className="admin-form" style={{ paddingTop: 10 }}>
+            {draft.image && <img src={draft.image} alt="" style={{ width: "100%", height: 140, objectFit: "cover", borderRadius: 8, marginBottom: 10 }} onError={(e) => e.target.style.display="none"} />}
+            <label className="field-label">{t.productImage}<input className="input" value={draft.image} onChange={(e) => setDraft({ ...draft, image: e.target.value })} placeholder="https://..." /></label>
+            <label className="field-label">{t.productTitle}<input className="input" value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} /></label>
+            <label className="field-label">{t.productDesc}<textarea className="textarea" style={{ minHeight: 68 }} value={draft.description} onChange={(e) => setDraft({ ...draft, description: e.target.value })} /></label>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 100px", gap: 8 }}>
+              <label className="field-label">{t.productPrice}<input className="input" type="number" min="0" value={draft.price} onChange={(e) => setDraft({ ...draft, price: e.target.value })} /></label>
+              <label className="field-label">{t.productCurrency}
+                <select className="select" value={draft.currency} onChange={(e) => setDraft({ ...draft, currency: e.target.value })}>
+                  <option value="USD">USD</option><option value="EUR">EUR</option><option value="UAH">UAH</option><option value="RUB">RUB</option>
+                </select>
+              </label>
+            </div>
+            <label className="instock-toggle">
+              <input type="checkbox" checked={draft.inStock} onChange={(e) => setDraft({ ...draft, inStock: e.target.checked })} style={{ width: 18, height: 18, accentColor: "var(--pink)" }} />
+              {t.inStock}
+            </label>
+            <div className="admin-actions" style={{ marginTop: 6 }}>
+              <button className="primary" onClick={save}>{t.saveProduct}</button>
+              <button className="danger" onClick={() => deleteProduct(product.id)}>{t.delete}</button>
+            </div>
           </div>
         );
       }
