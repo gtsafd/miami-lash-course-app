@@ -205,6 +205,11 @@
       .resource { min-height: 126px; padding: 14px; border: 1px solid rgba(233,77,123,.14); border-radius: 8px; background: rgba(255,255,255,.72); }
       .resource strong { display: block; color: var(--pink-dark); font-size: 13px; text-transform: uppercase; }
       .resource span { display: block; margin-top: 7px; font-size: 11px; font-weight: 700; line-height: 1.45; }
+      .resource-link { display: inline-block; margin-top: 10px; padding: 7px 14px; border-radius: 10px; background: var(--pink); color: #fff; font-size: 11px; font-weight: 900; text-decoration: none; text-transform: uppercase; }
+      .modal-overlay { position: fixed; inset: 0; z-index: 100; background: rgba(29,29,29,.6); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 24px; }
+      .modal-card { width: 100%; max-width: 340px; border-radius: 24px; padding: 28px 20px 20px; background: #fff8f4; box-shadow: 0 24px 60px rgba(29,29,29,.28); display: grid; gap: 10px; text-align: center; }
+      .modal-card p { margin: 0 0 8px; font-size: 16px; font-weight: 800; }
+      .video-iframe { width: 100%; height: 226px; border: 0; display: block; border-radius: 8px; }
       .admin-form, .admin-panel { display: grid; gap: 10px; }
       .admin-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
       .admin-tabs button { min-height: 42px; border: 1px solid rgba(233,77,123,.18); border-radius: 12px; background: rgba(255,255,255,.7); font-size: 10px; font-weight: 900; text-transform: uppercase; }
@@ -285,6 +290,11 @@
         const next = { ...getClient(), ...patch };
         localStorage.setItem(CLIENT_KEY, JSON.stringify(next));
         return next;
+      }
+
+      function extractYoutubeId(url) {
+        const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/);
+        return match ? match[1] : null;
       }
 
       async function request(path, options = {}) {
@@ -369,14 +379,28 @@
       }
 
       function Shell({ children, course, lang, setLang, signOut }) {
+        const [confirmLogout, setConfirmLogout] = useState(false);
         return (
           <div className="app-shell">
+            {confirmLogout && (
+              <div className="modal-overlay" onClick={() => setConfirmLogout(false)}>
+                <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+                  <p>{lang === "ru" ? "Вы точно хотите выйти?" : "Are you sure you want to sign out?"}</p>
+                  <button className="danger" style={{ minHeight: 48, borderRadius: 14, fontSize: 11, fontWeight: 900, textTransform: "uppercase" }} onClick={() => { setConfirmLogout(false); signOut(); }}>
+                    {lang === "ru" ? "Выйти" : "Sign Out"}
+                  </button>
+                  <button className="secondary" style={{ minHeight: 48, borderRadius: 14, fontSize: 11, fontWeight: 900, textTransform: "uppercase" }} onClick={() => setConfirmLogout(false)}>
+                    {lang === "ru" ? "Отмена" : "Cancel"}
+                  </button>
+                </div>
+              </div>
+            )}
             {course && (
               <header className="topbar">
                 <button className="brand"><span>{course.settings.eyebrow}</span><strong>{course.settings.brand}</strong></button>
                 <div className="top-actions">
                   <button className="icon-button" onClick={() => setLang(lang === "en" ? "ru" : "en")}>{lang.toUpperCase()}</button>
-                  {signOut && <button className="icon-button" onClick={signOut}>HK</button>}
+                  {signOut && <button className="icon-button" onClick={() => setConfirmLogout(true)}>HK</button>}
                 </div>
               </header>
             )}
@@ -513,19 +537,56 @@
           await request("/api/progress", { method: "POST", headers: { Authorization: `Bearer ${token}` }, body: JSON.stringify({ completed }) });
           setUser({ ...user, completed });
         };
+        const videoUrl = lesson.videoUrl || "";
+        const youtubeId = videoUrl ? extractYoutubeId(videoUrl) : null;
+        const isDirectVideo = videoUrl && !youtubeId;
         return (
           <main className="screen">
-            <div className="video-box" style={{ "--poster": `url(${lesson.poster})` }}><button className="play">▶</button><div className="watermark">{Array.from({ length: 8 }).map((_, index) => <span key={index}>{user.name} · {user.code}</span>)}</div></div>
+            {youtubeId ? (
+              <div style={{ position: "relative", borderRadius: 8, overflow: "hidden" }}>
+                <iframe className="video-iframe" src={`https://www.youtube.com/embed/${youtubeId}?rel=0`} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                <div className="watermark">{Array.from({ length: 8 }).map((_, i) => <span key={i}>{user.name} · {user.code}</span>)}</div>
+              </div>
+            ) : isDirectVideo ? (
+              <div style={{ position: "relative", borderRadius: 8, overflow: "hidden", background: "#000" }}>
+                <video controls style={{ width: "100%", maxHeight: 260, display: "block", background: "#000" }} src={videoUrl} />
+                <div className="watermark">{Array.from({ length: 8 }).map((_, i) => <span key={i}>{user.name} · {user.code}</span>)}</div>
+              </div>
+            ) : (
+              <div className="video-box" style={{ "--poster": `url(${lesson.poster})` }}><button className="play">▶</button><div className="watermark">{Array.from({ length: 8 }).map((_, index) => <span key={index}>{user.name} · {user.code}</span>)}</div></div>
+            )}
             <div className="lesson-body"><p className="eyebrow">{content.meta}</p><h1>{content.title}</h1><p>{content.note}</p><ul className="steps">{content.steps.map((step, index) => <li key={`${step}-${index}`}><strong>{index + 1}.</strong> {step}</li>)}</ul><button className="primary" onClick={markDone}>{isDone ? t.completed : t.markComplete}</button></div>
           </main>
         );
       }
 
       function ResourcesScreen({ course, t, lang }) {
-        return <main className="screen"><div className="section-head"><div><h1>{t.files}</h1><p>{t.resources}</p></div></div><div className="grid-2">{course.resources.map((resource) => {
-          const content = resource.content[lang];
-          return <div className="resource" key={resource.id}><strong>{content.title}</strong><span>{content.text}</span></div>;
-        })}</div><section className="card" style={{ marginTop: 18, padding: 16 }}><p className="eyebrow">Premium Supplies</p><h2 style={{ margin: "4px 0 8px", color: "var(--pink)", fontFamily: "Bebas Neue", fontSize: 42, lineHeight: .9 }}>Unova Lashes</h2><p style={{ margin: 0, fontSize: 13, fontWeight: 700, lineHeight: 1.7 }}>{lang === "en" ? "Professional lash materials imported from Korea, fresh stock updates and delivery across Miami." : "Профессиональные материалы из Кореи, свежее наличие и доставка по Майами."}</p></section></main>;
+        return (
+          <main className="screen">
+            <div className="section-head"><div><h1>{t.files}</h1><p>{t.resources}</p></div></div>
+            <div className="grid-2">
+              {course.resources.map((resource) => {
+                const content = resource.content[lang];
+                return (
+                  <div className="resource" key={resource.id}>
+                    <strong>{content.title}</strong>
+                    <span>{content.text}</span>
+                    {resource.url && (
+                      <a className="resource-link" href={resource.url} target="_blank" rel="noopener noreferrer">
+                        {lang === "ru" ? "Открыть" : "Open"}
+                      </a>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            <section className="card" style={{ marginTop: 18, padding: 16 }}>
+              <p className="eyebrow">Premium Supplies</p>
+              <h2 style={{ margin: "4px 0 8px", color: "var(--pink)", fontFamily: "Bebas Neue", fontSize: 42, lineHeight: .9 }}>Unova Lashes</h2>
+              <p style={{ margin: 0, fontSize: 13, fontWeight: 700, lineHeight: 1.7 }}>{lang === "en" ? "Professional lash materials imported from Korea, fresh stock updates and delivery across Miami." : "Профессиональные материалы из Кореи, свежее наличие и доставка по Майами."}</p>
+            </section>
+          </main>
+        );
       }
 
       function AdminScreen({ t, lang, setLang, client, course, setCourse }) {
@@ -677,21 +738,49 @@
 
       function LessonEditor({ lesson, lang, t, replaceLesson, deleteLesson }) {
         const initial = lesson.content[lang];
-        const [draft, setDraft] = useState({ ...initial, stepsText: initial.steps.join("\n"), poster: lesson.poster });
+        const [draft, setDraft] = useState({ ...initial, stepsText: initial.steps.join("\n"), poster: lesson.poster, videoUrl: lesson.videoUrl || "" });
         useEffect(() => {
           const next = lesson.content[lang];
-          setDraft({ ...next, stepsText: next.steps.join("\n"), poster: lesson.poster });
+          setDraft({ ...next, stepsText: next.steps.join("\n"), poster: lesson.poster, videoUrl: lesson.videoUrl || "" });
         }, [lesson.id, lang]);
-        const save = () => replaceLesson({ ...lesson, poster: draft.poster, content: { ...lesson.content, [lang]: { title: draft.title, meta: draft.meta, note: draft.note, steps: draft.stepsText.split("\n").map((item) => item.trim()).filter(Boolean) } } });
-        return <div className="card admin-form" style={{ padding: 12 }}><label className="field-label">{t.title}<input className="input" value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} /></label><label className="field-label">{t.meta}<input className="input" value={draft.meta} onChange={(e) => setDraft({ ...draft, meta: e.target.value })} /></label><label className="field-label">{t.note}<textarea className="textarea" value={draft.note} onChange={(e) => setDraft({ ...draft, note: e.target.value })} /></label><label className="field-label">{t.steps}<textarea className="textarea" value={draft.stepsText} onChange={(e) => setDraft({ ...draft, stepsText: e.target.value })} /></label><label className="field-label">{t.poster}<input className="input" value={draft.poster} onChange={(e) => setDraft({ ...draft, poster: e.target.value })} /></label><div className="admin-actions"><button className="primary" onClick={save}>{t.saveLesson}</button><button className="danger" onClick={() => deleteLesson(lesson.id)}>{t.delete}</button></div></div>;
+        const save = () => replaceLesson({ ...lesson, poster: draft.poster, videoUrl: draft.videoUrl, content: { ...lesson.content, [lang]: { title: draft.title, meta: draft.meta, note: draft.note, steps: draft.stepsText.split("\n").map((item) => item.trim()).filter(Boolean) } } });
+        return (
+          <div className="card admin-form" style={{ padding: 12 }}>
+            <label className="field-label">{t.title}<input className="input" value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} /></label>
+            <label className="field-label">{t.meta}<input className="input" value={draft.meta} onChange={(e) => setDraft({ ...draft, meta: e.target.value })} /></label>
+            <label className="field-label">{t.note}<textarea className="textarea" value={draft.note} onChange={(e) => setDraft({ ...draft, note: e.target.value })} /></label>
+            <label className="field-label">{t.steps}<textarea className="textarea" value={draft.stepsText} onChange={(e) => setDraft({ ...draft, stepsText: e.target.value })} /></label>
+            <label className="field-label">{t.poster}<input className="input" value={draft.poster} onChange={(e) => setDraft({ ...draft, poster: e.target.value })} /></label>
+            <label className="field-label">
+              {lang === "ru" ? "Ссылка на видео (YouTube или MP4)" : "Video URL (YouTube or MP4)"}
+              <input className="input" value={draft.videoUrl} onChange={(e) => setDraft({ ...draft, videoUrl: e.target.value })} placeholder="https://youtube.com/watch?v=... или https://.../video.mp4" />
+            </label>
+            {draft.videoUrl && (
+              <p style={{ margin: "2px 0", fontSize: 11, fontWeight: 700, color: "var(--pink-dark)" }}>
+                {extractYoutubeId(draft.videoUrl) ? "YouTube видео" : "Прямая ссылка на видео"}
+              </p>
+            )}
+            <div className="admin-actions"><button className="primary" onClick={save}>{t.saveLesson}</button><button className="danger" onClick={() => deleteLesson(lesson.id)}>{t.delete}</button></div>
+          </div>
+        );
       }
 
       function ResourceEditor({ resource, lang, t, replaceResource, deleteResource }) {
         const initial = resource.content[lang];
-        const [draft, setDraft] = useState({ ...initial });
-        useEffect(() => setDraft({ ...resource.content[lang] }), [resource.id, lang]);
-        const save = () => replaceResource({ ...resource, content: { ...resource.content, [lang]: { title: draft.title, text: draft.text } } });
-        return <div className="card admin-form" style={{ padding: 12 }}><label className="field-label">{t.resourcesTitle}<input className="input" value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} /></label><label className="field-label">{t.resourcesText}<textarea className="textarea" value={draft.text} onChange={(e) => setDraft({ ...draft, text: e.target.value })} /></label><div className="admin-actions"><button className="primary" onClick={save}>{t.saveFile}</button><button className="danger" onClick={() => deleteResource(resource.id)}>{t.delete}</button></div></div>;
+        const [draft, setDraft] = useState({ ...initial, url: resource.url || "" });
+        useEffect(() => setDraft({ ...resource.content[lang], url: resource.url || "" }), [resource.id, lang]);
+        const save = () => replaceResource({ ...resource, url: draft.url, content: { ...resource.content, [lang]: { title: draft.title, text: draft.text } } });
+        return (
+          <div className="card admin-form" style={{ padding: 12 }}>
+            <label className="field-label">{t.resourcesTitle}<input className="input" value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} /></label>
+            <label className="field-label">{t.resourcesText}<textarea className="textarea" value={draft.text} onChange={(e) => setDraft({ ...draft, text: e.target.value })} /></label>
+            <label className="field-label">
+              {lang === "ru" ? "Ссылка на файл / материал" : "File or resource URL"}
+              <input className="input" value={draft.url} onChange={(e) => setDraft({ ...draft, url: e.target.value })} placeholder="https://drive.google.com/... или https://..." />
+            </label>
+            <div className="admin-actions"><button className="primary" onClick={save}>{t.saveFile}</button><button className="danger" onClick={() => deleteResource(resource.id)}>{t.delete}</button></div>
+          </div>
+        );
       }
 
       if ("serviceWorker" in navigator) {
