@@ -1,0 +1,1486 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#e94d7b" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Miami Lash Course" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./assets/girls-miami.png" />
+    <title>Miami Lash Course | Hanna Kozak</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Great+Vibes&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      :root {
+        --pink: #e94d7b;
+        --pink-dark: #c93662;
+        --pink-soft: #ffd6df;
+        --cream: #fff1ec;
+        --ink: #1d1d1d;
+        --gold: #d8a24a;
+      }
+
+      * { box-sizing: border-box; }
+      html { min-height: 100%; background: #25151c; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--ink);
+        font-family: Montserrat, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        background:
+          linear-gradient(115deg, rgba(255, 214, 223, .94), rgba(255, 241, 236, .78) 44%, rgba(233, 77, 123, .32)),
+          url("https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=1800&q=85") center / cover fixed;
+      }
+
+      button, input, textarea, select { font: inherit; }
+      button { cursor: pointer; }
+      img { display: block; max-width: 100%; }
+
+      .app-shell {
+        width: min(100%, 430px);
+        min-height: 100vh;
+        margin: 0 auto;
+        background:
+          radial-gradient(circle at 18% 8%, rgba(255, 255, 255, .92), transparent 12rem),
+          linear-gradient(180deg, rgba(255, 241, 236, .97), rgba(255, 214, 223, .96) 48%, rgba(255, 241, 236, .98));
+        box-shadow: 0 0 70px rgba(36, 10, 22, .42);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .app-shell::before,
+      .app-shell::after {
+        content: "";
+        position: fixed;
+        width: 160px;
+        height: 260px;
+        pointer-events: none;
+        opacity: .16;
+        background:
+          linear-gradient(63deg, transparent 48%, var(--pink) 49% 51%, transparent 52%),
+          radial-gradient(ellipse at top, var(--pink) 0 12%, transparent 13%);
+      }
+
+      .app-shell::before { left: calc(50% - 240px); top: 90px; transform: rotate(-16deg); }
+      .app-shell::after { right: calc(50% - 245px); bottom: 20px; transform: rotate(18deg); }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: calc(14px + env(safe-area-inset-top)) 16px 12px;
+        background: rgba(255, 241, 236, .82);
+        border-bottom: 1px solid rgba(233, 77, 123, .18);
+        backdrop-filter: blur(18px);
+      }
+
+      .brand {
+        border: 0;
+        background: transparent;
+        padding: 0;
+        text-align: left;
+      }
+
+      .brand span {
+        display: block;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: rgba(29, 29, 29, .62);
+      }
+
+      .brand strong {
+        display: block;
+        color: var(--pink);
+        font-size: 18px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .top-actions { display: flex; align-items: center; gap: 8px; }
+
+      .icon-button {
+        min-width: 42px;
+        height: 42px;
+        border: 1px solid rgba(233, 77, 123, .18);
+        border-radius: 999px;
+        padding: 0 12px;
+        background: rgba(255, 255, 255, .72);
+        color: var(--pink-dark);
+        font-size: 11px;
+        font-weight: 900;
+        box-shadow: 0 10px 24px rgba(201, 54, 98, .14);
+      }
+
+      .screen { padding: 18px 16px 98px; }
+
+      .hero {
+        min-height: calc(100vh - 36px);
+        padding: calc(20px + env(safe-area-inset-top)) 20px calc(28px + env(safe-area-inset-bottom));
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+      }
+
+      .hero-title {
+        margin: 12px 0 0;
+        color: var(--pink);
+        font-family: "Bebas Neue", Impact, sans-serif;
+        font-size: clamp(78px, 22vw, 116px);
+        line-height: .78;
+        text-transform: uppercase;
+      }
+
+      .script {
+        color: #fff;
+        font-family: "Great Vibes", cursive;
+        font-size: .66em;
+        font-weight: 400;
+        text-transform: none;
+        text-shadow: 0 0 5px #fff, 0 0 16px #ff6aa0, 0 0 34px var(--pink);
+      }
+
+      .eyebrow {
+        font-size: 11px;
+        font-weight: 900;
+        text-transform: uppercase;
+        color: rgba(29, 29, 29, .72);
+      }
+
+      .polaroid-stack {
+        position: relative;
+        min-height: 340px;
+        margin-top: 20px;
+      }
+
+      .polaroid {
+        position: absolute;
+        background: #fff;
+        padding: 8px 8px 36px;
+        box-shadow: 0 24px 44px rgba(29, 29, 29, .22);
+      }
+
+      .polaroid.main {
+        right: -16px;
+        top: 0;
+        width: 78%;
+        transform: rotate(6deg);
+      }
+
+      .polaroid.small {
+        left: -8px;
+        bottom: 18px;
+        width: 58%;
+        transform: rotate(-8deg);
+      }
+
+      .polaroid img {
+        width: 100%;
+        height: 210px;
+        object-fit: cover;
+      }
+
+      .polaroid.small img { height: 145px; }
+
+      .paper-note {
+        position: absolute;
+        right: 12px;
+        bottom: 0;
+        width: 188px;
+        padding: 18px 16px;
+        background: #fff8f4;
+        transform: rotate(-4deg);
+        box-shadow: 0 18px 32px rgba(201, 54, 98, .18);
+        clip-path: polygon(2% 5%, 98% 0, 96% 95%, 5% 100%);
+      }
+
+      .paper-note p {
+        margin: 0;
+        font-size: 11px;
+        font-weight: 900;
+        text-transform: uppercase;
+        line-height: 1.8;
+      }
+
+      .login-card {
+        border: 1px solid rgba(255, 255, 255, .7);
+        border-radius: 28px;
+        padding: 16px;
+        background: rgba(255, 255, 255, .68);
+        box-shadow: 0 24px 60px rgba(201, 54, 98, .23);
+        backdrop-filter: blur(18px);
+      }
+
+      .input,
+      .textarea,
+      .select {
+        width: 100%;
+        border: 1px solid rgba(233, 77, 123, .28);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, .88);
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 800;
+        outline: 0;
+      }
+
+      .input,
+      .select {
+        min-height: 48px;
+        padding: 0 13px;
+      }
+
+      .textarea {
+        min-height: 92px;
+        padding: 12px 13px;
+        resize: vertical;
+        line-height: 1.55;
+      }
+
+      .input:focus,
+      .textarea:focus,
+      .select:focus {
+        border-color: var(--pink);
+        box-shadow: 0 0 0 4px rgba(233, 77, 123, .14);
+      }
+
+      .primary,
+      .secondary,
+      .danger {
+        min-height: 48px;
+        border-radius: 14px;
+        padding: 0 15px;
+        font-size: 11px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .primary {
+        width: 100%;
+        border: 0;
+        background: var(--pink);
+        color: white;
+        box-shadow: 0 0 18px rgba(233,77,123,.52), 0 16px 32px rgba(201,54,98,.26);
+      }
+
+      .secondary {
+        border: 1px solid rgba(233, 77, 123, .2);
+        background: rgba(255, 255, 255, .72);
+        color: var(--ink);
+      }
+
+      .danger {
+        border: 1px solid rgba(201, 54, 98, .32);
+        background: rgba(201, 54, 98, .1);
+        color: var(--pink-dark);
+      }
+
+      .error {
+        margin: 10px 0 0;
+        color: var(--pink-dark);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .tabbar {
+        position: fixed;
+        left: 50%;
+        bottom: 0;
+        z-index: 30;
+        width: min(100%, 430px);
+        transform: translateX(-50%);
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+        background: rgba(255, 241, 236, .92);
+        border-top: 1px solid rgba(233, 77, 123, .16);
+        backdrop-filter: blur(18px);
+      }
+
+      .tabbar button {
+        min-height: 54px;
+        border: 0;
+        border-radius: 18px;
+        background: transparent;
+        color: rgba(29, 29, 29, .55);
+        font-size: 10px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .tabbar button.active {
+        background: rgba(233, 77, 123, .12);
+        color: var(--pink-dark);
+      }
+
+      .section-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .section-head h1,
+      .section-head h2 {
+        margin: 0;
+        color: var(--pink);
+        font-family: "Bebas Neue", Impact, sans-serif;
+        font-size: 44px;
+        line-height: .9;
+        text-transform: uppercase;
+      }
+
+      .section-head p {
+        margin: 4px 0 0;
+        font-size: 12px;
+        font-weight: 800;
+        color: rgba(29, 29, 29, .58);
+      }
+
+      .card {
+        border: 1px solid rgba(233, 77, 123, .15);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, .7);
+        box-shadow: 0 14px 32px rgba(201, 54, 98, .12);
+        overflow: hidden;
+      }
+
+      .course-hero {
+        min-height: 250px;
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        color: #fff;
+        background:
+          linear-gradient(180deg, rgba(29, 29, 29, .08), rgba(29, 29, 29, .76)),
+          url("./assets/girls-miami.png") center 20% / cover;
+      }
+
+      .course-hero h1 {
+        margin: 0;
+        font-family: "Bebas Neue", Impact, sans-serif;
+        font-size: 58px;
+        line-height: .82;
+        text-transform: uppercase;
+      }
+
+      .course-hero p {
+        margin: 8px 0 0;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .stat {
+        border-radius: 8px;
+        padding: 12px 10px;
+        background: rgba(255, 255, 255, .72);
+      }
+
+      .stat strong {
+        display: block;
+        color: var(--pink-dark);
+        font-size: 19px;
+        font-weight: 900;
+      }
+
+      .stat span {
+        font-size: 10px;
+        font-weight: 900;
+        text-transform: uppercase;
+        color: rgba(29, 29, 29, .58);
+      }
+
+      .progress-ring {
+        width: 74px;
+        height: 74px;
+        display: grid;
+        place-items: center;
+        border-radius: 999px;
+        background: conic-gradient(var(--pink) var(--pct), rgba(233, 77, 123, .14) 0);
+      }
+
+      .progress-ring span {
+        width: 58px;
+        height: 58px;
+        display: grid;
+        place-items: center;
+        border-radius: 999px;
+        background: var(--cream);
+        font-size: 14px;
+        font-weight: 900;
+      }
+
+      .lesson-list { display: grid; gap: 12px; }
+
+      .lesson-card {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 84px 1fr 34px;
+        gap: 12px;
+        align-items: center;
+        border: 1px solid rgba(233, 77, 123, .14);
+        border-radius: 8px;
+        padding: 10px;
+        background: rgba(255, 255, 255, .74);
+        text-align: left;
+      }
+
+      .lesson-thumb {
+        height: 72px;
+        width: 84px;
+        border-radius: 7px;
+        object-fit: cover;
+        background: var(--pink-soft);
+      }
+
+      .lesson-card h3 {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.2;
+        text-transform: uppercase;
+      }
+
+      .lesson-card p {
+        margin: 5px 0 0;
+        color: rgba(29, 29, 29, .62);
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1.4;
+      }
+
+      .check {
+        width: 30px;
+        height: 30px;
+        display: grid;
+        place-items: center;
+        border-radius: 999px;
+        background: rgba(233, 77, 123, .12);
+        color: var(--pink-dark);
+        font-size: 10px;
+        font-weight: 900;
+      }
+
+      .video-box {
+        position: relative;
+        min-height: 226px;
+        border-radius: 8px;
+        overflow: hidden;
+        background:
+          linear-gradient(180deg, rgba(29, 29, 29, .08), rgba(29, 29, 29, .82)),
+          var(--poster) center / cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .play {
+        width: 76px;
+        height: 76px;
+        border: 2px solid rgba(255,255,255,.7);
+        border-radius: 999px;
+        background: rgba(233, 77, 123, .74);
+        color: white;
+        font-size: 28px;
+        box-shadow: 0 0 28px rgba(233, 77, 123, .65);
+      }
+
+      .watermark {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        opacity: .28;
+        pointer-events: none;
+        transform: rotate(-24deg) scale(1.18);
+      }
+
+      .watermark span {
+        align-self: center;
+        justify-self: center;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 900;
+        text-shadow: 0 1px 3px rgba(0,0,0,.45);
+      }
+
+      .lesson-body { padding: 16px 0 0; }
+
+      .lesson-body h1 {
+        margin: 16px 0 6px;
+        font-family: "Bebas Neue", Impact, sans-serif;
+        color: var(--pink);
+        font-size: 48px;
+        line-height: .88;
+        text-transform: uppercase;
+      }
+
+      .lesson-body p,
+      .lesson-body li {
+        font-size: 13px;
+        font-weight: 650;
+        line-height: 1.7;
+      }
+
+      .steps {
+        padding: 0;
+        margin: 14px 0;
+        list-style: none;
+        display: grid;
+        gap: 10px;
+      }
+
+      .steps li {
+        border-radius: 8px;
+        padding: 12px;
+        background: rgba(255, 255, 255, .7);
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .resource {
+        min-height: 126px;
+        padding: 14px;
+        border: 1px solid rgba(233, 77, 123, .14);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, .72);
+      }
+
+      .resource strong {
+        display: block;
+        color: var(--pink-dark);
+        font-size: 13px;
+        text-transform: uppercase;
+      }
+
+      .resource span {
+        display: block;
+        margin-top: 7px;
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1.45;
+      }
+
+      .admin-form { display: grid; gap: 10px; }
+      .admin-panel { display: grid; gap: 12px; }
+
+      .admin-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 12px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, .72);
+      }
+
+      .admin-row strong {
+        display: block;
+        font-size: 13px;
+      }
+
+      .admin-row span {
+        font-size: 10px;
+        font-weight: 900;
+        color: rgba(29, 29, 29, .55);
+        text-transform: uppercase;
+      }
+
+      .admin-tabs {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .admin-tabs button {
+        min-height: 42px;
+        border: 1px solid rgba(233, 77, 123, .18);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, .7);
+        font-size: 10px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .admin-tabs button.active {
+        background: rgba(233, 77, 123, .14);
+        color: var(--pink-dark);
+      }
+
+      .field-label {
+        display: grid;
+        gap: 5px;
+        font-size: 10px;
+        font-weight: 900;
+        text-transform: uppercase;
+        color: rgba(29, 29, 29, .62);
+      }
+
+      .notice {
+        border-radius: 8px;
+        padding: 12px;
+        background: rgba(216, 162, 74, .16);
+        font-size: 11px;
+        font-weight: 800;
+        line-height: 1.55;
+      }
+
+      .row-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      @media (min-width: 800px) {
+        body { padding: 26px 0; }
+        .app-shell {
+          min-height: calc(100vh - 52px);
+          border: 10px solid rgba(255, 255, 255, .58);
+          border-radius: 46px;
+        }
+        .topbar { border-radius: 36px 36px 0 0; }
+        .tabbar {
+          bottom: 26px;
+          border-radius: 0 0 36px 36px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useMemo, useState } = React;
+
+      const STORAGE_KEY = "miami-lash-course-state-v3";
+      const ADMIN_PASSWORD = "hanna2026";
+
+      const posterUrls = [
+        "https://images.unsplash.com/photo-1589710751893-f9a6770ad71b?auto=format&fit=crop&w=900&q=85",
+        "https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=900&q=85",
+        "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=85",
+        "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=900&q=85",
+        "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=900&q=85",
+        "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=900&q=85"
+      ];
+
+      const ui = {
+        en: {
+          studentName: "Student name",
+          accessCode: "Access code",
+          unlock: "Unlock Course",
+          demoCode: "Demo code",
+          admin: "Admin",
+          adminLogin: "Admin Login",
+          password: "Password",
+          login: "Login",
+          logout: "Logout",
+          wrongPassword: "Wrong password.",
+          addName: "Add student name first.",
+          inactiveCode: "This access code is not active.",
+          usedCode: "This code was already activated.",
+          home: "Home",
+          lessons: "Lessons",
+          files: "Files",
+          settings: "Settings",
+          premiumTraining: "Premium Online Training",
+          statsLessons: "Lessons",
+          statsDone: "Done",
+          statsProgress: "Progress",
+          continueTraining: "Continue Training",
+          openLesson: "Open Lesson",
+          today: "Today",
+          practicePlan: "Practice plan",
+          markComplete: "Mark Complete",
+          completed: "Lesson Completed",
+          resources: "Student resources",
+          courseModules: "Online course modules",
+          language: "Language",
+          editContent: "Edit Content",
+          accessCodes: "Access Codes",
+          data: "Data",
+          newCode: "New Code",
+          available: "Available",
+          activated: "Activated",
+          used: "Used",
+          delete: "Delete",
+          save: "Save",
+          exportData: "Export Data",
+          importData: "Import Data",
+          reset: "Reset Demo",
+          title: "Title",
+          subtitle: "Subtitle",
+          meta: "Meta",
+          note: "Description",
+          steps: "Steps, one per line",
+          poster: "Poster URL",
+          resourcesTitle: "Resource title",
+          resourcesText: "Resource text",
+          adminNotice: "Prototype admin saves edits in this browser. For real paid access, move codes, password and course data to Supabase or another backend.",
+          todayOne: "Practice clean isolation on sponge or mannequin before client work.",
+          todayTwo: "Take close-up shots after every finished set to track direction and symmetry."
+        },
+        ru: {
+          studentName: "Имя ученицы",
+          accessCode: "Код доступа",
+          unlock: "Открыть курс",
+          demoCode: "Демо-код",
+          admin: "Админ",
+          adminLogin: "Вход в админку",
+          password: "Пароль",
+          login: "Войти",
+          logout: "Выйти",
+          wrongPassword: "Неверный пароль.",
+          addName: "Сначала добавьте имя ученицы.",
+          inactiveCode: "Этот код доступа не активен.",
+          usedCode: "Этот код уже был активирован.",
+          home: "Главная",
+          lessons: "Уроки",
+          files: "Файлы",
+          settings: "Настройки",
+          premiumTraining: "Премиум онлайн-обучение",
+          statsLessons: "Уроков",
+          statsDone: "Пройдено",
+          statsProgress: "Прогресс",
+          continueTraining: "Продолжить обучение",
+          openLesson: "Открыть урок",
+          today: "Сегодня",
+          practicePlan: "План практики",
+          markComplete: "Отметить пройденным",
+          completed: "Урок пройден",
+          resources: "Материалы ученицы",
+          courseModules: "Модули онлайн-курса",
+          language: "Язык",
+          editContent: "Редактировать",
+          accessCodes: "Коды доступа",
+          data: "Данные",
+          newCode: "Новый код",
+          available: "Свободен",
+          activated: "Активирован",
+          used: "Использован",
+          delete: "Удалить",
+          save: "Сохранить",
+          exportData: "Экспорт",
+          importData: "Импорт",
+          reset: "Сбросить демо",
+          title: "Название",
+          subtitle: "Подзаголовок",
+          meta: "Инфо",
+          note: "Описание",
+          steps: "Шаги, каждый с новой строки",
+          poster: "Ссылка на обложку",
+          resourcesTitle: "Название материала",
+          resourcesText: "Текст материала",
+          adminNotice: "Это прототип: админка сохраняет изменения в этом браузере. Для реальной продажи коды, пароль и курс нужно перенести в Supabase или другой backend.",
+          todayOne: "Отработайте чистую изоляцию на спонже или манекене перед работой с клиентом.",
+          todayTwo: "Делайте крупные фото после каждого сета, чтобы отслеживать направление и симметрию."
+        }
+      };
+
+      const defaultCourse = {
+        settings: {
+          brand: "MIAMI LASH COURSE",
+          eyebrow: "Lash Artist | Hanna Kozak",
+          hero: {
+            en: {
+              title: "Lash Course",
+              script: "Miami",
+              subtitle: "Classic foundations, mapping, retention and client care."
+            },
+            ru: {
+              title: "Курс по ресницам",
+              script: "Miami",
+              subtitle: "База, моделирование, стойкость и забота о клиенте."
+            }
+          }
+        },
+        lessons: [
+          {
+            id: "welcome",
+            poster: posterUrls[0],
+            content: {
+              en: {
+                title: "Welcome to Girls Miami",
+                meta: "8 min · start here",
+                note: "The first module sets the client experience: calm, premium, detailed and personal.",
+                steps: ["Set up your clean working table before the client arrives.", "Take close-up before photos from front, left and right angles.", "Confirm the client wants soft glam, wispy, natural or full volume."]
+              },
+              ru: {
+                title: "Добро пожаловать в Girls Miami",
+                meta: "8 мин · начать здесь",
+                note: "Первый модуль задает ощущение сервиса: спокойно, премиально, детально и персонально.",
+                steps: ["Подготовьте чистый рабочий стол до прихода клиента.", "Сделайте фото до: спереди, слева и справа.", "Уточните желаемый эффект: natural, wispy, soft glam или full volume."]
+              }
+            }
+          },
+          {
+            id: "materials",
+            poster: posterUrls[2],
+            content: {
+              en: {
+                title: "Materials and Prep",
+                meta: "14 min · supplies",
+                note: "Product handling is part of retention. Clean prep and stable adhesive conditions make the set last.",
+                steps: ["Prepare cleanser, primer, gel pads, tape, tweezers and adhesive.", "Check room humidity and temperature before opening glue.", "Use fresh stock and keep products closed between applications."]
+              },
+              ru: {
+                title: "Материалы и подготовка",
+                meta: "14 мин · материалы",
+                note: "Правильная работа с материалами напрямую влияет на носку. Чистая подготовка и стабильные условия дают лучший результат.",
+                steps: ["Подготовьте очищение, праймер, патчи, тейп, пинцеты и клей.", "Проверьте влажность и температуру перед открытием клея.", "Используйте свежие материалы и закрывайте продукты между этапами."]
+              }
+            }
+          },
+          {
+            id: "mapping",
+            poster: posterUrls[1],
+            content: {
+              en: {
+                title: "Lash Mapping",
+                meta: "18 min · eye styling",
+                note: "A beautiful map should fit the face, not just copy a chart.",
+                steps: ["Read the eye shape before choosing lengths.", "Mark zones on the pad before starting isolation.", "Balance curl, thickness and length with the natural lashes."]
+              },
+              ru: {
+                title: "Моделирование взгляда",
+                meta: "18 мин · схема",
+                note: "Красивая схема должна подходить лицу и глазам, а не просто повторять шаблон.",
+                steps: ["Оцените форму глаз перед выбором длин.", "Отметьте зоны на патче до начала изоляции.", "Подберите изгиб, толщину и длину под натуральные ресницы."]
+              }
+            }
+          },
+          {
+            id: "isolation",
+            poster: posterUrls[4],
+            content: {
+              en: {
+                title: "Isolation Technique",
+                meta: "22 min · practice",
+                note: "Isolation is the difference between a pretty photo and a safe, professional set.",
+                steps: ["Separate one natural lash clearly before dipping.", "Keep adhesive amount small and controlled.", "Place extensions with clean direction and no stickies."]
+              },
+              ru: {
+                title: "Техника изоляции",
+                meta: "22 мин · практика",
+                note: "Изоляция отличает просто красивое фото от безопасной профессиональной работы.",
+                steps: ["Четко отделите одну натуральную ресницу перед постановкой.", "Контролируйте количество клея.", "Ставьте ресницы ровно, без склеек и перекрестов."]
+              }
+            }
+          },
+          {
+            id: "retention",
+            poster: posterUrls[3],
+            content: {
+              en: {
+                title: "Retention Secrets",
+                meta: "16 min · troubleshooting",
+                note: "Most retention problems come from prep, environment or attachment angle.",
+                steps: ["Check attachment area and distance from the eyelid.", "Watch humidity, glue age and drying speed.", "Teach aftercare before the client leaves."]
+              },
+              ru: {
+                title: "Секреты носки",
+                meta: "16 мин · ошибки",
+                note: "Большинство проблем с ноской связано с подготовкой, условиями или постановкой.",
+                steps: ["Проверьте зону сцепки и расстояние от века.", "Следите за влажностью, возрастом клея и скоростью полимеризации.", "Объясните уход до того, как клиент уйдет."]
+              }
+            }
+          },
+          {
+            id: "client-care",
+            poster: posterUrls[5],
+            content: {
+              en: {
+                title: "Client Care and Aftercare",
+                meta: "10 min · service",
+                note: "The premium feeling continues after the appointment.",
+                steps: ["Show the client how to wash lashes daily.", "Book fill timing based on natural lash cycle.", "Take final photos and record the map for next visit."]
+              },
+              ru: {
+                title: "Уход и сервис",
+                meta: "10 мин · клиент",
+                note: "Премиальное ощущение продолжается после процедуры.",
+                steps: ["Покажите клиенту, как ежедневно очищать ресницы.", "Назначьте коррекцию с учетом цикла натуральных ресниц.", "Сделайте финальные фото и сохраните карту для следующего визита."]
+              }
+            }
+          }
+        ],
+        resources: [
+          {
+            id: "supply-list",
+            content: {
+              en: { title: "Supply List", text: "Adhesive, lashes, pads, tape, cleanser, primer, tweezers and disposable tools." },
+              ru: { title: "Список материалов", text: "Клей, ресницы, патчи, тейп, очищение, праймер, пинцеты и одноразовые инструменты." }
+            }
+          },
+          {
+            id: "client-card",
+            content: {
+              en: { title: "Client Card", text: "Map, curl, length, thickness, glue, room conditions and aftercare notes." },
+              ru: { title: "Карта клиента", text: "Схема, изгиб, длина, толщина, клей, условия кабинета и заметки по уходу." }
+            }
+          },
+          {
+            id: "aftercare",
+            content: {
+              en: { title: "Aftercare", text: "Daily washing, no oil products, brush gently and schedule fills on time." },
+              ru: { title: "Уход", text: "Ежедневное умывание, без масляных продуктов, аккуратное расчесывание и своевременная коррекция." }
+            }
+          },
+          {
+            id: "checklist",
+            content: {
+              en: { title: "Checklist", text: "Prep, isolation, attachment, direction, final brush, photos and next appointment." },
+              ru: { title: "Чеклист", text: "Подготовка, изоляция, постановка, направление, финальное расчесывание, фото и следующая запись." }
+            }
+          }
+        ]
+      };
+
+      const defaultState = {
+        lang: "en",
+        activeUser: null,
+        adminAuthed: false,
+        validCodes: ["LASH-MIAMI-2026", "HANNA-VIP-001", "UNOVA-COURSE"],
+        redeemed: {},
+        completed: [],
+        course: defaultCourse
+      };
+
+      function clone(value) {
+        return JSON.parse(JSON.stringify(value));
+      }
+
+      function normalizeState(raw) {
+        const base = clone(defaultState);
+        return {
+          ...base,
+          ...raw,
+          course: {
+            ...base.course,
+            ...(raw?.course || {}),
+            settings: { ...base.course.settings, ...(raw?.course?.settings || {}) },
+            lessons: raw?.course?.lessons?.length ? raw.course.lessons : base.course.lessons,
+            resources: raw?.course?.resources?.length ? raw.course.resources : base.course.resources
+          }
+        };
+      }
+
+      function loadState() {
+        try {
+          const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY));
+          if (parsed) return normalizeState(parsed);
+        } catch {}
+        return clone(defaultState);
+      }
+
+      function saveState(next) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      }
+
+      function makeCode() {
+        const a = Math.random().toString(36).slice(2, 6).toUpperCase();
+        const b = Math.random().toString(36).slice(2, 6).toUpperCase();
+        return `LASH-${a}-${b}`;
+      }
+
+      function App() {
+        const [state, setState] = useState(loadState);
+        const [view, setView] = useState(state.activeUser ? "home" : "login");
+        const [activeLessonId, setActiveLessonId] = useState(state.course.lessons[0]?.id || "");
+
+        const t = ui[state.lang];
+        const activeLesson = state.course.lessons.find((item) => item.id === activeLessonId) || state.course.lessons[0];
+
+        const update = (patch) => {
+          setState((current) => {
+            const next = normalizeState({ ...current, ...patch });
+            saveState(next);
+            return next;
+          });
+        };
+
+        const setCourse = (course) => update({ course });
+        const setLang = (lang) => update({ lang });
+
+        if (view === "admin-login" || (!state.activeUser && view === "admin")) {
+          return <AdminLogin state={state} update={update} setView={setView} t={t} />;
+        }
+
+        if (!state.activeUser) {
+          return <LoginScreen state={state} update={update} setView={setView} t={t} setLang={setLang} />;
+        }
+
+        const currentView = view === "login" ? "home" : view;
+        const completed = state.completed;
+        const done = completed.length;
+        const pct = Math.round((done / state.course.lessons.length) * 100);
+
+        return (
+          <div className="app-shell">
+            <header className="topbar">
+              <button className="brand" onClick={() => setView("home")}>
+                <span>{state.course.settings.eyebrow}</span>
+                <strong>{state.course.settings.brand}</strong>
+              </button>
+              <div className="top-actions">
+                <button className="icon-button" onClick={() => setLang(state.lang === "en" ? "ru" : "en")}>{state.lang.toUpperCase()}</button>
+                <button className="icon-button" onClick={() => update({ activeUser: null })}>HK</button>
+              </div>
+            </header>
+
+            {currentView === "home" && <HomeScreen state={state} t={t} pct={pct} done={done} setView={setView} setActiveLessonId={setActiveLessonId} />}
+            {currentView === "lessons" && <LessonsScreen state={state} t={t} setActiveLessonId={setActiveLessonId} setView={setView} />}
+            {currentView === "lesson" && <LessonScreen state={state} t={t} lesson={activeLesson} update={update} />}
+            {currentView === "resources" && <ResourcesScreen state={state} t={t} />}
+            {currentView === "admin" && state.adminAuthed && <AdminScreen state={state} update={update} setCourse={setCourse} t={t} setLang={setLang} />}
+            {currentView === "admin" && !state.adminAuthed && <AdminLogin state={state} update={update} setView={setView} t={t} />}
+
+            <nav className="tabbar">
+              {[
+                ["home", t.home],
+                ["lessons", t.lessons],
+                ["resources", t.files],
+                ["admin", t.admin]
+              ].map(([id, label]) => (
+                <button key={id} className={currentView === id ? "active" : ""} onClick={() => setView(id)}>{label}</button>
+              ))}
+            </nav>
+          </div>
+        );
+      }
+
+      function LoginScreen({ state, update, setView, t, setLang }) {
+        const [name, setName] = useState("");
+        const [code, setCode] = useState("");
+        const [error, setError] = useState("");
+
+        const redeem = (event) => {
+          event.preventDefault();
+          const normalized = code.trim().toUpperCase();
+          if (!name.trim()) return setError(t.addName);
+          if (!state.validCodes.includes(normalized)) return setError(t.inactiveCode);
+          if (state.redeemed[normalized]) return setError(t.usedCode);
+
+          const user = {
+            name: name.trim(),
+            code: normalized,
+            deviceId: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+            activatedAt: new Date().toISOString()
+          };
+
+          update({
+            activeUser: user,
+            redeemed: { ...state.redeemed, [normalized]: user }
+          });
+        };
+
+        return (
+          <div className="app-shell">
+            <main className="hero">
+              <div>
+                <div className="top-actions" style={{ justifyContent: "space-between" }}>
+                  <p className="eyebrow">{state.course.settings.eyebrow}</p>
+                  <button className="icon-button" onClick={() => setLang(state.lang === "en" ? "ru" : "en")}>{state.lang.toUpperCase()}</button>
+                </div>
+                <h1 className="hero-title">Girls<br /><span className="script">Miami</span></h1>
+                <div className="polaroid-stack">
+                  <div className="polaroid main">
+                    <img src="./assets/girls-miami.png" alt="Girls Miami lash course" />
+                  </div>
+                  <div className="polaroid small">
+                    <img src="./assets/premium-lash-supplies.png" alt="Miami lash supplies poster" />
+                  </div>
+                  <div className="paper-note">
+                    <p>Premium quality</p>
+                    <p>Long lasting</p>
+                    <p>Comfort and care</p>
+                  </div>
+                </div>
+              </div>
+
+              <form className="login-card" onSubmit={redeem}>
+                <input className="input" value={name} onChange={(e) => setName(e.target.value)} placeholder={t.studentName} />
+                <div style={{ height: 10 }} />
+                <input className="input" value={code} onChange={(e) => setCode(e.target.value)} placeholder={t.accessCode} autoCapitalize="characters" />
+                {error && <p className="error">{error}</p>}
+                <div style={{ height: 12 }} />
+                <button className="primary">{t.unlock}</button>
+                <div style={{ height: 10 }} />
+                <button type="button" className="secondary" style={{ width: "100%" }} onClick={() => setView("admin-login")}>{t.adminLogin}</button>
+                <p style={{ margin: "12px 0 0", fontSize: 11, fontWeight: 800, color: "rgba(29,29,29,.55)", lineHeight: 1.5 }}>
+                  {t.demoCode}: LASH-MIAMI-2026
+                </p>
+              </form>
+            </main>
+          </div>
+        );
+      }
+
+      function AdminLogin({ state, update, setView, t }) {
+        const [password, setPassword] = useState("");
+        const [error, setError] = useState("");
+
+        const submit = (event) => {
+          event.preventDefault();
+          if (password !== ADMIN_PASSWORD) return setError(t.wrongPassword);
+          update({ adminAuthed: true });
+          setView("admin");
+        };
+
+        return (
+          <div className="app-shell">
+            <main className="hero">
+              <div>
+                <p className="eyebrow">{state.course.settings.eyebrow}</p>
+                <h1 className="hero-title">{t.admin}<br /><span className="script">Miami</span></h1>
+              </div>
+              <form className="login-card" onSubmit={submit}>
+                <h2 style={{ margin: "0 0 12px", color: "var(--pink)", fontFamily: "Bebas Neue", fontSize: 40 }}>{t.adminLogin}</h2>
+                <input className="input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder={t.password} />
+                {error && <p className="error">{error}</p>}
+                <div style={{ height: 12 }} />
+                <button className="primary">{t.login}</button>
+                <div style={{ height: 10 }} />
+                <button type="button" className="secondary" style={{ width: "100%" }} onClick={() => setView(state.activeUser ? "home" : "login")}>Back</button>
+                <p style={{ margin: "12px 0 0", fontSize: 11, fontWeight: 800, color: "rgba(29,29,29,.55)", lineHeight: 1.5 }}>
+                  Demo admin password: hanna2026
+                </p>
+              </form>
+            </main>
+          </div>
+        );
+      }
+
+      function HomeScreen({ state, t, pct, done, setView, setActiveLessonId }) {
+        const hero = state.course.settings.hero[state.lang];
+        const nextLesson = state.course.lessons.find((lesson) => !state.completed.includes(lesson.id)) || state.course.lessons[0];
+        const nextContent = nextLesson.content[state.lang];
+
+        return (
+          <main className="screen">
+            <section className="course-hero card">
+              <p className="eyebrow" style={{ color: "rgba(255,255,255,.82)" }}>{t.premiumTraining}</p>
+              <h1>{hero.title}<br /><span className="script">{hero.script}</span></h1>
+              <p>{hero.subtitle}</p>
+            </section>
+
+            <div className="stats">
+              <div className="stat"><strong>{state.course.lessons.length}</strong><span>{t.statsLessons}</span></div>
+              <div className="stat"><strong>{done}</strong><span>{t.statsDone}</span></div>
+              <div className="stat"><strong>{pct}%</strong><span>{t.statsProgress}</span></div>
+            </div>
+
+            <section style={{ marginTop: 22 }} className="card">
+              <div style={{ padding: 16, display: "grid", gridTemplateColumns: "1fr 74px", gap: 14, alignItems: "center" }}>
+                <div>
+                  <p className="eyebrow">{t.continueTraining}</p>
+                  <h2 style={{ margin: "4px 0 8px", fontSize: 22, textTransform: "uppercase" }}>{nextContent.title}</h2>
+                  <p style={{ margin: 0, fontSize: 12, fontWeight: 700, lineHeight: 1.55 }}>{nextContent.meta}</p>
+                </div>
+                <div className="progress-ring" style={{ "--pct": `${pct}%` }}><span>{pct}%</span></div>
+              </div>
+              <div style={{ padding: "0 16px 16px" }}>
+                <button className="primary" onClick={() => { setActiveLessonId(nextLesson.id); setView("lesson"); }}>{t.openLesson}</button>
+              </div>
+            </section>
+
+            <section style={{ marginTop: 22 }}>
+              <div className="section-head">
+                <div>
+                  <h2>{t.today}</h2>
+                  <p>{t.practicePlan}</p>
+                </div>
+              </div>
+              <div className="grid-2">
+                <div className="resource"><strong>30 min</strong><span>{t.todayOne}</span></div>
+                <div className="resource"><strong>Photo</strong><span>{t.todayTwo}</span></div>
+              </div>
+            </section>
+          </main>
+        );
+      }
+
+      function LessonsScreen({ state, t, setActiveLessonId, setView }) {
+        return (
+          <main className="screen">
+            <div className="section-head">
+              <div>
+                <h1>{t.lessons}</h1>
+                <p>{t.courseModules}</p>
+              </div>
+            </div>
+            <div className="lesson-list">
+              {state.course.lessons.map((lesson, index) => {
+                const content = lesson.content[state.lang];
+                return (
+                  <button className="lesson-card" key={lesson.id} onClick={() => { setActiveLessonId(lesson.id); setView("lesson"); }}>
+                    <img className="lesson-thumb" src={lesson.poster} alt={content.title} />
+                    <div>
+                      <h3>{String(index + 1).padStart(2, "0")} · {content.title}</h3>
+                      <p>{content.meta}</p>
+                    </div>
+                    <span className="check">{state.completed.includes(lesson.id) ? "OK" : "GO"}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </main>
+        );
+      }
+
+      function LessonScreen({ state, t, lesson, update }) {
+        const content = lesson.content[state.lang];
+        const isDone = state.completed.includes(lesson.id);
+        const markDone = () => {
+          if (isDone) return;
+          update({ completed: [...state.completed, lesson.id] });
+        };
+
+        return (
+          <main className="screen">
+            <div className="video-box" style={{ "--poster": `url(${lesson.poster})` }}>
+              <button className="play" aria-label="Play lesson">▶</button>
+              <div className="watermark">
+                {Array.from({ length: 8 }).map((_, index) => <span key={index}>{state.activeUser.name} · {state.activeUser.code}</span>)}
+              </div>
+            </div>
+            <div className="lesson-body">
+              <p className="eyebrow">{content.meta}</p>
+              <h1>{content.title}</h1>
+              <p>{content.note}</p>
+              <ul className="steps">
+                {content.steps.map((step, index) => <li key={`${step}-${index}`}><strong>{index + 1}.</strong> {step}</li>)}
+              </ul>
+              <button className="primary" onClick={markDone}>{isDone ? t.completed : t.markComplete}</button>
+            </div>
+          </main>
+        );
+      }
+
+      function ResourcesScreen({ state, t }) {
+        return (
+          <main className="screen">
+            <div className="section-head">
+              <div>
+                <h1>{t.files}</h1>
+                <p>{t.resources}</p>
+              </div>
+            </div>
+            <div className="grid-2">
+              {state.course.resources.map((resource) => {
+                const content = resource.content[state.lang];
+                return <div className="resource" key={resource.id}><strong>{content.title}</strong><span>{content.text}</span></div>;
+              })}
+            </div>
+            <section className="card" style={{ marginTop: 18, padding: 16 }}>
+              <p className="eyebrow">Premium Supplies</p>
+              <h2 style={{ margin: "4px 0 8px", color: "var(--pink)", fontFamily: "Bebas Neue", fontSize: 42, lineHeight: .9 }}>Unova Lashes</h2>
+              <p style={{ margin: 0, fontSize: 13, fontWeight: 700, lineHeight: 1.7 }}>
+                {state.lang === "en" ? "Professional lash materials imported from Korea, fresh stock updates and delivery across Miami." : "Профессиональные материалы из Кореи, свежее наличие и доставка по Майами."}
+              </p>
+            </section>
+          </main>
+        );
+      }
+
+      function AdminScreen({ state, update, setCourse, t, setLang }) {
+        const [tab, setTab] = useState("lessons");
+        const [selectedLessonId, setSelectedLessonId] = useState(state.course.lessons[0]?.id);
+        const [selectedResourceId, setSelectedResourceId] = useState(state.course.resources[0]?.id);
+        const [newCode, setNewCode] = useState(makeCode());
+        const selectedLesson = state.course.lessons.find((lesson) => lesson.id === selectedLessonId) || state.course.lessons[0];
+        const selectedResource = state.course.resources.find((resource) => resource.id === selectedResourceId) || state.course.resources[0];
+
+        const replaceLesson = (lesson) => {
+          setCourse({ ...state.course, lessons: state.course.lessons.map((item) => item.id === lesson.id ? lesson : item) });
+        };
+
+        const replaceResource = (resource) => {
+          setCourse({ ...state.course, resources: state.course.resources.map((item) => item.id === resource.id ? resource : item) });
+        };
+
+        const addCode = () => {
+          const normalized = newCode.trim().toUpperCase();
+          if (!normalized || state.validCodes.includes(normalized)) return;
+          update({ validCodes: [normalized, ...state.validCodes] });
+          setNewCode(makeCode());
+        };
+
+        const deleteCode = (code) => {
+          const redeemed = { ...state.redeemed };
+          delete redeemed[code];
+          update({ validCodes: state.validCodes.filter((item) => item !== code), redeemed });
+        };
+
+        const exportData = () => {
+          const data = JSON.stringify(state, null, 2);
+          navigator.clipboard?.writeText(data);
+          alert("Data copied to clipboard.");
+        };
+
+        const importData = () => {
+          const pasted = prompt("Paste exported JSON");
+          if (!pasted) return;
+          try {
+            const next = normalizeState(JSON.parse(pasted));
+            saveState(next);
+            window.location.reload();
+          } catch {
+            alert("Invalid JSON");
+          }
+        };
+
+        const resetDemo = () => {
+          saveState(clone(defaultState));
+          window.location.reload();
+        };
+
+        return (
+          <main className="screen">
+            <div className="section-head">
+              <div>
+                <h1>{t.admin}</h1>
+                <p>{t.settings}</p>
+              </div>
+              <button className="icon-button" onClick={() => setLang(state.lang === "en" ? "ru" : "en")}>{state.lang.toUpperCase()}</button>
+            </div>
+
+            <p className="notice">{t.adminNotice}</p>
+
+            <div className="admin-tabs">
+              <button className={tab === "lessons" ? "active" : ""} onClick={() => setTab("lessons")}>{t.editContent}</button>
+              <button className={tab === "codes" ? "active" : ""} onClick={() => setTab("codes")}>{t.accessCodes}</button>
+              <button className={tab === "data" ? "active" : ""} onClick={() => setTab("data")}>{t.data}</button>
+            </div>
+
+            {tab === "lessons" && (
+              <div className="admin-panel">
+                <label className="field-label">
+                  {t.language}
+                  <select className="select" value={state.lang} onChange={(event) => setLang(event.target.value)}>
+                    <option value="en">English</option>
+                    <option value="ru">Русский</option>
+                  </select>
+                </label>
+
+                <label className="field-label">
+                  {t.lessons}
+                  <select className="select" value={selectedLesson?.id} onChange={(event) => setSelectedLessonId(event.target.value)}>
+                    {state.course.lessons.map((lesson) => <option key={lesson.id} value={lesson.id}>{lesson.content[state.lang].title}</option>)}
+                  </select>
+                </label>
+
+                {selectedLesson && <LessonEditor lesson={selectedLesson} lang={state.lang} t={t} replaceLesson={replaceLesson} />}
+
+                <label className="field-label">
+                  {t.files}
+                  <select className="select" value={selectedResource?.id} onChange={(event) => setSelectedResourceId(event.target.value)}>
+                    {state.course.resources.map((resource) => <option key={resource.id} value={resource.id}>{resource.content[state.lang].title}</option>)}
+                  </select>
+                </label>
+
+                {selectedResource && <ResourceEditor resource={selectedResource} lang={state.lang} t={t} replaceResource={replaceResource} />}
+              </div>
+            )}
+
+            {tab === "codes" && (
+              <div className="admin-panel">
+                <div className="card" style={{ padding: 12 }}>
+                  <label className="field-label">
+                    {t.newCode}
+                    <input className="input" value={newCode} onChange={(event) => setNewCode(event.target.value.toUpperCase())} />
+                  </label>
+                  <div style={{ height: 10 }} />
+                  <button className="primary" onClick={addCode}>{t.newCode}</button>
+                </div>
+
+                {state.validCodes.map((code) => (
+                  <div className="admin-row" key={code}>
+                    <div>
+                      <strong>{code}</strong>
+                      <span>{state.redeemed[code] ? `${t.activated}: ${state.redeemed[code].name}` : t.available}</span>
+                    </div>
+                    <div className="row-actions">
+                      <span className="check">{state.redeemed[code] ? t.used : "NEW"}</span>
+                      <button className="danger" onClick={() => deleteCode(code)}>{t.delete}</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {tab === "data" && (
+              <div className="admin-panel">
+                <button className="primary" onClick={exportData}>{t.exportData}</button>
+                <button className="secondary" onClick={importData}>{t.importData}</button>
+                <button className="danger" onClick={resetDemo}>{t.reset}</button>
+                <button className="secondary" onClick={() => update({ adminAuthed: false })}>{t.logout}</button>
+              </div>
+            )}
+          </main>
+        );
+      }
+
+      function LessonEditor({ lesson, lang, t, replaceLesson }) {
+        const content = lesson.content[lang];
+        const setContent = (patch) => {
+          replaceLesson({ ...lesson, content: { ...lesson.content, [lang]: { ...content, ...patch } } });
+        };
+
+        return (
+          <div className="card admin-form" style={{ padding: 12 }}>
+            <label className="field-label">{t.title}<input className="input" value={content.title} onChange={(event) => setContent({ title: event.target.value })} /></label>
+            <label className="field-label">{t.meta}<input className="input" value={content.meta} onChange={(event) => setContent({ meta: event.target.value })} /></label>
+            <label className="field-label">{t.note}<textarea className="textarea" value={content.note} onChange={(event) => setContent({ note: event.target.value })} /></label>
+            <label className="field-label">{t.steps}<textarea className="textarea" value={content.steps.join("\n")} onChange={(event) => setContent({ steps: event.target.value.split("\n").filter(Boolean) })} /></label>
+            <label className="field-label">{t.poster}<input className="input" value={lesson.poster} onChange={(event) => replaceLesson({ ...lesson, poster: event.target.value })} /></label>
+          </div>
+        );
+      }
+
+      function ResourceEditor({ resource, lang, t, replaceResource }) {
+        const content = resource.content[lang];
+        const setContent = (patch) => {
+          replaceResource({ ...resource, content: { ...resource.content, [lang]: { ...content, ...patch } } });
+        };
+
+        return (
+          <div className="card admin-form" style={{ padding: 12 }}>
+            <label className="field-label">{t.resourcesTitle}<input className="input" value={content.title} onChange={(event) => setContent({ title: event.target.value })} /></label>
+            <label className="field-label">{t.resourcesText}<textarea className="textarea" value={content.text} onChange={(event) => setContent({ text: event.target.value })} /></label>
+          </div>
+        );
+      }
+
+      if ("serviceWorker" in navigator && location.protocol !== "file:") {
+        navigator.serviceWorker.register("./sw.js").catch(() => {});
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
