@@ -1,0 +1,12 @@
+{
+  "name": "miami-lash-course-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "dev": "PORT=5188 node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
