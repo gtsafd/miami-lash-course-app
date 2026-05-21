@@ -543,13 +543,29 @@
         return (
           <main className="screen">
             {youtubeId ? (
-              <div style={{ position: "relative", borderRadius: 8, overflow: "hidden" }}>
-                <iframe className="video-iframe" src={`https://www.youtube.com/embed/${youtubeId}?rel=0`} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+              <div style={{ position: "relative", borderRadius: 8, overflow: "hidden", userSelect: "none" }}>
+                <iframe
+                  className="video-iframe"
+                  src={`https://www.youtube.com/embed/${youtubeId}?rel=0&modestbranding=1&iv_load_policy=3&fs=1&playsinline=1`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                  allowFullScreen
+                />
+                {/* Blocks YouTube title/logo click at the top — cannot navigate to YouTube */}
+                <div
+                  onContextMenu={(e) => e.preventDefault()}
+                  style={{ position: "absolute", top: 0, left: 0, right: 0, height: 48, zIndex: 10, cursor: "default" }}
+                />
                 <div className="watermark">{Array.from({ length: 8 }).map((_, i) => <span key={i}>{user.name} · {user.code}</span>)}</div>
               </div>
             ) : isDirectVideo ? (
               <div style={{ position: "relative", borderRadius: 8, overflow: "hidden", background: "#000" }}>
-                <video controls style={{ width: "100%", maxHeight: 260, display: "block", background: "#000" }} src={videoUrl} />
+                <video
+                  controls
+                  controlsList="nodownload"
+                  onContextMenu={(e) => e.preventDefault()}
+                  style={{ width: "100%", maxHeight: 260, display: "block", background: "#000" }}
+                  src={videoUrl}
+                />
                 <div className="watermark">{Array.from({ length: 8 }).map((_, i) => <span key={i}>{user.name} · {user.code}</span>)}</div>
               </div>
             ) : (
