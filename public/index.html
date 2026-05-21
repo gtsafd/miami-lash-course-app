@@ -215,6 +215,8 @@
       .admin-row strong { display: block; font-size: 13px; }
       .admin-row span { font-size: 10px; font-weight: 900; color: rgba(29,29,29,.55); text-transform: uppercase; }
       .row-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+      .admin-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+      .status { margin: 0; border-radius: 8px; padding: 10px 12px; background: rgba(233,77,123,.1); color: var(--pink-dark); font-size: 11px; font-weight: 900; line-height: 1.45; }
       @media (min-width: 800px) {
         body { padding: 26px 0; }
         .app-shell { min-height: calc(100vh - 52px); border: 10px solid rgba(255,255,255,.58); border-radius: 46px; }
@@ -242,6 +244,8 @@
           newCode: "New Code", available: "Available", activated: "Activated", used: "Used", delete: "Delete",
           save: "Save", title: "Title", meta: "Meta", note: "Description", steps: "Steps, one per line",
           poster: "Poster URL", resourcesTitle: "Resource title", resourcesText: "Resource text",
+          addLesson: "Add Lesson", addFile: "Add File", saveLesson: "Save Lesson", saveFile: "Save File", editorLanguage: "Editor Language",
+          exitAdmin: "Exit Admin", resetStudent: "Reset Student", copied: "Copied", saved: "Saved", loaded: "Loaded", refresh: "Refresh",
           adminNotice: "Course data and access codes are now checked by the server. For stronger protection, keep this repository private and deploy the Node server with environment variables.",
           todayOne: "Practice clean isolation on sponge or mannequin before client work.",
           todayTwo: "Take close-up shots after every finished set to track direction and symmetry.",
@@ -259,6 +263,8 @@
           newCode: "Новый код", available: "Свободен", activated: "Активирован", used: "Использован", delete: "Удалить",
           save: "Сохранить", title: "Название", meta: "Инфо", note: "Описание", steps: "Шаги, каждый с новой строки",
           poster: "Ссылка на обложку", resourcesTitle: "Название материала", resourcesText: "Текст материала",
+          addLesson: "Добавить урок", addFile: "Добавить файл", saveLesson: "Сохранить урок", saveFile: "Сохранить файл", editorLanguage: "Язык редактора",
+          exitAdmin: "Выйти из админки", resetStudent: "Сбросить ученицу", copied: "Скопировано", saved: "Сохранено", loaded: "Загружено", refresh: "Обновить",
           adminNotice: "Материалы курса и коды теперь проверяются сервером. Для более сильной защиты держите репозиторий приватным и деплойте Node server с переменными окружения.",
           todayOne: "Отработайте чистую изоляцию на спонже или манекене перед работой с клиентом.",
           todayTwo: "Делайте крупные фото после каждого сета, чтобы отслеживать направление и симметрию.",
@@ -528,51 +534,164 @@
         const [selectedLessonId, setSelectedLessonId] = useState(course.lessons[0]?.id);
         const [selectedResourceId, setSelectedResourceId] = useState(course.resources[0]?.id);
         const [newCode, setNewCode] = useState("");
+        const [editLang, setEditLang] = useState(lang);
+        const [status, setStatus] = useState("");
+        const [busy, setBusy] = useState(false);
         const adminHeaders = { Authorization: `Bearer ${client.adminToken}` };
         const loadAdmin = async () => {
-          const data = await request("/api/admin/state", { headers: adminHeaders });
-          setAdminState(data);
-          setCourse(data.course);
-          if (!selectedLessonId && data.course.lessons[0]) setSelectedLessonId(data.course.lessons[0].id);
-          if (!selectedResourceId && data.course.resources[0]) setSelectedResourceId(data.course.resources[0].id);
+          setBusy(true);
+          setStatus("");
+          try {
+            const data = await request("/api/admin/state", { headers: adminHeaders });
+            setAdminState(data);
+            setCourse(data.course);
+            if (!selectedLessonId && data.course.lessons[0]) setSelectedLessonId(data.course.lessons[0].id);
+            if (!selectedResourceId && data.course.resources[0]) setSelectedResourceId(data.course.resources[0].id);
+            setStatus(t.loaded);
+          } catch (err) {
+            setStatus(err.message || t.wrong);
+          } finally {
+            setBusy(false);
+          }
         };
         useEffect(() => { loadAdmin(); }, []);
         const saveCourse = async (nextCourse) => {
-          const data = await request("/api/admin/course", { method: "PUT", headers: adminHeaders, body: JSON.stringify({ course: nextCourse }) });
-          setCourse(data.course);
+          setBusy(true);
+          setStatus("");
+          try {
+            const data = await request("/api/admin/course", { method: "PUT", headers: adminHeaders, body: JSON.stringify({ course: nextCourse }) });
+            setCourse(data.course);
+            setStatus(t.saved);
+          } catch (err) {
+            setStatus(err.message || t.wrong);
+          } finally {
+            setBusy(false);
+          }
         };
         const createCode = async () => {
-          const data = await request("/api/admin/codes", { method: "POST", headers: adminHeaders, body: JSON.stringify({ code: newCode || undefined }) });
-          setNewCode("");
-          setAdminState(data);
+          setBusy(true);
+          setStatus("");
+          try {
+            const data = await request("/api/admin/codes", { method: "POST", headers: adminHeaders, body: JSON.stringify({ code: newCode.trim() || undefined }) });
+            setNewCode("");
+            setAdminState(data);
+            setStatus(t.codeCopied);
+          } catch (err) {
+            setStatus(err.message || t.wrong);
+          } finally {
+            setBusy(false);
+          }
         };
-        const deleteCode = async (code) => setAdminState(await request(`/api/admin/codes/${encodeURIComponent(code)}`, { method: "DELETE", headers: adminHeaders }));
+        const deleteCode = async (code) => {
+          setBusy(true);
+          try {
+            setAdminState(await request(`/api/admin/codes/${encodeURIComponent(code)}`, { method: "DELETE", headers: adminHeaders }));
+            setStatus(t.saved);
+          } catch (err) {
+            setStatus(err.message || t.wrong);
+          } finally {
+            setBusy(false);
+          }
+        };
+        const resetStudent = async (code) => {
+          setBusy(true);
+          try {
+            setAdminState(await request(`/api/admin/students/${encodeURIComponent(code)}`, { method: "DELETE", headers: adminHeaders }));
+            setStatus(t.saved);
+          } catch (err) {
+            setStatus(err.message || t.wrong);
+          } finally {
+            setBusy(false);
+          }
+        };
         const selectedLesson = course.lessons.find((lesson) => lesson.id === selectedLessonId) || course.lessons[0];
         const selectedResource = course.resources.find((resource) => resource.id === selectedResourceId) || course.resources[0];
         const replaceLesson = (lesson) => saveCourse({ ...course, lessons: course.lessons.map((item) => item.id === lesson.id ? lesson : item) });
         const replaceResource = (resource) => saveCourse({ ...course, resources: course.resources.map((item) => item.id === resource.id ? resource : item) });
+        const addLesson = () => {
+          const id = `lesson-${Date.now()}`;
+          const lesson = {
+            id,
+            poster: "./assets/girls-miami-clean.png",
+            content: {
+              en: { title: "New Lesson", meta: "New module", note: "Add lesson description here.", steps: ["First step"] },
+              ru: { title: "Новый урок", meta: "Новый модуль", note: "Добавьте описание урока.", steps: ["Первый шаг"] }
+            }
+          };
+          setSelectedLessonId(id);
+          saveCourse({ ...course, lessons: [...course.lessons, lesson] });
+        };
+        const deleteLesson = (id) => {
+          const nextLessons = course.lessons.filter((lesson) => lesson.id !== id);
+          setSelectedLessonId(nextLessons[0]?.id || "");
+          saveCourse({ ...course, lessons: nextLessons });
+        };
+        const addResource = () => {
+          const id = `resource-${Date.now()}`;
+          const resource = {
+            id,
+            content: {
+              en: { title: "New File", text: "Add file notes, link, or checklist here." },
+              ru: { title: "Новый файл", text: "Добавьте заметку, ссылку или чеклист." }
+            }
+          };
+          setSelectedResourceId(id);
+          saveCourse({ ...course, resources: [...course.resources, resource] });
+        };
+        const deleteResource = (id) => {
+          const nextResources = course.resources.filter((resource) => resource.id !== id);
+          setSelectedResourceId(nextResources[0]?.id || "");
+          saveCourse({ ...course, resources: nextResources });
+        };
+        const exitAdmin = () => {
+          setLang(lang);
+          const next = saveClient({ adminToken: null, token: null, user: null });
+          window.location.reload();
+        };
+        const copyCode = (code) => {
+          navigator.clipboard?.writeText(code);
+          setStatus(`${t.copied}: ${code}`);
+        };
         return (
           <main className="screen">
             <div className="section-head"><div><h1>{t.admin}</h1><p>{t.settings}</p></div><button className="icon-button" onClick={() => setLang(lang === "en" ? "ru" : "en")}>{lang.toUpperCase()}</button></div>
             <p className="notice">{t.adminNotice}</p>
+            {status && <p className="status">{busy ? t.loading : status}</p>}
             <div className="admin-tabs"><button className={tab === "lessons" ? "active" : ""} onClick={() => setTab("lessons")}>{t.editContent}</button><button className={tab === "codes" ? "active" : ""} onClick={() => setTab("codes")}>{t.accessCodes}</button><button className={tab === "data" ? "active" : ""} onClick={() => setTab("data")}>{t.data}</button></div>
-            {tab === "lessons" && <div className="admin-panel"><label className="field-label">{t.language}<select className="select" value={lang} onChange={(e) => setLang(e.target.value)}><option value="en">English</option><option value="ru">Русский</option></select></label><label className="field-label">{t.lessons}<select className="select" value={selectedLesson?.id} onChange={(e) => setSelectedLessonId(e.target.value)}>{course.lessons.map((lesson) => <option key={lesson.id} value={lesson.id}>{lesson.content[lang].title}</option>)}</select></label>{selectedLesson && <LessonEditor lesson={selectedLesson} lang={lang} t={t} replaceLesson={replaceLesson} />}<label className="field-label">{t.files}<select className="select" value={selectedResource?.id} onChange={(e) => setSelectedResourceId(e.target.value)}>{course.resources.map((resource) => <option key={resource.id} value={resource.id}>{resource.content[lang].title}</option>)}</select></label>{selectedResource && <ResourceEditor resource={selectedResource} lang={lang} t={t} replaceResource={replaceResource} />}</div>}
-            {tab === "codes" && <div className="admin-panel"><div className="card" style={{ padding: 12 }}><label className="field-label">{t.newCode}<input className="input" value={newCode} onChange={(e) => setNewCode(e.target.value.toUpperCase())} placeholder="Auto if empty" /></label><div style={{ height: 10 }} /><button className="primary" onClick={createCode}>{t.newCode}</button></div>{(adminState?.codes || []).map((item) => <div className="admin-row" key={item.code}><div><strong>{item.code}</strong><span>{item.redeemed ? `${t.activated}: ${item.studentName}` : t.available}</span></div><div className="row-actions"><span className="check">{item.redeemed ? t.used : "NEW"}</span><button className="danger" onClick={() => deleteCode(item.code)}>{t.delete}</button></div></div>)}</div>}
-            {tab === "data" && <div className="admin-panel"><button className="secondary" onClick={loadAdmin}>Refresh</button><p className="notice">Server mode is active. Codes and course edits are stored in <code>data/store.json</code> on the server.</p></div>}
+            {tab === "lessons" && <div className="admin-panel">
+              <label className="field-label">{t.editorLanguage}<select className="select" value={editLang} onChange={(e) => setEditLang(e.target.value)}><option value="en">English content</option><option value="ru">Русский контент</option></select></label>
+              <div className="admin-actions"><button className="secondary" onClick={addLesson}>{t.addLesson}</button><button className="secondary" onClick={addResource}>{t.addFile}</button></div>
+              <label className="field-label">{t.lessons}<select className="select" value={selectedLesson?.id || ""} onChange={(e) => setSelectedLessonId(e.target.value)}>{course.lessons.map((lesson) => <option key={lesson.id} value={lesson.id}>{lesson.content[editLang].title}</option>)}</select></label>
+              {selectedLesson && <LessonEditor lesson={selectedLesson} lang={editLang} t={t} replaceLesson={replaceLesson} deleteLesson={deleteLesson} />}
+              <label className="field-label">{t.files}<select className="select" value={selectedResource?.id || ""} onChange={(e) => setSelectedResourceId(e.target.value)}>{course.resources.map((resource) => <option key={resource.id} value={resource.id}>{resource.content[editLang].title}</option>)}</select></label>
+              {selectedResource && <ResourceEditor resource={selectedResource} lang={editLang} t={t} replaceResource={replaceResource} deleteResource={deleteResource} />}
+            </div>}
+            {tab === "codes" && <div className="admin-panel">
+              <div className="card" style={{ padding: 12 }}><label className="field-label">{t.newCode}<input className="input" value={newCode} onChange={(e) => setNewCode(e.target.value.toUpperCase())} placeholder="Leave empty for auto code" /></label><div style={{ height: 10 }} /><button className="primary" disabled={busy} onClick={createCode}>{t.newCode}</button></div>
+              {(adminState?.codes || []).map((item) => <div className="admin-row" key={item.code}><div><strong>{item.code}</strong><span>{item.redeemed ? `${t.activated}: ${item.studentName}` : t.available}</span></div><div className="row-actions"><span className="check">{item.redeemed ? t.used : "NEW"}</span><button className="secondary" onClick={() => copyCode(item.code)}>Copy</button>{item.redeemed && <button className="secondary" onClick={() => resetStudent(item.code)}>{t.resetStudent}</button>}<button className="danger" onClick={() => deleteCode(item.code)}>{t.delete}</button></div></div>)}
+            </div>}
+            {tab === "data" && <div className="admin-panel"><button className="secondary" onClick={loadAdmin}>{t.refresh}</button><button className="danger" onClick={exitAdmin}>{t.exitAdmin}</button><p className="notice">Production data is stored in private GitHub repo gtsafd/miami-lash-course-data. Use Refresh to reload latest codes and content.</p></div>}
           </main>
         );
       }
 
-      function LessonEditor({ lesson, lang, t, replaceLesson }) {
-        const content = lesson.content[lang];
-        const setContent = (patch) => replaceLesson({ ...lesson, content: { ...lesson.content, [lang]: { ...content, ...patch } } });
-        return <div className="card admin-form" style={{ padding: 12 }}><label className="field-label">{t.title}<input className="input" value={content.title} onChange={(e) => setContent({ title: e.target.value })} /></label><label className="field-label">{t.meta}<input className="input" value={content.meta} onChange={(e) => setContent({ meta: e.target.value })} /></label><label className="field-label">{t.note}<textarea className="textarea" value={content.note} onChange={(e) => setContent({ note: e.target.value })} /></label><label className="field-label">{t.steps}<textarea className="textarea" value={content.steps.join("\\n")} onChange={(e) => setContent({ steps: e.target.value.split("\\n").filter(Boolean) })} /></label><label className="field-label">{t.poster}<input className="input" value={lesson.poster} onChange={(e) => replaceLesson({ ...lesson, poster: e.target.value })} /></label></div>;
+      function LessonEditor({ lesson, lang, t, replaceLesson, deleteLesson }) {
+        const initial = lesson.content[lang];
+        const [draft, setDraft] = useState({ ...initial, stepsText: initial.steps.join("\n"), poster: lesson.poster });
+        useEffect(() => {
+          const next = lesson.content[lang];
+          setDraft({ ...next, stepsText: next.steps.join("\n"), poster: lesson.poster });
+        }, [lesson.id, lang]);
+        const save = () => replaceLesson({ ...lesson, poster: draft.poster, content: { ...lesson.content, [lang]: { title: draft.title, meta: draft.meta, note: draft.note, steps: draft.stepsText.split("\n").map((item) => item.trim()).filter(Boolean) } } });
+        return <div className="card admin-form" style={{ padding: 12 }}><label className="field-label">{t.title}<input className="input" value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} /></label><label className="field-label">{t.meta}<input className="input" value={draft.meta} onChange={(e) => setDraft({ ...draft, meta: e.target.value })} /></label><label className="field-label">{t.note}<textarea className="textarea" value={draft.note} onChange={(e) => setDraft({ ...draft, note: e.target.value })} /></label><label className="field-label">{t.steps}<textarea className="textarea" value={draft.stepsText} onChange={(e) => setDraft({ ...draft, stepsText: e.target.value })} /></label><label className="field-label">{t.poster}<input className="input" value={draft.poster} onChange={(e) => setDraft({ ...draft, poster: e.target.value })} /></label><div className="admin-actions"><button className="primary" onClick={save}>{t.saveLesson}</button><button className="danger" onClick={() => deleteLesson(lesson.id)}>{t.delete}</button></div></div>;
       }
 
-      function ResourceEditor({ resource, lang, t, replaceResource }) {
-        const content = resource.content[lang];
-        const setContent = (patch) => replaceResource({ ...resource, content: { ...resource.content, [lang]: { ...content, ...patch } } });
-        return <div className="card admin-form" style={{ padding: 12 }}><label className="field-label">{t.resourcesTitle}<input className="input" value={content.title} onChange={(e) => setContent({ title: e.target.value })} /></label><label className="field-label">{t.resourcesText}<textarea className="textarea" value={content.text} onChange={(e) => setContent({ text: e.target.value })} /></label></div>;
+      function ResourceEditor({ resource, lang, t, replaceResource, deleteResource }) {
+        const initial = resource.content[lang];
+        const [draft, setDraft] = useState({ ...initial });
+        useEffect(() => setDraft({ ...resource.content[lang] }), [resource.id, lang]);
+        const save = () => replaceResource({ ...resource, content: { ...resource.content, [lang]: { title: draft.title, text: draft.text } } });
+        return <div className="card admin-form" style={{ padding: 12 }}><label className="field-label">{t.resourcesTitle}<input className="input" value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} /></label><label className="field-label">{t.resourcesText}<textarea className="textarea" value={draft.text} onChange={(e) => setDraft({ ...draft, text: e.target.value })} /></label><div className="admin-actions"><button className="primary" onClick={save}>{t.saveFile}</button><button className="danger" onClick={() => deleteResource(resource.id)}>{t.delete}</button></div></div>;
       }
 
       if ("serviceWorker" in navigator) {
