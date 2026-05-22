@@ -244,6 +244,22 @@
       .accordion-arrow { font-size: 12px; color: rgba(29,29,29,.4); flex-shrink: 0; }
       .accordion-body { padding: 0 12px 12px; border-top: 1px solid rgba(233,77,123,.1); }
       .instock-toggle { display: flex; align-items: center; gap: 8px; padding: 10px 0; font-size: 12px; font-weight: 800; cursor: pointer; }
+      .student-card { border: 1px solid rgba(233,77,123,.15); border-radius: 14px; background: rgba(255,255,255,.88); overflow: hidden; box-shadow: 0 6px 18px rgba(201,54,98,.09); }
+      .student-head { padding: 12px 14px 10px; display: flex; align-items: center; gap: 12px; }
+      .student-avatar { width: 44px; height: 44px; border-radius: 999px; background: linear-gradient(135deg, var(--pink), var(--pink-dark)); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px; font-weight: 900; flex-shrink: 0; }
+      .student-meta { flex: 1; min-width: 0; }
+      .student-meta strong { display: block; font-size: 14px; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .student-meta span { font-size: 10px; font-weight: 700; color: rgba(29,29,29,.5); text-transform: uppercase; }
+      .student-progress { padding: 0 14px 4px; }
+      .progress-bar-wrap { height: 6px; border-radius: 99px; background: rgba(233,77,123,.12); overflow: hidden; margin: 6px 0 4px; }
+      .progress-bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--pink), var(--pink-dark)); transition: width .4s; }
+      .progress-label { display: flex; justify-content: space-between; font-size: 10px; font-weight: 800; color: rgba(29,29,29,.5); text-transform: uppercase; }
+      .lesson-dots { display: flex; flex-wrap: wrap; gap: 5px; padding: 8px 14px 10px; }
+      .lesson-dot { width: 24px; height: 24px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 900; }
+      .lesson-dot.done { background: rgba(233,77,123,.18); color: var(--pink-dark); }
+      .lesson-dot.pending { background: rgba(29,29,29,.07); color: rgba(29,29,29,.35); }
+      .student-actions { display: flex; gap: 8px; padding: 8px 14px 14px; border-top: 1px solid rgba(233,77,123,.08); margin-top: 2px; }
+      .days-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 99px; background: rgba(233,77,123,.1); color: var(--pink-dark); font-size: 10px; font-weight: 900; }
       .admin-form, .admin-panel { display: grid; gap: 10px; }
       .admin-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
       .admin-tabs button { min-height: 42px; border: 1px solid rgba(233,77,123,.18); border-radius: 12px; background: rgba(255,255,255,.7); font-size: 10px; font-weight: 900; text-transform: uppercase; }
@@ -728,7 +744,7 @@
       }
 
       function AdminScreen({ t, lang, setLang, client, course, setCourse }) {
-        const [tab, setTab] = useState("content");
+        const [tab, setTab] = useState("students");
         const [adminState, setAdminState] = useState(null);
         const [openLessonId, setOpenLessonId] = useState(null);
         const [openResourceId, setOpenResourceId] = useState(null);
@@ -800,13 +816,38 @@
           setOpenProductId(id); saveCourse({ ...course, products: [...(course.products || []), product] });
         };
 
+        const students = (adminState?.codes || []).filter(c => c.redeemed);
+        const freeCodes = (adminState?.codes || []).filter(c => !c.redeemed);
+        const totalLessons = course.lessons.length;
+
         return (
           <main className="screen">
             <div className="section-head"><div><h1>{t.admin}</h1><p>{t.settings}</p></div><button className="icon-button" onClick={() => setLang(lang === "en" ? "ru" : "en")}>{lang.toUpperCase()}</button></div>
             {status && <p className="status" style={{ marginBottom: 10 }}>{busy ? t.loading : status}</p>}
+            {adminState && (
+              <div className="stats" style={{ marginBottom: 14 }}>
+                <div className="stat">
+                  <strong style={{ fontSize: 22 }}>{students.length}</strong>
+                  <span>{lang === "ru" ? "Учениц" : "Students"}</span>
+                </div>
+                <div className="stat">
+                  <strong style={{ fontSize: 22 }}>{freeCodes.length}</strong>
+                  <span>{lang === "ru" ? "Свободных кодов" : "Free codes"}</span>
+                </div>
+                <div className="stat">
+                  <strong style={{ fontSize: 22 }}>
+                    {students.length > 0 ? Math.round(students.reduce((s, c) => s + (totalLessons ? c.completed.length / totalLessons : 0), 0) / students.length * 100) : 0}%
+                  </strong>
+                  <span>{lang === "ru" ? "Средний прогресс" : "Avg. progress"}</span>
+                </div>
+              </div>
+            )}
             <div className="admin-tabs">
-              {[["content", t.content], ["products", t.products], ["codes", t.accessCodes], ["data", t.data]].map(([id, label]) => (
-                <button key={id} className={tab === id ? "active" : ""} onClick={() => setTab(id)}>{label}</button>
+              {[["students", lang === "ru" ? "Ученицы" : "Students"], ["content", t.content], ["products", t.products], ["data", t.data]].map(([id, label]) => (
+                <button key={id} className={tab === id ? "active" : ""} onClick={() => setTab(id)}>
+                  {id === "students" && students.length > 0 && <span style={{marginRight:4, background:"var(--pink)", color:"#fff", borderRadius:99, padding:"1px 5px", fontSize:8}}>{students.length}</span>}
+                  {label}
+                </button>
               ))}
             </div>
 
@@ -887,29 +928,82 @@
               </div>
             )}
 
-            {tab === "codes" && (
+            {tab === "students" && (
               <div className="admin-panel">
+                {/* ── Активные ученицы ── */}
+                <p style={{ margin: "0 0 8px", fontSize: 11, fontWeight: 800, color: "rgba(29,29,29,.5)", textTransform: "uppercase" }}>
+                  {lang === "ru" ? `Активных учениц: ${students.length}` : `Active students: ${students.length}`}
+                </p>
+                {students.length === 0 && <p className="notice">{lang === "ru" ? "Ещё никто не активировал код" : "No students yet"}</p>}
+                <div style={{ display: "grid", gap: 10 }}>
+                  {students.map((s) => {
+                    const done = s.completed.length;
+                    const pct = totalLessons > 0 ? Math.round((done / totalLessons) * 100) : 0;
+                    const days = s.activatedAt ? Math.floor((Date.now() - new Date(s.activatedAt)) / 86400000) : 0;
+                    const initials = s.studentName.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2) || "?";
+                    return (
+                      <div className="student-card" key={s.code}>
+                        <div className="student-head">
+                          <div className="student-avatar">{initials}</div>
+                          <div className="student-meta">
+                            <strong>{s.studentName}</strong>
+                            <span>{s.code}</span>
+                          </div>
+                          <span className="days-badge">📅 {days}{lang === "ru" ? " дн." : "d"}</span>
+                        </div>
+                        <div className="student-progress">
+                          <div className="progress-bar-wrap">
+                            <div className="progress-bar-fill" style={{ width: `${pct}%` }} />
+                          </div>
+                          <div className="progress-label">
+                            <span>{done}/{totalLessons} {lang === "ru" ? "уроков" : "lessons"}</span>
+                            <span style={{ color: pct === 100 ? "var(--pink-dark)" : undefined }}>{pct}% {pct === 100 ? "🎉" : ""}</span>
+                          </div>
+                        </div>
+                        <div className="lesson-dots">
+                          {course.lessons.map((lesson, idx) => (
+                            <div key={lesson.id} className={`lesson-dot ${s.completed.includes(lesson.id) ? "done" : "pending"}`} title={lesson.content[lang]?.title || lesson.id}>
+                              {s.completed.includes(lesson.id) ? "✓" : idx + 1}
+                            </div>
+                          ))}
+                        </div>
+                        <div className="student-actions">
+                          <button className="secondary" style={{ fontSize: 11, minHeight: 34 }} onClick={() => copyCode(s.code)}>Copy код</button>
+                          <button className="secondary" style={{ fontSize: 11, minHeight: 34 }} onClick={() => resetStudent(s.code)}>{t.resetStudent}</button>
+                          <button className="danger" style={{ fontSize: 11, minHeight: 34 }} onClick={() => deleteCode(s.code)}>{t.delete}</button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* ── Создать новый код ── */}
+                <p style={{ margin: "18px 0 8px", fontSize: 11, fontWeight: 800, color: "rgba(29,29,29,.5)", textTransform: "uppercase" }}>
+                  {lang === "ru" ? "Коды доступа" : "Access codes"}
+                </p>
                 <div className="card" style={{ padding: 12 }}>
-                  <label className="field-label">{t.newCode}<input className="input" value={newCode} onChange={(e) => setNewCode(e.target.value.toUpperCase())} placeholder={lang === "ru" ? "Пусто = авто-генерация" : "Empty = auto generate"} /></label>
+                  <label className="field-label">{t.newCode}
+                    <input className="input" value={newCode} onChange={(e) => setNewCode(e.target.value.toUpperCase())} placeholder={lang === "ru" ? "Пусто = авто-генерация" : "Empty = auto generate"} />
+                  </label>
                   <div style={{ height: 10 }} />
                   <button className="primary" disabled={busy} onClick={createCode}>{t.newCode}</button>
                 </div>
-                <div style={{ display: "grid", gap: 8, marginTop: 4 }}>
-                  {(adminState?.codes || []).map((item) => (
-                    <div className="admin-row" key={item.code} style={{ flexWrap: "wrap" }}>
-                      <div style={{ flex: 1 }}>
-                        <strong style={{ fontSize: 14 }}>{item.code}</strong>
-                        <span style={{ display: "block", marginTop: 2 }}>{item.redeemed ? `${t.activated}: ${item.studentName}` : t.available}</span>
+                {freeCodes.length > 0 && (
+                  <div style={{ display: "grid", gap: 8, marginTop: 8 }}>
+                    {freeCodes.map((item) => (
+                      <div className="admin-row" key={item.code}>
+                        <div>
+                          <strong>{item.code}</strong>
+                          <span style={{ display: "block", marginTop: 2, color: "#2a8a2a" }}>● {t.available}</span>
+                        </div>
+                        <div className="row-actions">
+                          <button className="secondary" onClick={() => copyCode(item.code)}>Copy</button>
+                          <button className="danger" onClick={() => deleteCode(item.code)}>{t.delete}</button>
+                        </div>
                       </div>
-                      <div className="row-actions">
-                        <span className="check" style={{ background: item.redeemed ? "rgba(233,77,123,.15)" : "rgba(100,200,100,.15)", color: item.redeemed ? "var(--pink-dark)" : "#2a8a2a" }}>{item.redeemed ? t.used : "NEW"}</span>
-                        <button className="secondary" onClick={() => copyCode(item.code)}>Copy</button>
-                        {item.redeemed && <button className="secondary" onClick={() => resetStudent(item.code)}>{t.resetStudent}</button>}
-                        <button className="danger" onClick={() => deleteCode(item.code)}>{t.delete}</button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 
