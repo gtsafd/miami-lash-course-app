@@ -1329,13 +1329,14 @@
           const objUrl = URL.createObjectURL(file);
           img.onload = () => {
             URL.revokeObjectURL(objUrl);
-            const MAX = 900;
+            // Keep image small: max 480px wide, JPEG 70% — output ~20-50KB
+            const MAX = 480;
             let { width, height } = img;
             if (width > MAX) { height = Math.round(height * MAX / width); width = MAX; }
             const canvas = document.createElement("canvas");
             canvas.width = width; canvas.height = height;
             canvas.getContext("2d").drawImage(img, 0, 0, width, height);
-            res(canvas.toDataURL("image/jpeg", 0.82));
+            res(canvas.toDataURL("image/jpeg", 0.70));
           };
           img.onerror = rej;
           img.src = objUrl;
