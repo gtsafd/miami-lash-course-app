@@ -272,6 +272,36 @@
       .row-actions { display: flex; gap: 8px; flex-wrap: wrap; }
       .admin-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
       .status { margin: 0; border-radius: 8px; padding: 10px 12px; background: rgba(233,77,123,.1); color: var(--pink-dark); font-size: 11px; font-weight: 900; line-height: 1.45; }
+      /* ── Dark theme ── */
+      [data-theme="dark"] { color-scheme: dark; }
+      [data-theme="dark"] body { background: linear-gradient(115deg,rgba(20,8,14,.98),rgba(15,5,10,.99)); color: #f0dde8; }
+      [data-theme="dark"] .app-shell { background: linear-gradient(180deg,#1c0d15,#150910 48%,#1c0d15); }
+      [data-theme="dark"] .topbar { background: rgba(25,10,18,.92); border-color: rgba(233,77,123,.15); }
+      [data-theme="dark"] .tabbar { background: rgba(20,8,14,.96); border-color: rgba(233,77,123,.12); }
+      [data-theme="dark"] .icon-button, [data-theme="dark"] .secondary { background: rgba(40,18,28,.85); border-color: rgba(233,77,123,.2); color: #f0dde8; }
+      [data-theme="dark"] .card, [data-theme="dark"] .accordion-item, [data-theme="dark"] .lesson-card,
+      [data-theme="dark"] .resource, [data-theme="dark"] .product-card, [data-theme="dark"] .student-card,
+      [data-theme="dark"] .admin-row, [data-theme="dark"] .cart-panel, [data-theme="dark"] .login-card { background: rgba(35,15,25,.9); border-color: rgba(233,77,123,.15); }
+      [data-theme="dark"] .input, [data-theme="dark"] .textarea, [data-theme="dark"] .select { background: rgba(30,12,20,.95); color: #f0dde8; border-color: rgba(233,77,123,.3); }
+      [data-theme="dark"] .stat { background: rgba(35,15,25,.9); }
+      [data-theme="dark"] .steps li { background: rgba(35,15,25,.9); }
+      [data-theme="dark"] .notice { background: rgba(216,162,74,.1); color: #d4b88a; }
+      [data-theme="dark"] .admin-tabs button { background: rgba(35,15,25,.85); color: #c8a0b8; }
+      [data-theme="dark"] .admin-tabs button.active { background: rgba(233,77,123,.2); color: var(--pink); }
+      [data-theme="dark"] .progress-bar-wrap { background: rgba(233,77,123,.15); }
+      [data-theme="dark"] .lesson-dot.pending { background: rgba(255,255,255,.08); color: rgba(255,255,255,.3); }
+      [data-theme="dark"] .brand span { color: rgba(240,221,232,.5); }
+      [data-theme="dark"] .section-head p, [data-theme="dark"] .lesson-card p, [data-theme="dark"] .resource span { color: rgba(240,221,232,.55); }
+      [data-theme="dark"] html { background: #150910; }
+      /* ── Upload button ── */
+      .upload-area { border: 2px dashed rgba(233,77,123,.35); border-radius: 12px; padding: 14px; text-align: center; cursor: pointer; transition: border-color .2s; background: rgba(233,77,123,.04); }
+      .upload-area:hover { border-color: var(--pink); background: rgba(233,77,123,.08); }
+      .upload-area input[type=file] { display: none; }
+      .upload-area span { display: block; font-size: 12px; font-weight: 800; color: var(--pink-dark); }
+      .upload-area small { display: block; margin-top: 3px; font-size: 10px; font-weight: 700; color: rgba(29,29,29,.45); }
+      .upload-preview { width: 100%; height: 130px; object-fit: cover; border-radius: 8px; margin-bottom: 8px; }
+      [data-theme="dark"] .upload-area { background: rgba(233,77,123,.06); border-color: rgba(233,77,123,.25); }
+      [data-theme="dark"] .upload-area small { color: rgba(240,221,232,.4); }
       @media (min-width: 800px) {
         body { padding: 26px 0; }
         .app-shell { min-height: calc(100vh - 52px); border: 10px solid rgba(255,255,255,.58); border-radius: 46px; }
@@ -370,6 +400,13 @@
       }
 
       const CART_KEY = "miami-lash-cart-v1";
+      const DARK_KEY = "miami-lash-dark-v1";
+
+      function urlBase64ToUint8Array(b64) {
+        const pad = "=".repeat((4 - b64.length % 4) % 4);
+        const raw = atob((b64 + pad).replace(/-/g, "+").replace(/_/g, "/"));
+        return Uint8Array.from([...raw].map((c) => c.charCodeAt(0)));
+      }
 
       function App() {
         const [client, setClient] = useState(getClient);
@@ -383,6 +420,9 @@
         const [cart, setCartRaw] = useState(() => { try { return JSON.parse(localStorage.getItem(CART_KEY) || "[]"); } catch { return []; } });
         const setCart = (next) => { setCartRaw(next); localStorage.setItem(CART_KEY, JSON.stringify(next)); };
         const cartCount = cart.reduce((s, i) => s + i.qty, 0);
+        const [darkMode, setDarkModeRaw] = useState(() => localStorage.getItem(DARK_KEY) === "1");
+        const toggleDark = () => { const next = !darkMode; setDarkModeRaw(next); localStorage.setItem(DARK_KEY, next ? "1" : "0"); };
+        useEffect(() => { document.documentElement.dataset.theme = darkMode ? "dark" : ""; }, [darkMode]);
         const lang = client.lang || "en";
         const t = ui[lang];
 
@@ -431,8 +471,8 @@
         const currentView = view === "login" ? "home" : view;
 
         return (
-          <Shell course={course} lang={lang} setLang={setLang} signOut={signOut}>
-            {currentView === "home" && <HomeScreen course={course} t={t} lang={lang} user={user} setView={setView} setActiveLessonId={setActiveLessonId} />}
+          <Shell course={course} lang={lang} setLang={setLang} signOut={signOut} darkMode={darkMode} toggleDark={toggleDark}>
+            {currentView === "home" && <HomeScreen course={course} t={t} lang={lang} user={user} setView={setView} setActiveLessonId={setActiveLessonId} token={client.token} />}
             {currentView === "lessons" && <LessonsScreen course={course} t={t} lang={lang} user={user} setView={setView} setActiveLessonId={setActiveLessonId} />}
             {currentView === "lesson" && <LessonScreen course={course} t={t} lang={lang} user={user} lesson={activeLesson} setUser={setUser} token={client.token} />}
             {currentView === "resources" && <ResourcesScreen course={course} t={t} lang={lang} />}
@@ -451,7 +491,7 @@
         );
       }
 
-      function Shell({ children, course, lang, setLang, signOut }) {
+      function Shell({ children, course, lang, setLang, signOut, darkMode, toggleDark }) {
         const [confirmLogout, setConfirmLogout] = useState(false);
         return (
           <div className="app-shell">
@@ -472,6 +512,7 @@
               <header className="topbar">
                 <button className="brand"><span>{course.settings.eyebrow}</span><strong>{course.settings.brand}</strong></button>
                 <div className="top-actions">
+                  {toggleDark && <button className="icon-button" onClick={toggleDark} title="Тёмная тема">{darkMode ? "☀️" : "🌙"}</button>}
                   <button className="icon-button" onClick={() => setLang(lang === "en" ? "ru" : "en")}>{lang.toUpperCase()}</button>
                   {signOut && <button className="icon-button" onClick={() => setConfirmLogout(true)}>HK</button>}
                 </div>
@@ -526,9 +567,14 @@
                 <div style={{ height: 12 }} />
                 <button className="primary">{t.unlock}</button>
                 <div style={{ height: 10 }} />
-                <a href="https://instagram.com/alex_kozak_" target="_blank" rel="noopener noreferrer" className="buy-btn">
-                  <span style={{ fontSize: 16 }}>✦</span> {t.buyCourse}
-                </a>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                  <a href="https://instagram.com/alex_kozak_" target="_blank" rel="noopener noreferrer" className="buy-btn" style={{ fontSize: 11 }}>
+                    📸 Instagram
+                  </a>
+                  <a href="https://wa.me/13057894567?text=Хочу купить курс Miami Lash" target="_blank" rel="noopener noreferrer" className="buy-btn" style={{ fontSize: 11, borderColor: "#25d366", color: "#128c3e" }}>
+                    💬 WhatsApp
+                  </a>
+                </div>
                 <div style={{ height: 8 }} />
                 <button type="button" className="secondary" style={{ width: "100%" }} onClick={() => setView("admin-login")}>{t.adminLogin}</button>
               </form>
@@ -576,7 +622,24 @@
         );
       }
 
-      function HomeScreen({ course, t, lang, user, setView, setActiveLessonId }) {
+      function HomeScreen({ course, t, lang, user, setView, setActiveLessonId, token }) {
+        const [pushState, setPushState] = useState("idle"); // idle | asking | done | unsupported
+        useEffect(() => {
+          if (!("Notification" in window) || !("serviceWorker" in navigator)) { setPushState("unsupported"); return; }
+          if (Notification.permission === "granted") setPushState("done");
+        }, []);
+        const subscribePush = async () => {
+          setPushState("asking");
+          try {
+            const perm = await Notification.requestPermission();
+            if (perm !== "granted") { setPushState("idle"); return; }
+            const reg = await navigator.serviceWorker.ready;
+            const { publicKey } = await fetch("/api/push/key").then((r) => r.json());
+            const sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToUint8Array(publicKey) });
+            await request("/api/push/subscribe", { method: "POST", headers: { Authorization: `Bearer ${token}` }, body: JSON.stringify({ subscription: sub }) });
+            setPushState("done");
+          } catch { setPushState("idle"); }
+        };
         const hero = course.settings.hero[lang];
         const done = user.completed.length;
         const pct = Math.round((done / course.lessons.length) * 100);
@@ -594,6 +657,21 @@
               <div style={{ padding: "0 16px 16px" }}><button className="primary" onClick={() => { setActiveLessonId(nextLesson.id); setView("lesson"); }}>{t.openLesson}</button></div>
             </section>
             <section style={{ marginTop: 22 }}><div className="section-head"><div><h2>{t.today}</h2><p>{t.practicePlan}</p></div></div><div className="grid-2"><div className="resource"><strong>30 min</strong><span>{t.todayOne}</span></div><div className="resource"><strong>Photo</strong><span>{t.todayTwo}</span></div></div></section>
+            {pushState !== "unsupported" && pushState !== "done" && (
+              <div className="card" style={{ marginTop: 16, padding: 16, display: "flex", alignItems: "center", gap: 12 }}>
+                <span style={{ fontSize: 24 }}>🔔</span>
+                <div style={{ flex: 1 }}>
+                  <strong style={{ display: "block", fontSize: 13 }}>{lang === "ru" ? "Уведомления о новых уроках" : "Lesson notifications"}</strong>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: "rgba(29,29,29,.55)" }}>{lang === "ru" ? "Узнавай первой когда выходит новый урок" : "Be first to know when a new lesson drops"}</span>
+                </div>
+                <button className="primary" style={{ width: "auto", padding: "0 14px", minHeight: 38, fontSize: 11 }} onClick={subscribePush} disabled={pushState === "asking"}>
+                  {pushState === "asking" ? "..." : lang === "ru" ? "Включить" : "Enable"}
+                </button>
+              </div>
+            )}
+            {pushState === "done" && (
+              <p style={{ textAlign: "center", fontSize: 12, fontWeight: 800, color: "var(--pink-dark)", marginTop: 14 }}>🔔 {lang === "ru" ? "Уведомления включены" : "Notifications on"}</p>
+            )}
           </main>
         );
       }
@@ -683,7 +761,15 @@
         const cartCount = cart.reduce((s, i) => s + i.qty, 0);
         const cartTotal = cart.reduce((s, i) => { const p = products.find((x) => x.id === i.productId); return s + (p ? p.price * i.qty : 0); }, 0);
         const currency = cart.length ? (products.find((p) => p.id === cart[0].productId)?.currency || "USD") : "USD";
-        const checkout = () => window.open("https://instagram.com/alex_kozak_", "_blank");
+        const checkout = (via) => {
+          if (via === "wa") {
+            const items = cart.map((i) => { const p = products.find((x) => x.id === i.productId); return p ? `${p.content[lang]?.title || p.content["ru"]?.title} ×${i.qty}` : ""; }).filter(Boolean).join(", ");
+            const msg = encodeURIComponent(`Хочу заказать: ${items}. Итого: ${cartTotal} ${currency}`);
+            window.open(`https://wa.me/13057894567?text=${msg}`, "_blank");
+          } else {
+            window.open("https://instagram.com/alex_kozak_", "_blank");
+          }
+        };
         return (
           <main className="screen">
             <div className="section-head">
@@ -709,7 +795,12 @@
                   );
                 })}
                 <div className="cart-total">{t.cartTotal}: {cartTotal} {currency}</div>
-                <button className="primary" onClick={checkout}>{t.checkoutBtn}</button>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                  <button className="primary" onClick={() => checkout("ig")}>{t.checkoutBtn}</button>
+                  <button className="primary" style={{ background: "#25d366", boxShadow: "0 0 18px rgba(37,211,102,.4)" }} onClick={() => checkout("wa")}>
+                    💬 WhatsApp
+                  </button>
+                </div>
               </div>
             )}
             {products.length === 0 ? (
@@ -871,7 +962,7 @@
                           <div className="accordion-head-info"><strong>{String(idx+1).padStart(2,"0")} · {c.title}</strong><span>{c.meta}</span></div>
                           <span className="accordion-arrow">{isOpen ? "▲" : "▼"}</span>
                         </button>
-                        {isOpen && <div className="accordion-body"><LessonEditor lesson={lesson} lang={editLang} t={t} replaceLesson={replaceLesson} deleteLesson={deleteLesson} /></div>}
+                        {isOpen && <div className="accordion-body"><LessonEditor lesson={lesson} lang={editLang} t={t} replaceLesson={replaceLesson} deleteLesson={deleteLesson} adminToken={client.adminToken} /></div>}
                       </div>
                     );
                   })}
@@ -920,7 +1011,7 @@
                           </div>
                           <span className="accordion-arrow">{isOpen ? "▲" : "▼"}</span>
                         </button>
-                        {isOpen && <div className="accordion-body"><ProductEditor product={product} lang={editLang} t={t} replaceProduct={replaceProduct} deleteProduct={deleteProduct} /></div>}
+                        {isOpen && <div className="accordion-body"><ProductEditor product={product} lang={editLang} t={t} replaceProduct={replaceProduct} deleteProduct={deleteProduct} adminToken={client.adminToken} /></div>}
                       </div>
                     );
                   })}
@@ -1009,6 +1100,12 @@
 
             {tab === "data" && (
               <div className="admin-panel">
+                <div className="card" style={{ padding: 14 }}>
+                  <p style={{ margin: "0 0 10px", fontSize: 12, fontWeight: 900, textTransform: "uppercase", color: "var(--pink-dark)" }}>
+                    🔔 {lang === "ru" ? "Push-уведомление всем ученицам" : "Push notification to all students"}
+                  </p>
+                  <PushSender adminToken={client.adminToken} lang={lang} />
+                </div>
                 <button className="secondary" onClick={loadAdmin}>{t.refresh}</button>
                 <button className="danger" onClick={exitAdmin}>{t.exitAdmin}</button>
                 <p className="notice">Данные хранятся в приватном репозитории GitHub: gtsafd/miami-lash-course-data</p>
@@ -1018,7 +1115,7 @@
         );
       }
 
-      function LessonEditor({ lesson, lang, t, replaceLesson, deleteLesson }) {
+      function LessonEditor({ lesson, lang, t, replaceLesson, deleteLesson, adminToken }) {
         const initial = lesson.content[lang];
         const [draft, setDraft] = useState({ ...initial, stepsText: initial.steps.join("\n"), poster: lesson.poster, videoUrl: lesson.videoUrl || "" });
         useEffect(() => {
@@ -1037,9 +1134,18 @@
               {lang === "ru" ? "Ссылка на видео (YouTube или MP4)" : "Video URL (YouTube or MP4)"}
               <input className="input" value={draft.videoUrl} onChange={(e) => setDraft({ ...draft, videoUrl: e.target.value })} placeholder="https://youtube.com/watch?v=... или https://.../video.mp4" />
             </label>
+            {adminToken && (
+              <FileUploader
+                adminToken={adminToken}
+                accept="video/*"
+                label={lang === "ru" ? "📁 Загрузить видео с ПК" : "📁 Upload video from PC"}
+                hint={lang === "ru" ? "MP4, MOV — до ~45 МБ" : "MP4, MOV — up to ~45 MB"}
+                onUploaded={(url) => setDraft({ ...draft, videoUrl: url })}
+              />
+            )}
             {draft.videoUrl && (
               <p style={{ margin: "2px 0", fontSize: 11, fontWeight: 700, color: "var(--pink-dark)" }}>
-                {extractYoutubeId(draft.videoUrl) ? "YouTube видео" : "Прямая ссылка на видео"}
+                {extractYoutubeId(draft.videoUrl) ? "▶ YouTube видео" : "▶ Прямая ссылка на видео"}
               </p>
             )}
             <div className="admin-actions"><button className="primary" onClick={save}>{t.saveLesson}</button><button className="danger" onClick={() => deleteLesson(lesson.id)}>{t.delete}</button></div>
@@ -1065,7 +1171,7 @@
         );
       }
 
-      function ProductEditor({ product, lang, t, replaceProduct, deleteProduct }) {
+      function ProductEditor({ product, lang, t, replaceProduct, deleteProduct, adminToken }) {
         const initial = product.content[lang] || {};
         const [draft, setDraft] = useState({
           title: initial.title || "", description: initial.description || "",
@@ -1081,6 +1187,15 @@
           <div className="admin-form" style={{ paddingTop: 10 }}>
             {draft.image && <img src={draft.image} alt="" style={{ width: "100%", height: 140, objectFit: "cover", borderRadius: 8, marginBottom: 10 }} onError={(e) => e.target.style.display="none"} />}
             <label className="field-label">{t.productImage}<input className="input" value={draft.image} onChange={(e) => setDraft({ ...draft, image: e.target.value })} placeholder="https://..." /></label>
+            {adminToken && (
+              <FileUploader
+                adminToken={adminToken}
+                accept="image/*"
+                label={lang === "ru" ? "📷 Загрузить фото с ПК" : "📷 Upload photo from PC"}
+                hint={lang === "ru" ? "JPG, PNG, WEBP — до ~4 МБ" : "JPG, PNG, WEBP — up to ~4 MB"}
+                onUploaded={(url) => setDraft({ ...draft, image: url })}
+              />
+            )}
             <label className="field-label">{t.productTitle}<input className="input" value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} /></label>
             <label className="field-label">{t.productDesc}<textarea className="textarea" style={{ minHeight: 68 }} value={draft.description} onChange={(e) => setDraft({ ...draft, description: e.target.value })} /></label>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 100px", gap: 8 }}>
@@ -1103,10 +1218,85 @@
         );
       }
 
+      function PushSender({ adminToken, lang }) {
+        const [title, setTitle] = useState("Miami Lash Course");
+        const [body, setBody] = useState("");
+        const [status, setStatus] = useState("");
+        const [busy, setBusy] = useState(false);
+        const send = async () => {
+          if (!body.trim()) return;
+          setBusy(true); setStatus("");
+          try {
+            const data = await request("/api/push/send", {
+              method: "POST",
+              headers: { Authorization: `Bearer ${adminToken}` },
+              body: JSON.stringify({ title, body })
+            });
+            setStatus(lang === "ru" ? `✅ Отправлено: ${data.sent ?? 0} получателей` : `✅ Sent to ${data.sent ?? 0} recipients`);
+            setBody("");
+          } catch (err) {
+            setStatus("❌ " + (err.message || "Error"));
+          } finally {
+            setBusy(false);
+          }
+        };
+        return (
+          <div className="admin-form">
+            <label className="field-label">{lang === "ru" ? "Заголовок" : "Title"}
+              <input className="input" value={title} onChange={(e) => setTitle(e.target.value)} />
+            </label>
+            <label className="field-label">{lang === "ru" ? "Текст уведомления" : "Message"}
+              <textarea className="textarea" style={{ minHeight: 72 }} value={body} onChange={(e) => setBody(e.target.value)} placeholder={lang === "ru" ? "Текст сообщения..." : "Message text..."} />
+            </label>
+            {status && <p className="status" style={{ margin: 0 }}>{status}</p>}
+            <button className="primary" disabled={busy || !body.trim()} onClick={send}>
+              {busy ? "..." : lang === "ru" ? "📨 Отправить всем" : "📨 Send to all"}
+            </button>
+          </div>
+        );
+      }
+
+      function FileUploader({ adminToken, accept, label, hint, onUploaded }) {
+        const [uploading, setUploading] = useState(false);
+        const [err, setErr] = useState("");
+        const inputRef = React.useRef(null);
+        const pick = () => inputRef.current?.click();
+        const handleFile = async (e) => {
+          const file = e.target.files?.[0];
+          if (!file) return;
+          setErr(""); setUploading(true);
+          try {
+            const reader = new FileReader();
+            const b64 = await new Promise((res, rej) => {
+              reader.onload = () => res(reader.result.split(",")[1]);
+              reader.onerror = rej;
+              reader.readAsDataURL(file);
+            });
+            const result = await request("/api/upload", {
+              method: "POST",
+              headers: { Authorization: `Bearer ${adminToken}` },
+              body: JSON.stringify({ filename: file.name, contentType: file.type, data: b64 })
+            });
+            onUploaded(result.url);
+          } catch (ex) {
+            setErr(ex.message || "Upload failed");
+          } finally {
+            setUploading(false);
+            e.target.value = "";
+          }
+        };
+        return (
+          <div className="upload-area" onClick={pick} style={{ marginTop: 6 }}>
+            <input type="file" accept={accept} ref={inputRef} onChange={handleFile} />
+            <span>{uploading ? "⏳ " + (label.includes("фото") || label.includes("Photo") ? "Загрузка фото..." : "Загрузка файла...") : label}</span>
+            {hint && <small>{hint}</small>}
+            {err && <p className="error" style={{ margin: "6px 0 0" }}>{err}</p>}
+          </div>
+        );
+      }
+
       if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.getRegistrations?.().then((registrations) => {
-          registrations.forEach((registration) => registration.unregister());
-        }).catch(() => {});
+        navigator.serviceWorker.register("./sw.js").catch(() => {});
       }
       ReactDOM.createRoot(document.getElementById("root")).render(<App />);
     </script>
