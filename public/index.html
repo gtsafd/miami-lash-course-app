@@ -272,27 +272,6 @@
       .row-actions { display: flex; gap: 8px; flex-wrap: wrap; }
       .admin-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
       .status { margin: 0; border-radius: 8px; padding: 10px 12px; background: rgba(233,77,123,.1); color: var(--pink-dark); font-size: 11px; font-weight: 900; line-height: 1.45; }
-      /* ── Dark theme ── */
-      [data-theme="dark"] { color-scheme: dark; }
-      [data-theme="dark"] body { background: linear-gradient(115deg,rgba(20,8,14,.98),rgba(15,5,10,.99)); color: #f0dde8; }
-      [data-theme="dark"] .app-shell { background: linear-gradient(180deg,#1c0d15,#150910 48%,#1c0d15); }
-      [data-theme="dark"] .topbar { background: rgba(25,10,18,.92); border-color: rgba(233,77,123,.15); }
-      [data-theme="dark"] .tabbar { background: rgba(20,8,14,.96); border-color: rgba(233,77,123,.12); }
-      [data-theme="dark"] .icon-button, [data-theme="dark"] .secondary { background: rgba(40,18,28,.85); border-color: rgba(233,77,123,.2); color: #f0dde8; }
-      [data-theme="dark"] .card, [data-theme="dark"] .accordion-item, [data-theme="dark"] .lesson-card,
-      [data-theme="dark"] .resource, [data-theme="dark"] .product-card, [data-theme="dark"] .student-card,
-      [data-theme="dark"] .admin-row, [data-theme="dark"] .cart-panel, [data-theme="dark"] .login-card { background: rgba(35,15,25,.9); border-color: rgba(233,77,123,.15); }
-      [data-theme="dark"] .input, [data-theme="dark"] .textarea, [data-theme="dark"] .select { background: rgba(30,12,20,.95); color: #f0dde8; border-color: rgba(233,77,123,.3); }
-      [data-theme="dark"] .stat { background: rgba(35,15,25,.9); }
-      [data-theme="dark"] .steps li { background: rgba(35,15,25,.9); }
-      [data-theme="dark"] .notice { background: rgba(216,162,74,.1); color: #d4b88a; }
-      [data-theme="dark"] .admin-tabs button { background: rgba(35,15,25,.85); color: #c8a0b8; }
-      [data-theme="dark"] .admin-tabs button.active { background: rgba(233,77,123,.2); color: var(--pink); }
-      [data-theme="dark"] .progress-bar-wrap { background: rgba(233,77,123,.15); }
-      [data-theme="dark"] .lesson-dot.pending { background: rgba(255,255,255,.08); color: rgba(255,255,255,.3); }
-      [data-theme="dark"] .brand span { color: rgba(240,221,232,.5); }
-      [data-theme="dark"] .section-head p, [data-theme="dark"] .lesson-card p, [data-theme="dark"] .resource span { color: rgba(240,221,232,.55); }
-      [data-theme="dark"] html { background: #150910; }
       /* ── Upload button ── */
       .upload-area { border: 2px dashed rgba(233,77,123,.35); border-radius: 12px; padding: 14px; text-align: center; cursor: pointer; transition: border-color .2s; background: rgba(233,77,123,.04); }
       .upload-area:hover { border-color: var(--pink); background: rgba(233,77,123,.08); }
@@ -300,29 +279,132 @@
       .upload-area span { display: block; font-size: 12px; font-weight: 800; color: var(--pink-dark); }
       .upload-area small { display: block; margin-top: 3px; font-size: 10px; font-weight: 700; color: rgba(29,29,29,.45); }
       .upload-preview { width: 100%; height: 130px; object-fit: cover; border-radius: 8px; margin-bottom: 8px; }
-      [data-theme="dark"] .upload-area { background: rgba(233,77,123,.06); border-color: rgba(233,77,123,.25); }
-      [data-theme="dark"] .upload-area small { color: rgba(240,221,232,.4); }
-      /* ── Dark neon glow ── */
-      [data-theme="dark"] .brand strong { color: var(--pink); text-shadow: 0 0 14px rgba(233,77,123,.75), 0 0 32px rgba(233,77,123,.35); }
-      [data-theme="dark"] .hero-title, [data-theme="dark"] .section-head h1, [data-theme="dark"] .section-head h2 { text-shadow: 0 0 22px rgba(233,77,123,.65), 0 0 46px rgba(233,77,123,.28); }
-      [data-theme="dark"] .course-hero h1 { text-shadow: 0 0 18px rgba(255,180,210,.5); }
-      [data-theme="dark"] .stat strong, [data-theme="dark"] .product-price { color: var(--pink); text-shadow: 0 0 10px rgba(233,77,123,.55); }
-      [data-theme="dark"] .primary { box-shadow: 0 0 22px rgba(233,77,123,.65), 0 12px 28px rgba(201,54,98,.38); }
-      [data-theme="dark"] .progress-ring { filter: drop-shadow(0 0 8px rgba(233,77,123,.55)); }
-      [data-theme="dark"] .lesson-card h3, [data-theme="dark"] .accordion-head-info strong, [data-theme="dark"] .product-info strong { color: #fce4ef; text-shadow: 0 0 6px rgba(240,195,220,.25); }
-      [data-theme="dark"] .resource-link { box-shadow: 0 0 12px rgba(233,77,123,.42); }
-      [data-theme="dark"] .days-badge { text-shadow: 0 0 6px rgba(233,77,123,.4); }
-      [data-theme="dark"] .cart-panel h3 { text-shadow: 0 0 14px rgba(233,77,123,.55); }
       /* ── Category filter ── */
       .cat-tabs { display: flex; gap: 8px; overflow-x: auto; padding: 2px 0 10px; scrollbar-width: none; -ms-overflow-style: none; }
       .cat-tabs::-webkit-scrollbar { display: none; }
       .cat-tab { flex-shrink: 0; padding: 7px 16px; border-radius: 99px; border: 1px solid rgba(233,77,123,.22); background: rgba(255,255,255,.78); font-size: 11px; font-weight: 900; color: rgba(29,29,29,.65); text-transform: uppercase; cursor: pointer; }
       .cat-tab.active { background: var(--pink); color: #fff; border-color: var(--pink); box-shadow: 0 4px 14px rgba(233,77,123,.38); }
-      [data-theme="dark"] .cat-tab { background: rgba(35,15,25,.85); border-color: rgba(233,77,123,.18); color: rgba(240,221,232,.55); }
-      [data-theme="dark"] .cat-tab.active { background: var(--pink); color: #fff; }
       /* ── Back button ── */
       .back-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 0 12px; background: transparent; border: 0; color: rgba(29,29,29,.52); font-size: 12px; font-weight: 900; text-transform: uppercase; }
-      [data-theme="dark"] .back-btn { color: rgba(240,221,232,.45); }
+
+      /* ════════════════════════════════════════════
+         DARK THEME — полный оверрайд всех элементов
+         ════════════════════════════════════════════ */
+      [data-theme="dark"] { color-scheme: dark; }
+      [data-theme="dark"] html { background: #0f050a; }
+      [data-theme="dark"] body { background: linear-gradient(135deg,#0f050a,#1a0912 50%,#0f050a); color: #f0dde8; }
+      [data-theme="dark"] .app-shell { background: linear-gradient(180deg,#1c0d15,#110810 48%,#1c0d15); }
+
+      /* ── Шапка и нижняя панель ── */
+      [data-theme="dark"] .topbar { background: rgba(18,6,13,.97); border-color: rgba(233,77,123,.22); backdrop-filter: blur(22px); }
+      [data-theme="dark"] .tabbar { background: rgba(12,4,9,.98); border-color: rgba(233,77,123,.16); backdrop-filter: blur(22px); }
+      [data-theme="dark"] .tabbar button { color: rgba(240,221,232,.42); }
+      [data-theme="dark"] .tabbar button.active { color: var(--pink); background: rgba(233,77,123,.14); text-shadow: 0 0 12px rgba(233,77,123,.65); }
+
+      /* ── Бренд ── */
+      [data-theme="dark"] .brand span { color: rgba(240,221,232,.42); }
+      [data-theme="dark"] .brand strong { color: var(--pink); text-shadow: 0 0 18px rgba(233,77,123,.85), 0 0 38px rgba(233,77,123,.42); }
+
+      /* ── Кнопки ── */
+      [data-theme="dark"] .icon-button { background: rgba(38,15,28,.92); border-color: rgba(233,77,123,.28); color: #f0dde8; }
+      [data-theme="dark"] .secondary { background: rgba(38,15,28,.88); border-color: rgba(233,77,123,.24); color: #f0dde8; }
+      [data-theme="dark"] .danger { background: rgba(80,16,35,.72); border-color: rgba(201,54,98,.45); color: #ffaac5; }
+      [data-theme="dark"] .primary { box-shadow: 0 0 26px rgba(233,77,123,.75), 0 10px 28px rgba(201,54,98,.45); }
+      [data-theme="dark"] .back-btn { color: rgba(240,221,232,.48); }
+      [data-theme="dark"] .back-btn:hover { color: var(--pink); }
+      [data-theme="dark"] .buy-btn { color: var(--pink); border-color: rgba(233,77,123,.45); background: rgba(233,77,123,.08); text-shadow: 0 0 8px rgba(233,77,123,.35); }
+      [data-theme="dark"] .buy-btn:hover { background: rgba(233,77,123,.16); }
+
+      /* ── Карточки и контейнеры ── */
+      [data-theme="dark"] .card, [data-theme="dark"] .accordion-item, [data-theme="dark"] .lesson-card,
+      [data-theme="dark"] .resource, [data-theme="dark"] .product-card, [data-theme="dark"] .student-card,
+      [data-theme="dark"] .admin-row, [data-theme="dark"] .cart-panel, [data-theme="dark"] .login-card,
+      [data-theme="dark"] .stat, [data-theme="dark"] .steps li { background: rgba(30,10,20,.94); border-color: rgba(233,77,123,.17); }
+
+      /* ── Поля ввода ── */
+      [data-theme="dark"] .input, [data-theme="dark"] .textarea, [data-theme="dark"] .select { background: rgba(22,7,16,.97); color: #f0dde8; border-color: rgba(233,77,123,.34); }
+      [data-theme="dark"] input::placeholder, [data-theme="dark"] textarea::placeholder { color: rgba(240,221,232,.26); }
+
+      /* ── Заголовки с неоновым свечением ── */
+      [data-theme="dark"] .hero-title,
+      [data-theme="dark"] .section-head h1, [data-theme="dark"] .section-head h2,
+      [data-theme="dark"] .cart-panel h3, [data-theme="dark"] .lesson-body h1 { color: var(--pink); text-shadow: 0 0 22px rgba(233,77,123,.78), 0 0 48px rgba(233,77,123,.38); }
+      [data-theme="dark"] .course-hero h1 { text-shadow: 0 0 24px rgba(255,180,210,.7), 0 0 48px rgba(233,77,123,.4); }
+
+      /* ── Все мелкие тексты которые сливались с темнотой ── */
+      [data-theme="dark"] .eyebrow { color: rgba(240,221,232,.58); }
+      [data-theme="dark"] .section-head p { color: rgba(240,221,232,.5); }
+      [data-theme="dark"] .lesson-card h3 { color: #fce4ef; }
+      [data-theme="dark"] .lesson-card p { color: rgba(240,221,232,.58); }
+      [data-theme="dark"] .lesson-body p, [data-theme="dark"] .lesson-body li { color: rgba(240,221,232,.82); }
+      [data-theme="dark"] .stat strong { color: var(--pink); text-shadow: 0 0 14px rgba(233,77,123,.65); }
+      [data-theme="dark"] .stat span { color: rgba(240,221,232,.5); }
+      [data-theme="dark"] .field-label { color: rgba(240,221,232,.54); }
+      [data-theme="dark"] .accordion-head { color: #f0dde8; }
+      [data-theme="dark"] .accordion-head-info strong { color: #fce4ef; }
+      [data-theme="dark"] .accordion-head-info span { color: rgba(240,221,232,.46); }
+      [data-theme="dark"] .accordion-arrow { color: rgba(240,221,232,.32); }
+      [data-theme="dark"] .accordion-body { color: rgba(240,221,232,.8); }
+      [data-theme="dark"] .product-info strong { color: #fce4ef; text-shadow: 0 0 6px rgba(240,195,220,.22); }
+      [data-theme="dark"] .product-info p { color: rgba(240,221,232,.58); }
+      [data-theme="dark"] .product-price { color: var(--pink); text-shadow: 0 0 14px rgba(233,77,123,.65); }
+      [data-theme="dark"] .sold-out { color: rgba(240,221,232,.3); }
+      [data-theme="dark"] .resource strong { color: var(--pink); text-shadow: 0 0 8px rgba(233,77,123,.45); }
+      [data-theme="dark"] .resource span { color: rgba(240,221,232,.6); }
+      [data-theme="dark"] .resource-link { box-shadow: 0 0 16px rgba(233,77,123,.52); }
+      [data-theme="dark"] .student-meta strong { color: #fce4ef; }
+      [data-theme="dark"] .student-meta span { color: rgba(240,221,232,.44); }
+      [data-theme="dark"] .progress-label { color: rgba(240,221,232,.46); }
+      [data-theme="dark"] .admin-row strong { color: #f0dde8; }
+      [data-theme="dark"] .admin-row span { color: rgba(240,221,232,.46); }
+      [data-theme="dark"] .cart-item { color: #f0dde8; }
+      [data-theme="dark"] .cart-item button { background: rgba(80,16,35,.6); border-color: rgba(201,54,98,.36); color: #ffaac5; }
+      [data-theme="dark"] .cart-total { color: var(--pink); text-shadow: 0 0 10px rgba(233,77,123,.5); }
+      [data-theme="dark"] .instock-toggle { color: rgba(240,221,232,.8); }
+
+      /* ── Прогресс ── */
+      [data-theme="dark"] .progress-bar-wrap { background: rgba(233,77,123,.14); }
+      [data-theme="dark"] .progress-ring { filter: drop-shadow(0 0 10px rgba(233,77,123,.65)); }
+      [data-theme="dark"] .progress-ring span { background: #1a0a12; color: var(--pink); text-shadow: 0 0 8px rgba(233,77,123,.55); }
+
+      /* ── Точки уроков ── */
+      [data-theme="dark"] .lesson-dot.done { background: rgba(233,77,123,.24); color: var(--pink); text-shadow: 0 0 6px rgba(233,77,123,.6); }
+      [data-theme="dark"] .lesson-dot.pending { background: rgba(255,255,255,.07); color: rgba(240,221,232,.3); }
+      [data-theme="dark"] .check { background: rgba(233,77,123,.18); color: var(--pink); text-shadow: 0 0 6px rgba(233,77,123,.55); }
+
+      /* ── Бейджи ── */
+      [data-theme="dark"] .days-badge { background: rgba(233,77,123,.14); color: var(--pink); text-shadow: 0 0 8px rgba(233,77,123,.5); }
+      [data-theme="dark"] .tab-badge { box-shadow: 0 0 8px rgba(233,77,123,.65); }
+
+      /* ── Статус / уведомления ── */
+      [data-theme="dark"] .status { background: rgba(233,77,123,.14); color: var(--pink); }
+      [data-theme="dark"] .notice { background: rgba(216,162,74,.1); color: #d4b88a; }
+      [data-theme="dark"] .error { color: #ff9ab5; }
+
+      /* ── Модальное окно ── */
+      [data-theme="dark"] .modal-overlay { background: rgba(5,1,4,.78); }
+      [data-theme="dark"] .modal-card { background: #190a11; box-shadow: 0 24px 60px rgba(0,0,0,.7), 0 0 44px rgba(233,77,123,.12); }
+      [data-theme="dark"] .modal-card p { color: #f0dde8; }
+
+      /* ── Вкладки админ-панели ── */
+      [data-theme="dark"] .admin-tabs button { background: rgba(30,10,20,.92); border-color: rgba(233,77,123,.2); color: rgba(240,221,232,.56); }
+      [data-theme="dark"] .admin-tabs button.active { background: rgba(233,77,123,.22); color: var(--pink); text-shadow: 0 0 10px rgba(233,77,123,.55); }
+
+      /* ── Аватар студента ── */
+      [data-theme="dark"] .student-avatar { box-shadow: 0 0 18px rgba(233,77,123,.48); }
+
+      /* ── Кнопка загрузки ── */
+      [data-theme="dark"] .upload-area { background: rgba(233,77,123,.07); border-color: rgba(233,77,123,.3); }
+      [data-theme="dark"] .upload-area span { color: var(--pink); text-shadow: 0 0 8px rgba(233,77,123,.45); }
+      [data-theme="dark"] .upload-area small { color: rgba(240,221,232,.36); }
+
+      /* ── Категории магазина ── */
+      [data-theme="dark"] .cat-tab { background: rgba(30,10,20,.92); border-color: rgba(233,77,123,.2); color: rgba(240,221,232,.56); }
+      [data-theme="dark"] .cat-tab.active { background: var(--pink); color: #fff; box-shadow: 0 0 18px rgba(233,77,123,.6); }
+
+      /* ── Polaroid / paper-note на логин-экране ── */
+      [data-theme="dark"] .paper-note { background: #1a0a12; }
+      [data-theme="dark"] .paper-note p { color: rgba(240,221,232,.72); }
       @media (min-width: 800px) {
         body { padding: 26px 0; }
         .app-shell { min-height: calc(100vh - 52px); border: 10px solid rgba(255,255,255,.58); border-radius: 46px; }
