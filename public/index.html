@@ -375,7 +375,7 @@
       function getClient() {
         const stored = JSON.parse(localStorage.getItem(CLIENT_KEY) || "{}");
         if (!stored.deviceId) stored.deviceId = crypto.randomUUID ? crypto.randomUUID() : String(Date.now());
-        if (!stored.lang) stored.lang = "en";
+        if (!stored.lang) stored.lang = "ru";
         localStorage.setItem(CLIENT_KEY, JSON.stringify(stored));
         return stored;
       }
