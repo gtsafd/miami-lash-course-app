@@ -286,6 +286,28 @@
       .cat-tab.active { background: var(--pink); color: #fff; border-color: var(--pink); box-shadow: 0 4px 14px rgba(233,77,123,.38); }
       /* ── Back button ── */
       .back-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 0 12px; background: transparent; border: 0; color: rgba(29,29,29,.52); font-size: 12px; font-weight: 900; text-transform: uppercase; }
+      /* ── Drag & drop ── */
+      .drag-handle { cursor: grab; padding: 0 6px 0 2px; color: rgba(29,29,29,.3); font-size: 20px; user-select: none; flex-shrink: 0; line-height: 1; touch-action: none; }
+      .drag-handle:active { cursor: grabbing; color: var(--pink); }
+      .accordion-item.drag-over { border-color: var(--pink); box-shadow: 0 0 0 2px rgba(233,77,123,.28); }
+      /* ── Lesson images gallery ── */
+      .lesson-images { display: flex; gap: 10px; overflow-x: auto; padding: 12px 0 8px; scrollbar-width: none; -ms-overflow-style: none; }
+      .lesson-images::-webkit-scrollbar { display: none; }
+      .lesson-images img { height: 200px; min-width: 140px; border-radius: 10px; flex-shrink: 0; object-fit: cover; box-shadow: 0 4px 14px rgba(29,29,29,.18); cursor: zoom-in; }
+      /* ── Product image square ── */
+      .product-img-wrap { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; background: linear-gradient(135deg, var(--pink-soft), var(--cream)); }
+      .product-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      /* ── Cart item with image ── */
+      .cart-item { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid rgba(233,77,123,.1); }
+      .cart-item-img { width: 46px; height: 46px; border-radius: 8px; object-fit: cover; flex-shrink: 0; background: var(--pink-soft); }
+      .cart-item-info { flex: 1; min-width: 0; }
+      .cart-item-info strong { display: block; font-size: 12px; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .cart-item-info span { font-size: 11px; font-weight: 700; color: var(--pink-dark); }
+      .cart-item-rm { width: 28px; height: 28px; border-radius: 99px; border: 1px solid rgba(201,54,98,.25); background: rgba(201,54,98,.08); color: var(--pink-dark); font-size: 16px; font-weight: 900; cursor: pointer; flex-shrink: 0; }
+      /* ── Image editor row ── */
+      .img-edit-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid rgba(233,77,123,.08); }
+      .img-edit-row img { width: 52px; height: 40px; border-radius: 6px; object-fit: cover; flex-shrink: 0; }
+      .img-edit-row span { flex: 1; font-size: 10px; font-weight: 700; color: rgba(29,29,29,.5); word-break: break-all; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 
       /* ════════════════════════════════════════════
          DARK THEME — полный оверрайд всех элементов
@@ -405,6 +427,17 @@
       /* ── Polaroid / paper-note на логин-экране ── */
       [data-theme="dark"] .paper-note { background: #1a0a12; }
       [data-theme="dark"] .paper-note p { color: rgba(240,221,232,.72); }
+      /* ── Drag handle dark ── */
+      [data-theme="dark"] .drag-handle { color: rgba(240,221,232,.28); }
+      [data-theme="dark"] .accordion-item.drag-over { box-shadow: 0 0 0 2px rgba(233,77,123,.42), 0 0 16px rgba(233,77,123,.25); }
+      /* ── Lesson images dark ── */
+      [data-theme="dark"] .lesson-images img { box-shadow: 0 4px 18px rgba(0,0,0,.5), 0 0 8px rgba(233,77,123,.12); }
+      /* ── Cart dark ── */
+      [data-theme="dark"] .cart-item-info strong { color: #fce4ef; }
+      [data-theme="dark"] .cart-item-info span { color: var(--pink); text-shadow: 0 0 6px rgba(233,77,123,.4); }
+      [data-theme="dark"] .cart-item-rm { background: rgba(80,16,35,.6); border-color: rgba(201,54,98,.36); color: #ffaac5; }
+      /* ── Product img dark ── */
+      [data-theme="dark"] .product-img-wrap { background: linear-gradient(135deg, rgba(60,15,35,.8), rgba(30,8,18,.9)); }
       @media (min-width: 800px) {
         body { padding: 26px 0; }
         .app-shell { min-height: calc(100vh - 52px); border: 10px solid rgba(255,255,255,.58); border-radius: 46px; }
@@ -562,7 +595,7 @@
         if (view === "admin-login") return <AdminLogin t={t} lang={lang} setLang={setLang} setClient={setClient} setAdmin={setAdmin} setView={setView} />;
         if (!client.token && (view === "admin" || client.adminToken)) {
           return (
-            <Shell course={{ settings: { eyebrow: "Lash Artist | Hanna Kozak", brand: "MIAMI LASH COURSE" } }} lang={lang} setLang={setLang} signOut={signOut}>
+            <Shell course={{ settings: { eyebrow: "Lash Artist | Hanna Kozak", brand: "MIAMI LASH COURSE" } }} lang={lang} setLang={setLang} signOut={signOut} darkMode={darkMode} toggleDark={toggleDark} setView={setView}>
               <AdminScreen t={t} lang={lang} setLang={setLang} client={client} course={course || { lessons: [], resources: [] }} setCourse={setCourse} />
             </Shell>
           );
@@ -818,15 +851,22 @@
                   allowFullScreen
                 />
                 <div onContextMenu={(e) => e.preventDefault()} style={{ position: "absolute", top: 0, left: 0, right: 0, height: 48, zIndex: 10, cursor: "default" }} />
-                <div className="watermark-center"><span>{user.name}</span></div>
+                <div className="watermark-center"><span>{user.code}</span></div>
               </div>
             ) : isDirectVideo ? (
               <div style={{ position: "relative", borderRadius: 8, overflow: "hidden", background: "#000" }}>
                 <video controls controlsList="nodownload" onContextMenu={(e) => e.preventDefault()} style={{ width: "100%", maxHeight: 260, display: "block", background: "#000" }} src={videoUrl} />
-                <div className="watermark-center"><span>{user.name}</span></div>
+                <div className="watermark-center"><span>{user.code}</span></div>
               </div>
             ) : (
-              <div className="video-box" style={{ "--poster": `url(${lesson.poster})` }}><button className="play">▶</button><div className="watermark-center"><span>{user.name}</span></div></div>
+              <div className="video-box" style={{ "--poster": `url(${lesson.poster})` }}><button className="play">▶</button><div className="watermark-center"><span>{user.code}</span></div></div>
+            )}
+            {lesson.images && lesson.images.length > 0 && (
+              <div className="lesson-images">
+                {lesson.images.map((src, i) => (
+                  <img key={i} src={src} alt={`Материал ${i + 1}`} onClick={() => window.open(src, "_blank")} loading="lazy" />
+                ))}
+              </div>
             )}
             <div className="lesson-body"><p className="eyebrow">{content.meta}</p><h1>{content.title}</h1><p>{content.note}</p><ul className="steps">{content.steps.map((step, index) => <li key={`${step}-${index}`}><strong>{index + 1}.</strong> {step}</li>)}</ul><button className="primary" onClick={markDone}>{isDone ? t.completed : t.markComplete}</button></div>
           </main>
@@ -862,6 +902,350 @@
         );
       }
 
+      /* ══════════════════════════════════════════════════
+         ПОЛНАЯ МЕТОДИЧКА ПО НАРАЩИВАНИЮ РЕСНИЦ (10 уроков)
+         ══════════════════════════════════════════════════ */
+      const METHODOLOGY_LESSONS = [
+        {
+          id: "ml-001", poster: "./assets/girls-miami-clean.png", videoUrl: "", images: [],
+          content: {
+            ru: {
+              title: "Инструменты и рабочее место",
+              meta: "Модуль 1 · Основы",
+              note: "Залог отличной работы — правильно оснащённое рабочее место и профессиональные инструменты. В этом уроке вы познакомитесь с каждым элементом вашего набора и научитесь поддерживать стерильный порядок.",
+              steps: [
+                "Пинцеты: изогнутый J-образный — для изоляции натуральной ресницы; прямой или Г-образный — для захвата и наклейки искусственной. Всегда держите запасную пару.",
+                "Клей: скорость полимеризации 1–2 сек — для новичков, 0.5 сек — для опытных мастеров. Хранить вертикально при 18–24°С, влажность 45–65%. Встряхивать 30 сек перед работой.",
+                "Патчи и лента: под-глазные гелевые патчи защищают нижние ресницы. Перед первым применением проверяйте реакцию кожи — держите 5 мин.",
+                "Праймер и дегидратор: удаляют жир, кожный жир и макияж с ресниц. Наносить лёгким прикосновением ватной палочки, дать высохнуть 30 сек. Это критически важно для удержания!",
+                "Ресницы: миксы длин 8–16 мм, изгибы C, CC, D, DD, диаметры 0.03–0.25 мм. Храните в закрытых боксах с отсеками, подписанными по параметрам.",
+                "Освещение: кольцевая лампа 5500–6000K (нейтральный белый) без теней — незаменима для точной работы. Закрепляйте над лицом клиента, а не в стороне.",
+                "Вентиляция и вытяжка: пары цианоакрилата раздражают дыхательные пути. Используйте мини-вытяжку или проветривайте помещение каждые 30 минут.",
+                "Дезинфекция: инструменты обрабатывайте Barbicide или спиртом 70% до и после каждого клиента. Одноразовую простынь меняйте после каждой процедуры. Мойте руки с мылом и используйте перчатки."
+              ]
+            },
+            en: {
+              title: "Tools & Workspace Setup",
+              meta: "Module 1 · Fundamentals",
+              note: "Great lash work starts with a well-organized workspace and professional tools. In this lesson you will master every item in your lash kit and learn how to maintain a perfectly sterile setup.",
+              steps: [
+                "Tweezers: curved J-shape for natural lash isolation; straight or L-shape for picking up and placing extensions. Always keep a backup pair available.",
+                "Adhesive: 1–2 sec cure for beginners, 0.5 sec for experienced artists. Store upright at 18–24°C, 45–65% humidity. Shake for 30 seconds before use.",
+                "Under-eye patches and tape: gel patches protect lower lashes. Test for skin sensitivity for 5 minutes on first use.",
+                "Primer and dehydrator: remove oils, sebum and traces of makeup from natural lashes. Apply lightly with a micro-swab, let dry 30 sec. Critical for retention!",
+                "Lash extensions: length mixes 8–16 mm, curls C, CC, D, DD, diameters 0.03–0.25 mm. Store in labelled compartment trays sorted by parameter.",
+                "Lighting: ring light 5500–6000K (neutral white, shadow-free) is essential for precise work. Position it directly above the client's face.",
+                "Ventilation: cyanoacrylate fumes irritate airways. Use a mini fume extractor or ventilate the room every 30 minutes.",
+                "Sanitation: disinfect tools with Barbicide or 70% alcohol before and after each client. Replace the disposable bed sheet after every appointment. Wash hands and use gloves."
+              ]
+            }
+          }
+        },
+        {
+          id: "ml-002", poster: "./assets/girls-miami-clean.png", videoUrl: "", images: [],
+          content: {
+            ru: {
+              title: "Диагностика ресниц и консультация",
+              meta: "Модуль 2 · Работа с клиентом",
+              note: "Прежде чем взять пинцет, нужно понять особенности ресниц клиента и исключить противопоказания. Грамотная консультация защищает обе стороны и гарантирует идеальный результат.",
+              steps: [
+                "Жизненный цикл ресниц: анаген (активный рост, 30–45 дней) → катаген (переход, 2–3 нед.) → телоген (покой и выпадение). Наращивание выполняется только на ресницы в анагене и раннем катагене.",
+                "Оценка натуральных ресниц: длина, диаметр, изгиб, плотность. Тонкие и повреждённые ресницы (≤0.12 мм) → лёгкие объёмные 0.05–0.07 мм. Крепкие ресницы → классика 0.15–0.20 мм.",
+                "Противопоказания: аллергия на цианоакрилат, беременность (1-й триместр), конъюнктивит, блефарит, химиотерапия, трихотилломания, себорейный дерматит.",
+                "Карта клиента: ФИО, контакт, дата процедуры, состояние ресниц, использованные материалы (клей, патчи), пожелания, результат. Храните минимум 12 месяцев.",
+                "Тест-пластырь: нанесите каплю клея на внутренний сгиб локтя за 24–48 часов до первой процедуры. Покраснение, зуд = противопоказание.",
+                "Диалог о пожеланиях: объясните, почему длина 20 мм не подходит для слабых ресниц. Предложите 3 варианта на выбор — клиент чувствует себя вовлечённой, а не ограниченной.",
+                "Фото ДО: обязательно. Снимайте при одинаковом освещении (одна и та же лампа). Фото защищает вас при претензиях и позволяет отслеживать здоровье ресниц."
+              ]
+            },
+            en: {
+              title: "Natural Lash Assessment & Consultation",
+              meta: "Module 2 · Client Work",
+              note: "Before picking up a tweezer you must understand your client's natural lashes and rule out contraindications. A thorough consultation protects both parties and ensures a perfect result.",
+              steps: [
+                "Lash growth cycle: anagen (active growth, 30–45 days) → catagen (transition, 2–3 wks) → telogen (resting, shedding). Extensions go on anagen and early-catagen lashes only.",
+                "Assessing natural lashes: length, diameter, curl, density. Fine or damaged lashes (≤0.12 mm) → lightweight volume 0.05–0.07 mm. Strong lashes → classic 0.15–0.20 mm.",
+                "Contraindications: cyanoacrylate allergy, pregnancy (1st trimester), conjunctivitis, blepharitis, chemotherapy, trichotillomania, seborrhoeic dermatitis.",
+                "Client card: full name, contact, appointment date, lash condition, materials used (adhesive, patches), wishes, result. Keep records for at least 12 months.",
+                "Patch test: apply a small drop of adhesive to the inner elbow crease 24–48 hours before the first appointment. Redness or itching = contraindication.",
+                "Wish vs. reality dialogue: explain why 20 mm is wrong for weak lashes. Offer 3 beautiful alternatives — the client feels empowered, not restricted.",
+                "Before photo: mandatory. Shoot under consistent lighting (same lamp). Photos protect you in disputes and let you track lash health over time."
+              ]
+            }
+          }
+        },
+        {
+          id: "ml-003", poster: "./assets/girls-miami-clean.png", videoUrl: "", images: [],
+          content: {
+            ru: {
+              title: "Классическое наращивание 1:1",
+              meta: "Модуль 3 · Техники",
+              note: "Классика — фундамент всех техник. Освоив правильную изоляцию и точную установку одной ресницы, вы сможете работать уверенно и быстро, создавая натуральный и ухоженный образ.",
+              steps: [
+                "Подготовка: нанесите праймер, дождитесь высыхания (30 сек). Выложите патчи, зафиксируйте нижние ресницы. Подготовьте клей — капля 0.5 мм на нефритовом камне, обновляйте каждые 15–20 мин.",
+                "Изоляция: главный навык! Изогнутым пинцетом мягко, без давления, отделите одну натуральную ресницу. Соседние ресницы не должны касаться рабочей. Без идеальной изоляции нет качественного наращивания.",
+                "Выбор параметров: длина искусственной — на 2–4 мм длиннее натуральной. Изгиб совпадает или чуть сильнее (CC на C, D на CC). Диаметр 0.15–0.20 мм для классики.",
+                "Захват ресницы: прямым пинцетом возьмите искусственную ресницу на 1/3 от основания. Кончик пинцета — чистый и сухой. Не сжимайте слишком сильно — ресница деформируется.",
+                "Нанесение клея: погрузите основание искусственной ресницы в каплю клея на 0.5–1 мм. Снимите излишек о край капли. Слой клея должен быть тонким и равномерным.",
+                "Установка: приклейте ресницу к натуральной на расстоянии 0.5–1 мм от кожи. Удерживайте 2–3 сек. Прямой пинцет фиксирует, изогнутый контролирует изоляцию соседних.",
+                "Контроль сцепления: через 30 сек осторожно проверьте связку. Если ресницы слиплись — разделите флаффером сразу! После полимеризации разделять опасно.",
+                "Финализация: нанесите сушащий спрей (нано-мистер) с расстояния 25 см, выдерживайте 10–15 сек. Расчешите ресницы флаффером. Сделайте фото ПОСЛЕ и внесите в карточку."
+              ]
+            },
+            en: {
+              title: "Classic 1:1 Technique",
+              meta: "Module 3 · Techniques",
+              note: "Classic lashing is the foundation of every technique. Master clean isolation and precise single-lash placement and you will work with confidence and speed, creating a natural, polished look.",
+              steps: [
+                "Preparation: apply primer, let dry 30 sec. Place eye patches, secure lower lashes. Prep adhesive — 0.5 mm drop on the jade stone, refresh every 15–20 min.",
+                "Isolation: the key skill! With the curved tweezer gently, without pressure, separate one natural lash. Neighbouring lashes must not touch the working one. No clean isolation = no quality result.",
+                "Parameter selection: extension length 2–4 mm longer than natural. Curl matches or goes one step stronger (CC on C, D on CC). Diameter 0.15–0.20 mm for classic.",
+                "Lash pickup: with the straight tweezer, pick up the extension at 1/3 from the base. Tweezer tip — clean and dry. Don't over-squeeze — the extension will deform.",
+                "Adhesive application: dip the extension base 0.5–1 mm into the adhesive drop. Wipe excess on the drop edge. The adhesive layer must be thin and even.",
+                "Placement: adhere the extension to the natural lash 0.5–1 mm from the skin. Hold 2–3 sec. Straight tweezer holds; curved tweezer controls neighbouring isolation.",
+                "Bond check: after 30 sec gently test the bond. If lashes are stuck together — separate with a fluffer immediately! Separating after full cure is dangerous.",
+                "Finishing: apply nano-mist from 25 cm distance for 10–15 sec. Brush through with fluffer. Photograph the result and update the client card."
+              ]
+            }
+          }
+        },
+        {
+          id: "ml-004", poster: "./assets/girls-miami-clean.png", videoUrl: "", images: [],
+          content: {
+            ru: {
+              title: "Объёмные веера 2D–6D",
+              meta: "Модуль 4 · Объёмное наращивание",
+              note: "Объёмная техника — это искусство создания воздушных вееров из тонких ресниц. Правильный веер держится так же крепко, как классика, но даёт несравнимо больше пышности и выразительности.",
+              steps: [
+                "Материалы: диаметр 0.05 мм (2D–6D), 0.07 мм (2D–4D). Чем тоньше ресница — тем больше ресниц в веере. Общий вес на одну натуральную ресницу не должен превышать вес классической 0.15–0.18 мм.",
+                "Скрутка пинцетом (pinch method): возьмите полоску ресниц, сделайте лёгкое скользящее движение и подхватите 2–6 ресниц в веер. Основания должны образовать точку — как «V» или «Y».",
+                "Метод сдувания (blow-off): задержите ресницы пинцетом у основания и подуйте лёгко на кончики — ресницы раскроются. Зафиксируйте у основания — веер готов.",
+                "Форма идеального веера: ровное раскрытие (равные расстояния между ресницами), чёткая точка у основания, симметрия. Криво собранный веер потеряет форму через несколько дней.",
+                "Нанесение клея на веер: погружайте только точку основания (1 мм), не весь стержень. Клея должно быть минимум — только для связки.",
+                "Установка веера: основание располагайте под углом к натуральной ресниц (180° — оборачивает, 45° — сбоку). Чем ближе к 180° — тем лучше удержание. Удерживайте 3–4 сек.",
+                "Равномерность: работайте по принципу «один глаз — зеркало другого». После каждых 10–15 ресниц сравнивайте оба глаза. Разница заметна только при последовательном контроле.",
+                "Дисциплина изоляции: в объёмной технике изоляция критична — 6 ресниц-вееров, слипшихся между собой, повреждают натуральные ресницы при росте."
+              ]
+            },
+            en: {
+              title: "Volume Fans 2D–6D",
+              meta: "Module 4 · Volume Lashing",
+              note: "Volume lashing is the art of crafting airy fans from ultra-fine extensions. A perfect fan holds just as firmly as a classic, but delivers incomparably more fullness and drama.",
+              steps: [
+                "Materials: 0.05 mm diameter for 2D–6D, 0.07 mm for 2D–4D. Thinner lash = more per fan. Total weight on one natural lash must not exceed the weight of a 0.15–0.18 mm classic.",
+                "Pinch method: hold a lash strip, use a light sliding motion and pick up 2–6 lashes into a fan. Bases must form a single point — like a 'V' or 'Y'.",
+                "Blow-off method: grip lashes with the tweezer at the base and blow gently on the tips — lashes open up. Lock at the base — fan is ready.",
+                "Perfect fan shape: even spread (equal spacing between lashes), crisp base point, symmetry. A poorly formed fan loses its shape within days.",
+                "Adhesive on fan: dip only the base point (1 mm), not the whole stem. Adhesive must be minimal — only enough to bond.",
+                "Fan placement: position the base at an angle to the natural lash (180° wraps, 45° is side). Closer to 180° = better retention. Hold 3–4 sec.",
+                "Symmetry: use the 'one eye is the mirror of the other' principle. After every 10–15 lashes compare both eyes. Differences are caught only by consistent checking.",
+                "Isolation discipline: in volume work isolation is critical — 6 stuck-together fans will damage natural lashes as they grow."
+              ]
+            }
+          }
+        },
+        {
+          id: "ml-005", poster: "./assets/girls-miami-clean.png", videoUrl: "", images: [],
+          content: {
+            ru: {
+              title: "Мега объём 8D–20D",
+              meta: "Модуль 5 · Экстремальный объём",
+              note: "Мега объём — самая сложная и зрелищная техника. Ультратонкие ресницы 0.03–0.05 мм позволяют создавать невесомые веера из 10–20 ресниц без вреда для натуральных.",
+              steps: [
+                "Материал: исключительно 0.03–0.05 мм. Ресницы толще 0.05 мм в мега-объёме недопустимы — перегружают натуральные ресницы и вызывают их выпадение.",
+                "Скорость — ключ к мега-объёму: при диаметре 0.03 мм веер нужно создать и наклеить до того, как клей начнёт полимеризоваться. Тренируйте скорость сборки до автоматизма.",
+                "Термо-скрутка: некоторые мастера подогревают основание веера у основания нагревательного кольца (40–50°С) для лучшего закрепления точки. Внимание: не перегревайте!",
+                "Флаффи эффект: мега-объём должен выглядеть как пух, а не как кисть. Достигается за счёт разной длины ресниц в вее: коротка–длинная–короткая (принцип «ёлочки»).",
+                "Накладка готовых вееров: pre-made fans экономят время, но ручной веер — всегда лучше по удержанию. Для обучения — только ручные веера.",
+                "Нагрузка на ресницу: правило «5 раз по весу». Веер из 20 ресниц по 0.03 мм весит столько же, сколько одна ресница 0.12 мм. Проверяйте: вес не должен тянуть натуральную ресницу вниз.",
+                "Коррекция мега-объёма: каждые 3–4 недели. Выросшие ресницы с веером нужно снять растворителем и заменить — никогда не наращивать поверх роста.",
+                "Финальный результат: при правильной работе мега-объём не видно на просвет, взгляд — бархатный и невесомый. Клиент не должна чувствовать ресниц на веках."
+              ]
+            },
+            en: {
+              title: "Mega Volume 8D–20D",
+              meta: "Module 5 · Extreme Volume",
+              note: "Mega volume is the most advanced and stunning technique. Ultra-fine 0.03–0.05 mm extensions allow creating weightless fans of 10–20 lashes without any harm to natural ones.",
+              steps: [
+                "Material: exclusively 0.03–0.05 mm. Extensions thicker than 0.05 mm in mega volume are unacceptable — they overload natural lashes and cause premature shedding.",
+                "Speed is the key: with 0.03 mm extensions, the fan must be built and placed before the adhesive starts to cure. Train your fan-building speed until it is automatic.",
+                "Heat bonding: some artists warm the fan base near a heating ring (40–50°C) for a better lock on the base point. Caution: do not overheat!",
+                "Fluffy effect: mega volume must look like velvet fluff, not a paintbrush. Achieved with varying lash lengths per fan: short–long–short ('Christmas tree' principle).",
+                "Pre-made fans: save time but hand-made fans always outperform in retention. During training — hand-made only.",
+                "Lash load rule: '5x weight rule'. A fan of 20 × 0.03 mm lashes weighs the same as a single 0.12 mm lash. Check: the weight must not pull the natural lash downward.",
+                "Mega volume fills: every 3–4 weeks. Grown-out lashes with fans must be removed with remover and replaced — never lash over outgrown extensions.",
+                "Final result: done correctly, mega volume is invisible on backlighting, the gaze is velvet and weightless. The client must not feel the lashes on her eyelids."
+              ]
+            }
+          }
+        },
+        {
+          id: "ml-006", poster: "./assets/girls-miami-clean.png", videoUrl: "", images: [],
+          content: {
+            ru: {
+              title: "Гибридный сет",
+              meta: "Модуль 6 · Гибридные техники",
+              note: "Гибридный сет — лучшее из двух миров: текстура и объём объёмной техники плюс натуральность классики. Один из самых популярных запросов у клиентов, ценящих естественность с WOW-эффектом.",
+              steps: [
+                "Определение: гибрид = 50% классика (0.15–0.18 мм) + 50% объём (2D–4D, 0.05–0.07 мм). Соотношение варьируется: 60/40, 70/30 — по желанию клиента.",
+                "Принцип распределения: классические ресницы — через каждые 2–3 ресниц (создают базу), объёмные веера — между ними (заполняют пространство и дают объём).",
+                "Создание текстуры: именно разная длина классики и вееров даёт «неровную», живую текстуру в отличие от ровного объёма.",
+                "Маппинг для гибрида: длины в центре глаза на 1–2 мм длиннее угловых. Классические ресницы — в зоне внутреннего угла (более нежный вид), веера — в центре и внешнем углу (объём там, где надо).",
+                "Изгибы в гибриде: для классики — CC или D, для вееров — тот же изгиб или на ступень сильнее. Смешивать D-классику с C-веером не рекомендуется — сет выглядит несогласованно.",
+                "Интервал коррекций: каждые 3 недели, так как классические ресницы с отросшим корнем заметнее, чем объёмные.",
+                "Частые ошибки: слишком много классики (→ сухой, «колкий» вид), слишком мало (→ непоследовательный объём). Держите баланс и считайте ресницы в процессе работы."
+              ]
+            },
+            en: {
+              title: "Hybrid Set",
+              meta: "Module 6 · Hybrid Techniques",
+              note: "The hybrid set is the best of both worlds: the texture and volume of volume lashing plus the naturalness of classic. One of the most requested looks for clients who want natural beauty with a wow factor.",
+              steps: [
+                "Definition: hybrid = 50% classic (0.15–0.18 mm) + 50% volume (2D–4D, 0.05–0.07 mm). Ratio varies: 60/40, 70/30 — based on client preference.",
+                "Distribution principle: classic lashes every 2–3 lashes (form the base), volume fans between them (fill space and add fullness).",
+                "Creating texture: it is precisely the different length between classic and fans that creates the 'uneven', natural texture unlike uniform volume.",
+                "Hybrid mapping: centre-of-eye lengths 1–2 mm longer than corners. Classic lashes at the inner corner (softer look), fans at centre and outer corner (volume where it matters).",
+                "Curls in hybrid: CC or D for classic, same or one step stronger for fans. Mixing D-classic with C-fans is not recommended — the set looks inconsistent.",
+                "Fill interval: every 3 weeks, since grown-out classic lashes are more visible than volume ones.",
+                "Common mistakes: too many classics (→ dry, 'prickly' look), too few (→ inconsistent volume). Keep the balance and count lashes as you work."
+              ]
+            }
+          }
+        },
+        {
+          id: "ml-007", poster: "./assets/girls-miami-clean.png", videoUrl: "", images: [],
+          content: {
+            ru: {
+              title: "Дизайн глаз и маппинг",
+              meta: "Модуль 7 · Дизайн и формы",
+              note: "Маппинг — это «план» наращивания: схема длин и изгибов для конкретной формы глаз клиента. Правильный маппинг делает взгляд шире, глубже или более раскрытым — в зависимости от задачи.",
+              steps: [
+                "Форма глаз — основа дизайна: миндалевидные (универсальны), навис (нужно приподнять взгляд), маленькие (открыть, не утяжелить), близко посаженные (вытянуть), широко посаженные (сблизить).",
+                "Эффект «кошачий глаз»: длины нарастают к внешнему углу. Разница между самой короткой (8–9 мм во внутреннем) и длинной (13–14 мм во внешнем) 5–6 мм. Изгиб CC или D.",
+                "Эффект «открытый взгляд» (Doll eye): максимальные длины — в центре (над зрачком), угловые — короче. Смягчает нависший век, делает глаза визуально больше.",
+                "Эффект «натуральность» (Kim K): равномерное распределение длин с небольшим нарастанием к центру. Подходит для деловых образов и клиентов, не любящих экстрем.",
+                "Маппинг на практике: нарисуйте схему на бумажной полоске и приложите к веку клиента. Обозначьте зоны по 5–7 ресниц с указанием длины и изгиба. Придерживайтесь схемы в работе.",
+                "Работа с нависшим веком: длинные ресницы в центре + изгиб D/DD в центре открывают взгляд. Избегайте длинных ресниц во внешнем углу — они тянут веко вниз.",
+                "Симметрия: после завершения каждого глаза делайте сравнительное фото под одним углом. Небольшая несимметрия — норма природы, но мастер должен её минимизировать."
+              ]
+            },
+            en: {
+              title: "Eye Design & Mapping",
+              meta: "Module 7 · Design & Shape",
+              note: "Mapping is the 'blueprint' for a lash set: a length-and-curl plan tailored to the client's specific eye shape. A correct map makes the gaze wider, deeper or more open — whichever is needed.",
+              steps: [
+                "Eye shapes are the design foundation: almond (universal), hooded (lift the gaze), small (open without weight), close-set (elongate), wide-set (draw together).",
+                "Cat-eye effect: lengths increase toward the outer corner. Difference between shortest (8–9 mm inner) and longest (13–14 mm outer) is 5–6 mm. Curl CC or D.",
+                "Open-eye / Doll-eye effect: maximum lengths in the centre (above the pupil), shorter at corners. Softens a hooded lid, makes eyes visually larger.",
+                "Natural effect (Kim K): even length distribution with slight increase toward centre. Works for professional looks and clients who avoid extremes.",
+                "Mapping in practice: sketch the plan on a paper strip and hold it against the client's eyelid. Mark zones of 5–7 lashes with length and curl. Stick to the plan during work.",
+                "Hooded lids: long lashes at centre + D/DD curl in centre lift the gaze. Avoid long lashes at the outer corner — they pull the lid down.",
+                "Symmetry: after completing each eye take a comparison photo from the same angle. Minor natural asymmetry is normal, but the artist's job is to minimise it."
+              ]
+            }
+          }
+        },
+        {
+          id: "ml-008", poster: "./assets/girls-miami-clean.png", videoUrl: "", images: [],
+          content: {
+            ru: {
+              title: "Цветное наращивание и тренды",
+              meta: "Модуль 8 · Цвет и стиль",
+              note: "Цветное наращивание — мощный инструмент самовыражения и дополнительный источник дохода. Знание трендов и принципов работы с цветом выделит вас среди конкурентов.",
+              steps: [
+                "Виды цветных ресниц: однотонные (шоколад, голубой, зелёный), омбре (от тёмного основания к цветному кончику), глиттер (блёстки по всей длине), колорированные вееры.",
+                "Эффект «русый» (blonde lashes): тёмно-коричневые ресницы 0.15 мм в классике + светло-коричневые кончики. Выглядит как естественные ресницы, только пышнее. Хит для блондинок.",
+                "Пикси-эффект: яркие цветные ресницы (синие, лиловые, изумрудные) только во внешнем углу. Добавляет игривость без перегруза. Хорошо сочетается с нейтральным основным сетом.",
+                "Стрипы (stripes): 1–2 цветных «полоски» через каждые 10–15 натуральных ресниц. Трендовый и ненавязчивый способ добавить цвет.",
+                "Омбре в наращивании: создаётся через разные зоны цвета (у основания — нейтральный, к концу — яркий) или готовыми омбре-ресницами. Второй способ проще в исполнении.",
+                "Сезонные тренды: следите за Instagram и TikTok, составляйте мудборды заранее. Предлагайте цветные сеты к праздникам (Хэллоуин, Рождество, Новый год) — это буст продаж.",
+                "Уход за цветными ресницами: рекомендуйте клиентке не использовать масляные средства в зоне глаз — они обесцвечивают синтетический пигмент быстрее, чем разрушают клей."
+              ]
+            },
+            en: {
+              title: "Colour Extensions & Trends",
+              meta: "Module 8 · Colour & Style",
+              note: "Colour lashing is a powerful self-expression tool and an additional revenue stream. Knowing trends and colour principles will set you apart from the competition.",
+              steps: [
+                "Types of colour lashes: solid colour (chocolate, blue, green), ombre (dark base to coloured tip), glitter (shimmer along the length), coloured fans.",
+                "Blonde lashes effect: dark-brown 0.15 mm classic + light-brown tips. Looks like perfectly natural lashes, only fuller. A hit for blondes.",
+                "Pixie effect: vibrant colour lashes (blue, violet, emerald) only at the outer corner. Adds playfulness without overload. Pairs beautifully with a neutral base set.",
+                "Stripes: 1–2 colour 'stripes' every 10–15 natural lashes. A trendy and subtle way to introduce colour.",
+                "Ombre in lashing: created by different colour zones (neutral at base, bold at tip) or ready-made ombre extensions. Pre-made is easier to execute.",
+                "Seasonal trends: follow Instagram and TikTok, build moodboards in advance. Offer colour sets for holidays (Halloween, Christmas, New Year) — they're a major sales boost.",
+                "Colour lash aftercare: advise clients to avoid oil-based eye products — they discolour synthetic pigment faster than they break down adhesive."
+              ]
+            }
+          }
+        },
+        {
+          id: "ml-009", poster: "./assets/girls-miami-clean.png", videoUrl: "", images: [],
+          content: {
+            ru: {
+              title: "Удержание, коррекция и снятие",
+              meta: "Модуль 9 · Профессиональный уход",
+              note: "Качество удержания — ваша репутация. В этом уроке вы изучите все факторы, влияющие на долговечность наращивания, технику правильной коррекции и безопасное снятие.",
+              steps: [
+                "Топ-5 причин плохого удержания: жирные ресницы (→ праймер!), неподходящая влажность (работайте при 50–70%), слишком толстый слой клея, недостаточное время сушки, не зафиксировали основание.",
+                "Рекомендации клиентке: не мочить ресницы 24–48 часов, не использовать масляные средства, не тереть глаза, расчёсывать ресничной щёточкой каждое утро.",
+                "Определение коррекции: удалите все ресницы, выросшие более чем на 3–4 мм от основания. Ресницы с потерявшим форму веером снимите полностью. Не наращивайте поверх плохо держащихся ресниц.",
+                "Техника коррекции: начните с внутреннего угла, двигайтесь к внешнему. Сначала снимайте отросшие, затем заполняйте выпавшие зоны, потом выравнивайте длины.",
+                "Снятие: нанесите крем-ремувер на ресницы, не касаясь кожи. Подождите 3–5 минут. Аккуратно проведите ватной палочкой от основания к кончику — клей растворяется. Промойте водой.",
+                "Гелевый ремувер: быстрее и точнее, наносится пинцетом точечно у основания. Лучше для частичного снятия. Спрей-ремувер — только профессиональный, не для самостоятельного применения клиентом.",
+                "После снятия: нанесите на натуральные ресницы восстанавливающую сыворотку (пептиды, биотин). Рекомендуйте клиентке сделать перерыв 1–2 недели каждые 3–4 месяца активного наращивания."
+              ]
+            },
+            en: {
+              title: "Retention, Fills & Removal",
+              meta: "Module 9 · Professional Care",
+              note: "Retention quality is your reputation. In this lesson you will master every factor that affects how long a set lasts, the correct fill technique, and safe lash removal.",
+              steps: [
+                "Top 5 retention killers: oily lashes (→ primer!), wrong humidity (work at 50–70%), too much adhesive, insufficient drying time, poorly bonded base.",
+                "Aftercare instructions: no water for 24–48 hours, avoid oil-based eye products, do not rub eyes, brush with a lash wand every morning.",
+                "Fill assessment: remove any extension grown out more than 3–4 mm from the base. Extensions with deformed fans — remove completely. Never lash over poorly retained extensions.",
+                "Fill technique: start at the inner corner, work toward the outer. First remove grown-out extensions, then fill lost zones, then even out lengths.",
+                "Removal: apply cream remover to extensions without touching skin. Wait 3–5 minutes. Gently slide a micro-swab from base to tip — adhesive dissolves. Rinse with water.",
+                "Gel remover: faster and more precise, applied with a tweezer pinpointedly at the base. Best for partial removal. Spray remover — professional use only, never for client self-removal.",
+                "After removal: apply a strengthening lash serum (peptides, biotin) on natural lashes. Recommend a 1–2 week break every 3–4 months of active wear."
+              ]
+            }
+          }
+        },
+        {
+          id: "ml-010", poster: "./assets/girls-miami-clean.png", videoUrl: "", images: [],
+          content: {
+            ru: {
+              title: "Бизнес, цены и работа с клиентом",
+              meta: "Модуль 10 · Монетизация",
+              note: "Техника без бизнес-мышления — незавершённый пазл. В заключительном уроке вы создадите ценовую политику, научитесь строить портфолио и привлекать клиентов через социальные сети.",
+              steps: [
+                "Ценообразование: учитывайте себестоимость материалов (ресницы, клей, патчи ≈ $15–25/сет), аренду, время (классика 90–120 мин, объём 150–180 мин). Ваш час должен стоить минимум $60–80. Стартовая цена классики ≈ $120–150, объём ≈ $180–230.",
+                "Прайс-лист: создайте 3–4 позиции (классика, гибрид, объём, мега) + коррекция (≈60% от цены сета). Добавьте снятие как отдельную услугу. Акции только в период старта — потом держите цену.",
+                "Портфолио: фотографируйте каждый сет. Съёмка — белый или нейтральный фон, чистый кольцевой свет. Публикуйте фото «до/после» — это самый конвертирующий контент.",
+                "Instagram-продвижение: 3 поста в неделю (результаты работы), 5–7 сторис в день (процесс, за кулисами, отзывы). Рилс с трансформацией набирают больше всего охватов.",
+                "Работа с отзывами: просите отзыв сразу после процедуры — пока клиентка видит себя и довольна. Отправляйте ссылку в мессенджер. Каждый отзыв с фото — ценнейший контент.",
+                "Программа лояльности: каждая 5-я коррекция — скидка 10% или подарок (массаж ресниц, щёточка). Дни рождения клиентов — поздравляйте и предлагайте скидку. Это удерживает лучше рекламы.",
+                "Сертификация и рост: пройдите обучение у признанных мастеров, получите сертификат. Участвуйте в лашинг-конкурсах (даже онлайн) — это PR и обратная связь. Каждые 6 месяцев изучайте новую технику."
+              ]
+            },
+            en: {
+              title: "Business, Pricing & Client Care",
+              meta: "Module 10 · Monetisation",
+              note: "Technique without business thinking is an unfinished puzzle. In this final lesson you will set a pricing strategy, build a standout portfolio, and attract clients through social media.",
+              steps: [
+                "Pricing: factor in material cost (extensions, adhesive, patches ≈ $15–25/set), rent, time (classic 90–120 min, volume 150–180 min). Your hourly rate must be at least $60–80. Starting price: classic ≈ $120–150, volume ≈ $180–230.",
+                "Price list: create 3–4 services (classic, hybrid, volume, mega) + fill (≈60% of full set price). Add removal as a separate service. Promotions only at launch — then hold your price.",
+                "Portfolio: photograph every set. Shoot on white or neutral background with clean ring light. Post before/after content — it converts better than anything else.",
+                "Instagram growth: 3 posts per week (results), 5–7 stories per day (process, behind the scenes, testimonials). Transformation Reels get the highest reach.",
+                "Review management: ask for a review right after the appointment — while the client sees herself and is happy. Send a link via messenger. Every photo review is priceless content.",
+                "Loyalty programme: every 5th fill — 10% discount or a gift (lash massage, wand). Remember client birthdays — congratulate them with an offer. This retains clients better than ads.",
+                "Certification & growth: train with recognised masters, earn certifications. Enter lashing competitions (even online) — it is PR and valuable feedback. Learn a new technique every 6 months."
+              ]
+            }
+          }
+        }
+      ];
+
       const SHOP_CATS = [
         { id: "all", ru: "Все товары", en: "All" },
         { id: "glue", ru: "Клей", en: "Glue" },
@@ -873,7 +1257,7 @@
       function ShopScreen({ course, t, lang, cart, setCart }) {
         const [showCart, setShowCart] = useState(false);
         const [activeCat, setActiveCat] = useState("all");
-        const [igCopied, setIgCopied] = useState(false);
+        const [tgStatus, setTgStatus] = useState(""); // "" | "sending" | "sent" | "error"
         const products = course.products || [];
         const filtered = activeCat === "all" ? products : products.filter((p) => (p.category || "other") === activeCat);
         const addToCart = (product) => {
@@ -885,13 +1269,24 @@
         const cartTotal = cart.reduce((s, i) => { const p = products.find((x) => x.id === i.productId); return s + (p ? p.price * i.qty : 0); }, 0);
         const currency = cart.length ? (products.find((p) => p.id === cart[0].productId)?.currency || "USD") : "USD";
 
-        const checkoutIG = () => {
-          const lines = cart.map((i) => { const p = products.find((x) => x.id === i.productId); return p ? `• ${(p.content[lang] || p.content["ru"])?.title} ×${i.qty} — ${p.price * i.qty} ${p.currency}` : ""; }).filter(Boolean).join("\n");
-          const text = `Хочу заказать:\n${lines}\n\nИтого: ${cartTotal} ${currency}`;
-          navigator.clipboard?.writeText(text).catch(() => {});
-          setIgCopied(true);
-          setTimeout(() => setIgCopied(false), 5000);
-          window.open("https://ig.me/m/alex_kozak_", "_blank");
+        const checkoutTG = async () => {
+          const lines = cart.map((i) => {
+            const p = products.find((x) => x.id === i.productId);
+            return p ? `• ${(p.content[lang] || p.content["ru"])?.title} ×${i.qty} — ${p.price * i.qty} ${p.currency}` : "";
+          }).filter(Boolean).join("\n");
+          const text = `🛍 Заказ Miami Lash:\n${lines}\n\n💰 Итого: ${cartTotal} ${currency}`;
+          setTgStatus("sending");
+          try {
+            await request("/api/telegram/order", { method: "POST", body: JSON.stringify({ text }) });
+            setTgStatus("sent");
+            setTimeout(() => setTgStatus(""), 6000);
+          } catch {
+            // fallback: copy to clipboard and open bot
+            navigator.clipboard?.writeText(text).catch(() => {});
+            setTgStatus("error");
+            setTimeout(() => setTgStatus(""), 6000);
+            window.open("https://t.me/miamilashbot", "_blank");
+          }
         };
         const checkoutWA = () => {
           const items = cart.map((i) => { const p = products.find((x) => x.id === i.productId); return p ? `${(p.content[lang] || p.content["ru"])?.title} ×${i.qty}` : ""; }).filter(Boolean).join(", ");
@@ -903,7 +1298,7 @@
             <div className="section-head">
               <div><h1>{t.shop}</h1><p>{lang === "ru" ? "Материалы для наращивания" : "Lash supplies & tools"}</p></div>
               {cartCount > 0 && (
-                <button className="icon-button" style={{ position: "relative", gap: 4 }} onClick={() => setShowCart(!showCart)}>
+                <button className="icon-button" style={{ gap: 4 }} onClick={() => setShowCart(!showCart)}>
                   🛒 <span style={{ fontWeight: 900 }}>{cartCount}</span>
                 </button>
               )}
@@ -917,24 +1312,33 @@
             </div>
             {showCart && cartCount > 0 && (
               <div className="cart-panel">
-                <h3>{t.cartTitle}</h3>
+                <h3>🛒 {t.cartTitle}</h3>
                 {cart.map((item) => {
                   const p = products.find((x) => x.id === item.productId);
                   if (!p) return null;
                   const c = p.content[lang] || p.content["ru"] || {};
                   return (
                     <div className="cart-item" key={item.productId}>
-                      <span>{c.title} × {item.qty}</span>
-                      <span style={{ fontWeight: 900, color: "var(--pink-dark)" }}>{p.price * item.qty} {p.currency}</span>
-                      <button onClick={() => removeFromCart(item.productId)}>×</button>
+                      {p.image
+                        ? <img className="cart-item-img" src={p.image} alt={c.title} onError={(e)=>e.target.style.display="none"} />
+                        : <div className="cart-item-img" style={{display:"flex",alignItems:"center",justifyContent:"center",fontSize:22}}>💎</div>}
+                      <div className="cart-item-info">
+                        <strong>{c.title}</strong>
+                        <span>{item.qty} × {p.price} {p.currency}</span>
+                      </div>
+                      <span style={{ fontWeight: 900, fontSize: 13, color: "var(--pink-dark)", flexShrink: 0 }}>{p.price * item.qty} {p.currency}</span>
+                      <button className="cart-item-rm" onClick={() => removeFromCart(item.productId)}>×</button>
                     </div>
                   );
                 })}
                 <div className="cart-total">{t.cartTotal}: {cartTotal} {currency}</div>
-                {igCopied && <p style={{ margin: "4px 0 8px", fontSize: 11, fontWeight: 800, color: "var(--pink-dark)", textAlign: "center" }}>✅ {lang === "ru" ? "Список скопирован — вставьте в Instagram DM" : "Copied — paste in Instagram DM"}</p>}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-                  <button className="primary" style={{ fontSize: 11 }} onClick={checkoutIG}>📸 Instagram</button>
-                  <button className="primary" style={{ background: "#25d366", boxShadow: "0 0 18px rgba(37,211,102,.38)", fontSize: 11 }} onClick={checkoutWA}>💬 WhatsApp</button>
+                {tgStatus === "sent" && <p style={{ margin: "4px 0 8px", fontSize: 12, fontWeight: 800, color: "var(--pink-dark)", textAlign: "center" }}>✅ {lang === "ru" ? "Заявка отправлена в Telegram!" : "Order sent to Telegram!"}</p>}
+                {tgStatus === "error" && <p style={{ margin: "4px 0 8px", fontSize: 11, fontWeight: 800, color: "var(--pink-dark)", textAlign: "center" }}>📋 {lang === "ru" ? "Список скопирован — вставьте в бот" : "Copied — paste to bot"}</p>}
+                <div style={{ display: "grid", gap: 8, marginTop: 4 }}>
+                  <button className="primary" style={{ fontSize: 12, background: "#229ed9", boxShadow: "0 0 18px rgba(34,158,217,.45)" }} disabled={tgStatus === "sending"} onClick={checkoutTG}>
+                    {tgStatus === "sending" ? "⏳ Отправка..." : "✈️ " + (lang === "ru" ? "Оформить через Telegram" : "Order via Telegram")}
+                  </button>
+                  <button className="primary" style={{ fontSize: 12, background: "#25d366", boxShadow: "0 0 18px rgba(37,211,102,.38)" }} onClick={checkoutWA}>💬 WhatsApp</button>
                 </div>
               </div>
             )}
@@ -947,7 +1351,11 @@
                   const inCart = cart.find((i) => i.productId === product.id);
                   return (
                     <div className="product-card" key={product.id}>
-                      {product.image ? <img src={product.image} alt={content.title} /> : <div className="product-card-placeholder">💎</div>}
+                      <div className="product-img-wrap">
+                        {product.image
+                          ? <img src={product.image} alt={content.title} loading="lazy" onError={(e)=>e.target.style.display="none"} />
+                          : <div style={{width:"100%",height:"100%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:38}}>💎</div>}
+                      </div>
                       <div className="product-info">
                         <strong>{content.title}</strong>
                         {content.description && <p>{content.description}</p>}
@@ -979,6 +1387,8 @@
         const [editLang, setEditLang] = useState(lang);
         const [status, setStatus] = useState("");
         const [busy, setBusy] = useState(false);
+        const [dragIdx, setDragIdx] = useState(null);
+        const [dragOverIdx, setDragOverIdx] = useState(null);
         const adminHeaders = { Authorization: `Bearer ${client.adminToken}` };
 
         const loadAdmin = async () => {
@@ -1022,7 +1432,7 @@
         const deleteLesson = (id) => { setOpenLessonId(null); saveCourse({ ...course, lessons: course.lessons.filter((l) => l.id !== id) }); };
         const addLesson = () => {
           const id = `lesson-${Date.now()}`;
-          const lesson = { id, poster: "./assets/girls-miami-clean.png", videoUrl: "", content: { en: { title: "New Lesson", meta: "New module", note: "Description.", steps: ["Step 1"] }, ru: { title: "Новый урок", meta: "Модуль", note: "Описание.", steps: ["Шаг 1"] } } };
+          const lesson = { id, poster: "./assets/girls-miami-clean.png", videoUrl: "", images: [], content: { en: { title: "New Lesson", meta: "New module", note: "Description.", steps: ["Step 1"] }, ru: { title: "Новый урок", meta: "Модуль", note: "Описание.", steps: ["Шаг 1"] } } };
           setOpenLessonId(id); saveCourse({ ...course, lessons: [...course.lessons, lesson] });
         };
 
@@ -1048,7 +1458,7 @@
 
         return (
           <main className="screen">
-            <div className="section-head"><div><h1>{t.admin}</h1><p>{t.settings}</p></div><button className="icon-button" onClick={() => setLang(lang === "en" ? "ru" : "en")}>{lang.toUpperCase()}</button></div>
+            <div className="section-head"><div><h1>{t.admin}</h1><p>{t.settings}</p></div></div>
             {status && <p className="status" style={{ marginBottom: 10 }}>{busy ? t.loading : status}</p>}
             {adminState && (
               <div className="stats" style={{ marginBottom: 14 }}>
@@ -1085,15 +1495,45 @@
                   </select>
                 </label>
                 <p style={{ margin: "4px 0 6px", fontSize: 11, fontWeight: 800, color: "rgba(29,29,29,.5)", textTransform: "uppercase" }}>{t.lessons}</p>
-                <button className="secondary" style={{ width: "100%", marginBottom: 8 }} onClick={addLesson}>{t.addLesson}</button>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 8 }}>
+                  <button className="secondary" onClick={addLesson}>{t.addLesson}</button>
+                  <button className="secondary" style={{ background: "rgba(233,77,123,.12)", borderColor: "rgba(233,77,123,.3)", color: "var(--pink-dark)", fontSize: 10 }}
+                    onClick={() => {
+                      if (window.confirm(lang === "ru" ? "Загрузить полную методичку (10 уроков)? Текущие уроки сохранятся — методичка добавится к ним." : "Load full methodology (10 lessons)? Existing lessons will be kept — methodology appended.")) {
+                        const newIds = new Set(course.lessons.map(l => l.id));
+                        const toAdd = METHODOLOGY_LESSONS.filter(l => !newIds.has(l.id));
+                        saveCourse({ ...course, lessons: [...course.lessons, ...toAdd] });
+                      }
+                    }}>
+                    📚 {lang === "ru" ? "Загрузить методичку" : "Load Methodology"}
+                  </button>
+                </div>
                 <div style={{ display: "grid", gap: 6 }}>
                   {course.lessons.map((lesson, idx) => {
                     const c = lesson.content[editLang];
                     const isOpen = openLessonId === lesson.id;
                     return (
-                      <div className="accordion-item" key={lesson.id}>
+                      <div
+                        className={`accordion-item${dragOverIdx === idx && dragIdx !== idx ? " drag-over" : ""}`}
+                        key={lesson.id}
+                        draggable={!isOpen}
+                        onDragStart={(e) => { e.dataTransfer.effectAllowed = "move"; setDragIdx(idx); }}
+                        onDragOver={(e) => { e.preventDefault(); if (!isOpen && dragIdx !== idx) setDragOverIdx(idx); }}
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          if (dragIdx !== null && dragIdx !== idx) {
+                            const next = [...course.lessons];
+                            const [moved] = next.splice(dragIdx, 1);
+                            next.splice(idx, 0, moved);
+                            saveCourse({ ...course, lessons: next });
+                          }
+                          setDragIdx(null); setDragOverIdx(null);
+                        }}
+                        onDragEnd={() => { setDragIdx(null); setDragOverIdx(null); }}
+                      >
                         <button className="accordion-head" onClick={() => setOpenLessonId(isOpen ? null : lesson.id)}>
-                          {lesson.poster ? <img src={lesson.poster} alt="" /> : <div className="accordion-head-placeholder">🎬</div>}
+                          <span className="drag-handle" onMouseDown={(e) => e.stopPropagation()} title={lang === "ru" ? "Перетащить" : "Drag to reorder"}>⠿</span>
+                          {lesson.poster ? <img src={lesson.poster} alt="" onError={(e)=>e.target.style.display="none"} /> : <div className="accordion-head-placeholder">🎬</div>}
                           <div className="accordion-head-info"><strong>{String(idx+1).padStart(2,"0")} · {c.title}</strong><span>{c.meta}</span></div>
                           <span className="accordion-arrow">{isOpen ? "▲" : "▼"}</span>
                         </button>
@@ -1255,38 +1695,89 @@
 
       function LessonEditor({ lesson, lang, t, replaceLesson, deleteLesson, adminToken }) {
         const initial = lesson.content[lang];
-        const [draft, setDraft] = useState({ ...initial, stepsText: initial.steps.join("\n"), poster: lesson.poster, videoUrl: lesson.videoUrl || "" });
+        const [draft, setDraft] = useState({
+          ...initial,
+          stepsText: initial.steps.join("\n"),
+          poster: lesson.poster,
+          videoUrl: lesson.videoUrl || "",
+          images: lesson.images || []
+        });
         useEffect(() => {
           const next = lesson.content[lang];
-          setDraft({ ...next, stepsText: next.steps.join("\n"), poster: lesson.poster, videoUrl: lesson.videoUrl || "" });
+          setDraft({ ...next, stepsText: next.steps.join("\n"), poster: lesson.poster, videoUrl: lesson.videoUrl || "", images: lesson.images || [] });
         }, [lesson.id, lang]);
-        const save = () => replaceLesson({ ...lesson, poster: draft.poster, videoUrl: draft.videoUrl, content: { ...lesson.content, [lang]: { title: draft.title, meta: draft.meta, note: draft.note, steps: draft.stepsText.split("\n").map((item) => item.trim()).filter(Boolean) } } });
+        const save = () => replaceLesson({
+          ...lesson,
+          poster: draft.poster,
+          videoUrl: draft.videoUrl,
+          images: draft.images || [],
+          content: { ...lesson.content, [lang]: { title: draft.title, meta: draft.meta, note: draft.note, steps: draft.stepsText.split("\n").map((item) => item.trim()).filter(Boolean) } }
+        });
         return (
           <div className="card admin-form" style={{ padding: 12 }}>
             <label className="field-label">{t.title}<input className="input" value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} /></label>
             <label className="field-label">{t.meta}<input className="input" value={draft.meta} onChange={(e) => setDraft({ ...draft, meta: e.target.value })} /></label>
             <label className="field-label">{t.note}<textarea className="textarea" value={draft.note} onChange={(e) => setDraft({ ...draft, note: e.target.value })} /></label>
             <label className="field-label">{t.steps}<textarea className="textarea" value={draft.stepsText} onChange={(e) => setDraft({ ...draft, stepsText: e.target.value })} /></label>
-            <label className="field-label">{t.poster}<input className="input" value={draft.poster} onChange={(e) => setDraft({ ...draft, poster: e.target.value })} /></label>
+
+            {/* Обложка урока */}
+            <label className="field-label">{t.poster}
+              <input className="input" value={draft.poster} onChange={(e) => setDraft({ ...draft, poster: e.target.value })} placeholder="https://..." />
+            </label>
+            {draft.poster && <img src={draft.poster} alt="poster" style={{ width: "100%", height: 110, objectFit: "cover", borderRadius: 8, marginBottom: 4 }} onError={(e) => e.target.style.display="none"} />}
+            {adminToken && (
+              <FileUploader adminToken={adminToken} accept="image/*"
+                label={lang === "ru" ? "📷 Загрузить обложку урока" : "📷 Upload lesson cover"}
+                hint={lang === "ru" ? "JPG/PNG — сжимается до 640px" : "JPG/PNG — resized to 640px"}
+                maxSize={640} quality={0.85}
+                onUploaded={(url) => setDraft({ ...draft, poster: url })} />
+            )}
+
+            {/* Видео */}
             <label className="field-label">
               {lang === "ru" ? "Ссылка на видео (YouTube или MP4)" : "Video URL (YouTube or MP4)"}
               <input className="input" value={draft.videoUrl} onChange={(e) => setDraft({ ...draft, videoUrl: e.target.value })} placeholder="https://youtube.com/watch?v=... или https://.../video.mp4" />
             </label>
             {adminToken && (
-              <FileUploader
-                adminToken={adminToken}
-                accept="video/*"
+              <FileUploader adminToken={adminToken} accept="video/*"
                 label={lang === "ru" ? "📁 Загрузить видео с ПК" : "📁 Upload video from PC"}
-                hint={lang === "ru" ? "MP4, MOV — до ~45 МБ" : "MP4, MOV — up to ~45 MB"}
-                onUploaded={(url) => setDraft({ ...draft, videoUrl: url })}
-              />
+                hint={lang === "ru" ? "MP4, MOV — до ~45 МБ (лучше YouTube)" : "MP4, MOV — up to ~45 MB (YouTube preferred)"}
+                onUploaded={(url) => setDraft({ ...draft, videoUrl: url })} />
             )}
             {draft.videoUrl && (
               <p style={{ margin: "2px 0", fontSize: 11, fontWeight: 700, color: "var(--pink-dark)" }}>
                 {extractYoutubeId(draft.videoUrl) ? "▶ YouTube видео" : "▶ Прямая ссылка на видео"}
               </p>
             )}
-            <div className="admin-actions"><button className="primary" onClick={save}>{t.saveLesson}</button><button className="danger" onClick={() => deleteLesson(lesson.id)}>{t.delete}</button></div>
+
+            {/* Фото к уроку */}
+            <div className="field-label" style={{ marginTop: 8 }}>
+              <span>{lang === "ru" ? "📸 Фото к уроку (таблицы, схемы, примеры)" : "📸 Lesson images (charts, diagrams, examples)"}</span>
+              {draft.images.length > 0 && (
+                <div style={{ marginTop: 6, display: "grid", gap: 4 }}>
+                  {draft.images.map((src, i) => (
+                    <div className="img-edit-row" key={i}>
+                      <img src={src} alt="" onError={(e) => e.target.style.display="none"} />
+                      <span>{src}</span>
+                      <button className="danger" style={{ fontSize: 10, minHeight: 26, padding: "0 8px", flexShrink: 0 }}
+                        onClick={() => setDraft({ ...draft, images: draft.images.filter((_, j) => j !== i) })}>✕</button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {adminToken && (
+                <FileUploader adminToken={adminToken} accept="image/*"
+                  label={lang === "ru" ? "➕ Добавить фото к уроку" : "➕ Add lesson image"}
+                  hint={lang === "ru" ? "JPG/PNG — без потери качества" : "JPG/PNG — high quality"}
+                  maxSize={1200} quality={0.90}
+                  onUploaded={(url) => setDraft({ ...draft, images: [...draft.images, url] })} />
+              )}
+            </div>
+
+            <div className="admin-actions" style={{ marginTop: 8 }}>
+              <button className="primary" onClick={save}>{t.saveLesson}</button>
+              <button className="danger" onClick={() => deleteLesson(lesson.id)}>{t.delete}</button>
+            </div>
           </div>
         );
       }
@@ -1400,7 +1891,7 @@
         );
       }
 
-      function FileUploader({ adminToken, accept, label, hint, onUploaded }) {
+      function FileUploader({ adminToken, accept, label, hint, onUploaded, maxSize = 640, quality = 0.82 }) {
         const [uploading, setUploading] = useState(false);
         const [err, setErr] = useState("");
         const inputRef = React.useRef(null);
@@ -1411,14 +1902,14 @@
           const objUrl = URL.createObjectURL(file);
           img.onload = () => {
             URL.revokeObjectURL(objUrl);
-            // Keep image small: max 480px wide, JPEG 70% — output ~20-50KB
-            const MAX = 480;
+            const MAX = maxSize;
             let { width, height } = img;
             if (width > MAX) { height = Math.round(height * MAX / width); width = MAX; }
+            if (height > MAX && width <= MAX) { width = Math.round(width * MAX / height); height = MAX; }
             const canvas = document.createElement("canvas");
             canvas.width = width; canvas.height = height;
             canvas.getContext("2d").drawImage(img, 0, 0, width, height);
-            res(canvas.toDataURL("image/jpeg", 0.70));
+            res(canvas.toDataURL("image/jpeg", quality));
           };
           img.onerror = rej;
           img.src = objUrl;
