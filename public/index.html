@@ -157,7 +157,7 @@
         width: min(100%, 430px);
         transform: translateX(-50%);
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         padding: 8px 6px calc(8px + env(safe-area-inset-bottom));
         background: rgba(255,241,236,.92);
         border-top: 1px solid rgba(233,77,123,.16);
@@ -302,6 +302,27 @@
       .upload-preview { width: 100%; height: 130px; object-fit: cover; border-radius: 8px; margin-bottom: 8px; }
       [data-theme="dark"] .upload-area { background: rgba(233,77,123,.06); border-color: rgba(233,77,123,.25); }
       [data-theme="dark"] .upload-area small { color: rgba(240,221,232,.4); }
+      /* ── Dark neon glow ── */
+      [data-theme="dark"] .brand strong { color: var(--pink); text-shadow: 0 0 14px rgba(233,77,123,.75), 0 0 32px rgba(233,77,123,.35); }
+      [data-theme="dark"] .hero-title, [data-theme="dark"] .section-head h1, [data-theme="dark"] .section-head h2 { text-shadow: 0 0 22px rgba(233,77,123,.65), 0 0 46px rgba(233,77,123,.28); }
+      [data-theme="dark"] .course-hero h1 { text-shadow: 0 0 18px rgba(255,180,210,.5); }
+      [data-theme="dark"] .stat strong, [data-theme="dark"] .product-price { color: var(--pink); text-shadow: 0 0 10px rgba(233,77,123,.55); }
+      [data-theme="dark"] .primary { box-shadow: 0 0 22px rgba(233,77,123,.65), 0 12px 28px rgba(201,54,98,.38); }
+      [data-theme="dark"] .progress-ring { filter: drop-shadow(0 0 8px rgba(233,77,123,.55)); }
+      [data-theme="dark"] .lesson-card h3, [data-theme="dark"] .accordion-head-info strong, [data-theme="dark"] .product-info strong { color: #fce4ef; text-shadow: 0 0 6px rgba(240,195,220,.25); }
+      [data-theme="dark"] .resource-link { box-shadow: 0 0 12px rgba(233,77,123,.42); }
+      [data-theme="dark"] .days-badge { text-shadow: 0 0 6px rgba(233,77,123,.4); }
+      [data-theme="dark"] .cart-panel h3 { text-shadow: 0 0 14px rgba(233,77,123,.55); }
+      /* ── Category filter ── */
+      .cat-tabs { display: flex; gap: 8px; overflow-x: auto; padding: 2px 0 10px; scrollbar-width: none; -ms-overflow-style: none; }
+      .cat-tabs::-webkit-scrollbar { display: none; }
+      .cat-tab { flex-shrink: 0; padding: 7px 16px; border-radius: 99px; border: 1px solid rgba(233,77,123,.22); background: rgba(255,255,255,.78); font-size: 11px; font-weight: 900; color: rgba(29,29,29,.65); text-transform: uppercase; cursor: pointer; }
+      .cat-tab.active { background: var(--pink); color: #fff; border-color: var(--pink); box-shadow: 0 4px 14px rgba(233,77,123,.38); }
+      [data-theme="dark"] .cat-tab { background: rgba(35,15,25,.85); border-color: rgba(233,77,123,.18); color: rgba(240,221,232,.55); }
+      [data-theme="dark"] .cat-tab.active { background: var(--pink); color: #fff; }
+      /* ── Back button ── */
+      .back-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 0 12px; background: transparent; border: 0; color: rgba(29,29,29,.52); font-size: 12px; font-weight: 900; text-transform: uppercase; }
+      [data-theme="dark"] .back-btn { color: rgba(240,221,232,.45); }
       @media (min-width: 800px) {
         body { padding: 26px 0; }
         .app-shell { min-height: calc(100vh - 52px); border: 10px solid rgba(255,255,255,.58); border-radius: 46px; }
@@ -471,16 +492,16 @@
         const currentView = view === "login" ? "home" : view;
 
         return (
-          <Shell course={course} lang={lang} setLang={setLang} signOut={signOut} darkMode={darkMode} toggleDark={toggleDark}>
+          <Shell course={course} lang={lang} setLang={setLang} signOut={signOut} darkMode={darkMode} toggleDark={toggleDark} setView={setView}>
             {currentView === "home" && <HomeScreen course={course} t={t} lang={lang} user={user} setView={setView} setActiveLessonId={setActiveLessonId} token={client.token} />}
             {currentView === "lessons" && <LessonsScreen course={course} t={t} lang={lang} user={user} setView={setView} setActiveLessonId={setActiveLessonId} />}
-            {currentView === "lesson" && <LessonScreen course={course} t={t} lang={lang} user={user} lesson={activeLesson} setUser={setUser} token={client.token} />}
+            {currentView === "lesson" && <LessonScreen course={course} t={t} lang={lang} user={user} lesson={activeLesson} setUser={setUser} token={client.token} setView={setView} />}
             {currentView === "resources" && <ResourcesScreen course={course} t={t} lang={lang} />}
             {currentView === "shop" && <ShopScreen course={course} t={t} lang={lang} cart={cart} setCart={setCart} />}
             {currentView === "admin" && admin && <AdminScreen t={t} lang={lang} setLang={setLang} client={client} course={course} setCourse={setCourse} />}
             {currentView === "admin" && !admin && <AdminLogin t={t} lang={lang} setLang={setLang} setClient={setClient} setAdmin={setAdmin} setView={setView} />}
             <nav className="tabbar">
-              {[["home", t.home], ["lessons", t.lessons], ["resources", t.files], ["shop", t.shop], ["admin", t.admin]].map(([id, label]) => (
+              {[["home", t.home], ["lessons", t.lessons], ["shop", t.shop]].map(([id, label]) => (
                 <button key={id} className={currentView === id ? "active" : ""} onClick={() => setView(id)}>
                   {id === "shop" && cartCount > 0 && <span className="tab-badge">{cartCount}</span>}
                   {label}
@@ -491,7 +512,7 @@
         );
       }
 
-      function Shell({ children, course, lang, setLang, signOut, darkMode, toggleDark }) {
+      function Shell({ children, course, lang, setLang, signOut, darkMode, toggleDark, setView }) {
         const [confirmLogout, setConfirmLogout] = useState(false);
         return (
           <div className="app-shell">
@@ -510,7 +531,7 @@
             )}
             {course && (
               <header className="topbar">
-                <button className="brand"><span>{course.settings.eyebrow}</span><strong>{course.settings.brand}</strong></button>
+                <button className="brand" onClick={() => setView?.("home")}><span>{course.settings.eyebrow}</span><strong>{course.settings.brand}</strong></button>
                 <div className="top-actions">
                   {toggleDark && <button className="icon-button" onClick={toggleDark} title="Тёмная тема">{darkMode ? "☀️" : "🌙"}</button>}
                   <button className="icon-button" onClick={() => setLang(lang === "en" ? "ru" : "en")}>{lang.toUpperCase()}</button>
@@ -567,11 +588,14 @@
                 <div style={{ height: 12 }} />
                 <button className="primary">{t.unlock}</button>
                 <div style={{ height: 10 }} />
+                <p style={{ margin: "0 0 8px", fontSize: 10, fontWeight: 900, textTransform: "uppercase", color: "rgba(29,29,29,.45)", textAlign: "center", letterSpacing: 1 }}>
+                  ↓ {lang === "ru" ? "Купить доступ к курсу" : "Buy course access"}
+                </p>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
                   <a href="https://instagram.com/alex_kozak_" target="_blank" rel="noopener noreferrer" className="buy-btn" style={{ fontSize: 11 }}>
                     📸 Instagram
                   </a>
-                  <a href="https://wa.me/13057894567?text=Хочу купить курс Miami Lash" target="_blank" rel="noopener noreferrer" className="buy-btn" style={{ fontSize: 11, borderColor: "#25d366", color: "#128c3e" }}>
+                  <a href="https://wa.me/13059008808?text=Хочу купить курс Miami Lash" target="_blank" rel="noopener noreferrer" className="buy-btn" style={{ fontSize: 11, borderColor: "#25d366", color: "#128c3e" }}>
                     💬 WhatsApp
                   </a>
                 </div>
@@ -623,22 +647,26 @@
       }
 
       function HomeScreen({ course, t, lang, user, setView, setActiveLessonId, token }) {
-        const [pushState, setPushState] = useState("idle"); // idle | asking | done | unsupported
+        const [pushState, setPushState] = useState("idle"); // idle | asking | done | unsupported | error
+        const [pushErr, setPushErr] = useState("");
         useEffect(() => {
           if (!("Notification" in window) || !("serviceWorker" in navigator)) { setPushState("unsupported"); return; }
-          if (Notification.permission === "granted") setPushState("done");
+          if (Notification.permission !== "granted") return;
+          // Check if there is an actual push subscription saved
+          navigator.serviceWorker.ready.then((reg) => reg.pushManager.getSubscription()).then((sub) => { if (sub) setPushState("done"); }).catch(() => {});
         }, []);
         const subscribePush = async () => {
-          setPushState("asking");
+          setPushState("asking"); setPushErr("");
           try {
             const perm = await Notification.requestPermission();
             if (perm !== "granted") { setPushState("idle"); return; }
             const reg = await navigator.serviceWorker.ready;
-            const { publicKey } = await fetch("/api/push/key").then((r) => r.json());
-            const sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToUint8Array(publicKey) });
+            const keyData = await fetch("/api/push/key").then((r) => r.json());
+            if (!keyData.publicKey) throw new Error(lang === "ru" ? "Push не настроен на сервере" : "Push not configured on server");
+            const sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToUint8Array(keyData.publicKey) });
             await request("/api/push/subscribe", { method: "POST", headers: { Authorization: `Bearer ${token}` }, body: JSON.stringify({ subscription: sub }) });
             setPushState("done");
-          } catch { setPushState("idle"); }
+          } catch (ex) { setPushState("error"); setPushErr(ex.message || "Error"); }
         };
         const hero = course.settings.hero[lang];
         const done = user.completed.length;
@@ -663,6 +691,7 @@
                 <div style={{ flex: 1 }}>
                   <strong style={{ display: "block", fontSize: 13 }}>{lang === "ru" ? "Уведомления о новых уроках" : "Lesson notifications"}</strong>
                   <span style={{ fontSize: 11, fontWeight: 700, color: "rgba(29,29,29,.55)" }}>{lang === "ru" ? "Узнавай первой когда выходит новый урок" : "Be first to know when a new lesson drops"}</span>
+                  {pushState === "error" && <span style={{ display: "block", marginTop: 4, fontSize: 10, fontWeight: 800, color: "var(--pink-dark)" }}>⚠️ {pushErr}</span>}
                 </div>
                 <button className="primary" style={{ width: "auto", padding: "0 14px", minHeight: 38, fontSize: 11 }} onClick={subscribePush} disabled={pushState === "asking"}>
                   {pushState === "asking" ? "..." : lang === "ru" ? "Включить" : "Enable"}
@@ -683,7 +712,7 @@
         })}</div></main>;
       }
 
-      function LessonScreen({ t, lang, user, lesson, setUser, token }) {
+      function LessonScreen({ t, lang, user, lesson, setUser, token, setView }) {
         const content = lesson.content[lang];
         const isDone = user.completed.includes(lesson.id);
         const markDone = async () => {
@@ -697,6 +726,7 @@
         const isDirectVideo = videoUrl && !youtubeId;
         return (
           <main className="screen">
+            <button className="back-btn" onClick={() => setView("lessons")}>← {lang === "ru" ? "Все уроки" : "All lessons"}</button>
             {youtubeId ? (
               <div style={{ position: "relative", borderRadius: 8, overflow: "hidden", userSelect: "none" }}>
                 <iframe
@@ -750,9 +780,20 @@
         );
       }
 
+      const SHOP_CATS = [
+        { id: "all", ru: "Все товары", en: "All" },
+        { id: "glue", ru: "Клей", en: "Glue" },
+        { id: "lashes", ru: "Ресницы", en: "Lashes" },
+        { id: "tools", ru: "Инструменты", en: "Tools" },
+        { id: "other", ru: "Другое", en: "Other" }
+      ];
+
       function ShopScreen({ course, t, lang, cart, setCart }) {
         const [showCart, setShowCart] = useState(false);
+        const [activeCat, setActiveCat] = useState("all");
+        const [igCopied, setIgCopied] = useState(false);
         const products = course.products || [];
+        const filtered = activeCat === "all" ? products : products.filter((p) => (p.category || "other") === activeCat);
         const addToCart = (product) => {
           const exists = cart.find((i) => i.productId === product.id);
           setCart(exists ? cart.map((i) => i.productId === product.id ? { ...i, qty: i.qty + 1 } : i) : [...cart, { productId: product.id, qty: 1 }]);
@@ -761,15 +802,20 @@
         const cartCount = cart.reduce((s, i) => s + i.qty, 0);
         const cartTotal = cart.reduce((s, i) => { const p = products.find((x) => x.id === i.productId); return s + (p ? p.price * i.qty : 0); }, 0);
         const currency = cart.length ? (products.find((p) => p.id === cart[0].productId)?.currency || "USD") : "USD";
-        const checkout = (via) => {
-          if (via === "wa") {
-            const items = cart.map((i) => { const p = products.find((x) => x.id === i.productId); return p ? `${p.content[lang]?.title || p.content["ru"]?.title} ×${i.qty}` : ""; }).filter(Boolean).join(", ");
-            const msg = encodeURIComponent(`Хочу заказать: ${items}. Итого: ${cartTotal} ${currency}`);
-            window.open(`https://wa.me/13057894567?text=${msg}`, "_blank");
-          } else {
-            window.open("https://instagram.com/alex_kozak_", "_blank");
-          }
+
+        const checkoutIG = () => {
+          const lines = cart.map((i) => { const p = products.find((x) => x.id === i.productId); return p ? `• ${(p.content[lang] || p.content["ru"])?.title} ×${i.qty} — ${p.price * i.qty} ${p.currency}` : ""; }).filter(Boolean).join("\n");
+          const text = `Хочу заказать:\n${lines}\n\nИтого: ${cartTotal} ${currency}`;
+          navigator.clipboard?.writeText(text).catch(() => {});
+          setIgCopied(true);
+          setTimeout(() => setIgCopied(false), 5000);
+          window.open("https://ig.me/m/alex_kozak_", "_blank");
         };
+        const checkoutWA = () => {
+          const items = cart.map((i) => { const p = products.find((x) => x.id === i.productId); return p ? `${(p.content[lang] || p.content["ru"])?.title} ×${i.qty}` : ""; }).filter(Boolean).join(", ");
+          window.open(`https://wa.me/13059008808?text=${encodeURIComponent(`Хочу заказать: ${items}. Итого: ${cartTotal} ${currency}`)}`, "_blank");
+        };
+
         return (
           <main className="screen">
             <div className="section-head">
@@ -780,34 +826,41 @@
                 </button>
               )}
             </div>
+            <div className="cat-tabs">
+              {SHOP_CATS.map((cat) => (
+                <button key={cat.id} className={`cat-tab${activeCat === cat.id ? " active" : ""}`} onClick={() => setActiveCat(cat.id)}>
+                  {lang === "ru" ? cat.ru : cat.en}
+                </button>
+              ))}
+            </div>
             {showCart && cartCount > 0 && (
               <div className="cart-panel">
                 <h3>{t.cartTitle}</h3>
                 {cart.map((item) => {
                   const p = products.find((x) => x.id === item.productId);
                   if (!p) return null;
+                  const c = p.content[lang] || p.content["ru"] || {};
                   return (
                     <div className="cart-item" key={item.productId}>
-                      <span>{p.content[lang].title} × {item.qty}</span>
+                      <span>{c.title} × {item.qty}</span>
                       <span style={{ fontWeight: 900, color: "var(--pink-dark)" }}>{p.price * item.qty} {p.currency}</span>
                       <button onClick={() => removeFromCart(item.productId)}>×</button>
                     </div>
                   );
                 })}
                 <div className="cart-total">{t.cartTotal}: {cartTotal} {currency}</div>
+                {igCopied && <p style={{ margin: "4px 0 8px", fontSize: 11, fontWeight: 800, color: "var(--pink-dark)", textAlign: "center" }}>✅ {lang === "ru" ? "Список скопирован — вставьте в Instagram DM" : "Copied — paste in Instagram DM"}</p>}
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-                  <button className="primary" onClick={() => checkout("ig")}>{t.checkoutBtn}</button>
-                  <button className="primary" style={{ background: "#25d366", boxShadow: "0 0 18px rgba(37,211,102,.4)" }} onClick={() => checkout("wa")}>
-                    💬 WhatsApp
-                  </button>
+                  <button className="primary" style={{ fontSize: 11 }} onClick={checkoutIG}>📸 Instagram</button>
+                  <button className="primary" style={{ background: "#25d366", boxShadow: "0 0 18px rgba(37,211,102,.38)", fontSize: 11 }} onClick={checkoutWA}>💬 WhatsApp</button>
                 </div>
               </div>
             )}
-            {products.length === 0 ? (
-              <p className="notice" style={{ marginTop: 16 }}>{t.shopEmpty}</p>
+            {filtered.length === 0 ? (
+              <p className="notice" style={{ marginTop: 8 }}>{activeCat === "all" ? t.shopEmpty : (lang === "ru" ? "В этой категории пока нет товаров" : "No products in this category")}</p>
             ) : (
-              <div className="product-grid" style={{ marginTop: 16 }}>
-                {products.filter((p) => p.inStock !== false || true).map((product) => {
+              <div className="product-grid" style={{ marginTop: 8 }}>
+                {filtered.map((product) => {
                   const content = product.content[lang] || product.content["ru"] || {};
                   const inCart = cart.find((i) => i.productId === product.id);
                   return (
@@ -1101,8 +1154,11 @@
             {tab === "data" && (
               <div className="admin-panel">
                 <div className="card" style={{ padding: 14 }}>
-                  <p style={{ margin: "0 0 10px", fontSize: 12, fontWeight: 900, textTransform: "uppercase", color: "var(--pink-dark)" }}>
-                    🔔 {lang === "ru" ? "Push-уведомление всем ученицам" : "Push notification to all students"}
+                  <p style={{ margin: "0 0 4px", fontSize: 12, fontWeight: 900, textTransform: "uppercase", color: "var(--pink-dark)" }}>
+                    🔔 {lang === "ru" ? "Push-уведомления" : "Push notifications"}
+                  </p>
+                  <p style={{ margin: "0 0 12px", fontSize: 11, fontWeight: 700, color: "rgba(29,29,29,.5)" }}>
+                    {lang === "ru" ? `Подписчиков: ${adminState?.pushCount ?? "—"}` : `Subscribers: ${adminState?.pushCount ?? "—"}`}
                   </p>
                   <PushSender adminToken={client.adminToken} lang={lang} />
                 </div>
@@ -1176,13 +1232,14 @@
         const [draft, setDraft] = useState({
           title: initial.title || "", description: initial.description || "",
           image: product.image || "", price: product.price || 0,
-          currency: product.currency || "USD", inStock: product.inStock !== false
+          currency: product.currency || "USD", inStock: product.inStock !== false,
+          category: product.category || "other"
         });
         useEffect(() => {
           const c = product.content[lang] || {};
-          setDraft({ title: c.title || "", description: c.description || "", image: product.image || "", price: product.price || 0, currency: product.currency || "USD", inStock: product.inStock !== false });
+          setDraft({ title: c.title || "", description: c.description || "", image: product.image || "", price: product.price || 0, currency: product.currency || "USD", inStock: product.inStock !== false, category: product.category || "other" });
         }, [product.id, lang]);
-        const save = () => replaceProduct({ ...product, image: draft.image, price: Number(draft.price), currency: draft.currency, inStock: draft.inStock, content: { ...product.content, [lang]: { title: draft.title, description: draft.description } } });
+        const save = () => replaceProduct({ ...product, image: draft.image, price: Number(draft.price), currency: draft.currency, inStock: draft.inStock, category: draft.category, content: { ...product.content, [lang]: { title: draft.title, description: draft.description } } });
         return (
           <div className="admin-form" style={{ paddingTop: 10 }}>
             {draft.image && <img src={draft.image} alt="" style={{ width: "100%", height: 140, objectFit: "cover", borderRadius: 8, marginBottom: 10 }} onError={(e) => e.target.style.display="none"} />}
@@ -1209,6 +1266,11 @@
             <label className="instock-toggle">
               <input type="checkbox" checked={draft.inStock} onChange={(e) => setDraft({ ...draft, inStock: e.target.checked })} style={{ width: 18, height: 18, accentColor: "var(--pink)" }} />
               {t.inStock}
+            </label>
+            <label className="field-label">{lang === "ru" ? "Категория" : "Category"}
+              <select className="select" value={draft.category} onChange={(e) => setDraft({ ...draft, category: e.target.value })}>
+                {SHOP_CATS.filter(c => c.id !== "all").map(c => <option key={c.id} value={c.id}>{lang === "ru" ? c.ru : c.en}</option>)}
+              </select>
             </label>
             <div className="admin-actions" style={{ marginTop: 6 }}>
               <button className="primary" onClick={save}>{t.saveProduct}</button>
@@ -1261,34 +1323,60 @@
         const [err, setErr] = useState("");
         const inputRef = React.useRef(null);
         const pick = () => inputRef.current?.click();
+
+        const resizeImage = (file) => new Promise((res, rej) => {
+          const img = new Image();
+          const objUrl = URL.createObjectURL(file);
+          img.onload = () => {
+            URL.revokeObjectURL(objUrl);
+            const MAX = 900;
+            let { width, height } = img;
+            if (width > MAX) { height = Math.round(height * MAX / width); width = MAX; }
+            const canvas = document.createElement("canvas");
+            canvas.width = width; canvas.height = height;
+            canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+            res(canvas.toDataURL("image/jpeg", 0.82));
+          };
+          img.onerror = rej;
+          img.src = objUrl;
+        });
+
         const handleFile = async (e) => {
           const file = e.target.files?.[0];
           if (!file) return;
           setErr(""); setUploading(true);
           try {
-            const reader = new FileReader();
-            const b64 = await new Promise((res, rej) => {
-              reader.onload = () => res(reader.result.split(",")[1]);
-              reader.onerror = rej;
-              reader.readAsDataURL(file);
-            });
-            const result = await request("/api/upload", {
-              method: "POST",
-              headers: { Authorization: `Bearer ${adminToken}` },
-              body: JSON.stringify({ filename: file.name, contentType: file.type, data: b64 })
-            });
-            onUploaded(result.url);
+            if (file.type.startsWith("image/")) {
+              // Client-side: resize + compress → data URL (no server needed)
+              const dataUrl = await resizeImage(file);
+              onUploaded(dataUrl);
+            } else {
+              // Video: server upload via GitHub
+              const reader = new FileReader();
+              const b64 = await new Promise((res, rej) => {
+                reader.onload = () => res(reader.result.split(",")[1]);
+                reader.onerror = rej;
+                reader.readAsDataURL(file);
+              });
+              const result = await request("/api/upload", {
+                method: "POST",
+                headers: { Authorization: `Bearer ${adminToken}` },
+                body: JSON.stringify({ filename: file.name, contentType: file.type, data: b64 })
+              });
+              onUploaded(result.url);
+            }
           } catch (ex) {
             setErr(ex.message || "Upload failed");
           } finally {
             setUploading(false);
-            e.target.value = "";
+            if (e.target) e.target.value = "";
           }
         };
+
         return (
           <div className="upload-area" onClick={pick} style={{ marginTop: 6 }}>
             <input type="file" accept={accept} ref={inputRef} onChange={handleFile} />
-            <span>{uploading ? "⏳ " + (label.includes("фото") || label.includes("Photo") ? "Загрузка фото..." : "Загрузка файла...") : label}</span>
+            <span>{uploading ? "⏳ Обработка..." : label}</span>
             {hint && <small>{hint}</small>}
             {err && <p className="error" style={{ margin: "6px 0 0" }}>{err}</p>}
           </div>
