@@ -557,6 +557,15 @@
         return data;
       }
 
+      // ── Глобальный кэш публичного конфига (Cloudinary и т.д.) ──────────────────
+      const _appCfg = { _p: null };
+      async function getAppConfig() {
+        if (_appCfg.loaded) return _appCfg;
+        if (!_appCfg._p) _appCfg._p = request("/api/config").then((c) => Object.assign(_appCfg, c, { loaded: true })).catch(() => { _appCfg.loaded = true; });
+        await _appCfg._p;
+        return _appCfg;
+      }
+
       const CART_KEY = "miami-lash-cart-v1";
       const DARK_KEY = "miami-lash-dark-v1";
 
@@ -2015,19 +2024,20 @@
 
       function FileUploader({ adminToken, accept, label, hint, onUploaded, maxSize = 640, quality = 0.82 }) {
         const [uploading, setUploading] = useState(false);
+        const [progress, setProgress] = useState(0); // 0-100
         const [err, setErr] = useState("");
         const inputRef = React.useRef(null);
         const pick = () => inputRef.current?.click();
 
+        // Сжимаем изображение через Canvas (работает для небольших фото → GitHub)
         const resizeImage = (file) => new Promise((res, rej) => {
           const img = new Image();
           const objUrl = URL.createObjectURL(file);
           img.onload = () => {
             URL.revokeObjectURL(objUrl);
-            const MAX = maxSize;
             let { width, height } = img;
-            if (width > MAX) { height = Math.round(height * MAX / width); width = MAX; }
-            if (height > MAX && width <= MAX) { width = Math.round(width * MAX / height); height = MAX; }
+            if (width > maxSize) { height = Math.round(height * maxSize / width); width = maxSize; }
+            if (height > maxSize && width <= maxSize) { width = Math.round(width * maxSize / height); height = maxSize; }
             const canvas = document.createElement("canvas");
             canvas.width = width; canvas.height = height;
             canvas.getContext("2d").drawImage(img, 0, 0, width, height);
@@ -2037,49 +2047,77 @@
           img.src = objUrl;
         });
 
+        // Прямая загрузка на Cloudinary (обходит лимит Vercel, есть прогресс)
+        const uploadToCloudinary = (file, cloudName, uploadPreset) => new Promise((res, rej) => {
+          const isVideo = file.type.startsWith("video/");
+          const resourceType = isVideo ? "video" : "image";
+          const url = `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`;
+          const fd = new FormData();
+          fd.append("file", file);
+          fd.append("upload_preset", uploadPreset);
+          const xhr = new XMLHttpRequest();
+          xhr.open("POST", url);
+          xhr.upload.onprogress = (ev) => { if (ev.lengthComputable) setProgress(Math.round(ev.loaded / ev.total * 100)); };
+          xhr.onload = () => {
+            if (xhr.status === 200) {
+              const data = JSON.parse(xhr.responseText);
+              res(data.secure_url);
+            } else {
+              const msg = (() => { try { return JSON.parse(xhr.responseText).error?.message; } catch { return null; } })();
+              rej(new Error(msg || `Cloudinary error ${xhr.status}`));
+            }
+          };
+          xhr.onerror = () => rej(new Error("Ошибка сети при загрузке"));
+          xhr.send(fd);
+        });
+
         const handleFile = async (e) => {
           const file = e.target.files?.[0];
           if (!file) return;
-          setErr(""); setUploading(true);
+          setErr(""); setProgress(0); setUploading(true);
           try {
-            let b64, mime, fname;
-            if (file.type.startsWith("image/")) {
-              // Resize client-side first (reduces bandwidth), then upload to public assets repo
+            const cfg = await getAppConfig();
+            const useCloud = !!(cfg.cloudinaryCloudName && cfg.cloudinaryUploadPreset);
+
+            if (useCloud) {
+              // ── Cloudinary: прямо из браузера, без лимитов, с прогрессом ──
+              const url = await uploadToCloudinary(file, cfg.cloudinaryCloudName, cfg.cloudinaryUploadPreset);
+              onUploaded(url);
+            } else if (file.type.startsWith("image/")) {
+              // ── Fallback: сжать + GitHub (работает без Cloudinary) ──
               const dataUrl = await resizeImage(file);
-              b64 = dataUrl.split(",")[1];
-              mime = "image/jpeg";
-              fname = file.name.replace(/\.[^.]+$/, ".jpg");
-            } else {
-              // Video: read as-is, server enforces size limit
-              const reader = new FileReader();
-              b64 = await new Promise((res, rej) => {
-                reader.onload = () => res(reader.result.split(",")[1]);
-                reader.onerror = rej;
-                reader.readAsDataURL(file);
+              const result = await request("/api/upload", {
+                method: "POST",
+                headers: { Authorization: `Bearer ${adminToken}` },
+                body: JSON.stringify({ filename: file.name.replace(/\.[^.]+$/, ".jpg"), contentType: "image/jpeg", data: dataUrl.split(",")[1] })
               });
-              mime = file.type;
-              fname = file.name;
+              onUploaded(result.url);
+            } else {
+              throw new Error("Для загрузки видео настройте Cloudinary (см. инструкцию в настройках).");
             }
-            // Upload to public assets repo → get a real public URL (not base64 in store)
-            const result = await request("/api/upload", {
-              method: "POST",
-              headers: { Authorization: `Bearer ${adminToken}` },
-              body: JSON.stringify({ filename: fname, contentType: mime, data: b64 })
-            });
-            onUploaded(result.url);
           } catch (ex) {
-            setErr(ex.message || "Upload failed");
+            setErr(ex.message || "Ошибка загрузки");
           } finally {
             setUploading(false);
+            setProgress(0);
             if (e.target) e.target.value = "";
           }
         };
 
+        const statusLabel = uploading
+          ? (progress > 0 ? `⏳ ${progress}%…` : "⏳ Подготовка…")
+          : label;
+
         return (
           <div className="upload-area" onClick={pick} style={{ marginTop: 6 }}>
             <input type="file" accept={accept} ref={inputRef} onChange={handleFile} />
-            <span>{uploading ? "⏳ Обработка..." : label}</span>
-            {hint && <small>{hint}</small>}
+            <span>{statusLabel}</span>
+            {uploading && progress > 0 && (
+              <div style={{ width: "100%", background: "rgba(233,77,123,.15)", borderRadius: 99, height: 4, marginTop: 6, overflow: "hidden" }}>
+                <div style={{ width: `${progress}%`, height: "100%", background: "var(--pink)", borderRadius: 99, transition: "width .2s" }} />
+              </div>
+            )}
+            {hint && !uploading && <small>{hint}</small>}
             {err && <p className="error" style={{ margin: "6px 0 0" }}>{err}</p>}
           </div>
         );
