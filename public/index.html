@@ -200,6 +200,9 @@
       .lesson-body { padding: 16px 0 0; }
       .lesson-body h1 { margin: 16px 0 6px; font-family: "Bebas Neue", Impact, sans-serif; color: var(--pink); font-size: 48px; line-height: .88; text-transform: uppercase; }
       .lesson-body p, .lesson-body li { font-size: 13px; font-weight: 650; line-height: 1.7; }
+      .lesson-section-label { display: flex; align-items: center; gap: 10px; margin: 20px 0 10px; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1.5px; color: var(--pink-dark); }
+      .lesson-section-label::after { content: ""; flex: 1; height: 1px; background: rgba(233,77,123,.2); }
+      .lesson-theory p { margin: 0 0 13px; }
       .steps { padding: 0; margin: 14px 0; list-style: none; display: grid; gap: 10px; }
       .steps li { border-radius: 8px; padding: 12px; background: rgba(255,255,255,.7); }
       .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -308,6 +311,17 @@
       .img-edit-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid rgba(233,77,123,.08); }
       .img-edit-row img { width: 52px; height: 40px; border-radius: 6px; object-fit: cover; flex-shrink: 0; }
       .img-edit-row span { flex: 1; font-size: 10px; font-weight: 700; color: rgba(29,29,29,.5); word-break: break-all; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+      /* ── Photo step cards (наглядный материал) ── */
+      .photo-step-card { background: rgba(255,255,255,.72); border-radius: 14px; overflow: hidden; margin-bottom: 14px; box-shadow: 0 3px 16px rgba(29,29,29,.10); cursor: zoom-in; }
+      .photo-step-card img { width: 100%; max-height: 320px; object-fit: cover; display: block; }
+      .photo-step-caption { padding: 11px 14px 14px; }
+      .photo-step-num { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1.2px; color: var(--pink-dark); margin-bottom: 4px; }
+      .photo-step-caption p { margin: 0; font-size: 13px; font-weight: 500; line-height: 1.6; }
+      /* ── Photo step editor row ── */
+      .ps-edit-row { background: rgba(233,77,123,.05); border: 1px solid rgba(233,77,123,.14); border-radius: 10px; padding: 10px; margin-top: 8px; display: grid; gap: 8px; }
+      .ps-edit-thumb { display: flex; align-items: center; gap: 8px; }
+      .ps-edit-thumb img { width: 72px; height: 54px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
+      .ps-edit-thumb span { flex: 1; font-size: 10px; font-weight: 700; color: rgba(29,29,29,.4); word-break: break-all; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 
       /* ════════════════════════════════════════════
          DARK THEME — полный оверрайд всех элементов
@@ -359,6 +373,8 @@
       [data-theme="dark"] .lesson-card h3 { color: #fce4ef; }
       [data-theme="dark"] .lesson-card p { color: rgba(240,221,232,.58); }
       [data-theme="dark"] .lesson-body p, [data-theme="dark"] .lesson-body li { color: rgba(240,221,232,.82); }
+      [data-theme="dark"] .lesson-section-label { color: var(--pink); text-shadow: 0 0 8px rgba(233,77,123,.45); }
+      [data-theme="dark"] .lesson-section-label::after { background: rgba(233,77,123,.2); }
       [data-theme="dark"] .stat strong { color: var(--pink); text-shadow: 0 0 14px rgba(233,77,123,.65); }
       [data-theme="dark"] .stat span { color: rgba(240,221,232,.5); }
       [data-theme="dark"] .field-label { color: rgba(240,221,232,.54); }
@@ -432,6 +448,12 @@
       [data-theme="dark"] .accordion-item.drag-over { box-shadow: 0 0 0 2px rgba(233,77,123,.42), 0 0 16px rgba(233,77,123,.25); }
       /* ── Lesson images dark ── */
       [data-theme="dark"] .lesson-images img { box-shadow: 0 4px 18px rgba(0,0,0,.5), 0 0 8px rgba(233,77,123,.12); }
+      /* ── Photo step cards dark ── */
+      [data-theme="dark"] .photo-step-card { background: rgba(42,14,28,.82); box-shadow: 0 4px 22px rgba(0,0,0,.45); }
+      [data-theme="dark"] .photo-step-caption p { color: rgba(240,221,232,.88); }
+      [data-theme="dark"] .photo-step-num { color: var(--pink); }
+      [data-theme="dark"] .ps-edit-row { background: rgba(233,77,123,.08); border-color: rgba(233,77,123,.22); }
+      [data-theme="dark"] .ps-edit-thumb span { color: rgba(240,221,232,.36); }
       /* ── Cart dark ── */
       [data-theme="dark"] .cart-item-info strong { color: #fce4ef; }
       [data-theme="dark"] .cart-item-info span { color: var(--pink); text-shadow: 0 0 6px rgba(233,77,123,.4); }
@@ -861,14 +883,55 @@
             ) : (
               <div className="video-box" style={{ "--poster": `url(${lesson.poster})` }}><button className="play">▶</button><div className="watermark-center"><span>{user.code}</span></div></div>
             )}
-            {lesson.images && lesson.images.length > 0 && (
+            {/* Legacy horizontal strip — only if no new photoSteps */}
+            {(!lesson.photoSteps || lesson.photoSteps.length === 0) && lesson.images && lesson.images.length > 0 && (
               <div className="lesson-images">
                 {lesson.images.map((src, i) => (
                   <img key={i} src={src} alt={`Материал ${i + 1}`} onClick={() => window.open(src, "_blank")} loading="lazy" />
                 ))}
               </div>
             )}
-            <div className="lesson-body"><p className="eyebrow">{content.meta}</p><h1>{content.title}</h1><p>{content.note}</p><ul className="steps">{content.steps.map((step, index) => <li key={`${step}-${index}`}><strong>{index + 1}.</strong> {step}</li>)}</ul><button className="primary" onClick={markDone}>{isDone ? t.completed : t.markComplete}</button></div>
+            <div className="lesson-body">
+              <p className="eyebrow">{content.meta}</p>
+              <h1>{content.title}</h1>
+              {content.note && (
+                <div className="lesson-theory">
+                  <p className="lesson-section-label">📚 {lang === "ru" ? "Теория" : "Theory"}</p>
+                  {content.note.split("\n\n").map((para, i) => <p key={i}>{para}</p>)}
+                </div>
+              )}
+              {/* Photo steps — illustrated visual guide */}
+              {lesson.photoSteps && lesson.photoSteps.length > 0 && (
+                <div style={{ marginTop: 4, marginBottom: 8 }}>
+                  <p className="lesson-section-label">🖼 {lang === "ru" ? "Наглядный материал" : "Visual Guide"}</p>
+                  {lesson.photoSteps.map((ps, i) => (
+                    <div className="photo-step-card" key={i} onClick={() => window.open(ps.url, "_blank")}>
+                      <img src={ps.url} alt={`Шаг ${i + 1}`} loading="lazy" onError={(e) => e.target.style.display="none"} />
+                      {ps.caption && (
+                        <div className="photo-step-caption">
+                          <div className="photo-step-num">{lang === "ru" ? `Шаг ${i + 1}` : `Step ${i + 1}`}</div>
+                          <p>{ps.caption}</p>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+              {content.steps && content.steps.length > 0 && (
+                <>
+                  <p className="lesson-section-label">🛠 {lang === "ru" ? "Практика" : "Practice"}</p>
+                  <ul className="steps">{content.steps.map((step, index) => <li key={`${step}-${index}`}><strong>{index + 1}.</strong> {step}</li>)}</ul>
+                </>
+              )}
+              {content.homework && (
+                <div className="card" style={{ padding: 14, marginTop: 4, background: "rgba(233,77,123,.06)", borderColor: "rgba(233,77,123,.2)" }}>
+                  <p className="lesson-section-label" style={{ margin: "0 0 8px" }}>✏️ {lang === "ru" ? "Задание" : "Homework"}</p>
+                  <p style={{ margin: 0 }}>{content.homework}</p>
+                </div>
+              )}
+              <div style={{ height: 16 }} />
+              <button className="primary" onClick={markDone}>{isDone ? t.completed : t.markComplete}</button>
+            </div>
           </main>
         );
       }
@@ -902,17 +965,52 @@
         );
       }
 
-      /* ══════════════════════════════════════════════════
-         ПОЛНАЯ МЕТОДИЧКА ПО НАРАЩИВАНИЮ РЕСНИЦ (10 уроков)
-         ══════════════════════════════════════════════════ */
+      /* ══════════════════════════════════════════════════════════════
+         MIAMI LASH COURSE — ПОЛНАЯ ПРОГРАММА (25 уроков, RU + EN)
+         ══════════════════════════════════════════════════════════════ */
       const METHODOLOGY_LESSONS = [
         {
           id: "ml-001", poster: "./assets/girls-miami-clean.png", videoUrl: "", images: [],
           content: {
             ru: {
-              title: "Инструменты и рабочее место",
-              meta: "Модуль 1 · Основы",
-              note: "Залог отличной работы — правильно оснащённое рабочее место и профессиональные инструменты. В этом уроке вы познакомитесь с каждым элементом вашего набора и научитесь поддерживать стерильный порядок.",
+              title: "Профессия лэш-мастера: рынок и перспективы",
+              meta: "Модуль 1 · Введение",
+              note: "Наращивание ресниц — одна из самых быстрорастущих ниш бьюти-индустрии. По данным аналитиков, мировой рынок лэш-услуг превышает $2 млрд и ежегодно растёт на 7–8%. В США и особенно во Флориде спрос стабильно высок круглый год: культура красоты, активная социальная жизнь и тёплый климат делают Майами одним из лучших городов для лэш-бизнеса.\n\nСтартовый доход мастера в Майами — $3 000–5 000 в месяц, опытный мастер со своей базой зарабатывает $8 000–15 000. При этом вы сами выбираете график: работаете из дома, арендуете кресло в студии или выезжаете к клиентам. Профессия не требует лицензии в большинстве штатов США — нужны только навыки и уверенность.\n\nЭтот курс построен по принципу «от нуля до уверенного профессионала». Вы пройдёте путь от знакомства с инструментами до мега-объёма и LED/UV-наращивания. Проходите уроки строго последовательно: каждый модуль опирается на предыдущий. После каждого блока — практическое задание на манекене.",
+              steps: [
+                "Исследуйте рынок в вашем районе: откройте Yelp, Google Maps и Instagram, введите 'lash extensions Miami'. Запишите минимальную и максимальную цену за классику, объём и гибрид у 10 мастеров.",
+                "Определите рабочую модель: кабинет дома (минимум затрат, нет арендной платы), кресло в студии (трафик и окружение коллег) или мобильный мастер (выезд к клиенту, +$30–50 к цене). Начните с того, что требует меньше вложений.",
+                "Составьте бюджет старта: инструменты $200–400, материалы $150–250, обучение уже оплачено. Итого от $350–650 до первого клиента — это меньше, чем большинство профессий.",
+                "Создайте рабочий Instagram прямо сейчас — @имя_lashes или @имя_miami. Первые посты — учебные работы на манекене. Алгоритм начинает учитывать аккаунт с первой публикации.",
+                "Найдите лэш-сообщество: группы Facebook 'Lash Artists Miami', 'Lash Talk', Telegram-каналы русскоязычных мастеров США. Коллеги дают ответы быстрее любого учебника.",
+                "Поставьте финансовую цель: 5 клиентов в неделю × $150 = $750/нед = $3 000/мес. Это достижимо через 2–3 месяца после окончания курса. Запишите цифру и повесьте на видное место.",
+                "Задание урока: напишите на бумаге 3 причины, почему вы выбрали эту профессию, и вашу финансовую цель через 6 месяцев. Это ваш мотивационный якорь — возвращайтесь к нему в трудные моменты обучения."
+              ],
+              homework: "Зарегистрируйте рабочий Instagram-аккаунт и опубликуйте первый пост — знакомство с собой. Напишите под постом цель: 'Прохожу курс Miami Lash Course. Скоро первые работы!'."
+            },
+            en: {
+              title: "The Lash Profession: Market & Opportunity",
+              meta: "Module 1 · Introduction",
+              note: "Lash extensions are one of the fastest-growing niches in the beauty industry. The global lash market exceeds $2 billion and grows 7–8% every year. In the US — and especially in Florida — demand is consistently high year-round. Miami's beauty culture, active social scene and warm climate make it one of the best cities in the world to build a lash business.\n\nA starting lash artist in Miami earns $3,000–5,000 per month; an experienced artist with a loyal client base earns $8,000–15,000. You set your own schedule, work from home, rent a salon chair or offer mobile services. Most US states require no cosmetology license specifically for lash extensions — skill and confidence are your license.\n\nThis course is structured 'from zero to confident professional'. You will go from tools and anatomy all the way to mega volume and LED/UV lashing. Follow the lessons in order — each module builds on the previous. Every block ends with a hands-on mannequin assignment.",
+              steps: [
+                "Research your local market: search Yelp, Google Maps and Instagram for 'lash extensions Miami'. Write down the minimum and maximum price for classic, volume and hybrid sets at 10 artists.",
+                "Choose your working model: home studio (lowest cost, no rent), salon chair rental (foot traffic, colleagues) or mobile artist (go to client, add $30–50 to price). Start with whatever needs the smallest investment.",
+                "Budget your startup: tools $200–400, materials $150–250, training already paid. Total $350–650 to your first client — less than almost any other profession.",
+                "Create your working Instagram right now — @yourname_lashes or @yourname_miami. First posts: training work on a mannequin. The algorithm starts building your account from post one.",
+                "Find a lash community: Facebook groups 'Lash Artists Miami', 'Lash Talk', Reddit r/lashextensions. Colleagues give faster answers than any textbook.",
+                "Set a financial goal: 5 clients per week × $150 = $750/week = $3,000/month. This is achievable 2–3 months after finishing this course. Write the number down and put it somewhere you'll see it.",
+                "Lesson assignment: write down 3 reasons you chose this profession and your financial goal for 6 months from now. This is your motivational anchor — return to it on hard practice days."
+              ],
+              homework: "Register your working Instagram account and publish your first post — an introduction to yourself. Write in the caption: 'I'm taking the Miami Lash Course. First works coming soon!'."
+            }
+          }
+        },
+        {
+          id: "ml-002", poster: "./assets/girls-miami-clean.png", videoUrl: "", images: [],
+          content: {
+            ru: {
+              title: "Инструменты и материалы — полный разбор",
+              meta: "Модуль 2 · Оснащение",
+              note: "Профессиональный инструмент — это ваши руки. Даже самый опытный мастер не даст результата с плохими пинцетами или просроченным клеем. Качество инструментов напрямую влияет на скорость работы, точность изоляции и удержание ресниц. Не экономьте на базе — вложитесь один раз и работайте годами.\n\nМатериалы для наращивания делятся на расходники (клей, патчи, праймер — меняются регулярно) и инструменты (пинцеты, лампа, подушка — долгосрочные вложения). Для старта достаточно 2–3 пар пинцетов, стартового набора ресниц и базовых химикатов. По мере роста уровня вы будете сами понимать, что нужно обновить.",
               steps: [
                 "Пинцеты: изогнутый J-образный — для изоляции натуральной ресницы; прямой или Г-образный — для захвата и наклейки искусственной. Всегда держите запасную пару.",
                 "Клей: скорость полимеризации 1–2 сек — для новичков, 0.5 сек — для опытных мастеров. Хранить вертикально при 18–24°С, влажность 45–65%. Встряхивать 30 сек перед работой.",
@@ -1695,23 +1793,30 @@
 
       function LessonEditor({ lesson, lang, t, replaceLesson, deleteLesson, adminToken }) {
         const initial = lesson.content[lang];
+        // Convert legacy images[] → photoSteps[] on load
+        const toPhotoSteps = (ps, imgs) => {
+          if (ps && ps.length) return ps;
+          if (imgs && imgs.length) return imgs.map((url) => ({ url, caption: "" }));
+          return [];
+        };
         const [draft, setDraft] = useState({
           ...initial,
-          stepsText: initial.steps.join("\n"),
+          stepsText: (initial.steps || []).join("\n"),
           poster: lesson.poster,
           videoUrl: lesson.videoUrl || "",
-          images: lesson.images || []
+          photoSteps: toPhotoSteps(lesson.photoSteps, lesson.images)
         });
         useEffect(() => {
           const next = lesson.content[lang];
-          setDraft({ ...next, stepsText: next.steps.join("\n"), poster: lesson.poster, videoUrl: lesson.videoUrl || "", images: lesson.images || [] });
+          setDraft({ ...next, stepsText: (next.steps || []).join("\n"), poster: lesson.poster, videoUrl: lesson.videoUrl || "", photoSteps: toPhotoSteps(lesson.photoSteps, lesson.images) });
         }, [lesson.id, lang]);
         const save = () => replaceLesson({
           ...lesson,
           poster: draft.poster,
           videoUrl: draft.videoUrl,
-          images: draft.images || [],
-          content: { ...lesson.content, [lang]: { title: draft.title, meta: draft.meta, note: draft.note, steps: draft.stepsText.split("\n").map((item) => item.trim()).filter(Boolean) } }
+          photoSteps: draft.photoSteps || [],
+          images: (draft.photoSteps || []).map((ps) => ps.url), // backward-compat
+          content: { ...lesson.content, [lang]: { title: draft.title, meta: draft.meta, note: draft.note, steps: draft.stepsText.split("\n").map((item) => item.trim()).filter(Boolean), homework: draft.homework || "" } }
         });
         return (
           <div className="card admin-form" style={{ padding: 12 }}>
@@ -1719,6 +1824,10 @@
             <label className="field-label">{t.meta}<input className="input" value={draft.meta} onChange={(e) => setDraft({ ...draft, meta: e.target.value })} /></label>
             <label className="field-label">{t.note}<textarea className="textarea" value={draft.note} onChange={(e) => setDraft({ ...draft, note: e.target.value })} /></label>
             <label className="field-label">{t.steps}<textarea className="textarea" value={draft.stepsText} onChange={(e) => setDraft({ ...draft, stepsText: e.target.value })} /></label>
+            <label className="field-label">
+              {lang === "ru" ? "✏️ Домашнее задание" : "✏️ Homework"}
+              <textarea className="textarea" style={{ minHeight: 56 }} placeholder={lang === "ru" ? "Задание для самостоятельной работы после урока..." : "Assignment for independent practice after the lesson..."} value={draft.homework || ""} onChange={(e) => setDraft({ ...draft, homework: e.target.value })} />
+            </label>
 
             {/* Обложка урока */}
             <label className="field-label">{t.poster}
@@ -1750,27 +1859,40 @@
               </p>
             )}
 
-            {/* Фото к уроку */}
-            <div className="field-label" style={{ marginTop: 8 }}>
-              <span>{lang === "ru" ? "📸 Фото к уроку (таблицы, схемы, примеры)" : "📸 Lesson images (charts, diagrams, examples)"}</span>
-              {draft.images.length > 0 && (
-                <div style={{ marginTop: 6, display: "grid", gap: 4 }}>
-                  {draft.images.map((src, i) => (
-                    <div className="img-edit-row" key={i}>
-                      <img src={src} alt="" onError={(e) => e.target.style.display="none"} />
-                      <span>{src}</span>
-                      <button className="danger" style={{ fontSize: 10, minHeight: 26, padding: "0 8px", flexShrink: 0 }}
-                        onClick={() => setDraft({ ...draft, images: draft.images.filter((_, j) => j !== i) })}>✕</button>
-                    </div>
-                  ))}
+            {/* Наглядный материал — фото с пояснениями */}
+            <div className="field-label" style={{ marginTop: 10 }}>
+              <span style={{ fontWeight: 900, fontSize: 11 }}>{lang === "ru" ? "📸 Наглядный материал — фото с пояснением" : "📸 Illustrated steps — photos with captions"}</span>
+              <p style={{ margin: "3px 0 0", fontSize: 11, color: "rgba(29,29,29,.5)", fontWeight: 600 }}>
+                {lang === "ru" ? "Загрузи фото (схема, пример, этап) — и добавь подпись, объясняя что на нём показано." : "Upload a photo (diagram, example, step) — then add a caption explaining what it shows."}
+              </p>
+              {(draft.photoSteps || []).map((ps, i) => (
+                <div className="ps-edit-row" key={i}>
+                  <div className="ps-edit-thumb">
+                    <img src={ps.url} alt="" onError={(e) => e.target.style.display="none"} />
+                    <span>📎 {ps.url ? ps.url.split("/").pop().split("?")[0] : ""}</span>
+                    <button className="danger" style={{ fontSize: 10, minHeight: 26, padding: "0 10px", flexShrink: 0 }}
+                      onClick={() => setDraft({ ...draft, photoSteps: draft.photoSteps.filter((_, j) => j !== i) })}>
+                      {lang === "ru" ? "Удалить" : "Remove"}
+                    </button>
+                  </div>
+                  <textarea
+                    className="textarea"
+                    style={{ minHeight: 60, marginBottom: 0 }}
+                    placeholder={lang === "ru" ? `Подпись к фото ${i + 1} — объясни: что здесь показано, на что обратить внимание...` : `Caption for photo ${i + 1} — explain what's shown and what to pay attention to...`}
+                    value={ps.caption || ""}
+                    onChange={(e) => {
+                      const updated = draft.photoSteps.map((item, j) => j === i ? { ...item, caption: e.target.value } : item);
+                      setDraft({ ...draft, photoSteps: updated });
+                    }}
+                  />
                 </div>
-              )}
+              ))}
               {adminToken && (
                 <FileUploader adminToken={adminToken} accept="image/*"
-                  label={lang === "ru" ? "➕ Добавить фото к уроку" : "➕ Add lesson image"}
-                  hint={lang === "ru" ? "JPG/PNG — без потери качества" : "JPG/PNG — high quality"}
+                  label={lang === "ru" ? "➕ Добавить фото-шаг" : "➕ Add illustrated step"}
+                  hint={lang === "ru" ? "JPG/PNG — после загрузки введи пояснение" : "JPG/PNG — add a caption after uploading"}
                   maxSize={1200} quality={0.90}
-                  onUploaded={(url) => setDraft({ ...draft, images: [...draft.images, url] })} />
+                  onUploaded={(url) => setDraft({ ...draft, photoSteps: [...(draft.photoSteps || []), { url, caption: "" }] })} />
               )}
             </div>
 
