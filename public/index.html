@@ -311,12 +311,30 @@
       .img-edit-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid rgba(233,77,123,.08); }
       .img-edit-row img { width: 52px; height: 40px; border-radius: 6px; object-fit: cover; flex-shrink: 0; }
       .img-edit-row span { flex: 1; font-size: 10px; font-weight: 700; color: rgba(29,29,29,.5); word-break: break-all; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+      /* ── Video wrapper с fullscreen и водяным знаком ── */
+      .video-wrapper { position: relative; border-radius: 8px; overflow: hidden; user-select: none; }
+      .video-wrapper:fullscreen, .video-wrapper:-webkit-full-screen { display: flex; align-items: center; justify-content: center; background: #000; border-radius: 0; }
+      .video-wrapper:fullscreen .video-iframe, .video-wrapper:-webkit-full-screen .video-iframe { position: static !important; width: min(100vw, calc(100vh * 16 / 9)); height: min(100vh, calc(100vw * 9 / 16)); border-radius: 0; }
+      .video-wrapper:fullscreen .watermark-center, .video-wrapper:-webkit-full-screen .watermark-center { z-index: 200; }
+      .fs-btn { position: absolute; bottom: 8px; right: 8px; z-index: 20; background: rgba(0,0,0,.54); border: 1px solid rgba(255,255,255,.22); color: #fff; font-size: 15px; border-radius: 7px; padding: 3px 9px; cursor: pointer; line-height: 1; backdrop-filter: blur(4px); }
+      .fs-btn:hover { background: rgba(0,0,0,.82); }
       /* ── Photo step cards (наглядный материал) ── */
       .photo-step-card { background: rgba(255,255,255,.72); border-radius: 14px; overflow: hidden; margin-bottom: 14px; box-shadow: 0 3px 16px rgba(29,29,29,.10); cursor: zoom-in; }
       .photo-step-card img { width: 100%; max-height: 320px; object-fit: cover; display: block; }
       .photo-step-caption { padding: 11px 14px 14px; }
       .photo-step-num { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1.2px; color: var(--pink-dark); margin-bottom: 4px; }
       .photo-step-caption p { margin: 0; font-size: 13px; font-weight: 500; line-height: 1.6; }
+      /* ── Lightbox — просмотр фото с подписью ── */
+      .lightbox-overlay { position: fixed; inset: 0; z-index: 400; background: rgba(0,0,0,.93); display: flex; align-items: center; justify-content: center; padding: 20px; touch-action: none; }
+      .lightbox-box { position: relative; width: 100%; max-width: 420px; }
+      .lightbox-close { position: absolute; top: -46px; right: 0; background: rgba(255,255,255,.14); border: none; color: #fff; font-size: 18px; font-weight: 900; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; }
+      .lightbox-img { width: 100%; display: block; border-radius: 14px; -webkit-user-drag: none; pointer-events: none; }
+      .lightbox-cap { padding: 12px 2px 0; color: #fff; }
+      .lightbox-cap .photo-step-num { color: rgba(233,77,123,.9); }
+      .lightbox-cap p { margin: 0; font-size: 13px; font-weight: 500; line-height: 1.55; }
+      .lb-nav { position: absolute; top: 40%; transform: translateY(-50%); background: rgba(255,255,255,.14); border: none; color: #fff; font-size: 28px; border-radius: 8px; padding: 2px 10px; cursor: pointer; }
+      .lb-nav.prev { left: -46px; }
+      .lb-nav.next { right: -46px; }
       /* ── Photo step editor row ── */
       .ps-edit-row { background: rgba(233,77,123,.05); border: 1px solid rgba(233,77,123,.14); border-radius: 10px; padding: 10px; margin-top: 8px; display: grid; gap: 8px; }
       .ps-edit-thumb { display: flex; align-items: center; gap: 8px; }
@@ -448,6 +466,8 @@
       [data-theme="dark"] .accordion-item.drag-over { box-shadow: 0 0 0 2px rgba(233,77,123,.42), 0 0 16px rgba(233,77,123,.25); }
       /* ── Lesson images dark ── */
       [data-theme="dark"] .lesson-images img { box-shadow: 0 4px 18px rgba(0,0,0,.5), 0 0 8px rgba(233,77,123,.12); }
+      /* ── Fullscreen btn dark ── */
+      [data-theme="dark"] .fs-btn { background: rgba(0,0,0,.72); border-color: rgba(233,77,123,.3); }
       /* ── Photo step cards dark ── */
       [data-theme="dark"] .photo-step-card { background: rgba(42,14,28,.82); box-shadow: 0 4px 22px rgba(0,0,0,.45); }
       [data-theme="dark"] .photo-step-caption p { color: rgba(240,221,232,.88); }
@@ -631,7 +651,7 @@
             </Shell>
           );
         }
-        if (!client.token) return <LoginScreen t={t} lang={lang} setLang={setLang} setClient={setClient} setCourse={setCourse} setUser={setUser} setView={setView} />;
+        if (!client.token) return <LoginScreen t={t} lang={lang} setLang={setLang} setClient={setClient} setCourse={setCourse} setUser={setUser} setView={setView} darkMode={darkMode} toggleDark={toggleDark} />;
         if (!course) return <Shell><main className="screen"><p className="notice">{error || t.serverError}</p><button className="primary" onClick={refreshCourse}>{t.loading}</button></main></Shell>;
 
         const activeLesson = course.lessons.find((lesson) => lesson.id === activeLessonId) || course.lessons[0];
@@ -690,7 +710,7 @@
         );
       }
 
-      function LoginScreen({ t, lang, setLang, setClient, setCourse, setUser, setView }) {
+      function LoginScreen({ t, lang, setLang, setClient, setCourse, setUser, setView, darkMode, toggleDark }) {
         const [name, setName] = useState("");
         const [code, setCode] = useState("");
         const [error, setError] = useState("");
@@ -717,7 +737,10 @@
               <div>
                 <div className="top-actions" style={{ justifyContent: "space-between" }}>
                   <p className="eyebrow">Lash Artist | Hanna Kozak</p>
-                  <button className="icon-button" onClick={() => setLang(lang === "en" ? "ru" : "en")}>{lang.toUpperCase()}</button>
+                  <div style={{ display: "flex", gap: 8 }}>
+                    {toggleDark && <button className="icon-button" onClick={toggleDark} title="Сменить тему">{darkMode ? "☀️" : "🌙"}</button>}
+                    <button className="icon-button" onClick={() => setLang(lang === "en" ? "ru" : "en")}>{lang.toUpperCase()}</button>
+                  </div>
                 </div>
                 <h1 className="hero-title">Girls<br /><span className="script">Miami</span></h1>
                 <div className="polaroid-stack">
@@ -858,48 +881,95 @@
         })}</div></main>;
       }
 
+      // ── Лайтбокс для просмотра фото-шагов ─────────────────────────────────────
+      function PhotoLightbox({ photos, startIdx, onClose, lang }) {
+        const [idx, setIdx] = useState(startIdx);
+        const ps = photos[idx];
+        const total = photos.length;
+        useEffect(() => {
+          const onKey = (e) => {
+            if (e.key === "Escape") onClose();
+            if (e.key === "ArrowRight" && idx < total - 1) setIdx((i) => i + 1);
+            if (e.key === "ArrowLeft" && idx > 0) setIdx((i) => i - 1);
+          };
+          document.addEventListener("keydown", onKey);
+          return () => document.removeEventListener("keydown", onKey);
+        }, [idx, total]);
+        return (
+          <div className="lightbox-overlay" onClick={onClose}>
+            <div className="lightbox-box" onClick={(e) => e.stopPropagation()}>
+              <button className="lightbox-close" onClick={onClose}>✕</button>
+              {idx > 0 && <button className="lb-nav prev" onClick={() => setIdx((i) => i - 1)}>‹</button>}
+              {idx < total - 1 && <button className="lb-nav next" onClick={() => setIdx((i) => i + 1)}>›</button>}
+              <img className="lightbox-img" src={ps.url} alt="" onContextMenu={(e) => e.preventDefault()} loading="lazy" onError={(e) => e.target.style.display="none"} />
+              {(ps.caption || total > 1) && (
+                <div className="lightbox-cap">
+                  <div className="photo-step-num">{total > 1 ? `${lang === "ru" ? "Фото" : "Photo"} ${idx + 1} / ${total}` : (lang === "ru" ? "Наглядный материал" : "Visual guide")}</div>
+                  {ps.caption && <p>{ps.caption}</p>}
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      }
+
       function LessonScreen({ t, lang, user, lesson, setUser, token, setView }) {
         const content = lesson.content[lang];
         const isDone = user.completed.includes(lesson.id);
+        const [lightbox, setLightbox] = useState(null); // null | number (index)
+        const videoWrapRef = React.useRef(null);
+
         const markDone = async () => {
           if (isDone) return;
           const completed = [...user.completed, lesson.id];
           await request("/api/progress", { method: "POST", headers: { Authorization: `Bearer ${token}` }, body: JSON.stringify({ completed }) });
           setUser({ ...user, completed });
         };
+
+        const goFullscreen = () => {
+          const el = videoWrapRef.current;
+          if (!el) return;
+          (el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen)?.call(el);
+        };
+
+        // Все фото для лайтбокса (новый формат + legacy)
+        const photoSteps = lesson.photoSteps && lesson.photoSteps.length > 0
+          ? lesson.photoSteps
+          : (lesson.images || []).map((url) => ({ url, caption: "" }));
+
         const videoUrl = lesson.videoUrl || "";
         const youtubeId = videoUrl ? extractYoutubeId(videoUrl) : null;
         const isDirectVideo = videoUrl && !youtubeId;
+
         return (
           <main className="screen">
+            {lightbox !== null && photoSteps.length > 0 && (
+              <PhotoLightbox photos={photoSteps} startIdx={lightbox} onClose={() => setLightbox(null)} lang={lang} />
+            )}
             <button className="back-btn" onClick={() => setView("lessons")}>← {lang === "ru" ? "Все уроки" : "All lessons"}</button>
+
+            {/* ── Видео с водяным знаком и нашей кнопкой fullscreen ── */}
             {youtubeId ? (
-              <div style={{ position: "relative", borderRadius: 8, overflow: "hidden", userSelect: "none" }}>
+              <div className="video-wrapper" ref={videoWrapRef}>
                 <iframe
                   className="video-iframe"
-                  src={`https://www.youtube.com/embed/${youtubeId}?rel=0&modestbranding=1&iv_load_policy=3&fs=1&playsinline=1`}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-                  allowFullScreen
+                  src={`https://www.youtube.com/embed/${youtubeId}?rel=0&modestbranding=1&iv_load_policy=3&fs=0&playsinline=1`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 />
                 <div onContextMenu={(e) => e.preventDefault()} style={{ position: "absolute", top: 0, left: 0, right: 0, height: 48, zIndex: 10, cursor: "default" }} />
                 <div className="watermark-center"><span>{user.code}</span></div>
+                <button className="fs-btn" onClick={goFullscreen} title={lang === "ru" ? "Полный экран" : "Fullscreen"}>⛶</button>
               </div>
             ) : isDirectVideo ? (
-              <div style={{ position: "relative", borderRadius: 8, overflow: "hidden", background: "#000" }}>
-                <video controls controlsList="nodownload" onContextMenu={(e) => e.preventDefault()} style={{ width: "100%", maxHeight: 260, display: "block", background: "#000" }} src={videoUrl} />
+              <div className="video-wrapper" ref={videoWrapRef} style={{ background: "#000" }}>
+                <video controls controlsList="nodownload noremoteplayback" onContextMenu={(e) => e.preventDefault()} style={{ width: "100%", maxHeight: 260, display: "block" }} src={videoUrl} />
                 <div className="watermark-center"><span>{user.code}</span></div>
+                <button className="fs-btn" onClick={goFullscreen} title={lang === "ru" ? "Полный экран" : "Fullscreen"}>⛶</button>
               </div>
             ) : (
               <div className="video-box" style={{ "--poster": `url(${lesson.poster})` }}><button className="play">▶</button><div className="watermark-center"><span>{user.code}</span></div></div>
             )}
-            {/* Legacy horizontal strip — only if no new photoSteps */}
-            {(!lesson.photoSteps || lesson.photoSteps.length === 0) && lesson.images && lesson.images.length > 0 && (
-              <div className="lesson-images">
-                {lesson.images.map((src, i) => (
-                  <img key={i} src={src} alt={`Материал ${i + 1}`} onClick={() => window.open(src, "_blank")} loading="lazy" />
-                ))}
-              </div>
-            )}
+
             <div className="lesson-body">
               <p className="eyebrow">{content.meta}</p>
               <h1>{content.title}</h1>
@@ -909,13 +979,13 @@
                   {content.note.split("\n\n").map((para, i) => <p key={i}>{para}</p>)}
                 </div>
               )}
-              {/* Photo steps — illustrated visual guide */}
-              {lesson.photoSteps && lesson.photoSteps.length > 0 && (
+              {/* ── Наглядный материал — открывается в лайтбоксе ── */}
+              {photoSteps.length > 0 && (
                 <div style={{ marginTop: 4, marginBottom: 8 }}>
                   <p className="lesson-section-label">🖼 {lang === "ru" ? "Наглядный материал" : "Visual Guide"}</p>
-                  {lesson.photoSteps.map((ps, i) => (
-                    <div className="photo-step-card" key={i} onClick={() => window.open(ps.url, "_blank")}>
-                      <img src={ps.url} alt={`Шаг ${i + 1}`} loading="lazy" onError={(e) => e.target.style.display="none"} />
+                  {photoSteps.map((ps, i) => (
+                    <div className="photo-step-card" key={i} onClick={() => setLightbox(i)}>
+                      <img src={ps.url} alt={`Шаг ${i + 1}`} loading="lazy" onContextMenu={(e) => e.preventDefault()} onError={(e) => e.target.style.display="none"} />
                       {ps.caption && (
                         <div className="photo-step-caption">
                           <div className="photo-step-num">{lang === "ru" ? `Шаг ${i + 1}` : `Step ${i + 1}`}</div>
@@ -1846,7 +1916,7 @@
             {adminToken && (
               <FileUploader adminToken={adminToken} accept="image/*"
                 label={lang === "ru" ? "📷 Загрузить обложку урока" : "📷 Upload lesson cover"}
-                hint={lang === "ru" ? "JPG/PNG — сжимается до 640px" : "JPG/PNG — resized to 640px"}
+                hint={lang === "ru" ? "JPG/PNG · до 10 МБ · мин. 640×360px · соотношение 16:9" : "JPG/PNG · up to 10 MB · min 640×360px · 16:9 ratio"}
                 maxSize={640} quality={0.85}
                 onUploaded={(url) => setDraft({ ...draft, poster: url })} />
             )}
@@ -1858,8 +1928,8 @@
             </label>
             {adminToken && (
               <FileUploader adminToken={adminToken} accept="video/*"
-                label={lang === "ru" ? "📁 Загрузить видео с ПК" : "📁 Upload video from PC"}
-                hint={lang === "ru" ? "MP4, MOV — до ~45 МБ (лучше YouTube)" : "MP4, MOV — up to ~45 MB (YouTube preferred)"}
+                label={lang === "ru" ? "📁 Загрузить видео с устройства" : "📁 Upload video from device"}
+                hint={lang === "ru" ? "MP4, MOV · до 100 МБ · 1080p рекомендуется · YouTube предпочтительнее" : "MP4, MOV · up to 100 MB · 1080p recommended · YouTube preferred"}
                 onUploaded={(url) => setDraft({ ...draft, videoUrl: url })} />
             )}
             {draft.videoUrl && (
@@ -1899,7 +1969,7 @@
               {adminToken && (
                 <FileUploader adminToken={adminToken} accept="image/*"
                   label={lang === "ru" ? "➕ Добавить фото-шаг" : "➕ Add illustrated step"}
-                  hint={lang === "ru" ? "JPG/PNG — после загрузки введи пояснение" : "JPG/PNG — add a caption after uploading"}
+                  hint={lang === "ru" ? "JPG/PNG/WEBP · до 10 МБ · мин. 800px по ширине · после загрузки введи пояснение" : "JPG/PNG/WEBP · up to 10 MB · min 800px wide · add a caption after uploading"}
                   maxSize={1200} quality={0.90}
                   onUploaded={(url) => setDraft({ ...draft, photoSteps: [...(draft.photoSteps || []), { url, caption: "" }] })} />
               )}
