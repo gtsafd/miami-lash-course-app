@@ -1773,8 +1773,26 @@
 
             {tab === "students" && (
               <div className="admin-panel">
+                {/* ── 🔔 Push-рассылка ── */}
+                <div className="card" style={{ padding: 16, marginBottom: 4, border: "1.5px solid rgba(233,77,123,.22)", background: "rgba(255,214,223,.18)" }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+                    <div>
+                      <p style={{ margin: 0, fontSize: 13, fontWeight: 900, textTransform: "uppercase", color: "var(--pink-dark)", letterSpacing: .5 }}>
+                        🔔 {lang === "ru" ? "Рассылка ученицам" : "Send notification"}
+                      </p>
+                      <p style={{ margin: "3px 0 0", fontSize: 11, fontWeight: 700, color: "rgba(29,29,29,.5)" }}>
+                        {lang === "ru"
+                          ? `${adminState?.pushCount ?? 0} подписчиков получат уведомление`
+                          : `${adminState?.pushCount ?? 0} subscribers will receive it`}
+                      </p>
+                    </div>
+                    <span style={{ fontSize: 28 }}>📲</span>
+                  </div>
+                  <PushSender adminToken={client.adminToken} lang={lang} pushCount={adminState?.pushCount ?? 0} />
+                </div>
+
                 {/* ── Активные ученицы ── */}
-                <p style={{ margin: "0 0 8px", fontSize: 11, fontWeight: 800, color: "rgba(29,29,29,.5)", textTransform: "uppercase" }}>
+                <p style={{ margin: "16px 0 8px", fontSize: 11, fontWeight: 800, color: "rgba(29,29,29,.5)", textTransform: "uppercase" }}>
                   {lang === "ru" ? `Активных учениц: ${students.length}` : `Active students: ${students.length}`}
                 </p>
                 {students.length === 0 && <p className="notice">{lang === "ru" ? "Ещё никто не активировал код" : "No students yet"}</p>}
@@ -1852,15 +1870,6 @@
 
             {tab === "data" && (
               <div className="admin-panel">
-                <div className="card" style={{ padding: 14 }}>
-                  <p style={{ margin: "0 0 4px", fontSize: 12, fontWeight: 900, textTransform: "uppercase", color: "var(--pink-dark)" }}>
-                    🔔 {lang === "ru" ? "Push-уведомления" : "Push notifications"}
-                  </p>
-                  <p style={{ margin: "0 0 12px", fontSize: 11, fontWeight: 700, color: "rgba(29,29,29,.5)" }}>
-                    {lang === "ru" ? `Подписчиков: ${adminState?.pushCount ?? "—"}` : `Subscribers: ${adminState?.pushCount ?? "—"}`}
-                  </p>
-                  <PushSender adminToken={client.adminToken} lang={lang} />
-                </div>
                 <button className="secondary" onClick={loadAdmin}>{t.refresh}</button>
                 <button className="danger" onClick={exitAdmin}>{t.exitAdmin}</button>
                 <p className="notice">Данные хранятся в приватном репозитории GitHub: gtsafd/miami-lash-course-data</p>
@@ -2054,39 +2063,82 @@
         );
       }
 
-      function PushSender({ adminToken, lang }) {
-        const [title, setTitle] = useState("Miami Lash Course");
+      function PushSender({ adminToken, lang, pushCount }) {
+        const [title, setTitle] = useState("Miami Lash Course 💕");
         const [body, setBody] = useState("");
-        const [status, setStatus] = useState("");
+        const [status, setStatus] = useState(""); // "" | "sending" | "ok:N" | "err:msg"
         const [busy, setBusy] = useState(false);
+
+        const TEMPLATES = lang === "ru" ? [
+          ["🎬 Новый урок!", "Девочки, вышел новый урок — заходите смотреть! 🔥"],
+          ["✏️ Домашнее задание", "Не забудьте выполнить задание к последнему уроку 📝"],
+          ["🌟 Важное обновление", "В курсе появились новые материалы — загляните! ✨"],
+          ["💬 Привет!", "Привет! Как успехи? Не бросайте курс, вы молодцы! 💪"],
+        ] : [
+          ["🎬 New lesson!", "Girls, a new lesson is out — come and watch! 🔥"],
+          ["✏️ Homework reminder", "Don't forget to complete the assignment from the last lesson 📝"],
+          ["🌟 Update", "New materials have been added to the course — check it out! ✨"],
+          ["💬 Hey!", "Hey! How's it going? Keep it up, you're doing great! 💪"],
+        ];
+
         const send = async () => {
           if (!body.trim()) return;
-          setBusy(true); setStatus("");
+          setBusy(true); setStatus("sending");
           try {
             const data = await request("/api/push/send", {
               method: "POST",
               headers: { Authorization: `Bearer ${adminToken}` },
               body: JSON.stringify({ title, body })
             });
-            setStatus(lang === "ru" ? `✅ Отправлено: ${data.sent ?? 0} получателей` : `✅ Sent to ${data.sent ?? 0} recipients`);
+            setStatus(`ok:${data.sent ?? 0}`);
             setBody("");
+            setTimeout(() => setStatus(""), 8000);
           } catch (err) {
-            setStatus("❌ " + (err.message || "Error"));
+            setStatus("err:" + (err.message || "Error"));
+            setTimeout(() => setStatus(""), 6000);
           } finally {
             setBusy(false);
           }
         };
+
+        const sent = status.startsWith("ok:") ? status.slice(3) : null;
+        const errMsg = status.startsWith("err:") ? status.slice(4) : null;
+
         return (
-          <div className="admin-form">
-            <label className="field-label">{lang === "ru" ? "Заголовок" : "Title"}
+          <div style={{ display: "grid", gap: 10 }}>
+            {/* Шаблоны быстрых сообщений */}
+            <div>
+              <p style={{ margin: "0 0 7px", fontSize: 10, fontWeight: 900, textTransform: "uppercase", letterSpacing: 1, color: "rgba(29,29,29,.45)" }}>
+                {lang === "ru" ? "Быстрые шаблоны:" : "Quick templates:"}
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>
+                {TEMPLATES.map(([tpl, msg]) => (
+                  <button key={tpl} onClick={() => { setTitle(tpl); setBody(msg); }}
+                    style={{ textAlign: "left", padding: "7px 10px", fontSize: 11, fontWeight: 700, borderRadius: 10, border: "1px solid rgba(233,77,123,.2)", background: body === msg ? "rgba(233,77,123,.1)" : "rgba(255,255,255,.7)", color: "var(--ink)", lineHeight: 1.3, cursor: "pointer" }}>
+                    {tpl}
+                  </button>
+                ))}
+              </div>
+            </div>
+            {/* Форма */}
+            <label className="field-label" style={{ marginTop: 2 }}>{lang === "ru" ? "Заголовок" : "Title"}
               <input className="input" value={title} onChange={(e) => setTitle(e.target.value)} />
             </label>
-            <label className="field-label">{lang === "ru" ? "Текст уведомления" : "Message"}
-              <textarea className="textarea" style={{ minHeight: 72 }} value={body} onChange={(e) => setBody(e.target.value)} placeholder={lang === "ru" ? "Текст сообщения..." : "Message text..."} />
+            <label className="field-label">{lang === "ru" ? "Текст сообщения" : "Message text"}
+              <textarea className="textarea" style={{ minHeight: 80 }} value={body}
+                onChange={(e) => setBody(e.target.value)}
+                placeholder={lang === "ru" ? "Напиши сообщение для учениц..." : "Write a message for students..."} />
             </label>
-            {status && <p className="status" style={{ margin: 0 }}>{status}</p>}
-            <button className="primary" disabled={busy || !body.trim()} onClick={send}>
-              {busy ? "..." : lang === "ru" ? "📨 Отправить всем" : "📨 Send to all"}
+            {/* Статус */}
+            {sent !== null && (
+              <p style={{ margin: 0, fontWeight: 800, fontSize: 13, color: "var(--pink-dark)" }}>
+                ✅ {lang === "ru" ? `Отправлено ${sent} ученицам` : `Sent to ${sent} students`}
+              </p>
+            )}
+            {errMsg && <p style={{ margin: 0, fontWeight: 800, fontSize: 12, color: "#c0392b" }}>❌ {errMsg}</p>}
+            <button className="primary" disabled={busy || !body.trim()} onClick={send}
+              style={{ fontSize: 14, minHeight: 48 }}>
+              {status === "sending" ? (lang === "ru" ? "Отправляется..." : "Sending...") : `📨 ${lang === "ru" ? "Отправить всем ученицам" : "Send to all students"}`}
             </button>
           </div>
         );
