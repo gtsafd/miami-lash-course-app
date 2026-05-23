@@ -588,6 +588,7 @@
 
       const CART_KEY = "miami-lash-cart-v1";
       const DARK_KEY = "miami-lash-dark-v1";
+      const PUSH_ASKED_KEY = "miami-lash-push-asked-v1";
 
       function urlBase64ToUint8Array(b64) {
         const pad = "=".repeat((4 - b64.length % 4) % 4);
@@ -818,12 +819,23 @@
       function HomeScreen({ course, t, lang, user, setView, setActiveLessonId, token }) {
         const [pushState, setPushState] = useState("idle"); // idle | asking | done | unsupported | error
         const [pushErr, setPushErr] = useState("");
+        const [showPushModal, setShowPushModal] = useState(false);
+
         useEffect(() => {
           if (!("Notification" in window) || !("serviceWorker" in navigator)) { setPushState("unsupported"); return; }
-          if (Notification.permission !== "granted") return;
-          // Check if there is an actual push subscription saved
-          navigator.serviceWorker.ready.then((reg) => reg.pushManager.getSubscription()).then((sub) => { if (sub) setPushState("done"); }).catch(() => {});
+          if (Notification.permission === "granted") {
+            // Уже разрешено — проверяем подписку
+            navigator.serviceWorker.ready.then((reg) => reg.pushManager.getSubscription()).then((sub) => { if (sub) setPushState("done"); }).catch(() => {});
+            return;
+          }
+          if (Notification.permission === "denied") { setPushState("unsupported"); return; }
+          // Первый раз — показываем наш красивый запрос через 2 сек
+          if (!localStorage.getItem(PUSH_ASKED_KEY)) {
+            const timer = setTimeout(() => setShowPushModal(true), 2000);
+            return () => clearTimeout(timer);
+          }
         }, []);
+
         const subscribePush = async () => {
           setPushState("asking"); setPushErr("");
           try {
@@ -837,6 +849,17 @@
             setPushState("done");
           } catch (ex) { setPushState("error"); setPushErr(ex.message || "Error"); }
         };
+
+        const dismissPushModal = () => {
+          setShowPushModal(false);
+          localStorage.setItem(PUSH_ASKED_KEY, "1");
+        };
+        const acceptPush = () => {
+          setShowPushModal(false);
+          localStorage.setItem(PUSH_ASKED_KEY, "1");
+          subscribePush();
+        };
+
         const hero = course.settings.hero[lang];
         const done = user.completed.length;
         const pct = Math.round((done / course.lessons.length) * 100);
@@ -844,6 +867,29 @@
         const content = nextLesson.content[lang];
         return (
           <main className="screen">
+            {/* ── Push-modal при первом входе ── */}
+            {showPushModal && (
+              <div className="modal-overlay" onClick={dismissPushModal}>
+                <div className="modal-card" style={{ maxWidth: 320 }} onClick={(e) => e.stopPropagation()}>
+                  <span style={{ fontSize: 44, display: "block", marginBottom: 4 }}>🔔</span>
+                  <p style={{ fontSize: 17, fontWeight: 900, margin: "0 0 8px" }}>
+                    {lang === "ru" ? "Включить уведомления?" : "Enable notifications?"}
+                  </p>
+                  <p style={{ fontSize: 13, fontWeight: 600, color: "rgba(29,29,29,.55)", margin: "0 0 18px", lineHeight: 1.5 }}>
+                    {lang === "ru"
+                      ? "Узнавай первой когда выходит новый урок, задание или важное сообщение от Ханны 💕"
+                      : "Be the first to know when a new lesson, assignment or message from Hanna drops 💕"}
+                  </p>
+                  <button className="primary" style={{ marginBottom: 10 }} onClick={acceptPush}>
+                    🔔 {lang === "ru" ? "Да, включить!" : "Yes, enable!"}
+                  </button>
+                  <button className="secondary" style={{ width: "100%", fontSize: 12 }} onClick={dismissPushModal}>
+                    {lang === "ru" ? "Позже" : "Maybe later"}
+                  </button>
+                </div>
+              </div>
+            )}
+
             <section className="course-hero card"><p className="eyebrow" style={{ color: "rgba(255,255,255,.82)" }}>{t.premiumTraining}</p><h1>{hero.title}<br /><span className="script">{hero.script}</span></h1><p>{hero.subtitle}</p></section>
             <div className="stats"><div className="stat"><strong>{course.lessons.length}</strong><span>{t.statsLessons}</span></div><div className="stat"><strong>{done}</strong><span>{t.statsDone}</span></div><div className="stat"><strong>{pct}%</strong><span>{t.statsProgress}</span></div></div>
             <section style={{ marginTop: 22 }} className="card">
@@ -851,24 +897,14 @@
                 <div><p className="eyebrow">{t.continueTraining}</p><h2 style={{ margin: "4px 0 8px", fontSize: 22, textTransform: "uppercase" }}>{content.title}</h2><p style={{ margin: 0, fontSize: 12, fontWeight: 700, lineHeight: 1.55 }}>{content.meta}</p></div>
                 <div className="progress-ring" style={{ "--pct": `${pct}%` }}><span>{pct}%</span></div>
               </div>
-              <div style={{ padding: "0 16px 16px" }}><button className="primary" onClick={() => { setActiveLessonId(nextLesson.id); setView("lesson"); }}>{t.openLesson}</button></div>
+              <div style={{ padding: "0 16px 16px" }}><button className="primary" onClick={() => setView("lessons")}>{t.openLesson}</button></div>
             </section>
             <section style={{ marginTop: 22 }}><div className="section-head"><div><h2>{t.today}</h2><p>{t.practicePlan}</p></div></div><div className="grid-2"><div className="resource"><strong>30 min</strong><span>{t.todayOne}</span></div><div className="resource"><strong>Photo</strong><span>{t.todayTwo}</span></div></div></section>
-            {pushState !== "unsupported" && pushState !== "done" && (
-              <div className="card" style={{ marginTop: 16, padding: 16, display: "flex", alignItems: "center", gap: 12 }}>
-                <span style={{ fontSize: 24 }}>🔔</span>
-                <div style={{ flex: 1 }}>
-                  <strong style={{ display: "block", fontSize: 13 }}>{lang === "ru" ? "Уведомления о новых уроках" : "Lesson notifications"}</strong>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: "rgba(29,29,29,.55)" }}>{lang === "ru" ? "Узнавай первой когда выходит новый урок" : "Be first to know when a new lesson drops"}</span>
-                  {pushState === "error" && <span style={{ display: "block", marginTop: 4, fontSize: 10, fontWeight: 800, color: "var(--pink-dark)" }}>⚠️ {pushErr}</span>}
-                </div>
-                <button className="primary" style={{ width: "auto", padding: "0 14px", minHeight: 38, fontSize: 11 }} onClick={subscribePush} disabled={pushState === "asking"}>
-                  {pushState === "asking" ? "..." : lang === "ru" ? "Включить" : "Enable"}
-                </button>
-              </div>
-            )}
             {pushState === "done" && (
               <p style={{ textAlign: "center", fontSize: 12, fontWeight: 800, color: "var(--pink-dark)", marginTop: 14 }}>🔔 {lang === "ru" ? "Уведомления включены" : "Notifications on"}</p>
+            )}
+            {pushState === "error" && (
+              <p style={{ textAlign: "center", fontSize: 11, fontWeight: 700, color: "#c0392b", marginTop: 10 }}>⚠️ {pushErr}</p>
             )}
           </main>
         );
