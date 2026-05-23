@@ -315,7 +315,16 @@
       .video-wrapper { position: relative; border-radius: 8px; overflow: hidden; user-select: none; }
       .video-wrapper:fullscreen, .video-wrapper:-webkit-full-screen { display: flex; align-items: center; justify-content: center; background: #000; border-radius: 0; }
       .video-wrapper:fullscreen .video-iframe, .video-wrapper:-webkit-full-screen .video-iframe { position: static !important; width: min(100vw, calc(100vh * 16 / 9)); height: min(100vh, calc(100vw * 9 / 16)); border-radius: 0; }
-      .video-wrapper:fullscreen .watermark-center, .video-wrapper:-webkit-full-screen .watermark-center { z-index: 200; }
+      /* JS-driven fullscreen класс — надёжнее чем :fullscreen для iframe */
+      .video-wrapper.is-fullscreen { display: flex; align-items: center; justify-content: center; background: #000; border-radius: 0; }
+      .video-wrapper.is-fullscreen .video-iframe { position: static !important; width: min(100vw, calc(100vh * 16 / 9)) !important; height: min(100vh, calc(100vw * 9 / 16)) !important; border-radius: 0; }
+      /* Водяной знак поверх iframe через position:fixed (в fullscreen-контексте fixed = относительно fullscreen-элемента) */
+      .video-wrapper.is-fullscreen .watermark-center,
+      .video-wrapper:fullscreen .watermark-center,
+      .video-wrapper:-webkit-full-screen .watermark-center { position: fixed !important; inset: 0 !important; z-index: 2147483647 !important; pointer-events: none; }
+      .video-wrapper.is-fullscreen .watermark-center span,
+      .video-wrapper:fullscreen .watermark-center span,
+      .video-wrapper:-webkit-full-screen .watermark-center span { color: rgba(255,255,255,.28) !important; font-size: 17px !important; }
       .fs-btn { position: absolute; bottom: 8px; right: 8px; z-index: 20; background: rgba(0,0,0,.54); border: 1px solid rgba(255,255,255,.22); color: #fff; font-size: 15px; border-radius: 7px; padding: 3px 9px; cursor: pointer; line-height: 1; backdrop-filter: blur(4px); }
       .fs-btn:hover { background: rgba(0,0,0,.82); }
       /* ── Photo step cards (наглядный материал) ── */
@@ -918,6 +927,112 @@
       }
 
       // ── Лайтбокс для просмотра фото-шагов ─────────────────────────────────────
+      /* ── ZoomableImage — pinch-to-zoom, double-tap, pan, mouse wheel ── */
+      function ZoomableImage({ src, alt, onContextMenu, onLoad }) {
+        const [scale, setScale] = useState(1);
+        const [tx, setTx] = useState(0); // смещение в экранных пикселях
+        const [ty, setTy] = useState(0);
+        const imgRef = React.useRef(null);
+        const lastTapRef = React.useRef(0);
+        const pinchRef = React.useRef(null);  // { dist, startScale }
+        const panRef = React.useRef(null);    // { startX, startY, tx0, ty0 }
+
+        // Сброс масштаба при смене фото
+        useEffect(() => { setScale(1); setTx(0); setTy(0); }, [src]);
+
+        const clampOffset = (s, x, y) => {
+          if (s <= 1) return { x: 0, y: 0 };
+          const el = imgRef.current;
+          const W = el ? el.offsetWidth : 300;
+          const H = el ? el.offsetHeight : 200;
+          const maxX = W * (s - 1) / 2;
+          const maxY = H * (s - 1) / 2;
+          return { x: Math.max(-maxX, Math.min(maxX, x)), y: Math.max(-maxY, Math.min(maxY, y)) };
+        };
+
+        const handleTouchStart = (e) => {
+          if (e.touches.length === 2) {
+            const dx = e.touches[0].clientX - e.touches[1].clientX;
+            const dy = e.touches[0].clientY - e.touches[1].clientY;
+            pinchRef.current = { dist: Math.hypot(dx, dy), startScale: scale };
+            panRef.current = null;
+          } else if (e.touches.length === 1) {
+            const now = Date.now();
+            if (now - lastTapRef.current < 280) {
+              // Двойной тап — переключение масштаба
+              lastTapRef.current = 0;
+              if (scale > 1) { setScale(1); setTx(0); setTy(0); }
+              else { setScale(2.5); }
+              return;
+            }
+            lastTapRef.current = now;
+            if (scale > 1) {
+              panRef.current = { startX: e.touches[0].clientX, startY: e.touches[0].clientY, tx0: tx, ty0: ty };
+            }
+            pinchRef.current = null;
+          }
+        };
+
+        const handleTouchMove = (e) => {
+          if (e.touches.length === 2 && pinchRef.current) {
+            const dx = e.touches[0].clientX - e.touches[1].clientX;
+            const dy = e.touches[0].clientY - e.touches[1].clientY;
+            const newDist = Math.hypot(dx, dy);
+            const newScale = Math.max(1, Math.min(4, pinchRef.current.startScale * (newDist / pinchRef.current.dist)));
+            setScale(newScale);
+            if (newScale <= 1) { setTx(0); setTy(0); }
+          } else if (e.touches.length === 1 && panRef.current && scale > 1) {
+            const dx = e.touches[0].clientX - panRef.current.startX;
+            const dy = e.touches[0].clientY - panRef.current.startY;
+            const c = clampOffset(scale, panRef.current.tx0 + dx, panRef.current.ty0 + dy);
+            setTx(c.x); setTy(c.y);
+          }
+        };
+
+        const handleTouchEnd = (e) => {
+          if (e.touches.length < 2) pinchRef.current = null;
+          if (e.touches.length === 0) panRef.current = null;
+        };
+
+        const handleWheel = (e) => {
+          e.preventDefault();
+          const factor = e.deltaY > 0 ? 0.85 : 1.18;
+          setScale((prev) => {
+            const next = Math.max(1, Math.min(4, prev * factor));
+            if (next <= 1) { setTx(0); setTy(0); }
+            return next;
+          });
+        };
+
+        return (
+          <div style={{ overflow: "hidden", borderRadius: 14, touchAction: "none", userSelect: "none", WebkitUserSelect: "none" }}>
+            <img
+              ref={imgRef}
+              className="lightbox-img"
+              src={src}
+              alt={alt || ""}
+              onContextMenu={onContextMenu}
+              onLoad={onLoad}
+              loading="lazy"
+              style={{
+                transform: `scale(${scale}) translate(${tx / scale}px, ${ty / scale}px)`,
+                transition: scale === 1 ? "transform .25s ease" : "none",
+                cursor: scale > 1 ? "grab" : "zoom-in",
+                pointerEvents: "auto",
+                WebkitUserDrag: "none",
+                willChange: "transform",
+                display: "block",
+              }}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              onWheel={handleWheel}
+              onError={(e) => { e.target.style.display = "none"; }}
+            />
+          </div>
+        );
+      }
+
       function PhotoLightbox({ photos, startIdx, onClose, lang }) {
         const [idx, setIdx] = useState(startIdx);
         const ps = photos[idx];
@@ -937,7 +1052,14 @@
               <button className="lightbox-close" onClick={onClose}>✕</button>
               {idx > 0 && <button className="lb-nav prev" onClick={() => setIdx((i) => i - 1)}>‹</button>}
               {idx < total - 1 && <button className="lb-nav next" onClick={() => setIdx((i) => i + 1)}>›</button>}
-              <img className="lightbox-img" src={ps.url} alt="" onContextMenu={(e) => e.preventDefault()} loading="lazy" onError={(e) => e.target.style.display="none"} />
+              <ZoomableImage
+                src={ps.url}
+                alt=""
+                onContextMenu={(e) => e.preventDefault()}
+              />
+              <div style={{ textAlign: "center", marginTop: 6, opacity: 0.38, fontSize: 10, color: "#fff", letterSpacing: 0.5 }}>
+                {lang === "ru" ? "Двойное нажатие или сведение пальцев — увеличить" : "Double tap or pinch to zoom"}
+              </div>
               {(ps.caption || total > 1) && (
                 <div className="lightbox-cap">
                   <div className="photo-step-num">{total > 1 ? `${lang === "ru" ? "Фото" : "Photo"} ${idx + 1} / ${total}` : (lang === "ru" ? "Наглядный материал" : "Visual guide")}</div>
@@ -954,6 +1076,7 @@
         const isDone = user.completed.includes(lesson.id);
         const [lightbox, setLightbox] = useState(null); // null | number (index)
         const videoWrapRef = React.useRef(null);
+        const [isFsActive, setIsFsActive] = useState(false);
 
         const markDone = async () => {
           if (isDone) return;
@@ -967,6 +1090,27 @@
           if (!el) return;
           (el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen)?.call(el);
         };
+
+        // Отслеживаем вход/выход из fullscreen для управления водяным знаком
+        useEffect(() => {
+          const onFsChange = () => {
+            const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+            const wrapper = videoWrapRef.current;
+            if (fsEl && wrapper && (fsEl === wrapper || wrapper.contains(fsEl))) {
+              setIsFsActive(true);
+              wrapper.classList.add("is-fullscreen");
+            } else {
+              setIsFsActive(false);
+              if (wrapper) wrapper.classList.remove("is-fullscreen");
+            }
+          };
+          document.addEventListener("fullscreenchange", onFsChange);
+          document.addEventListener("webkitfullscreenchange", onFsChange);
+          return () => {
+            document.removeEventListener("fullscreenchange", onFsChange);
+            document.removeEventListener("webkitfullscreenchange", onFsChange);
+          };
+        }, []);
 
         // Все фото для лайтбокса (новый формат + legacy)
         const photoSteps = lesson.photoSteps && lesson.photoSteps.length > 0
@@ -992,7 +1136,10 @@
                   src={`https://www.youtube.com/embed/${youtubeId}?rel=0&modestbranding=1&iv_load_policy=3&fs=0&playsinline=1`}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 />
+                {/* Блок верхней полосы от случайного открытия описания */}
                 <div onContextMenu={(e) => e.preventDefault()} style={{ position: "absolute", top: 0, left: 0, right: 0, height: 48, zIndex: 10, cursor: "default" }} />
+                {/* Блок кнопки fullscreen YouTube (нижний правый угол) — чтобы принудительно использовать наш fullscreen с водяным знаком */}
+                <div style={{ position: "absolute", bottom: 0, right: 0, width: 72, height: 48, zIndex: 12, cursor: "pointer" }} onClick={goFullscreen} title={lang === "ru" ? "Полный экран" : "Fullscreen"} />
                 <div className="watermark-center"><span>{user.code}</span></div>
                 <button className="fs-btn" onClick={goFullscreen} title={lang === "ru" ? "Полный экран" : "Fullscreen"}>⛶</button>
               </div>
