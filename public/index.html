@@ -830,6 +830,9 @@
         const [pushErr, setPushErr] = useState("");
         const [showPushModal, setShowPushModal] = useState(false);
 
+        // Ключ персональный для каждой ученицы — иначе если подруга уже нажала «Позже» на этом телефоне, новой не покажется
+        const pushKey = PUSH_ASKED_KEY + "-" + (user.code || "guest");
+
         useEffect(() => {
           if (!("Notification" in window) || !("serviceWorker" in navigator)) { setPushState("unsupported"); return; }
           if (Notification.permission === "granted") {
@@ -838,8 +841,8 @@
             return;
           }
           if (Notification.permission === "denied") { setPushState("unsupported"); return; }
-          // Первый раз — показываем наш красивый запрос через 2 сек
-          if (!localStorage.getItem(PUSH_ASKED_KEY)) {
+          // Первый раз для этой ученицы — показываем наш красивый запрос через 2 сек
+          if (!localStorage.getItem(pushKey)) {
             const timer = setTimeout(() => setShowPushModal(true), 2000);
             return () => clearTimeout(timer);
           }
@@ -861,11 +864,11 @@
 
         const dismissPushModal = () => {
           setShowPushModal(false);
-          localStorage.setItem(PUSH_ASKED_KEY, "1");
+          localStorage.setItem(pushKey, "1");
         };
         const acceptPush = () => {
           setShowPushModal(false);
-          localStorage.setItem(PUSH_ASKED_KEY, "1");
+          localStorage.setItem(pushKey, "1");
           subscribePush();
         };
 
