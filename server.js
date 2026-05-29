@@ -24,6 +24,11 @@ server.listen(port, () => {
 
 function serveStatic(req, res) {
   const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
+  const hostname = (url.hostname || "").replace(/^www\./, "");
+  if (hostname === "kozakalex.com" && url.pathname === "/") {
+    res.writeHead(302, { Location: "/casino/" });
+    return res.end();
+  }
   let requested = url.pathname === "/" ? "/index.html" : decodeURIComponent(url.pathname);
   if (requested.endsWith("/")) requested += "index.html"; // serve directory index (e.g. /casino/)
   const filePath = path.normalize(path.join(publicDir, requested));
