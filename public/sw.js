@@ -1,4 +1,4 @@
-const CACHE_NAME = "miami-lash-course-clear-v5";
+const CACHE_NAME = "neon-chips-casino-v1";
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();

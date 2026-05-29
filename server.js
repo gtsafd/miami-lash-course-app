@@ -15,8 +15,7 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(port, () => {
-  console.log(`Miami Lash Course running at http://127.0.0.1:${port}`);
-  if (!process.env.ADMIN_PASSWORD) console.log("Set ADMIN_PASSWORD before deployment.");
+  console.log(`Neon Chips Virtual Casino running at http://127.0.0.1:${port}`);
   if (!process.env.TOKEN_SECRET) console.log("Set TOKEN_SECRET before deployment.");
 });
 
@@ -51,6 +50,7 @@ function contentType(filePath) {
     ".png": "image/png",
     ".jpg": "image/jpeg",
     ".jpeg": "image/jpeg",
+    ".svg": "image/svg+xml",
     ".css": "text/css; charset=utf-8"
   }[ext] || "application/octet-stream";
 }

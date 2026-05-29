@@ -1,7 +1,8 @@
 {
-  "name": "miami-lash-course-app",
+  "name": "neon-chips-casino",
   "version": "1.0.0",
   "private": true,
+  "description": "Neon Chips — a virtual-chip online casino (slots, dice, coinflip, roulette, blackjack).",
   "scripts": {
     "start": "node server.js",
     "dev": "PORT=5188 node server.js"

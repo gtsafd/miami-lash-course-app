@@ -1,705 +1,802 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#e94d7b" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Miami Lash Course" />
-    <link rel="manifest" href="./manifest.webmanifest" />
-    <link rel="apple-touch-icon" href="./assets/girls-miami.png" />
-    <title>Miami Lash Course | Hanna Kozak</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Great+Vibes&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <style>
-      :root { --pink:#e94d7b; --pink-dark:#c93662; --pink-soft:#ffd6df; --cream:#fff1ec; --ink:#1d1d1d; }
-      * { box-sizing: border-box; }
-      html { min-height: 100%; background: #25151c; }
-      body {
-        margin: 0;
-        min-height: 100vh;
-        color: var(--ink);
-        font-family: Montserrat, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-        background:
-          linear-gradient(115deg, rgba(255,214,223,.94), rgba(255,241,236,.78) 44%, rgba(233,77,123,.32)),
-          url("https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=1800&q=85") center / cover fixed;
-      }
-      button, input, textarea, select { font: inherit; }
-      button { cursor: pointer; }
-      img { display: block; max-width: 100%; }
-      .app-shell {
-        width: min(100%, 430px);
-        min-height: 100vh;
-        margin: 0 auto;
-        background:
-          radial-gradient(circle at 18% 8%, rgba(255,255,255,.92), transparent 12rem),
-          linear-gradient(180deg, rgba(255,241,236,.97), rgba(255,214,223,.96) 48%, rgba(255,241,236,.98));
-        box-shadow: 0 0 70px rgba(36,10,22,.42);
-        overflow: hidden;
-        position: relative;
-      }
-      .topbar {
-        position: sticky;
-        top: 0;
-        z-index: 20;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        padding: calc(14px + env(safe-area-inset-top)) 16px 12px;
-        background: rgba(255,241,236,.84);
-        border-bottom: 1px solid rgba(233,77,123,.18);
-        backdrop-filter: blur(18px);
-      }
-      .brand { border: 0; background: transparent; padding: 0; text-align: left; }
-      .brand span { display: block; font-size: 10px; font-weight: 800; text-transform: uppercase; color: rgba(29,29,29,.62); }
-      .brand strong { display: block; color: var(--pink); font-size: 18px; font-weight: 900; text-transform: uppercase; }
-      .top-actions { display: flex; align-items: center; gap: 8px; }
-      .icon-button {
-        min-width: 42px;
-        height: 42px;
-        border: 1px solid rgba(233,77,123,.18);
-        border-radius: 999px;
-        padding: 0 12px;
-        background: rgba(255,255,255,.76);
-        color: var(--pink-dark);
-        font-size: 11px;
-        font-weight: 900;
-        box-shadow: 0 10px 24px rgba(201,54,98,.14);
-      }
-      .screen { padding: 18px 16px 98px; }
-      .hero {
-        min-height: 100vh;
-        padding: calc(20px + env(safe-area-inset-top)) 20px calc(28px + env(safe-area-inset-bottom));
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-      .hero-title {
-        margin: 12px 0 0;
-        color: var(--pink);
-        font-family: "Bebas Neue", Impact, sans-serif;
-        font-size: clamp(78px, 22vw, 116px);
-        line-height: .78;
-        text-transform: uppercase;
-      }
-      .script {
-        color: #fff;
-        font-family: "Great Vibes", cursive;
-        font-size: .66em;
-        font-weight: 400;
-        text-transform: none;
-        text-shadow: 0 0 5px #fff, 0 0 16px #ff6aa0, 0 0 34px var(--pink);
-      }
-      .eyebrow { font-size: 11px; font-weight: 900; text-transform: uppercase; color: rgba(29,29,29,.72); }
-      .polaroid-stack { position: relative; min-height: 340px; margin-top: 20px; }
-      .polaroid { position: absolute; background: #fff; padding: 8px 8px 36px; box-shadow: 0 24px 44px rgba(29,29,29,.22); }
-      .polaroid.main { right: -16px; top: 0; width: 78%; transform: rotate(6deg); }
-      .polaroid.small { left: -8px; bottom: 18px; width: 58%; transform: rotate(-8deg); }
-      .polaroid img { width: 100%; height: 210px; object-fit: cover; }
-      .polaroid.main img { object-position: 78% 34%; }
-      .polaroid.small img { object-position: 68% 72%; }
-      .polaroid.small img { height: 145px; }
-      .paper-note {
-        position: absolute;
-        right: 12px;
-        bottom: 0;
-        width: 188px;
-        padding: 18px 16px;
-        background: #fff8f4;
-        transform: rotate(-4deg);
-        box-shadow: 0 18px 32px rgba(201,54,98,.18);
-        clip-path: polygon(2% 5%, 98% 0, 96% 95%, 5% 100%);
-      }
-      .paper-note p { margin: 0; font-size: 11px; font-weight: 900; text-transform: uppercase; line-height: 1.8; }
-      .login-card {
-        border: 1px solid rgba(255,255,255,.7);
-        border-radius: 28px;
-        padding: 16px;
-        background: rgba(255,255,255,.7);
-        box-shadow: 0 24px 60px rgba(201,54,98,.23);
-        backdrop-filter: blur(18px);
-      }
-      .input, .textarea, .select {
-        width: 100%;
-        border: 1px solid rgba(233,77,123,.28);
-        border-radius: 14px;
-        background: rgba(255,255,255,.9);
-        color: var(--ink);
-        font-size: 13px;
-        font-weight: 800;
-        outline: 0;
-      }
-      .input, .select { min-height: 48px; padding: 0 13px; }
-      .textarea { min-height: 92px; padding: 12px 13px; resize: vertical; line-height: 1.55; }
-      .primary, .secondary, .danger {
-        min-height: 48px;
-        border-radius: 14px;
-        padding: 0 15px;
-        font-size: 11px;
-        font-weight: 900;
-        text-transform: uppercase;
-      }
-      .primary { width: 100%; border: 0; background: var(--pink); color: #fff; box-shadow: 0 0 18px rgba(233,77,123,.52), 0 16px 32px rgba(201,54,98,.26); }
-      .secondary { border: 1px solid rgba(233,77,123,.2); background: rgba(255,255,255,.76); color: var(--ink); }
-      .danger { border: 1px solid rgba(201,54,98,.32); background: rgba(201,54,98,.1); color: var(--pink-dark); }
-      .error { margin: 10px 0 0; color: var(--pink-dark); font-size: 12px; font-weight: 800; }
-      .tabbar {
-        position: fixed;
-        left: 50%;
-        bottom: 0;
-        z-index: 30;
-        width: min(100%, 430px);
-        transform: translateX(-50%);
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
-        background: rgba(255,241,236,.92);
-        border-top: 1px solid rgba(233,77,123,.16);
-        backdrop-filter: blur(18px);
-      }
-      .tabbar button { min-height: 54px; border: 0; border-radius: 18px; background: transparent; color: rgba(29,29,29,.55); font-size: 10px; font-weight: 900; text-transform: uppercase; }
-      .tabbar button.active { background: rgba(233,77,123,.12); color: var(--pink-dark); }
-      .section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
-      .section-head h1, .section-head h2 { margin: 0; color: var(--pink); font-family: "Bebas Neue", Impact, sans-serif; font-size: 44px; line-height: .9; text-transform: uppercase; }
-      .section-head p { margin: 4px 0 0; font-size: 12px; font-weight: 800; color: rgba(29,29,29,.58); }
-      .card { border: 1px solid rgba(233,77,123,.15); border-radius: 8px; background: rgba(255,255,255,.72); box-shadow: 0 14px 32px rgba(201,54,98,.12); overflow: hidden; }
-      .course-hero {
-        min-height: 250px;
-        padding: 18px;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        color: #fff;
-        background: linear-gradient(180deg, rgba(29,29,29,.08), rgba(29,29,29,.76)), url("./assets/girls-miami-clean.png") center / cover;
-      }
-      .course-hero h1 { margin: 0; font-family: "Bebas Neue", Impact, sans-serif; font-size: 58px; line-height: .82; text-transform: uppercase; }
-      .course-hero p { margin: 8px 0 0; font-size: 12px; font-weight: 800; }
-      .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
-      .stat { border-radius: 8px; padding: 12px 10px; background: rgba(255,255,255,.72); }
-      .stat strong { display: block; color: var(--pink-dark); font-size: 19px; font-weight: 900; }
-      .stat span { font-size: 10px; font-weight: 900; text-transform: uppercase; color: rgba(29,29,29,.58); }
-      .progress-ring { width: 74px; height: 74px; display: grid; place-items: center; border-radius: 999px; background: conic-gradient(var(--pink) var(--pct), rgba(233,77,123,.14) 0); }
-      .progress-ring span { width: 58px; height: 58px; display: grid; place-items: center; border-radius: 999px; background: var(--cream); font-size: 14px; font-weight: 900; }
-      .lesson-list { display: grid; gap: 12px; }
-      .lesson-card { width: 100%; display: grid; grid-template-columns: 84px 1fr 34px; gap: 12px; align-items: center; border: 1px solid rgba(233,77,123,.14); border-radius: 8px; padding: 10px; background: rgba(255,255,255,.74); text-align: left; }
-      .lesson-thumb { height: 72px; width: 84px; border-radius: 7px; object-fit: cover; background: var(--pink-soft); }
-      .lesson-card h3 { margin: 0; font-size: 14px; line-height: 1.2; text-transform: uppercase; }
-      .lesson-card p { margin: 5px 0 0; color: rgba(29,29,29,.62); font-size: 11px; font-weight: 700; line-height: 1.4; }
-      .check { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 999px; background: rgba(233,77,123,.12); color: var(--pink-dark); font-size: 10px; font-weight: 900; }
-      .video-box { position: relative; min-height: 226px; border-radius: 8px; overflow: hidden; background: linear-gradient(180deg, rgba(29,29,29,.08), rgba(29,29,29,.82)), var(--poster) center / cover; display: flex; align-items: center; justify-content: center; }
-      .play { width: 76px; height: 76px; border: 2px solid rgba(255,255,255,.7); border-radius: 999px; background: rgba(233,77,123,.74); color: #fff; font-size: 28px; box-shadow: 0 0 28px rgba(233,77,123,.65); }
-      .watermark { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(2, 1fr); opacity: .28; pointer-events: none; transform: rotate(-24deg) scale(1.18); }
-      .watermark span { align-self: center; justify-self: center; color: #fff; font-size: 11px; font-weight: 900; text-shadow: 0 1px 3px rgba(0,0,0,.45); }
-      .lesson-body { padding: 16px 0 0; }
-      .lesson-body h1 { margin: 16px 0 6px; font-family: "Bebas Neue", Impact, sans-serif; color: var(--pink); font-size: 48px; line-height: .88; text-transform: uppercase; }
-      .lesson-body p, .lesson-body li { font-size: 13px; font-weight: 650; line-height: 1.7; }
-      .steps { padding: 0; margin: 14px 0; list-style: none; display: grid; gap: 10px; }
-      .steps li { border-radius: 8px; padding: 12px; background: rgba(255,255,255,.7); }
-      .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-      .resource { min-height: 126px; padding: 14px; border: 1px solid rgba(233,77,123,.14); border-radius: 8px; background: rgba(255,255,255,.72); }
-      .resource strong { display: block; color: var(--pink-dark); font-size: 13px; text-transform: uppercase; }
-      .resource span { display: block; margin-top: 7px; font-size: 11px; font-weight: 700; line-height: 1.45; }
-      .admin-form, .admin-panel { display: grid; gap: 10px; }
-      .admin-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; }
-      .admin-tabs button { min-height: 42px; border: 1px solid rgba(233,77,123,.18); border-radius: 12px; background: rgba(255,255,255,.7); font-size: 10px; font-weight: 900; text-transform: uppercase; }
-      .admin-tabs button.active { background: rgba(233,77,123,.14); color: var(--pink-dark); }
-      .field-label { display: grid; gap: 5px; font-size: 10px; font-weight: 900; text-transform: uppercase; color: rgba(29,29,29,.62); }
-      .notice { border-radius: 8px; padding: 12px; background: rgba(216,162,74,.16); font-size: 11px; font-weight: 800; line-height: 1.55; }
-      .admin-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px; border-radius: 8px; background: rgba(255,255,255,.72); }
-      .admin-row strong { display: block; font-size: 13px; }
-      .admin-row span { font-size: 10px; font-weight: 900; color: rgba(29,29,29,.55); text-transform: uppercase; }
-      .row-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-      .admin-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-      .status { margin: 0; border-radius: 8px; padding: 10px 12px; background: rgba(233,77,123,.1); color: var(--pink-dark); font-size: 11px; font-weight: 900; line-height: 1.45; }
-      @media (min-width: 800px) {
-        body { padding: 26px 0; }
-        .app-shell { min-height: calc(100vh - 52px); border: 10px solid rgba(255,255,255,.58); border-radius: 46px; }
-        .topbar { border-radius: 36px 36px 0 0; }
-        .tabbar { bottom: 26px; border-radius: 0 0 36px 36px; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="text/babel">
-      const { useEffect, useMemo, useState } = React;
-      const API = "";
-      const CLIENT_KEY = "miami-lash-secure-client-v1";
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0b0f1a" />
+<title>Neon Chips · Virtual Casino</title>
+<link rel="manifest" href="./manifest.webmanifest" />
+<style>
+  :root {
+    --bg: #070a13;
+    --bg-2: #0d1322;
+    --panel: #121a2e;
+    --panel-2: #18223b;
+    --line: #243150;
+    --text: #e8edf7;
+    --muted: #8a98b8;
+    --gold: #ffce54;
+    --gold-2: #f6b73c;
+    --emerald: #2fe6a0;
+    --red: #ff5c7c;
+    --purple: #9d7bff;
+    --shadow: 0 18px 50px rgba(0,0,0,.55);
+    --radius: 18px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text);
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(157,123,255,.18), transparent 60%),
+      radial-gradient(1000px 500px at -10% 10%, rgba(47,230,160,.12), transparent 55%),
+      linear-gradient(180deg, var(--bg-2), var(--bg));
+    min-height: 100vh;
+    -webkit-tap-highlight-color: transparent;
+  }
+  button { font-family: inherit; cursor: pointer; }
+  .hidden { display: none !important; }
 
-      const ui = {
-        en: {
-          studentName: "Student name", accessCode: "Access code", unlock: "Unlock Course",
-          admin: "Admin", adminLogin: "Admin Login", password: "Password", login: "Login", logout: "Logout",
-          home: "Home", lessons: "Lessons", files: "Files", settings: "Settings", premiumTraining: "Premium Online Training",
-          statsLessons: "Lessons", statsDone: "Done", statsProgress: "Progress", continueTraining: "Continue Training",
-          openLesson: "Open Lesson", today: "Today", practicePlan: "Practice plan", markComplete: "Mark Complete",
-          completed: "Lesson Completed", resources: "Student resources", courseModules: "Online course modules",
-          language: "Language", editContent: "Edit Content", accessCodes: "Access Codes", data: "Data",
-          newCode: "New Code", available: "Available", activated: "Activated", used: "Used", delete: "Delete",
-          save: "Save", title: "Title", meta: "Meta", note: "Description", steps: "Steps, one per line",
-          poster: "Poster URL", resourcesTitle: "Resource title", resourcesText: "Resource text",
-          addLesson: "Add Lesson", addFile: "Add File", saveLesson: "Save Lesson", saveFile: "Save File", editorLanguage: "Editor Language",
-          exitAdmin: "Exit Admin", resetStudent: "Reset Student", copied: "Copied", saved: "Saved", loaded: "Loaded", refresh: "Refresh",
-          adminNotice: "Course data and access codes are now checked by the server. For stronger protection, keep this repository private and deploy the Node server with environment variables.",
-          todayOne: "Practice clean isolation on sponge or mannequin before client work.",
-          todayTwo: "Take close-up shots after every finished set to track direction and symmetry.",
-          loading: "Loading...", serverError: "Server is not available. Run npm start or deploy the backend.",
-          wrong: "Access denied. Check the code or password.", codeCopied: "Code created."
-        },
-        ru: {
-          studentName: "Имя ученицы", accessCode: "Код доступа", unlock: "Открыть курс",
-          admin: "Админ", adminLogin: "Вход в админку", password: "Пароль", login: "Войти", logout: "Выйти",
-          home: "Главная", lessons: "Уроки", files: "Файлы", settings: "Настройки", premiumTraining: "Премиум онлайн-обучение",
-          statsLessons: "Уроков", statsDone: "Пройдено", statsProgress: "Прогресс", continueTraining: "Продолжить обучение",
-          openLesson: "Открыть урок", today: "Сегодня", practicePlan: "План практики", markComplete: "Отметить пройденным",
-          completed: "Урок пройден", resources: "Материалы ученицы", courseModules: "Модули онлайн-курса",
-          language: "Язык", editContent: "Редактировать", accessCodes: "Коды доступа", data: "Данные",
-          newCode: "Новый код", available: "Свободен", activated: "Активирован", used: "Использован", delete: "Удалить",
-          save: "Сохранить", title: "Название", meta: "Инфо", note: "Описание", steps: "Шаги, каждый с новой строки",
-          poster: "Ссылка на обложку", resourcesTitle: "Название материала", resourcesText: "Текст материала",
-          addLesson: "Добавить урок", addFile: "Добавить файл", saveLesson: "Сохранить урок", saveFile: "Сохранить файл", editorLanguage: "Язык редактора",
-          exitAdmin: "Выйти из админки", resetStudent: "Сбросить ученицу", copied: "Скопировано", saved: "Сохранено", loaded: "Загружено", refresh: "Обновить",
-          adminNotice: "Материалы курса и коды теперь проверяются сервером. Для более сильной защиты держите репозиторий приватным и деплойте Node server с переменными окружения.",
-          todayOne: "Отработайте чистую изоляцию на спонже или манекене перед работой с клиентом.",
-          todayTwo: "Делайте крупные фото после каждого сета, чтобы отслеживать направление и симметрию.",
-          loading: "Загрузка...", serverError: "Сервер недоступен. Запустите npm start или задеплойте backend.",
-          wrong: "Доступ запрещен. Проверьте код или пароль.", codeCopied: "Код создан."
-        }
-      };
+  /* ---------- Login ---------- */
+  .gate { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
+  .gate-card {
+    width: min(420px, 100%);
+    background: linear-gradient(180deg, var(--panel), var(--bg-2));
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 34px 28px;
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .logo { font-weight: 800; letter-spacing: .14em; font-size: 13px; color: var(--gold); text-transform: uppercase; }
+  .gate-card h1 {
+    font-size: 30px; margin: 10px 0 6px;
+    background: linear-gradient(90deg, var(--gold), #fff, var(--purple));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .gate-card p { color: var(--muted); margin: 0 0 22px; font-size: 14px; }
+  input[type=text], input[type=number] {
+    width: 100%; background: var(--bg); border: 1px solid var(--line); border-radius: 12px;
+    color: var(--text); padding: 13px 14px; font-size: 16px; outline: none;
+  }
+  input:focus { border-color: var(--gold-2); }
+  .btn {
+    border: none; border-radius: 12px; padding: 13px 18px; font-weight: 700; font-size: 15px;
+    color: #1a1304; background: linear-gradient(180deg, var(--gold), var(--gold-2));
+    transition: transform .08s ease, filter .2s ease;
+  }
+  .btn:hover { filter: brightness(1.06); }
+  .btn:active { transform: translateY(1px) scale(.99); }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .btn.full { width: 100%; margin-top: 18px; }
+  .btn.ghost { background: transparent; border: 1px solid var(--line); color: var(--text); }
+  .btn.sm { padding: 8px 12px; font-size: 13px; }
 
-      function getClient() {
-        const stored = JSON.parse(localStorage.getItem(CLIENT_KEY) || "{}");
-        if (!stored.deviceId) stored.deviceId = crypto.randomUUID ? crypto.randomUUID() : String(Date.now());
-        if (!stored.lang) stored.lang = "en";
-        localStorage.setItem(CLIENT_KEY, JSON.stringify(stored));
-        return stored;
-      }
+  /* ---------- App layout ---------- */
+  .app { max-width: 1180px; margin: 0 auto; padding: 16px clamp(12px, 3vw, 24px) 60px; }
+  .topbar {
+    position: sticky; top: 0; z-index: 30;
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    padding: 12px 16px; margin-bottom: 18px;
+    background: rgba(10,14,24,.82); backdrop-filter: blur(12px);
+    border: 1px solid var(--line); border-radius: 16px;
+  }
+  .brand { display: flex; flex-direction: column; line-height: 1.1; }
+  .brand b { font-size: 18px; letter-spacing: .04em; }
+  .brand span { font-size: 11px; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; }
+  .spacer { flex: 1; }
+  .chip-balance {
+    display: flex; align-items: center; gap: 9px;
+    background: linear-gradient(180deg, #1c2740, #131b30);
+    border: 1px solid var(--line); padding: 9px 16px; border-radius: 999px;
+    font-weight: 800; font-size: 18px;
+  }
+  .chip-balance b { color: var(--gold); }
+  .who { font-size: 13px; color: var(--muted); }
 
-      function saveClient(patch) {
-        const next = { ...getClient(), ...patch };
-        localStorage.setItem(CLIENT_KEY, JSON.stringify(next));
-        return next;
-      }
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+  .tab {
+    border: 1px solid var(--line); background: var(--panel); color: var(--muted);
+    padding: 10px 16px; border-radius: 12px; font-weight: 700; font-size: 14px;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .tab.active { color: #1a1304; background: linear-gradient(180deg, var(--gold), var(--gold-2)); border-color: transparent; }
+  .tab .ico { font-size: 16px; }
 
-      async function request(path, options = {}) {
-        const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
-        const response = await fetch(`${API}${path}`, { ...options, headers });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok) throw new Error(data.error || "Request failed");
-        return data;
-      }
+  .grid { display: grid; grid-template-columns: 1fr 320px; gap: 18px; align-items: start; }
+  @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } }
 
-      function App() {
-        const [client, setClient] = useState(getClient);
-        const [course, setCourse] = useState(null);
-        const [user, setUser] = useState(client.user || null);
-        const [admin, setAdmin] = useState(Boolean(client.adminToken));
-        const [view, setView] = useState(client.token ? "home" : "login");
-        const [activeLessonId, setActiveLessonId] = useState("");
-        const [loading, setLoading] = useState(Boolean(client.token));
-        const [error, setError] = useState("");
-        const lang = client.lang || "en";
-        const t = ui[lang];
+  .panel {
+    background: linear-gradient(180deg, var(--panel), var(--bg-2));
+    border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 22px; box-shadow: var(--shadow);
+  }
+  .panel h2 { margin: 0 0 4px; font-size: 22px; }
+  .panel .sub { color: var(--muted); font-size: 13px; margin: 0 0 20px; }
 
-        const refreshCourse = async () => {
-          if (!client.token) return;
-          setLoading(true);
-          setError("");
-          try {
-            const data = await request("/api/course", { headers: { Authorization: `Bearer ${client.token}` } });
-            setCourse(data.course);
-            setUser(data.user);
-            setActiveLessonId(data.course.lessons[0]?.id || "");
-          } catch (err) {
-            setError(t.serverError);
-            setClient(saveClient({ token: null, user: null }));
-            setView("login");
-          } finally {
-            setLoading(false);
-          }
-        };
+  .bet-row { display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 18px; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+  .field input { width: 130px; }
+  .chips-quick { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chips-quick button {
+    background: var(--bg); border: 1px solid var(--line); color: var(--text);
+    border-radius: 9px; padding: 8px 10px; font-size: 12px; font-weight: 700;
+  }
+  .chips-quick button:hover { border-color: var(--gold-2); }
 
-        useEffect(() => { refreshCourse(); }, []);
+  .result-line { min-height: 22px; font-weight: 700; margin-top: 14px; }
+  .win { color: var(--emerald); }
+  .lose { color: var(--red); }
+  .neutral { color: var(--muted); }
 
-        const setLang = (nextLang) => setClient(saveClient({ lang: nextLang }));
-        const signOut = () => {
-          setClient(saveClient({ token: null, user: null, adminToken: null }));
-          setUser(null);
-          setCourse(null);
-          setAdmin(false);
-          setView("login");
-        };
+  /* slots */
+  .reels { display: flex; gap: 14px; justify-content: center; margin: 8px 0 22px; }
+  .reel {
+    width: 92px; height: 110px;
+    background: radial-gradient(circle at 50% 35%, #20305a, #0c1326);
+    border: 2px solid var(--line); border-radius: 16px;
+    display: grid; place-items: center; font-size: 54px;
+    box-shadow: inset 0 0 24px rgba(0,0,0,.6);
+  }
+  .reel.spin { animation: shake .35s infinite; }
+  @keyframes shake { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+  .paytable { font-size: 12px; color: var(--muted); display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; margin-top: 16px; }
+  .paytable span b { color: var(--gold); }
 
-        if (loading) return <Shell><main className="screen"><p className="notice">{t.loading}</p></main></Shell>;
-        if (view === "admin-login") return <AdminLogin t={t} lang={lang} setLang={setLang} setClient={setClient} setAdmin={setAdmin} setView={setView} />;
-        if (!client.token && (view === "admin" || client.adminToken)) {
-          return (
-            <Shell course={{ settings: { eyebrow: "Lash Artist | Hanna Kozak", brand: "MIAMI LASH COURSE" } }} lang={lang} setLang={setLang} signOut={signOut}>
-              <AdminScreen t={t} lang={lang} setLang={setLang} client={client} course={course || { lessons: [], resources: [] }} setCourse={setCourse} />
-            </Shell>
-          );
-        }
-        if (!client.token) return <LoginScreen t={t} lang={lang} setLang={setLang} setClient={setClient} setCourse={setCourse} setUser={setUser} setView={setView} />;
-        if (!course) return <Shell><main className="screen"><p className="notice">{error || t.serverError}</p><button className="primary" onClick={refreshCourse}>{t.loading}</button></main></Shell>;
+  /* dice */
+  .dice-readout { display:flex; justify-content:space-between; gap:12px; margin: 6px 0 18px; }
+  .stat-box { flex:1; background: var(--bg); border:1px solid var(--line); border-radius:12px; padding:12px; text-align:center; }
+  .stat-box b { display:block; font-size:24px; color: var(--gold); }
+  .stat-box span { font-size:11px; color: var(--muted); text-transform:uppercase; letter-spacing:.08em; }
+  input[type=range] { width: 100%; accent-color: var(--gold); }
 
-        const activeLesson = course.lessons.find((lesson) => lesson.id === activeLessonId) || course.lessons[0];
-        const currentView = view === "login" ? "home" : view;
+  /* coinflip */
+  .coin-big { width: 130px; height: 130px; margin: 6px auto 18px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #ffe9a8, var(--gold-2));
+    color:#5a3d05; display:grid; place-items:center; font-size:48px; font-weight:900;
+    box-shadow: 0 12px 30px rgba(246,183,60,.35), inset 0 -6px 14px rgba(0,0,0,.25); }
+  .coin-big.flip { animation: flip 1s ease; }
+  @keyframes flip { 0%{transform:rotateY(0)} 100%{transform:rotateY(1440deg)} }
+  .side-toggle { display:flex; gap:10px; }
+  .side-toggle button { flex:1; }
+  .side-toggle button.active { outline: 2px solid var(--gold); }
 
-        return (
-          <Shell course={course} lang={lang} setLang={setLang} signOut={signOut}>
-            {currentView === "home" && <HomeScreen course={course} t={t} lang={lang} user={user} setView={setView} setActiveLessonId={setActiveLessonId} />}
-            {currentView === "lessons" && <LessonsScreen course={course} t={t} lang={lang} user={user} setView={setView} setActiveLessonId={setActiveLessonId} />}
-            {currentView === "lesson" && <LessonScreen course={course} t={t} lang={lang} user={user} lesson={activeLesson} setUser={setUser} token={client.token} />}
-            {currentView === "resources" && <ResourcesScreen course={course} t={t} lang={lang} />}
-            {currentView === "admin" && admin && <AdminScreen t={t} lang={lang} setLang={setLang} client={client} course={course} setCourse={setCourse} />}
-            {currentView === "admin" && !admin && <AdminLogin t={t} lang={lang} setLang={setLang} setClient={setClient} setAdmin={setAdmin} setView={setView} />}
-            <nav className="tabbar">
-              {[["home", t.home], ["lessons", t.lessons], ["resources", t.files], ["admin", t.admin]].map(([id, label]) => (
-                <button key={id} className={currentView === id ? "active" : ""} onClick={() => setView(id)}>{label}</button>
-              ))}
-            </nav>
-          </Shell>
-        );
-      }
+  /* roulette */
+  .wheel-num { width: 120px; height:120px; margin: 4px auto 16px; border-radius:50%; display:grid; place-items:center;
+    font-size:46px; font-weight:900; border:4px solid var(--line); }
+  .wheel-num.red { background: radial-gradient(circle at 40% 35%, #ff7a93, #c0233f); }
+  .wheel-num.black { background: radial-gradient(circle at 40% 35%, #38445f, #14171f); }
+  .wheel-num.green { background: radial-gradient(circle at 40% 35%, #46e0a0, #1c8f5f); }
+  .roul-bets { display:grid; grid-template-columns: repeat(6,1fr); gap:6px; }
+  .roul-bets button { background: var(--bg); border:1px solid var(--line); color:var(--text); border-radius:9px; padding:9px 4px; font-weight:700; font-size:13px; position:relative; }
+  .roul-bets button.r { border-color:#c0233f; }
+  .roul-bets button.b { border-color:#4a597a; }
+  .roul-bets button .stake { position:absolute; top:-8px; right:-6px; background:var(--gold); color:#1a1304; font-size:11px; border-radius:999px; padding:1px 7px; font-weight:800; }
+  .chip-tray { display:flex; gap:8px; margin: 14px 0; align-items:center; flex-wrap:wrap; }
+  .chip-tray .lbl { font-size:12px; color:var(--muted); }
+  .chip-pick { width:42px; height:42px; border-radius:50%; border:2px dashed rgba(255,255,255,.25); background:var(--bg); color:var(--text); font-weight:800; font-size:13px; }
+  .chip-pick.active { border-style:solid; border-color:var(--gold); box-shadow:0 0 0 3px rgba(255,206,84,.2); }
 
-      function Shell({ children, course, lang, setLang, signOut }) {
-        return (
-          <div className="app-shell">
-            {course && (
-              <header className="topbar">
-                <button className="brand"><span>{course.settings.eyebrow}</span><strong>{course.settings.brand}</strong></button>
-                <div className="top-actions">
-                  <button className="icon-button" onClick={() => setLang(lang === "en" ? "ru" : "en")}>{lang.toUpperCase()}</button>
-                  {signOut && <button className="icon-button" onClick={signOut}>HK</button>}
-                </div>
-              </header>
-            )}
-            {children}
+  /* blackjack */
+  .felt { background: radial-gradient(circle at 50% 0%, #176b4a, #0c3a28); border:1px solid #1c5a40; border-radius:16px; padding:18px; margin-bottom:16px; }
+  .hand-row { margin-bottom:14px; }
+  .hand-row:last-child { margin-bottom:0; }
+  .hand-row .htitle { font-size:12px; text-transform:uppercase; letter-spacing:.1em; color:#cdeede; margin-bottom:8px; display:flex; justify-content:space-between; }
+  .cards { display:flex; gap:8px; flex-wrap:wrap; min-height:84px; }
+  .card { width:58px; height:80px; border-radius:9px; background:#fff; color:#111; display:flex; flex-direction:column; justify-content:space-between; padding:6px 8px; font-weight:800; box-shadow:0 6px 14px rgba(0,0,0,.35); }
+  .card.red { color:#d11a3a; }
+  .card.back { background: repeating-linear-gradient(45deg,#2a3f8f,#2a3f8f 6px,#1d2c66 6px,#1d2c66 12px); }
+  .card .b { align-self:flex-end; transform:rotate(180deg); }
+  .bj-actions { display:flex; gap:10px; flex-wrap:wrap; }
+
+  /* sidebar */
+  .side .panel { margin-bottom:16px; }
+  .bonus-card { text-align:center; }
+  .bonus-card .timer { font-size:13px; color:var(--muted); margin-top:8px; }
+  .stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .stat-grid div { background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:10px; }
+  .stat-grid b { display:block; font-size:18px; }
+  .stat-grid span { font-size:11px; color:var(--muted); }
+  .lb-row, .hist-row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--line); font-size:13px; }
+  .lb-row:last-child, .hist-row:last-child { border-bottom:none; }
+  .lb-rank { color:var(--gold); font-weight:800; width:22px; display:inline-block; }
+  .hist-row .g { text-transform:capitalize; color:var(--muted); }
+  .hist-row .n.pos { color:var(--emerald); }
+  .hist-row .n.neg { color:var(--red); }
+  .muted-note { font-size:12px; color:var(--muted); text-align:center; margin-top:18px; }
+
+  .toast { position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(60px);
+    background:#1c2740; border:1px solid var(--line); color:var(--text); padding:12px 20px; border-radius:12px;
+    box-shadow:var(--shadow); opacity:0; transition:all .3s ease; z-index:60; font-weight:700; }
+  .toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+  .toast.win { border-color: var(--emerald); }
+  .toast.lose { border-color: var(--red); }
+</style>
+</head>
+<body>
+
+<!-- LOGIN GATE -->
+<div id="gate" class="gate">
+  <div class="gate-card">
+    <div class="logo">♠ ♥ ♦ ♣ Neon Chips</div>
+    <h1>Virtual Casino</h1>
+    <p>Play slots, dice, roulette &amp; blackjack with free virtual chips. No real money — just fun. Get <b>1000 chips</b> to start.</p>
+    <input id="nameInput" type="text" maxlength="24" placeholder="Choose a player name" autocomplete="off" />
+    <button id="enterBtn" class="btn full">Enter the Casino</button>
+    <p class="muted-note">Virtual chips have no monetary value and cannot be purchased or cashed out.</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="app hidden">
+  <div class="topbar">
+    <div class="brand"><b>♦ Neon Chips</b><span>Virtual Casino</span></div>
+    <div class="spacer"></div>
+    <div class="who" id="whoName">—</div>
+    <div class="chip-balance"><span>🪙</span><b id="balance">0</b></div>
+    <button id="logoutBtn" class="btn ghost sm">Exit</button>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-game="slots"><span class="ico">🎰</span> Slots</button>
+    <button class="tab" data-game="dice"><span class="ico">🎲</span> Dice</button>
+    <button class="tab" data-game="coinflip"><span class="ico">🪙</span> Coinflip</button>
+    <button class="tab" data-game="roulette"><span class="ico">🎡</span> Roulette</button>
+    <button class="tab" data-game="blackjack"><span class="ico">🃏</span> Blackjack</button>
+  </div>
+
+  <div class="grid">
+    <div>
+      <!-- SLOTS -->
+      <section class="panel game" data-game="slots">
+        <h2>🎰 Lucky Sevens Slots</h2>
+        <p class="sub">Match three symbols to win. Two cherries pay 2×, one cherry returns your bet.</p>
+        <div class="reels">
+          <div class="reel" id="reel0">🍒</div>
+          <div class="reel" id="reel1">🍋</div>
+          <div class="reel" id="reel2">🔔</div>
+        </div>
+        <div class="bet-row">
+          <div class="field">
+            <label>Bet (chips)</label>
+            <input type="number" class="betInput" data-bet="slots" min="1" value="20" />
           </div>
-        );
-      }
-
-      function LoginScreen({ t, lang, setLang, setClient, setCourse, setUser, setView }) {
-        const [name, setName] = useState("");
-        const [code, setCode] = useState("");
-        const [error, setError] = useState("");
-        const submit = async (event) => {
-          event.preventDefault();
-          setError("");
-          try {
-            const current = getClient();
-            const data = await request("/api/redeem", {
-              method: "POST",
-              body: JSON.stringify({ name, code, deviceId: current.deviceId })
-            });
-            setClient(saveClient({ token: data.token, user: data.user }));
-            setUser(data.user);
-            setCourse(data.course);
-            setView("home");
-          } catch (err) {
-            setError(err.message || t.wrong);
-          }
-        };
-        return (
-          <div className="app-shell">
-            <main className="hero">
-              <div>
-                <div className="top-actions" style={{ justifyContent: "space-between" }}>
-                  <p className="eyebrow">Lash Artist | Hanna Kozak</p>
-                  <button className="icon-button" onClick={() => setLang(lang === "en" ? "ru" : "en")}>{lang.toUpperCase()}</button>
-                </div>
-                <h1 className="hero-title">Girls<br /><span className="script">Miami</span></h1>
-                <div className="polaroid-stack">
-                  <div className="polaroid main"><img src="./assets/girls-miami-clean.png" alt="Miami lash course visual" /></div>
-                  <div className="polaroid small"><img src="./assets/premium-supplies-clean.png" alt="Miami lash supplies" /></div>
-                  <div className="paper-note"><p>Premium quality</p><p>Long lasting</p><p>Comfort and care</p></div>
-                </div>
-              </div>
-              <form className="login-card" onSubmit={submit}>
-                <input className="input" value={name} onChange={(e) => setName(e.target.value)} placeholder={t.studentName} required />
-                <div style={{ height: 10 }} />
-                <input className="input" value={code} onChange={(e) => setCode(e.target.value)} placeholder={t.accessCode} required autoCapitalize="characters" />
-                {error && <p className="error">{error}</p>}
-                <div style={{ height: 12 }} />
-                <button className="primary">{t.unlock}</button>
-                <div style={{ height: 10 }} />
-                <button type="button" className="secondary" style={{ width: "100%" }} onClick={() => setView("admin-login")}>{t.adminLogin}</button>
-              </form>
-            </main>
+          <div class="chips-quick" data-target="slots">
+            <button data-add="10">+10</button><button data-add="50">+50</button>
+            <button data-add="100">+100</button><button data-set="max">Max</button>
           </div>
-        );
-      }
+          <button class="btn" id="spinBtn">Spin 🎰</button>
+        </div>
+        <div class="paytable">
+          <span>7️⃣7️⃣7️⃣ <b>150×</b></span><span>💎💎💎 <b>60×</b></span><span>⭐⭐⭐ <b>25×</b></span>
+          <span>🔔🔔🔔 <b>12×</b></span><span>🍋🍋🍋 <b>6×</b></span><span>🍒🍒🍒 <b>4×</b></span>
+        </div>
+        <div class="result-line" id="slotsResult"></div>
+      </section>
 
-      function AdminLogin({ t, lang, setLang, setClient, setAdmin, setView }) {
-        const [password, setPassword] = useState("");
-        const [error, setError] = useState("");
-        const submit = async (event) => {
-          event.preventDefault();
-          setError("");
-          try {
-            const data = await request("/api/admin/login", { method: "POST", body: JSON.stringify({ password }) });
-            setClient(saveClient({ adminToken: data.token }));
-            setAdmin(true);
-            setView("admin");
-          } catch (err) {
-            setError(t.wrong);
-          }
-        };
-        return (
-          <div className="app-shell">
-            <main className="hero">
-              <div>
-                <div className="top-actions" style={{ justifyContent: "space-between" }}>
-                  <p className="eyebrow">Lash Artist | Hanna Kozak</p>
-                  <button className="icon-button" onClick={() => setLang(lang === "en" ? "ru" : "en")}>{lang.toUpperCase()}</button>
-                </div>
-                <h1 className="hero-title">{t.admin}<br /><span className="script">Miami</span></h1>
-              </div>
-              <form className="login-card" onSubmit={submit}>
-                <h2 style={{ margin: "0 0 12px", color: "var(--pink)", fontFamily: "Bebas Neue", fontSize: 40 }}>{t.adminLogin}</h2>
-                <input className="input" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder={t.password} required />
-                {error && <p className="error">{error}</p>}
-                <div style={{ height: 12 }} />
-                <button className="primary">{t.login}</button>
-                <div style={{ height: 10 }} />
-                <button className="secondary" type="button" style={{ width: "100%" }} onClick={() => setView("login")}>Back</button>
-              </form>
-            </main>
+      <!-- DICE -->
+      <section class="panel game hidden" data-game="dice">
+        <h2>🎲 Dice — Roll Under</h2>
+        <p class="sub">Pick a target. If the roll is under it, you win. Lower target = higher payout.</p>
+        <div class="dice-readout">
+          <div class="stat-box"><b id="diceRoll">--</b><span>Last Roll</span></div>
+          <div class="stat-box"><b id="diceTargetView">50.00</b><span>Roll Under</span></div>
+          <div class="stat-box"><b id="diceMult">1.98×</b><span>Payout</span></div>
+          <div class="stat-box"><b id="diceChance">50%</b><span>Win Chance</span></div>
+        </div>
+        <input type="range" id="diceSlider" min="2" max="98" value="50" step="1" />
+        <div class="bet-row" style="margin-top:16px;">
+          <div class="field">
+            <label>Bet (chips)</label>
+            <input type="number" class="betInput" data-bet="dice" min="1" value="50" />
           </div>
-        );
-      }
+          <div class="chips-quick" data-target="dice">
+            <button data-add="10">+10</button><button data-add="50">+50</button>
+            <button data-add="100">+100</button><button data-set="max">Max</button>
+          </div>
+          <button class="btn" id="rollBtn">Roll 🎲</button>
+        </div>
+        <div class="result-line" id="diceResult"></div>
+      </section>
 
-      function HomeScreen({ course, t, lang, user, setView, setActiveLessonId }) {
-        const hero = course.settings.hero[lang];
-        const done = user.completed.length;
-        const pct = Math.round((done / course.lessons.length) * 100);
-        const nextLesson = course.lessons.find((lesson) => !user.completed.includes(lesson.id)) || course.lessons[0];
-        const content = nextLesson.content[lang];
-        return (
-          <main className="screen">
-            <section className="course-hero card"><p className="eyebrow" style={{ color: "rgba(255,255,255,.82)" }}>{t.premiumTraining}</p><h1>{hero.title}<br /><span className="script">{hero.script}</span></h1><p>{hero.subtitle}</p></section>
-            <div className="stats"><div className="stat"><strong>{course.lessons.length}</strong><span>{t.statsLessons}</span></div><div className="stat"><strong>{done}</strong><span>{t.statsDone}</span></div><div className="stat"><strong>{pct}%</strong><span>{t.statsProgress}</span></div></div>
-            <section style={{ marginTop: 22 }} className="card">
-              <div style={{ padding: 16, display: "grid", gridTemplateColumns: "1fr 74px", gap: 14, alignItems: "center" }}>
-                <div><p className="eyebrow">{t.continueTraining}</p><h2 style={{ margin: "4px 0 8px", fontSize: 22, textTransform: "uppercase" }}>{content.title}</h2><p style={{ margin: 0, fontSize: 12, fontWeight: 700, lineHeight: 1.55 }}>{content.meta}</p></div>
-                <div className="progress-ring" style={{ "--pct": `${pct}%` }}><span>{pct}%</span></div>
-              </div>
-              <div style={{ padding: "0 16px 16px" }}><button className="primary" onClick={() => { setActiveLessonId(nextLesson.id); setView("lesson"); }}>{t.openLesson}</button></div>
-            </section>
-            <section style={{ marginTop: 22 }}><div className="section-head"><div><h2>{t.today}</h2><p>{t.practicePlan}</p></div></div><div className="grid-2"><div className="resource"><strong>30 min</strong><span>{t.todayOne}</span></div><div className="resource"><strong>Photo</strong><span>{t.todayTwo}</span></div></div></section>
-          </main>
-        );
-      }
+      <!-- COINFLIP -->
+      <section class="panel game hidden" data-game="coinflip">
+        <h2>🪙 Coinflip</h2>
+        <p class="sub">Pick heads or tails. Win and double your bet on a fair 50/50 flip.</p>
+        <div class="coin-big" id="coinFace">H</div>
+        <div class="side-toggle" style="max-width:320px;margin:0 auto 18px;">
+          <button class="btn ghost active" data-side="heads">Heads</button>
+          <button class="btn ghost" data-side="tails">Tails</button>
+        </div>
+        <div class="bet-row" style="justify-content:center;">
+          <div class="field">
+            <label>Bet (chips)</label>
+            <input type="number" class="betInput" data-bet="coinflip" min="1" value="50" />
+          </div>
+          <div class="chips-quick" data-target="coinflip">
+            <button data-add="10">+10</button><button data-add="50">+50</button>
+            <button data-add="100">+100</button><button data-set="max">Max</button>
+          </div>
+          <button class="btn" id="flipBtn">Flip 🪙</button>
+        </div>
+        <div class="result-line" id="coinResult" style="text-align:center;"></div>
+      </section>
 
-      function LessonsScreen({ course, t, lang, user, setActiveLessonId, setView }) {
-        return <main className="screen"><div className="section-head"><div><h1>{t.lessons}</h1><p>{t.courseModules}</p></div></div><div className="lesson-list">{course.lessons.map((lesson, index) => {
-          const content = lesson.content[lang];
-          return <button className="lesson-card" key={lesson.id} onClick={() => { setActiveLessonId(lesson.id); setView("lesson"); }}><img className="lesson-thumb" src={lesson.poster} alt={content.title} /><div><h3>{String(index + 1).padStart(2, "0")} · {content.title}</h3><p>{content.meta}</p></div><span className="check">{user.completed.includes(lesson.id) ? "OK" : "GO"}</span></button>;
-        })}</div></main>;
-      }
+      <!-- ROULETTE -->
+      <section class="panel game hidden" data-game="roulette">
+        <h2>🎡 European Roulette</h2>
+        <p class="sub">Pick a chip value, click bets to stack chips, then spin. Single zero wheel.</p>
+        <div class="wheel-num black" id="wheelNum">–</div>
+        <div class="chip-tray">
+          <span class="lbl">Chip:</span>
+          <button class="chip-pick active" data-chip="5">5</button>
+          <button class="chip-pick" data-chip="25">25</button>
+          <button class="chip-pick" data-chip="100">100</button>
+          <button class="chip-pick" data-chip="500">500</button>
+          <span class="lbl" style="margin-left:auto;">Total bet: <b id="roulTotal" style="color:var(--gold)">0</b></span>
+        </div>
+        <div class="roul-bets" id="roulBets"></div>
+        <div class="bet-row" style="margin-top:16px;">
+          <button class="btn" id="roulSpinBtn">Spin 🎡</button>
+          <button class="btn ghost" id="roulClearBtn">Clear bets</button>
+        </div>
+        <div class="result-line" id="roulResult"></div>
+      </section>
 
-      function LessonScreen({ t, lang, user, lesson, setUser, token }) {
-        const content = lesson.content[lang];
-        const isDone = user.completed.includes(lesson.id);
-        const markDone = async () => {
-          if (isDone) return;
-          const completed = [...user.completed, lesson.id];
-          await request("/api/progress", { method: "POST", headers: { Authorization: `Bearer ${token}` }, body: JSON.stringify({ completed }) });
-          setUser({ ...user, completed });
-        };
-        return (
-          <main className="screen">
-            <div className="video-box" style={{ "--poster": `url(${lesson.poster})` }}><button className="play">▶</button><div className="watermark">{Array.from({ length: 8 }).map((_, index) => <span key={index}>{user.name} · {user.code}</span>)}</div></div>
-            <div className="lesson-body"><p className="eyebrow">{content.meta}</p><h1>{content.title}</h1><p>{content.note}</p><ul className="steps">{content.steps.map((step, index) => <li key={`${step}-${index}`}><strong>{index + 1}.</strong> {step}</li>)}</ul><button className="primary" onClick={markDone}>{isDone ? t.completed : t.markComplete}</button></div>
-          </main>
-        );
-      }
+      <!-- BLACKJACK -->
+      <section class="panel game hidden" data-game="blackjack">
+        <h2>🃏 Blackjack</h2>
+        <p class="sub">Beat the dealer without going over 21. Blackjack pays 3:2. Dealer stands on 17.</p>
+        <div class="felt">
+          <div class="hand-row">
+            <div class="htitle"><span>Dealer</span><span id="dealerVal"></span></div>
+            <div class="cards" id="dealerCards"></div>
+          </div>
+          <div class="hand-row">
+            <div class="htitle"><span>You</span><span id="playerVal"></span></div>
+            <div class="cards" id="playerCards"></div>
+          </div>
+        </div>
+        <div class="bet-row" id="bjBetRow">
+          <div class="field">
+            <label>Bet (chips)</label>
+            <input type="number" class="betInput" data-bet="blackjack" min="1" value="100" />
+          </div>
+          <div class="chips-quick" data-target="blackjack">
+            <button data-add="10">+10</button><button data-add="50">+50</button>
+            <button data-add="100">+100</button><button data-set="max">Max</button>
+          </div>
+          <button class="btn" id="dealBtn">Deal 🃏</button>
+        </div>
+        <div class="bj-actions hidden" id="bjActions">
+          <button class="btn" id="hitBtn">Hit</button>
+          <button class="btn" id="standBtn">Stand</button>
+          <button class="btn ghost" id="doubleBtn">Double</button>
+        </div>
+        <div class="result-line" id="bjResult"></div>
+      </section>
+    </div>
 
-      function ResourcesScreen({ course, t, lang }) {
-        return <main className="screen"><div className="section-head"><div><h1>{t.files}</h1><p>{t.resources}</p></div></div><div className="grid-2">{course.resources.map((resource) => {
-          const content = resource.content[lang];
-          return <div className="resource" key={resource.id}><strong>{content.title}</strong><span>{content.text}</span></div>;
-        })}</div><section className="card" style={{ marginTop: 18, padding: 16 }}><p className="eyebrow">Premium Supplies</p><h2 style={{ margin: "4px 0 8px", color: "var(--pink)", fontFamily: "Bebas Neue", fontSize: 42, lineHeight: .9 }}>Unova Lashes</h2><p style={{ margin: 0, fontSize: 13, fontWeight: 700, lineHeight: 1.7 }}>{lang === "en" ? "Professional lash materials imported from Korea, fresh stock updates and delivery across Miami." : "Профессиональные материалы из Кореи, свежее наличие и доставка по Майами."}</p></section></main>;
-      }
+    <!-- SIDEBAR -->
+    <aside class="side">
+      <div class="panel bonus-card">
+        <h2 style="font-size:18px;">🎁 Free Chips</h2>
+        <p class="sub" style="margin-bottom:14px;">Claim a daily bonus, or a top-up if you go broke.</p>
+        <button class="btn full" id="bonusBtn" style="margin-top:0;">Claim Bonus</button>
+        <div class="timer" id="bonusTimer"></div>
+      </div>
 
-      function AdminScreen({ t, lang, setLang, client, course, setCourse }) {
-        const [tab, setTab] = useState("lessons");
-        const [adminState, setAdminState] = useState(null);
-        const [selectedLessonId, setSelectedLessonId] = useState(course.lessons[0]?.id);
-        const [selectedResourceId, setSelectedResourceId] = useState(course.resources[0]?.id);
-        const [newCode, setNewCode] = useState("");
-        const [editLang, setEditLang] = useState(lang);
-        const [status, setStatus] = useState("");
-        const [busy, setBusy] = useState(false);
-        const adminHeaders = { Authorization: `Bearer ${client.adminToken}` };
-        const loadAdmin = async () => {
-          setBusy(true);
-          setStatus("");
-          try {
-            const data = await request("/api/admin/state", { headers: adminHeaders });
-            setAdminState(data);
-            setCourse(data.course);
-            if (!selectedLessonId && data.course.lessons[0]) setSelectedLessonId(data.course.lessons[0].id);
-            if (!selectedResourceId && data.course.resources[0]) setSelectedResourceId(data.course.resources[0].id);
-            setStatus(t.loaded);
-          } catch (err) {
-            setStatus(err.message || t.wrong);
-          } finally {
-            setBusy(false);
-          }
-        };
-        useEffect(() => { loadAdmin(); }, []);
-        const saveCourse = async (nextCourse) => {
-          setBusy(true);
-          setStatus("");
-          try {
-            const data = await request("/api/admin/course", { method: "PUT", headers: adminHeaders, body: JSON.stringify({ course: nextCourse }) });
-            setCourse(data.course);
-            setStatus(t.saved);
-          } catch (err) {
-            setStatus(err.message || t.wrong);
-          } finally {
-            setBusy(false);
-          }
-        };
-        const createCode = async () => {
-          setBusy(true);
-          setStatus("");
-          try {
-            const data = await request("/api/admin/codes", { method: "POST", headers: adminHeaders, body: JSON.stringify({ code: newCode.trim() || undefined }) });
-            setNewCode("");
-            setAdminState(data);
-            setStatus(t.codeCopied);
-          } catch (err) {
-            setStatus(err.message || t.wrong);
-          } finally {
-            setBusy(false);
-          }
-        };
-        const deleteCode = async (code) => {
-          setBusy(true);
-          try {
-            setAdminState(await request(`/api/admin/codes/${encodeURIComponent(code)}`, { method: "DELETE", headers: adminHeaders }));
-            setStatus(t.saved);
-          } catch (err) {
-            setStatus(err.message || t.wrong);
-          } finally {
-            setBusy(false);
-          }
-        };
-        const resetStudent = async (code) => {
-          setBusy(true);
-          try {
-            setAdminState(await request(`/api/admin/students/${encodeURIComponent(code)}`, { method: "DELETE", headers: adminHeaders }));
-            setStatus(t.saved);
-          } catch (err) {
-            setStatus(err.message || t.wrong);
-          } finally {
-            setBusy(false);
-          }
-        };
-        const selectedLesson = course.lessons.find((lesson) => lesson.id === selectedLessonId) || course.lessons[0];
-        const selectedResource = course.resources.find((resource) => resource.id === selectedResourceId) || course.resources[0];
-        const replaceLesson = (lesson) => saveCourse({ ...course, lessons: course.lessons.map((item) => item.id === lesson.id ? lesson : item) });
-        const replaceResource = (resource) => saveCourse({ ...course, resources: course.resources.map((item) => item.id === resource.id ? resource : item) });
-        const addLesson = () => {
-          const id = `lesson-${Date.now()}`;
-          const lesson = {
-            id,
-            poster: "./assets/girls-miami-clean.png",
-            content: {
-              en: { title: "New Lesson", meta: "New module", note: "Add lesson description here.", steps: ["First step"] },
-              ru: { title: "Новый урок", meta: "Новый модуль", note: "Добавьте описание урока.", steps: ["Первый шаг"] }
-            }
-          };
-          setSelectedLessonId(id);
-          saveCourse({ ...course, lessons: [...course.lessons, lesson] });
-        };
-        const deleteLesson = (id) => {
-          const nextLessons = course.lessons.filter((lesson) => lesson.id !== id);
-          setSelectedLessonId(nextLessons[0]?.id || "");
-          saveCourse({ ...course, lessons: nextLessons });
-        };
-        const addResource = () => {
-          const id = `resource-${Date.now()}`;
-          const resource = {
-            id,
-            content: {
-              en: { title: "New File", text: "Add file notes, link, or checklist here." },
-              ru: { title: "Новый файл", text: "Добавьте заметку, ссылку или чеклист." }
-            }
-          };
-          setSelectedResourceId(id);
-          saveCourse({ ...course, resources: [...course.resources, resource] });
-        };
-        const deleteResource = (id) => {
-          const nextResources = course.resources.filter((resource) => resource.id !== id);
-          setSelectedResourceId(nextResources[0]?.id || "");
-          saveCourse({ ...course, resources: nextResources });
-        };
-        const exitAdmin = () => {
-          setLang(lang);
-          const next = saveClient({ adminToken: null, token: null, user: null });
-          window.location.reload();
-        };
-        const copyCode = (code) => {
-          navigator.clipboard?.writeText(code);
-          setStatus(`${t.copied}: ${code}`);
-        };
-        return (
-          <main className="screen">
-            <div className="section-head"><div><h1>{t.admin}</h1><p>{t.settings}</p></div><button className="icon-button" onClick={() => setLang(lang === "en" ? "ru" : "en")}>{lang.toUpperCase()}</button></div>
-            <p className="notice">{t.adminNotice}</p>
-            {status && <p className="status">{busy ? t.loading : status}</p>}
-            <div className="admin-tabs"><button className={tab === "lessons" ? "active" : ""} onClick={() => setTab("lessons")}>{t.editContent}</button><button className={tab === "codes" ? "active" : ""} onClick={() => setTab("codes")}>{t.accessCodes}</button><button className={tab === "data" ? "active" : ""} onClick={() => setTab("data")}>{t.data}</button></div>
-            {tab === "lessons" && <div className="admin-panel">
-              <label className="field-label">{t.editorLanguage}<select className="select" value={editLang} onChange={(e) => setEditLang(e.target.value)}><option value="en">English content</option><option value="ru">Русский контент</option></select></label>
-              <div className="admin-actions"><button className="secondary" onClick={addLesson}>{t.addLesson}</button><button className="secondary" onClick={addResource}>{t.addFile}</button></div>
-              <label className="field-label">{t.lessons}<select className="select" value={selectedLesson?.id || ""} onChange={(e) => setSelectedLessonId(e.target.value)}>{course.lessons.map((lesson) => <option key={lesson.id} value={lesson.id}>{lesson.content[editLang].title}</option>)}</select></label>
-              {selectedLesson && <LessonEditor lesson={selectedLesson} lang={editLang} t={t} replaceLesson={replaceLesson} deleteLesson={deleteLesson} />}
-              <label className="field-label">{t.files}<select className="select" value={selectedResource?.id || ""} onChange={(e) => setSelectedResourceId(e.target.value)}>{course.resources.map((resource) => <option key={resource.id} value={resource.id}>{resource.content[editLang].title}</option>)}</select></label>
-              {selectedResource && <ResourceEditor resource={selectedResource} lang={editLang} t={t} replaceResource={replaceResource} deleteResource={deleteResource} />}
-            </div>}
-            {tab === "codes" && <div className="admin-panel">
-              <div className="card" style={{ padding: 12 }}><label className="field-label">{t.newCode}<input className="input" value={newCode} onChange={(e) => setNewCode(e.target.value.toUpperCase())} placeholder="Leave empty for auto code" /></label><div style={{ height: 10 }} /><button className="primary" disabled={busy} onClick={createCode}>{t.newCode}</button></div>
-              {(adminState?.codes || []).map((item) => <div className="admin-row" key={item.code}><div><strong>{item.code}</strong><span>{item.redeemed ? `${t.activated}: ${item.studentName}` : t.available}</span></div><div className="row-actions"><span className="check">{item.redeemed ? t.used : "NEW"}</span><button className="secondary" onClick={() => copyCode(item.code)}>Copy</button>{item.redeemed && <button className="secondary" onClick={() => resetStudent(item.code)}>{t.resetStudent}</button>}<button className="danger" onClick={() => deleteCode(item.code)}>{t.delete}</button></div></div>)}
-            </div>}
-            {tab === "data" && <div className="admin-panel"><button className="secondary" onClick={loadAdmin}>{t.refresh}</button><button className="danger" onClick={exitAdmin}>{t.exitAdmin}</button><p className="notice">Production data is stored in private GitHub repo gtsafd/miami-lash-course-data. Use Refresh to reload latest codes and content.</p></div>}
-          </main>
-        );
-      }
+      <div class="panel">
+        <h2 style="font-size:18px;margin-bottom:14px;">📊 Your Stats</h2>
+        <div class="stat-grid">
+          <div><b id="stGames">0</b><span>Games played</span></div>
+          <div><b id="stWagered">0</b><span>Total wagered</span></div>
+          <div><b id="stWon" class="win">0</b><span>Net won</span></div>
+          <div><b id="stBig" style="color:var(--gold)">0</b><span>Biggest win</span></div>
+        </div>
+      </div>
 
-      function LessonEditor({ lesson, lang, t, replaceLesson, deleteLesson }) {
-        const initial = lesson.content[lang];
-        const [draft, setDraft] = useState({ ...initial, stepsText: initial.steps.join("\n"), poster: lesson.poster });
-        useEffect(() => {
-          const next = lesson.content[lang];
-          setDraft({ ...next, stepsText: next.steps.join("\n"), poster: lesson.poster });
-        }, [lesson.id, lang]);
-        const save = () => replaceLesson({ ...lesson, poster: draft.poster, content: { ...lesson.content, [lang]: { title: draft.title, meta: draft.meta, note: draft.note, steps: draft.stepsText.split("\n").map((item) => item.trim()).filter(Boolean) } } });
-        return <div className="card admin-form" style={{ padding: 12 }}><label className="field-label">{t.title}<input className="input" value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} /></label><label className="field-label">{t.meta}<input className="input" value={draft.meta} onChange={(e) => setDraft({ ...draft, meta: e.target.value })} /></label><label className="field-label">{t.note}<textarea className="textarea" value={draft.note} onChange={(e) => setDraft({ ...draft, note: e.target.value })} /></label><label className="field-label">{t.steps}<textarea className="textarea" value={draft.stepsText} onChange={(e) => setDraft({ ...draft, stepsText: e.target.value })} /></label><label className="field-label">{t.poster}<input className="input" value={draft.poster} onChange={(e) => setDraft({ ...draft, poster: e.target.value })} /></label><div className="admin-actions"><button className="primary" onClick={save}>{t.saveLesson}</button><button className="danger" onClick={() => deleteLesson(lesson.id)}>{t.delete}</button></div></div>;
-      }
+      <div class="panel">
+        <h2 style="font-size:18px;margin-bottom:10px;">🏆 Leaderboard</h2>
+        <div id="leaderboard"><div class="neutral" style="font-size:13px;">Loading…</div></div>
+      </div>
 
-      function ResourceEditor({ resource, lang, t, replaceResource, deleteResource }) {
-        const initial = resource.content[lang];
-        const [draft, setDraft] = useState({ ...initial });
-        useEffect(() => setDraft({ ...resource.content[lang] }), [resource.id, lang]);
-        const save = () => replaceResource({ ...resource, content: { ...resource.content, [lang]: { title: draft.title, text: draft.text } } });
-        return <div className="card admin-form" style={{ padding: 12 }}><label className="field-label">{t.resourcesTitle}<input className="input" value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} /></label><label className="field-label">{t.resourcesText}<textarea className="textarea" value={draft.text} onChange={(e) => setDraft({ ...draft, text: e.target.value })} /></label><div className="admin-actions"><button className="primary" onClick={save}>{t.saveFile}</button><button className="danger" onClick={() => deleteResource(resource.id)}>{t.delete}</button></div></div>;
-      }
+      <div class="panel">
+        <h2 style="font-size:18px;margin-bottom:10px;">🧾 Recent Bets</h2>
+        <div id="history"><div class="neutral" style="font-size:13px;">No bets yet.</div></div>
+      </div>
+    </aside>
+  </div>
+</div>
 
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.getRegistrations?.().then((registrations) => {
-          registrations.forEach((registration) => registration.unregister());
-        }).catch(() => {});
-      }
-      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-    </script>
-  </body>
+<div class="toast" id="toast"></div>
+
+<script>
+const API = "/api";
+let token = localStorage.getItem("nc_token") || "";
+let player = null;
+let currentGame = "slots";
+let coinSide = "heads";
+let roulChip = 5;
+let roulBets = {}; // key -> {type, value, amount}
+let busy = false;
+
+const $ = (id) => document.getElementById(id);
+
+async function api(path, method = "GET", body) {
+  const res = await fetch(API + path, {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: "Bearer " + token } : {})
+    },
+    body: body ? JSON.stringify(body) : undefined
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw Object.assign(new Error(data.error || "Error"), { status: res.status, data });
+  return data;
+}
+
+function toast(msg, kind) {
+  const t = $("toast");
+  t.textContent = msg;
+  t.className = "toast show " + (kind || "");
+  clearTimeout(t._t);
+  t._t = setTimeout(() => (t.className = "toast"), 2600);
+}
+
+function fmt(n) { return Number(n || 0).toLocaleString("en-US"); }
+
+function setPlayer(p) {
+  player = p;
+  $("balance").textContent = fmt(p.balance);
+  $("whoName").textContent = p.name;
+  $("stGames").textContent = fmt(p.stats.gamesPlayed);
+  $("stWagered").textContent = fmt(p.stats.wagered);
+  $("stWon").textContent = fmt(p.stats.won);
+  $("stBig").textContent = fmt(p.stats.biggestWin);
+  renderHistory(p.history);
+  renderBonus();
+  if (p.blackjack) renderBlackjack(p.blackjack);
+}
+
+/* ---------- auth ---------- */
+async function enter() {
+  const name = $("nameInput").value.trim();
+  try {
+    const data = await api("/session", "POST", { name });
+    token = data.token;
+    localStorage.setItem("nc_token", token);
+    setPlayer(data.player);
+    showApp();
+  } catch (e) { toast(e.message, "lose"); }
+}
+
+function showApp() {
+  $("gate").classList.add("hidden");
+  $("app").classList.remove("hidden");
+  loadLeaderboard();
+}
+
+function logout() {
+  localStorage.removeItem("nc_token");
+  token = ""; player = null;
+  $("app").classList.add("hidden");
+  $("gate").classList.remove("hidden");
+}
+
+async function boot() {
+  buildRoulette();
+  if (token) {
+    try {
+      const data = await api("/me");
+      setPlayer(data.player);
+      showApp();
+      return;
+    } catch { localStorage.removeItem("nc_token"); token = ""; }
+  }
+}
+
+/* ---------- bonus ---------- */
+function renderBonus() {
+  const btn = $("bonusBtn");
+  const now = Date.now();
+  const ready = now >= player.bonusReadyAt;
+  if (ready) {
+    btn.disabled = false;
+    btn.textContent = "Claim Daily Bonus (+500)";
+    $("bonusTimer").textContent = "Available now!";
+  } else if (player.canRescue) {
+    btn.disabled = false;
+    btn.textContent = "Claim Rescue Chips (+250)";
+    $("bonusTimer").textContent = "You're low on chips.";
+  } else {
+    btn.disabled = true;
+    btn.textContent = "Daily Bonus";
+    const ms = player.bonusReadyAt - now;
+    const h = Math.floor(ms / 3600000);
+    const m = Math.floor((ms % 3600000) / 60000);
+    $("bonusTimer").textContent = `Next bonus in ${h}h ${m}m`;
+  }
+}
+async function claimBonus() {
+  try {
+    const data = await api("/bonus", "POST", {});
+    setPlayer(data.player);
+    toast(`+${fmt(data.amount)} chips!`, "win");
+  } catch (e) {
+    if (e.status === 429) toast("Bonus not ready yet", "");
+    else toast(e.message, "lose");
+  }
+}
+
+/* ---------- tabs ---------- */
+function switchGame(game) {
+  currentGame = game;
+  document.querySelectorAll(".tab").forEach((t) => t.classList.toggle("active", t.dataset.game === game));
+  document.querySelectorAll(".game").forEach((g) => g.classList.toggle("hidden", g.dataset.game !== game));
+}
+
+/* ---------- bet helpers ---------- */
+function betValue(game) {
+  const el = document.querySelector(`.betInput[data-bet="${game}"]`);
+  return Math.max(1, Math.floor(Number(el.value) || 0));
+}
+function setBet(game, v) {
+  document.querySelector(`.betInput[data-bet="${game}"]`).value = Math.max(1, Math.floor(v));
+}
+function wireQuickChips() {
+  document.querySelectorAll(".chips-quick").forEach((box) => {
+    const game = box.dataset.target;
+    box.querySelectorAll("button").forEach((b) => {
+      b.addEventListener("click", () => {
+        if (b.dataset.set === "max") setBet(game, player ? player.balance : 1);
+        else setBet(game, betValue(game) + Number(b.dataset.add));
+      });
+    });
+  });
+}
+
+/* ---------- slots ---------- */
+async function spinSlots() {
+  if (busy) return;
+  const bet = betValue("slots");
+  if (bet > player.balance) return toast("Not enough chips", "lose");
+  busy = true; $("spinBtn").disabled = true;
+  const reels = [$("reel0"), $("reel1"), $("reel2")];
+  reels.forEach((r) => r.classList.add("spin"));
+  $("slotsResult").textContent = "";
+  const sy = ["🍒","🍋","🔔","⭐","💎","7️⃣"];
+  const tease = setInterval(() => {
+    reels.forEach((r) => (r.textContent = sy[Math.floor(Math.random() * sy.length)]));
+  }, 70);
+  try {
+    const data = await api("/play/slots", "POST", { bet });
+    await wait(650);
+    clearInterval(tease);
+    data.outcome.reels.forEach((s, i) => { reels[i].textContent = s; reels[i].classList.remove("spin"); });
+    setPlayer(data.player);
+    const o = data.outcome;
+    showOutcome("slotsResult", o, o.win ? `You won ${fmt(o.payout)}!` : (o.payout === o.bet ? "Bet returned" : "No match"));
+  } catch (e) { clearInterval(tease); reels.forEach((r)=>r.classList.remove("spin")); toast(e.message, "lose"); }
+  busy = false; $("spinBtn").disabled = false;
+}
+
+/* ---------- dice ---------- */
+function updateDiceView() {
+  const t = Number($("diceSlider").value);
+  $("diceTargetView").textContent = t.toFixed(2);
+  const mult = Math.floor((99 / t) * 100) / 100;
+  $("diceMult").textContent = mult.toFixed(2) + "×";
+  $("diceChance").textContent = t.toFixed(0) + "%";
+}
+async function rollDice() {
+  if (busy) return;
+  const bet = betValue("dice");
+  if (bet > player.balance) return toast("Not enough chips", "lose");
+  const target = Number($("diceSlider").value);
+  busy = true; $("rollBtn").disabled = true;
+  try {
+    const data = await api("/play/dice", "POST", { bet, target });
+    const o = data.outcome;
+    $("diceRoll").textContent = o.roll.toFixed(2);
+    $("diceRoll").className = o.win ? "win" : "lose";
+    setPlayer(data.player);
+    showOutcome("diceResult", o, `Rolled ${o.roll.toFixed(2)} — ${o.win ? "win " + fmt(o.payout) : "loss"}`);
+  } catch (e) { toast(e.message, "lose"); }
+  busy = false; $("rollBtn").disabled = false;
+}
+
+/* ---------- coinflip ---------- */
+async function flipCoin() {
+  if (busy) return;
+  const bet = betValue("coinflip");
+  if (bet > player.balance) return toast("Not enough chips", "lose");
+  busy = true; $("flipBtn").disabled = true;
+  const face = $("coinFace");
+  face.classList.remove("flip"); void face.offsetWidth; face.classList.add("flip");
+  $("coinResult").textContent = "";
+  try {
+    const data = await api("/play/coinflip", "POST", { bet, side: coinSide });
+    await wait(950);
+    const o = data.outcome;
+    face.textContent = o.result === "heads" ? "H" : "T";
+    setPlayer(data.player);
+    showOutcome("coinResult", o, `${o.result.toUpperCase()} — ${o.win ? "you won " + fmt(o.payout) : "you lost"}`);
+  } catch (e) { toast(e.message, "lose"); }
+  busy = false; $("flipBtn").disabled = false;
+}
+
+/* ---------- roulette ---------- */
+function buildRoulette() {
+  const wrap = $("roulBets");
+  const cells = [];
+  for (let n = 0; n <= 36; n++) cells.push({ key: "s" + n, type: "straight", value: n, label: String(n), cls: n === 0 ? "" : (isRed(n) ? "r" : "b") });
+  const outside = [
+    ["red","Red","r"], ["black","Black","b"], ["even","Even",""], ["odd","Odd",""],
+    ["low","1-18",""], ["high","19-36",""],
+    ["dozen","1st 12","",1], ["dozen","2nd 12","",2], ["dozen","3rd 12","",3],
+    ["column","Col 1","",1], ["column","Col 2","",2], ["column","Col 3","",3]
+  ];
+  outside.forEach(([type,label,cls,val]) => cells.push({ key: type + (val||""), type, value: val ?? type, label, cls }));
+  wrap.innerHTML = "";
+  cells.forEach((c) => {
+    const b = document.createElement("button");
+    b.className = c.cls;
+    b.dataset.key = c.key;
+    b.innerHTML = `${c.label}<span class="stake hidden"></span>`;
+    b.addEventListener("click", () => placeRoulChip(c, b));
+    wrap.appendChild(b);
+  });
+}
+function isRed(n){ return [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36].includes(n); }
+function placeRoulChip(c, btn) {
+  const ex = roulBets[c.key] || { type: c.type, value: c.value, amount: 0 };
+  ex.amount += roulChip;
+  roulBets[c.key] = ex;
+  const s = btn.querySelector(".stake");
+  s.textContent = ex.amount; s.classList.remove("hidden");
+  updateRoulTotal();
+}
+function updateRoulTotal() {
+  const total = Object.values(roulBets).reduce((a, b) => a + b.amount, 0);
+  $("roulTotal").textContent = fmt(total);
+}
+function clearRoul() {
+  roulBets = {};
+  document.querySelectorAll("#roulBets .stake").forEach((s) => { s.textContent=""; s.classList.add("hidden"); });
+  updateRoulTotal();
+}
+async function spinRoulette() {
+  if (busy) return;
+  const bets = Object.values(roulBets);
+  if (!bets.length) return toast("Place at least one bet", "");
+  const total = bets.reduce((a, b) => a + b.amount, 0);
+  if (total > player.balance) return toast("Not enough chips", "lose");
+  busy = true; $("roulSpinBtn").disabled = true;
+  $("roulResult").textContent = "";
+  const wn = $("wheelNum");
+  const tease = setInterval(() => { const r = Math.floor(Math.random()*37); wn.textContent = r; wn.className = "wheel-num " + colorOf(r); }, 80);
+  try {
+    const data = await api("/play/roulette", "POST", { bets });
+    await wait(900);
+    clearInterval(tease);
+    const o = data.outcome;
+    wn.textContent = o.result; wn.className = "wheel-num " + o.color;
+    setPlayer(data.player);
+    showOutcome("roulResult", o, `${o.result} ${o.color} — ${o.win ? "won " + fmt(o.payout) : "no win"}`);
+    clearRoul();
+  } catch (e) { clearInterval(tease); toast(e.message, "lose"); }
+  busy = false; $("roulSpinBtn").disabled = false;
+}
+function colorOf(n){ if(n===0) return "green"; return isRed(n) ? "red" : "black"; }
+
+/* ---------- blackjack ---------- */
+function cardEl(c) {
+  const d = document.createElement("div");
+  if (c.hidden) { d.className = "card back"; return d; }
+  const red = c.s === "♥" || c.s === "♦";
+  d.className = "card" + (red ? " red" : "");
+  d.innerHTML = `<span>${c.r}${c.s}</span><span class="b">${c.r}${c.s}</span>`;
+  return d;
+}
+function renderBlackjack(bj) {
+  const dc = $("dealerCards"), pc = $("playerCards");
+  dc.innerHTML = ""; pc.innerHTML = "";
+  bj.dealerHand.forEach((c) => dc.appendChild(cardEl(c)));
+  bj.playerHand.forEach((c) => pc.appendChild(cardEl(c)));
+  $("dealerVal").textContent = bj.dealerHidden ? bj.dealerValue + " + ?" : bj.dealerValue;
+  $("playerVal").textContent = bj.playerValue;
+  const playing = bj.status === "playing";
+  $("bjActions").classList.toggle("hidden", !playing);
+  $("bjBetRow").classList.toggle("hidden", playing);
+  $("doubleBtn").disabled = !bj.canDouble;
+  if (bj.status === "done") {
+    const map = { win: ["You win!", "win"], blackjack: ["Blackjack! 3:2", "win"], lose: ["Dealer wins", "lose"], push: ["Push — bet returned", "neutral"] };
+    const [msg, cls] = map[bj.result] || ["", "neutral"];
+    const r = $("bjResult"); r.textContent = msg; r.className = "result-line " + cls;
+    if (cls === "win") toast(msg + " +" + fmt(bj.payout), "win");
+    else if (cls === "lose") toast(msg, "lose");
+  }
+}
+async function bjAction(path, body) {
+  if (busy) return;
+  busy = true;
+  try {
+    const data = await api("/blackjack/" + path, "POST", body);
+    setPlayer(data.player);
+    renderBlackjack(data.blackjack);
+  } catch (e) { toast(e.message, "lose"); }
+  busy = false;
+}
+function dealBlackjack() {
+  const bet = betValue("blackjack");
+  if (bet > player.balance) return toast("Not enough chips", "lose");
+  $("bjResult").textContent = "";
+  bjAction("deal", { bet });
+}
+
+/* ---------- shared outcome ---------- */
+function showOutcome(elId, o, msg) {
+  const el = $(elId);
+  el.textContent = msg;
+  el.className = "result-line " + (o.win ? "win" : (o.net === 0 ? "neutral" : "lose"));
+  if (o.win) toast(msg, "win");
+  loadLeaderboard();
+}
+function renderHistory(hist) {
+  const wrap = $("history");
+  if (!hist || !hist.length) { wrap.innerHTML = '<div class="neutral" style="font-size:13px;">No bets yet.</div>'; return; }
+  wrap.innerHTML = hist.slice(0, 12).map((h) => {
+    const sign = h.net > 0 ? "+" : "";
+    const cls = h.net > 0 ? "pos" : (h.net < 0 ? "neg" : "");
+    return `<div class="hist-row"><span class="g">${h.game}</span><span class="n ${cls}">${sign}${fmt(h.net)}</span></div>`;
+  }).join("");
+}
+async function loadLeaderboard() {
+  try {
+    const data = await api("/leaderboard");
+    const wrap = $("leaderboard");
+    if (!data.leaderboard.length) { wrap.innerHTML = '<div class="neutral" style="font-size:13px;">No players yet.</div>'; return; }
+    wrap.innerHTML = data.leaderboard.map((p, i) =>
+      `<div class="lb-row"><span><span class="lb-rank">${i+1}</span>${escapeHtml(p.name)}</span><span style="color:var(--gold);font-weight:700;">🪙 ${fmt(p.balance)}</span></div>`
+    ).join("");
+  } catch {}
+}
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, (c)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function wait(ms){ return new Promise((r)=>setTimeout(r, ms)); }
+
+/* ---------- wiring ---------- */
+$("enterBtn").addEventListener("click", enter);
+$("nameInput").addEventListener("keydown", (e) => { if (e.key === "Enter") enter(); });
+$("logoutBtn").addEventListener("click", logout);
+$("bonusBtn").addEventListener("click", claimBonus);
+$("tabs").addEventListener("click", (e) => { const t = e.target.closest(".tab"); if (t) switchGame(t.dataset.game); });
+$("spinBtn").addEventListener("click", spinSlots);
+$("rollBtn").addEventListener("click", rollDice);
+$("diceSlider").addEventListener("input", updateDiceView);
+$("flipBtn").addEventListener("click", flipCoin);
+document.querySelectorAll(".side-toggle button").forEach((b) => b.addEventListener("click", () => {
+  coinSide = b.dataset.side;
+  document.querySelectorAll(".side-toggle button").forEach((x) => x.classList.toggle("active", x === b));
+}));
+$("roulSpinBtn").addEventListener("click", spinRoulette);
+$("roulClearBtn").addEventListener("click", clearRoul);
+document.querySelectorAll(".chip-pick").forEach((b) => b.addEventListener("click", () => {
+  roulChip = Number(b.dataset.chip);
+  document.querySelectorAll(".chip-pick").forEach((x) => x.classList.toggle("active", x === b));
+}));
+$("dealBtn").addEventListener("click", dealBlackjack);
+$("hitBtn").addEventListener("click", () => bjAction("hit"));
+$("standBtn").addEventListener("click", () => bjAction("stand"));
+$("doubleBtn").addEventListener("click", () => bjAction("double"));
+
+wireQuickChips();
+updateDiceView();
+boot();
+setInterval(() => { if (player) renderBonus(); }, 30000);
+</script>
+</body>
 </html>
