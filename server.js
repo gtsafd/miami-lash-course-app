@@ -31,6 +31,11 @@ function serveStatic(req, res) {
     res.writeHead(403);
     return res.end("Forbidden");
   }
+  // A bare directory request (e.g. /casino) -> redirect to /casino/ so relative links resolve.
+  if (!path.extname(filePath) && isDirectory(filePath)) {
+    res.writeHead(301, { Location: url.pathname.replace(/\/?$/, "/") });
+    return res.end();
+  }
   fs.readFile(filePath, (error, data) => {
     if (error) {
       res.writeHead(404);
@@ -42,6 +47,14 @@ function serveStatic(req, res) {
     });
     res.end(data);
   });
+}
+
+function isDirectory(filePath) {
+  try {
+    return fs.statSync(filePath).isDirectory();
+  } catch {
+    return false;
+  }
 }
 
 function contentType(filePath) {
