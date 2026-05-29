@@ -2,6 +2,7 @@ const http = require("node:http");
 const fs = require("node:fs");
 const path = require("node:path");
 const { handleApi } = require("./lib/app");
+const { handleCasinoApi } = require("./lib/casino");
 
 const root = __dirname;
 const publicDir = path.join(root, "public");
@@ -10,6 +11,7 @@ const port = Number(process.env.PORT || 5188);
 
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
+  if (url.pathname.startsWith("/api/casino/")) return handleCasinoApi(req, res);
   if (url.pathname.startsWith("/api/")) return handleApi(req, res);
   serveStatic(req, res);
 });
@@ -22,11 +24,17 @@ server.listen(port, () => {
 
 function serveStatic(req, res) {
   const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
-  const requested = url.pathname === "/" ? "/index.html" : decodeURIComponent(url.pathname);
+  let requested = url.pathname === "/" ? "/index.html" : decodeURIComponent(url.pathname);
+  if (requested.endsWith("/")) requested += "index.html"; // serve directory index (e.g. /casino/)
   const filePath = path.normalize(path.join(publicDir, requested));
   if (!filePath.startsWith(publicDir) || filePath.startsWith(dataDir)) {
     res.writeHead(403);
     return res.end("Forbidden");
+  }
+  // A bare directory request (e.g. /casino) -> redirect to /casino/ so relative links resolve.
+  if (!path.extname(filePath) && isDirectory(filePath)) {
+    res.writeHead(301, { Location: url.pathname.replace(/\/?$/, "/") });
+    return res.end();
   }
   fs.readFile(filePath, (error, data) => {
     if (error) {
@@ -41,6 +49,14 @@ function serveStatic(req, res) {
   });
 }
 
+function isDirectory(filePath) {
+  try {
+    return fs.statSync(filePath).isDirectory();
+  } catch {
+    return false;
+  }
+}
+
 function contentType(filePath) {
   const ext = path.extname(filePath).toLowerCase();
   return {
@@ -51,6 +67,7 @@ function contentType(filePath) {
     ".png": "image/png",
     ".jpg": "image/jpeg",
     ".jpeg": "image/jpeg",
+    ".svg": "image/svg+xml",
     ".css": "text/css; charset=utf-8"
   }[ext] || "application/octet-stream";
 }
