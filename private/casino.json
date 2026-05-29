@@ -708,17 +708,25 @@
       "nameKey": "дядя юра",
       "telegramId": "6180057058",
       "telegramUsername": "",
-      "balance": 995.8,
+      "balance": 1007.5999999999999,
       "createdAt": "2026-05-29T14:15:56.730Z",
       "lastDailyBonus": 0,
       "lastRescueBonus": 0,
       "stats": {
-        "gamesPlayed": 1,
-        "wagered": 20,
-        "won": 0,
-        "biggestWin": 0
+        "gamesPlayed": 2,
+        "wagered": 40,
+        "won": 11.8,
+        "biggestWin": 11.8
       },
       "history": [
+        {
+          "game": "slots",
+          "bet": 20,
+          "payout": 31.8,
+          "net": 11.8,
+          "detail": "🍒 🍒 ⭐ · two-cherry",
+          "at": "2026-05-29T14:16:21.866Z"
+        },
         {
           "game": "slots",
           "bet": 20,
