@@ -49,7 +49,8 @@ const I18N = {
     "leaderboard.title": "🏆 Leaderboard",
     "history.title": "🧾 Recent Bets",
     "admin.title": "⚙ Casino Admin",
-    "admin.copy": "Enter the admin password to configure odds & payouts.",
+    "admin.copy": "Enter the admin login and password to configure odds & payouts.",
+    "admin.user": "Admin login",
     "admin.pass": "Admin password",
     "admin.login": "Log in",
     "admin.close": "Close",
@@ -84,7 +85,8 @@ const I18N = {
     "leaderboard.title": "🏆 Таблица лидеров",
     "history.title": "🧾 Последние ставки",
     "admin.title": "⚙ Админка казино",
-    "admin.copy": "Введи пароль админа, чтобы менять шансы и выплаты.",
+    "admin.copy": "Введи логин и пароль админа, чтобы менять шансы и выплаты.",
+    "admin.user": "Логин админа",
     "admin.pass": "Пароль админа",
     "admin.login": "Войти",
     "admin.close": "Закрыть",
@@ -136,6 +138,7 @@ function applyTranslations() {
   setText(".side .panel:nth-child(4) h2", "history.title");
   setText("#adminModal h2", "admin.title");
   setText("#adminLoginView .sub", "admin.copy");
+  $("adminUser").placeholder = t("admin.user");
   $("adminPass").placeholder = t("admin.pass");
   setText("#adminLoginBtn", "admin.login");
   setText("#adminClose", "admin.close");
@@ -579,7 +582,7 @@ function closeAdmin() { $("adminModal").classList.add("hidden"); }
 async function adminLogin() {
   $("adminLoginErr").textContent = "";
   try {
-    const d = await api("/admin/login", "POST", { password: $("adminPass").value });
+    const d = await api("/admin/login", "POST", { username: $("adminUser").value.trim(), password: $("adminPass").value });
     adminToken = d.token; localStorage.setItem("nc_admin", adminToken);
     loadAdmin();
   } catch (e) { $("adminLoginErr").textContent = e.message; }
@@ -714,6 +717,7 @@ $("crashTarget").addEventListener("input", () => { const v = Number($("crashTarg
 $("adminBtn").addEventListener("click", openAdmin);
 $("adminClose").addEventListener("click", closeAdmin);
 $("adminLoginBtn").addEventListener("click", adminLogin);
+$("adminUser").addEventListener("keydown", (e) => { if (e.key === "Enter") adminLogin(); });
 $("adminPass").addEventListener("keydown", (e) => { if (e.key === "Enter") adminLogin(); });
 document.querySelectorAll(".lang-btn").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
 
