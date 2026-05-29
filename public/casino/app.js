@@ -30,6 +30,8 @@ const I18N = {
     "gate.name": "Choose a player name",
     "gate.password": "Password",
     "gate.enter": "Enter the Casino",
+    "gate.or": "or",
+    "gate.telegramMissing": "Telegram login appears after TELEGRAM_BOT_USERNAME is configured.",
     "gate.note": "Virtual chips have no monetary value and cannot be purchased or cashed out.",
     "brand.subtitle": "Virtual Casino",
     "logout": "Exit",
@@ -63,6 +65,8 @@ const I18N = {
     "gate.name": "Имя игрока",
     "gate.password": "Пароль",
     "gate.enter": "Войти в казино",
+    "gate.or": "или",
+    "gate.telegramMissing": "Вход через Telegram появится после настройки TELEGRAM_BOT_USERNAME.",
     "gate.note": "Виртуальные фишки не имеют денежной стоимости, их нельзя купить или вывести.",
     "brand.subtitle": "Виртуальное казино",
     "logout": "Выйти",
@@ -112,6 +116,8 @@ function applyTranslations() {
   setText(".gate-card p", "gate.copy");
   $("nameInput").placeholder = t("gate.name");
   $("passwordInput").placeholder = t("gate.password");
+  const divider = document.querySelector("#loginDivider span");
+  if (divider) divider.textContent = t("gate.or");
   setText("#enterBtn", "gate.enter");
   setText(".muted-note", "gate.note");
   setText(".brand span", "brand.subtitle");
@@ -134,6 +140,34 @@ function applyTranslations() {
   setText("#adminLoginBtn", "admin.login");
   setText("#adminClose", "admin.close");
   if (player) renderBonus();
+}
+
+window.onTelegramAuth = async function onTelegramAuth(user) {
+  try {
+    const data = await api("/telegram", "POST", { telegram: user });
+    token = data.token; localStorage.setItem("nc_token", token);
+    setPlayer(data.player); showApp();
+  } catch (e) { toast(e.message, "lose"); }
+};
+
+function mountTelegramLogin() {
+  const wrap = $("telegramLogin");
+  const username = config?.auth?.telegramBotUsername;
+  wrap.innerHTML = "";
+  if (!username) {
+    wrap.classList.add("hidden");
+    return;
+  }
+  wrap.classList.remove("hidden");
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = "https://telegram.org/js/telegram-widget.js?22";
+  script.dataset.telegramLogin = username.replace(/^@/, "");
+  script.dataset.size = "large";
+  script.dataset.radius = "12";
+  script.dataset.requestAccess = "write";
+  script.dataset.onauth = "onTelegramAuth(user)";
+  wrap.appendChild(script);
 }
 
 async function api(path, method = "GET", body, useAdmin) {
@@ -205,6 +239,7 @@ function applyConfig() {
     `<span>🍒🍒 <b>${config.slots.twoCherry}×</b></span><span>🍒 <b>${config.slots.oneCherry}×</b></span>`;
   buildRoulette();
   buildFortune();
+  mountTelegramLogin();
   updateDiceView();
 }
 
@@ -212,11 +247,18 @@ function applyConfig() {
 function renderBonus() {
   const btn = $("bonusBtn");
   const cd = (config?.economy.dailyCooldownHours ?? 20) * 3600000;
-  const readyAt = (player.lastDailyBonus || 0) + cd;
+  const dailyReadyAt = (player.lastDailyBonus || 0) + cd;
+  const rescueReadyAt = (player.lastRescueBonus || 0) + cd;
   const now = Date.now();
-  if (now >= readyAt) { btn.disabled = false; btn.textContent = lang === "ru" ? `Ежедневный бонус (+${fmt(config?.economy.dailyBonus ?? 500)})` : `Claim Daily Bonus (+${fmt(config?.economy.dailyBonus ?? 500)})`; $("bonusTimer").textContent = lang === "ru" ? "Доступно сейчас!" : "Available now!"; }
-  else if (player.balance < (config?.economy.rescueThreshold ?? 50)) { btn.disabled = false; btn.textContent = lang === "ru" ? `Спасательные фишки (+${fmt(config?.economy.rescueBonus ?? 250)})` : `Claim Rescue Chips (+${fmt(config?.economy.rescueBonus ?? 250)})`; $("bonusTimer").textContent = lang === "ru" ? "У тебя мало фишек." : "You're low on chips."; }
-  else { btn.disabled = true; btn.textContent = lang === "ru" ? "Ежедневный бонус" : "Daily Bonus"; const ms = readyAt - now; $("bonusTimer").textContent = lang === "ru" ? `Следующий бонус через ${Math.floor(ms/3600000)}ч ${Math.floor((ms%3600000)/60000)}м` : `Next bonus in ${Math.floor(ms/3600000)}h ${Math.floor((ms%3600000)/60000)}m`; }
+  if (now >= dailyReadyAt) { btn.disabled = false; btn.textContent = lang === "ru" ? `Ежедневный бонус (+${fmt(config?.economy.dailyBonus ?? 500)})` : `Claim Daily Bonus (+${fmt(config?.economy.dailyBonus ?? 500)})`; $("bonusTimer").textContent = lang === "ru" ? "Доступно сейчас!" : "Available now!"; }
+  else if (player.balance < (config?.economy.rescueThreshold ?? 50) && now >= rescueReadyAt) { btn.disabled = false; btn.textContent = lang === "ru" ? `Спасательные фишки (+${fmt(config?.economy.rescueBonus ?? 250)})` : `Claim Rescue Chips (+${fmt(config?.economy.rescueBonus ?? 250)})`; $("bonusTimer").textContent = lang === "ru" ? "У тебя мало фишек." : "You're low on chips."; }
+  else {
+    btn.disabled = true;
+    btn.textContent = lang === "ru" ? "Бонус недоступен" : "Bonus locked";
+    const readyAt = player.balance < (config?.economy.rescueThreshold ?? 50) ? rescueReadyAt : dailyReadyAt;
+    const ms = readyAt - now;
+    $("bonusTimer").textContent = lang === "ru" ? `Следующий бонус через ${Math.floor(ms/3600000)}ч ${Math.floor((ms%3600000)/60000)}м` : `Next bonus in ${Math.floor(ms/3600000)}h ${Math.floor((ms%3600000)/60000)}m`;
+  }
 }
 async function claimBonus() {
   try { const d = await api("/bonus", "POST", {}); setPlayer(d.player); toast(`+${fmt(d.amount)} chips!`, "win"); }
