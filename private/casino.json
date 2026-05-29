@@ -211,16 +211,24 @@
       "id": "0354498b-c136-420b-956f-2f5fac513dac",
       "name": "Фдуч",
       "nameKey": "фдуч",
-      "balance": 995.8,
+      "balance": 945.8,
       "createdAt": "2026-05-29T04:36:16.704Z",
       "lastDailyBonus": 0,
       "stats": {
-        "gamesPlayed": 1,
-        "wagered": 20,
+        "gamesPlayed": 2,
+        "wagered": 70,
         "won": 0,
         "biggestWin": 0
       },
       "history": [
+        {
+          "game": "crash",
+          "bet": 50,
+          "payout": 0,
+          "net": -50,
+          "detail": "target 2x · crashed 1.19x",
+          "at": "2026-05-29T04:37:25.014Z"
+        },
         {
           "game": "slots",
           "bet": 20,
