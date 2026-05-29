@@ -249,17 +249,25 @@
       "nameKey": "alex 🌴",
       "telegramId": "5638062250",
       "telegramUsername": "Alex_Kozak",
-      "balance": 1645.9999999999998,
+      "balance": 1675.9999999999998,
       "createdAt": "2026-05-29T04:55:58.436Z",
       "lastDailyBonus": 1780030863131,
       "lastRescueBonus": 0,
       "stats": {
-        "gamesPlayed": 47,
-        "wagered": 3730,
-        "won": 1064.6,
+        "gamesPlayed": 48,
+        "wagered": 3830,
+        "won": 1094.6,
         "biggestWin": 221
       },
       "history": [
+        {
+          "game": "dice",
+          "bet": 100,
+          "payout": 130,
+          "net": 30,
+          "detail": "roll 7.32 < 75",
+          "at": "2026-05-29T05:49:31.493Z"
+        },
         {
           "game": "dice",
           "bet": 100,
@@ -451,14 +459,6 @@
           "net": 30,
           "detail": "roll 49.10 < 75",
           "at": "2026-05-29T05:49:03.528Z"
-        },
-        {
-          "game": "dice",
-          "bet": 100,
-          "payout": 130,
-          "net": 30,
-          "detail": "roll 72.78 < 75",
-          "at": "2026-05-29T05:49:02.072Z"
         }
       ],
       "bj": {
