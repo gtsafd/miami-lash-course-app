@@ -58,16 +58,24 @@
     {
       "id": "19e6d18c-965f-459b-b4ba-7cadb7533706",
       "name": "dd",
-      "balance": 250,
+      "balance": 500,
       "createdAt": "2026-05-29T04:15:01.481Z",
       "lastDailyBonus": 1780028106214,
       "stats": {
-        "gamesPlayed": 1,
-        "wagered": 1500,
-        "won": 0,
-        "biggestWin": 0
+        "gamesPlayed": 2,
+        "wagered": 1750,
+        "won": 250,
+        "biggestWin": 250
       },
       "history": [
+        {
+          "game": "coinflip",
+          "bet": 250,
+          "payout": 500,
+          "net": 250,
+          "detail": "heads · landed heads",
+          "at": "2026-05-29T04:15:30.346Z"
+        },
         {
           "game": "coinflip",
           "bet": 1500,
