@@ -14,7 +14,8 @@
       },
       "history": [],
       "bj": null,
-      "nameKey": "alex"
+      "nameKey": "alex",
+      "lastRescueBonus": 0
     },
     {
       "id": "dba8207f-7a0c-48d8-8f48-1cbc4ffc183c",
@@ -55,7 +56,8 @@
         }
       ],
       "bj": null,
-      "nameKey": "ff"
+      "nameKey": "ff",
+      "lastRescueBonus": 0
     },
     {
       "id": "19e6d18c-965f-459b-b4ba-7cadb7533706",
@@ -96,7 +98,8 @@
         }
       ],
       "bj": null,
-      "nameKey": "dd"
+      "nameKey": "dd",
+      "lastRescueBonus": 0
     },
     {
       "id": "411ebbd9-6720-49ea-8a69-fc8af751f158",
@@ -114,7 +117,8 @@
       "history": [],
       "bj": null,
       "passwordSalt": "c904c1a2f160c0bff75f322d0a136333",
-      "passwordHash": "c39d25f707805f983a0bf6b587da7b8ee63dd86f0518094e02fd4691a9ad9ea472f939773e50cb76d0a0b5239a3ca7ce6b0fde263136531a6ebaffebeadde97c"
+      "passwordHash": "c39d25f707805f983a0bf6b587da7b8ee63dd86f0518094e02fd4691a9ad9ea472f939773e50cb76d0a0b5239a3ca7ce6b0fde263136531a6ebaffebeadde97c",
+      "lastRescueBonus": 0
     },
     {
       "id": "4010e0ad-7893-4939-80d9-d142e39b6832",
@@ -181,7 +185,8 @@
       ],
       "bj": null,
       "passwordSalt": "fb66df21f890ed81728ef1b489bffffe",
-      "passwordHash": "afc62786bb1b0a855c3245abc9fd9f79457f16a09866d509cc7abed44b904e182d54bb7b141eed1ecc49edf76f044cf1bb827ceaafb088524105f93e533f70f5"
+      "passwordHash": "afc62786bb1b0a855c3245abc9fd9f79457f16a09866d509cc7abed44b904e182d54bb7b141eed1ecc49edf76f044cf1bb827ceaafb088524105f93e533f70f5",
+      "lastRescueBonus": 0
     },
     {
       "id": "10076633-0346-46e2-b02d-c350e0f471fa",
@@ -199,7 +204,26 @@
       "history": [],
       "bj": null,
       "passwordSalt": "894e6df498ca54ccc3223e2c344c0e8e",
-      "passwordHash": "ba319d44ba284664f5e7d713e5fbe7e1d9bcf63dc2f019f5eaed00bad8b0606e6f264da099622fa56fa6fad6d20fb883f24eb6a83d76d6839262e9d6f7d02ede"
+      "passwordHash": "ba319d44ba284664f5e7d713e5fbe7e1d9bcf63dc2f019f5eaed00bad8b0606e6f264da099622fa56fa6fad6d20fb883f24eb6a83d76d6839262e9d6f7d02ede",
+      "lastRescueBonus": 0
+    },
+    {
+      "id": "0354498b-c136-420b-956f-2f5fac513dac",
+      "name": "Фдуч",
+      "nameKey": "фдуч",
+      "balance": 1000,
+      "createdAt": "2026-05-29T04:36:16.704Z",
+      "lastDailyBonus": 0,
+      "stats": {
+        "gamesPlayed": 0,
+        "wagered": 0,
+        "won": 0,
+        "biggestWin": 0
+      },
+      "history": [],
+      "bj": null,
+      "passwordSalt": "f358b005a1ccb6be04cf5f163a04343d",
+      "passwordHash": "ebaea35194a8fe0cf07e7cdbee76d8ee0a86510529c80f253e20c8dc766b0ec4ddc63bc92413d118c51c1b14099a0f22255f1e4581f753d3906a14ad9902856b"
     }
   ],
   "config": {
@@ -213,8 +237,8 @@
       "rescueThreshold": 50
     },
     "coinflip": {
-      "winChancePercent": 50,
-      "winMultiplier": 2
+      "winChancePercent": 49,
+      "winMultiplier": 1.97
     },
     "dice": {
       "houseEdgePercent": 1
@@ -229,15 +253,15 @@
         "7️⃣": 5
       },
       "triples": {
-        "🍒": 4,
-        "🍋": 6,
-        "🔔": 12,
-        "⭐": 25,
-        "💎": 60,
-        "7️⃣": 150
+        "🍒": 3.18,
+        "🍋": 4.77,
+        "🔔": 9.54,
+        "⭐": 19.87,
+        "💎": 47.7,
+        "7️⃣": 119.26
       },
-      "twoCherry": 2,
-      "oneCherry": 1
+      "twoCherry": 1.59,
+      "oneCherry": 0.79
     },
     "roulette": {
       "enabled": true
@@ -252,37 +276,37 @@
         },
         {
           "label": "1.5x",
-          "multiplier": 1.5,
+          "multiplier": 0.48,
           "weight": 25,
           "color": "#2fe6a0"
         },
         {
           "label": "2x",
-          "multiplier": 2,
+          "multiplier": 0.64,
           "weight": 18,
           "color": "#9d7bff"
         },
         {
           "label": "3x",
-          "multiplier": 3,
+          "multiplier": 0.96,
           "weight": 13,
           "color": "#ffce54"
         },
         {
           "label": "5x",
-          "multiplier": 5,
+          "multiplier": 1.6,
           "weight": 8,
           "color": "#ff8c42"
         },
         {
           "label": "10x",
-          "multiplier": 10,
+          "multiplier": 3.21,
           "weight": 4,
           "color": "#ff5c7c"
         },
         {
           "label": "50x",
-          "multiplier": 50,
+          "multiplier": 16.06,
           "weight": 2,
           "color": "#ff2d6f"
         }
