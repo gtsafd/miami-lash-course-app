@@ -120,16 +120,24 @@
       "id": "4010e0ad-7893-4939-80d9-d142e39b6832",
       "name": "Alexxxx",
       "nameKey": "alexxxx",
-      "balance": 1450,
+      "balance": 1650,
       "createdAt": "2026-05-29T04:16:38.784Z",
       "lastDailyBonus": 1780028209807,
       "stats": {
-        "gamesPlayed": 2,
-        "wagered": 70,
-        "won": 0,
-        "biggestWin": 0
+        "gamesPlayed": 3,
+        "wagered": 120,
+        "won": 200,
+        "biggestWin": 200
       },
       "history": [
+        {
+          "game": "wheel",
+          "bet": 50,
+          "payout": 250,
+          "net": 200,
+          "detail": "5x (5x)",
+          "at": "2026-05-29T04:17:06.663Z"
+        },
         {
           "game": "wheel",
           "bet": 50,
