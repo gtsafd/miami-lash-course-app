@@ -166,6 +166,24 @@
       "bj": null,
       "passwordSalt": "fb66df21f890ed81728ef1b489bffffe",
       "passwordHash": "afc62786bb1b0a855c3245abc9fd9f79457f16a09866d509cc7abed44b904e182d54bb7b141eed1ecc49edf76f044cf1bb827ceaafb088524105f93e533f70f5"
+    },
+    {
+      "id": "10076633-0346-46e2-b02d-c350e0f471fa",
+      "name": "VerifyPlayer",
+      "nameKey": "verifyplayer",
+      "balance": 1000,
+      "createdAt": "2026-05-29T04:17:27.087Z",
+      "lastDailyBonus": 0,
+      "stats": {
+        "gamesPlayed": 0,
+        "wagered": 0,
+        "won": 0,
+        "biggestWin": 0
+      },
+      "history": [],
+      "bj": null,
+      "passwordSalt": "894e6df498ca54ccc3223e2c344c0e8e",
+      "passwordHash": "ba319d44ba284664f5e7d713e5fbe7e1d9bcf63dc2f019f5eaed00bad8b0606e6f264da099622fa56fa6fad6d20fb883f24eb6a83d76d6839262e9d6f7d02ede"
     }
   ],
   "config": {
