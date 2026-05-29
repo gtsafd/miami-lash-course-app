@@ -287,7 +287,8 @@
       "history": [],
       "bj": null,
       "passwordSalt": "63cbfdaac355550ddcd8a0380159c4ba",
-      "passwordHash": "d0008dbcfb673954ef4694e19d298cecd9ef7f5b3c26023120d46b738ca119288c2a2a099dd2cb62525581565feaf3c3b9bc0f273fab71290884eb33f9fbe0d5"
+      "passwordHash": "d0008dbcfb673954ef4694e19d298cecd9ef7f5b3c26023120d46b738ca119288c2a2a099dd2cb62525581565feaf3c3b9bc0f273fab71290884eb33f9fbe0d5",
+      "lastRescueBonus": 0
     }
   ],
   "config": {
