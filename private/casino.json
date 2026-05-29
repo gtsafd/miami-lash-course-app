@@ -58,9 +58,9 @@
     {
       "id": "19e6d18c-965f-459b-b4ba-7cadb7533706",
       "name": "dd",
-      "balance": 1000,
+      "balance": 1500,
       "createdAt": "2026-05-29T04:15:01.481Z",
-      "lastDailyBonus": 0,
+      "lastDailyBonus": 1780028106214,
       "stats": {
         "gamesPlayed": 0,
         "wagered": 0,
