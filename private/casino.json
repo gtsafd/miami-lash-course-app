@@ -242,6 +242,25 @@
       "passwordSalt": "f358b005a1ccb6be04cf5f163a04343d",
       "passwordHash": "ebaea35194a8fe0cf07e7cdbee76d8ee0a86510529c80f253e20c8dc766b0ec4ddc63bc92413d118c51c1b14099a0f22255f1e4581f753d3906a14ad9902856b",
       "lastRescueBonus": 0
+    },
+    {
+      "id": "1b80b606-6be2-4504-92ee-4002ba83d27d",
+      "name": "Alex 🌴",
+      "nameKey": "alex 🌴",
+      "telegramId": "5638062250",
+      "telegramUsername": "Alex_Kozak",
+      "balance": 1000,
+      "createdAt": "2026-05-29T04:55:58.436Z",
+      "lastDailyBonus": 0,
+      "lastRescueBonus": 0,
+      "stats": {
+        "gamesPlayed": 0,
+        "wagered": 0,
+        "won": 0,
+        "biggestWin": 0
+      },
+      "history": [],
+      "bj": null
     }
   ],
   "config": {
