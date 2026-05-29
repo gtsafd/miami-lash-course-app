@@ -254,12 +254,20 @@
       "lastDailyBonus": 1780030863131,
       "lastRescueBonus": 0,
       "stats": {
-        "gamesPlayed": 5,
+        "gamesPlayed": 6,
         "wagered": 420,
         "won": 362.8,
         "biggestWin": 221
       },
       "history": [
+        {
+          "game": "blackjack",
+          "bet": 100,
+          "payout": 0,
+          "net": -100,
+          "detail": "lose · you 18 / dealer 19",
+          "at": "2026-05-29T05:02:03.029Z"
+        },
         {
           "game": "blackjack",
           "bet": 100,
@@ -486,10 +494,6 @@
           {
             "r": "J",
             "s": "♣"
-          },
-          {
-            "r": "9",
-            "s": "♦"
           }
         ],
         "playerHand": [
@@ -514,11 +518,17 @@
           {
             "r": "7",
             "s": "♣"
+          },
+          {
+            "r": "9",
+            "s": "♦"
           }
         ],
         "bet": 100,
-        "status": "playing",
-        "doubled": false
+        "status": "done",
+        "doubled": false,
+        "result": "lose",
+        "payout": 0
       }
     },
     {
