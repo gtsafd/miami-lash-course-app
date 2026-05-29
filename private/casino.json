@@ -18,16 +18,24 @@
     {
       "id": "dba8207f-7a0c-48d8-8f48-1cbc4ffc183c",
       "name": "ff",
-      "balance": 980,
+      "balance": 1340,
       "createdAt": "2026-05-29T04:12:05.951Z",
       "lastDailyBonus": 0,
       "stats": {
-        "gamesPlayed": 2,
-        "wagered": 40,
-        "won": 0,
-        "biggestWin": 0
+        "gamesPlayed": 3,
+        "wagered": 160,
+        "won": 360,
+        "biggestWin": 360
       },
       "history": [
+        {
+          "game": "slots",
+          "bet": 120,
+          "payout": 480,
+          "net": 360,
+          "detail": "🍒 🍒 🍒 · triple",
+          "at": "2026-05-29T04:14:45.515Z"
+        },
         {
           "game": "slots",
           "bet": 20,
