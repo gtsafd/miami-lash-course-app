@@ -115,6 +115,24 @@
       "bj": null,
       "passwordSalt": "c904c1a2f160c0bff75f322d0a136333",
       "passwordHash": "c39d25f707805f983a0bf6b587da7b8ee63dd86f0518094e02fd4691a9ad9ea472f939773e50cb76d0a0b5239a3ca7ce6b0fde263136531a6ebaffebeadde97c"
+    },
+    {
+      "id": "4010e0ad-7893-4939-80d9-d142e39b6832",
+      "name": "Alexxxx",
+      "nameKey": "alexxxx",
+      "balance": 1000,
+      "createdAt": "2026-05-29T04:16:38.784Z",
+      "lastDailyBonus": 0,
+      "stats": {
+        "gamesPlayed": 0,
+        "wagered": 0,
+        "won": 0,
+        "biggestWin": 0
+      },
+      "history": [],
+      "bj": null,
+      "passwordSalt": "fb66df21f890ed81728ef1b489bffffe",
+      "passwordHash": "afc62786bb1b0a855c3245abc9fd9f79457f16a09866d509cc7abed44b904e182d54bb7b141eed1ecc49edf76f044cf1bb827ceaafb088524105f93e533f70f5"
     }
   ],
   "config": {
