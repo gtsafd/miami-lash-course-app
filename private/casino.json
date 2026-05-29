@@ -13,7 +13,8 @@
         "biggestWin": 0
       },
       "history": [],
-      "bj": null
+      "bj": null,
+      "nameKey": "alex"
     },
     {
       "id": "dba8207f-7a0c-48d8-8f48-1cbc4ffc183c",
@@ -53,7 +54,8 @@
           "at": "2026-05-29T04:12:09.091Z"
         }
       ],
-      "bj": null
+      "bj": null,
+      "nameKey": "ff"
     },
     {
       "id": "19e6d18c-965f-459b-b4ba-7cadb7533706",
@@ -93,7 +95,120 @@
           "at": "2026-05-29T04:15:19.817Z"
         }
       ],
-      "bj": null
+      "bj": null,
+      "nameKey": "dd"
+    },
+    {
+      "id": "411ebbd9-6720-49ea-8a69-fc8af751f158",
+      "name": "CodexTest",
+      "nameKey": "codextest",
+      "balance": 1000,
+      "createdAt": "2026-05-29T04:16:20.676Z",
+      "lastDailyBonus": 0,
+      "stats": {
+        "gamesPlayed": 0,
+        "wagered": 0,
+        "won": 0,
+        "biggestWin": 0
+      },
+      "history": [],
+      "bj": null,
+      "passwordSalt": "c904c1a2f160c0bff75f322d0a136333",
+      "passwordHash": "c39d25f707805f983a0bf6b587da7b8ee63dd86f0518094e02fd4691a9ad9ea472f939773e50cb76d0a0b5239a3ca7ce6b0fde263136531a6ebaffebeadde97c"
     }
-  ]
+  ],
+  "config": {
+    "economy": {
+      "startingBalance": 1000,
+      "minBet": 1,
+      "maxBet": 100000,
+      "dailyBonus": 500,
+      "dailyCooldownHours": 20,
+      "rescueBonus": 250,
+      "rescueThreshold": 50
+    },
+    "coinflip": {
+      "winChancePercent": 50,
+      "winMultiplier": 2
+    },
+    "dice": {
+      "houseEdgePercent": 1
+    },
+    "slots": {
+      "weights": {
+        "🍒": 28,
+        "🍋": 24,
+        "🔔": 18,
+        "⭐": 14,
+        "💎": 9,
+        "7️⃣": 5
+      },
+      "triples": {
+        "🍒": 4,
+        "🍋": 6,
+        "🔔": 12,
+        "⭐": 25,
+        "💎": 60,
+        "7️⃣": 150
+      },
+      "twoCherry": 2,
+      "oneCherry": 1
+    },
+    "roulette": {
+      "enabled": true
+    },
+    "wheel": {
+      "segments": [
+        {
+          "label": "0x",
+          "multiplier": 0,
+          "weight": 30,
+          "color": "#38445f"
+        },
+        {
+          "label": "1.5x",
+          "multiplier": 1.5,
+          "weight": 25,
+          "color": "#2fe6a0"
+        },
+        {
+          "label": "2x",
+          "multiplier": 2,
+          "weight": 18,
+          "color": "#9d7bff"
+        },
+        {
+          "label": "3x",
+          "multiplier": 3,
+          "weight": 13,
+          "color": "#ffce54"
+        },
+        {
+          "label": "5x",
+          "multiplier": 5,
+          "weight": 8,
+          "color": "#ff8c42"
+        },
+        {
+          "label": "10x",
+          "multiplier": 10,
+          "weight": 4,
+          "color": "#ff5c7c"
+        },
+        {
+          "label": "50x",
+          "multiplier": 50,
+          "weight": 2,
+          "color": "#ff2d6f"
+        }
+      ]
+    },
+    "crash": {
+      "houseEdgePercent": 3,
+      "maxMultiplier": 1000
+    },
+    "blackjack": {
+      "blackjackPayout": 1.5
+    }
+  }
 }
