@@ -2,6 +2,7 @@ const http = require("node:http");
 const fs = require("node:fs");
 const path = require("node:path");
 const { handleApi } = require("./lib/app");
+const { handleCasinoApi } = require("./lib/casino");
 
 const root = __dirname;
 const publicDir = path.join(root, "public");
@@ -10,18 +11,21 @@ const port = Number(process.env.PORT || 5188);
 
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
+  if (url.pathname.startsWith("/api/casino/")) return handleCasinoApi(req, res);
   if (url.pathname.startsWith("/api/")) return handleApi(req, res);
   serveStatic(req, res);
 });
 
 server.listen(port, () => {
-  console.log(`Neon Chips Virtual Casino running at http://127.0.0.1:${port}`);
+  console.log(`Miami Lash Course running at http://127.0.0.1:${port}`);
+  if (!process.env.ADMIN_PASSWORD) console.log("Set ADMIN_PASSWORD before deployment.");
   if (!process.env.TOKEN_SECRET) console.log("Set TOKEN_SECRET before deployment.");
 });
 
 function serveStatic(req, res) {
   const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
-  const requested = url.pathname === "/" ? "/index.html" : decodeURIComponent(url.pathname);
+  let requested = url.pathname === "/" ? "/index.html" : decodeURIComponent(url.pathname);
+  if (requested.endsWith("/")) requested += "index.html"; // serve directory index (e.g. /casino/)
   const filePath = path.normalize(path.join(publicDir, requested));
   if (!filePath.startsWith(publicDir) || filePath.startsWith(dataDir)) {
     res.writeHead(403);

@@ -1,17 +1,17 @@
 {
-  "name": "Neon Chips Virtual Casino",
-  "short_name": "Neon Chips",
-  "description": "Play slots, dice, roulette and blackjack with free virtual chips. No real money.",
+  "name": "Miami Lash Course",
+  "short_name": "Lash Course",
+  "description": "Private lash training course by Hanna Kozak in Miami.",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#070a13",
-  "theme_color": "#0b0f1a",
+  "background_color": "#fff1ec",
+  "theme_color": "#e94d7b",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "./assets/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "./assets/girls-miami.png",
+      "sizes": "864x1821",
+      "type": "image/png",
       "purpose": "any"
     }
   ]
