@@ -54,6 +54,21 @@
         }
       ],
       "bj": null
+    },
+    {
+      "id": "19e6d18c-965f-459b-b4ba-7cadb7533706",
+      "name": "dd",
+      "balance": 1000,
+      "createdAt": "2026-05-29T04:15:01.481Z",
+      "lastDailyBonus": 0,
+      "stats": {
+        "gamesPlayed": 0,
+        "wagered": 0,
+        "won": 0,
+        "biggestWin": 0
+      },
+      "history": [],
+      "bj": null
     }
   ]
 }
