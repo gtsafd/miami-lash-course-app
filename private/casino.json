@@ -254,12 +254,20 @@
       "lastDailyBonus": 1780030863131,
       "lastRescueBonus": 0,
       "stats": {
-        "gamesPlayed": 14,
-        "wagered": 580,
+        "gamesPlayed": 15,
+        "wagered": 630,
         "won": 374.6,
         "biggestWin": 221
       },
       "history": [
+        {
+          "game": "dice",
+          "bet": 50,
+          "payout": 50,
+          "net": 0,
+          "detail": "roll 20.51 < 98",
+          "at": "2026-05-29T05:48:05.738Z"
+        },
         {
           "game": "slots",
           "bet": 20,
