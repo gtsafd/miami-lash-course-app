@@ -1035,19 +1035,31 @@
       "id": "dc69a806-f987-4405-95fe-320c5e41d946",
       "name": "ProdSlotV21780170060642",
       "nameKey": "prodslotv21780170060642",
-      "balance": 1000,
+      "balance": 995,
       "createdAt": "2026-05-30T19:41:01.214Z",
       "lastDailyBonus": 0,
       "stats": {
-        "gamesPlayed": 0,
-        "wagered": 0,
+        "gamesPlayed": 1,
+        "wagered": 10,
         "won": 0,
         "biggestWin": 0
       },
-      "history": [],
+      "history": [
+        {
+          "game": "slotsV2",
+          "bet": 10,
+          "payout": 5,
+          "net": -5,
+          "detail": "0 scatter · 1 lines",
+          "at": "2026-05-30T19:41:02.492Z"
+        }
+      ],
       "bj": null,
       "passwordSalt": "273b9a9c6258b692a92ed549724e98d7",
-      "passwordHash": "28225fb9aaa569f02a214fa5d5d93f6e0e569bff6b919cd14cbec8a29d5ffc68938fc9d24eb3ef1dbc135098bfc0ed9e63125ecc5ac6ac9c8dd8132ab274d131"
+      "passwordHash": "28225fb9aaa569f02a214fa5d5d93f6e0e569bff6b919cd14cbec8a29d5ffc68938fc9d24eb3ef1dbc135098bfc0ed9e63125ecc5ac6ac9c8dd8132ab274d131",
+      "lastRescueBonus": 0,
+      "slotV2FreeSpins": 0,
+      "slotV2FreeSpinMultiplier": 1
     }
   ],
   "config": {
