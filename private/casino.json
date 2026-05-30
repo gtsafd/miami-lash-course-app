@@ -134,12 +134,20 @@
       "createdAt": "2026-05-30T15:45:11.250Z",
       "lastDailyBonus": 1780155999926,
       "stats": {
-        "gamesPlayed": 48,
-        "wagered": 3870,
+        "gamesPlayed": 49,
+        "wagered": 3920,
         "won": 1156.8,
         "biggestWin": 139
       },
       "history": [
+        {
+          "game": "plinko",
+          "bet": 50,
+          "payout": 50,
+          "net": 0,
+          "detail": "bucket 3 · 1.1x",
+          "at": "2026-05-30T16:00:35.902Z"
+        },
         {
           "game": "plinko",
           "bet": 50,
@@ -331,14 +339,6 @@
           "net": 47,
           "detail": "cashed 1.94x · crashed 2.16x",
           "at": "2026-05-30T15:56:52.679Z"
-        },
-        {
-          "game": "slots",
-          "bet": 20,
-          "payout": 31.8,
-          "net": 11.8,
-          "detail": "🍒 🍋 🍒 · two-cherry",
-          "at": "2026-05-30T15:54:41.357Z"
         }
       ],
       "bj": null,
