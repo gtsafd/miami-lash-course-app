@@ -130,16 +130,24 @@
       "id": "d323792d-d5ba-4706-b5c7-96e246dd68de",
       "name": "Gary",
       "nameKey": "gary",
-      "balance": 496.79999999999995,
+      "balance": 469.79999999999995,
       "createdAt": "2026-05-30T15:45:11.250Z",
       "lastDailyBonus": 1780155999926,
       "stats": {
-        "gamesPlayed": 55,
-        "wagered": 4220,
+        "gamesPlayed": 56,
+        "wagered": 4270,
         "won": 1156.8,
         "biggestWin": 139
       },
       "history": [
+        {
+          "game": "plinko",
+          "bet": 50,
+          "payout": 23,
+          "net": -27,
+          "detail": "bucket 5 · 0.5x",
+          "at": "2026-05-30T16:01:04.849Z"
+        },
         {
           "game": "plinko",
           "bet": 50,
@@ -331,14 +339,6 @@
           "net": -150,
           "detail": "crashed 1.12x",
           "at": "2026-05-30T15:57:42.375Z"
-        },
-        {
-          "game": "crash",
-          "bet": 50,
-          "payout": 0,
-          "net": -50,
-          "detail": "crashed 1.12x",
-          "at": "2026-05-30T15:57:38.140Z"
         }
       ],
       "bj": null,
