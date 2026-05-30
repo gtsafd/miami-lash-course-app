@@ -784,16 +784,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 3044.20000000001,
+      "balance": 8735.20000000001,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780170464325,
       "stats": {
-        "gamesPlayed": 390,
+        "gamesPlayed": 391,
         "wagered": 35283,
-        "won": 16697.200000000004,
-        "biggestWin": 2188
+        "won": 22388.200000000004,
+        "biggestWin": 5691
       },
       "history": [
+        {
+          "game": "slotsV2",
+          "bet": 0,
+          "payout": 5691,
+          "net": 5691,
+          "detail": "free spin · 0 scatter · 2 lines",
+          "at": "2026-05-30T20:19:02.556Z"
+        },
         {
           "game": "slotsV2",
           "bet": 0,
@@ -985,14 +993,6 @@
           "net": 611,
           "detail": "free spin · 0 scatter · 3 lines",
           "at": "2026-05-30T20:15:28.029Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 0,
-          "payout": 0,
-          "net": 0,
-          "detail": "free spin · 1 scatter · 0 lines",
-          "at": "2026-05-30T20:15:19.853Z"
         }
       ],
       "bj": {
@@ -1224,7 +1224,7 @@
       "lastCrashPoint": 1.12,
       "lastCrashBet": 150,
       "lastCrashAt": 1780170779299,
-      "slotV2FreeSpins": 3,
+      "slotV2FreeSpins": 2,
       "slotV2FreeSpinMultiplier": 5,
       "slotV2Bonus": null
     },
