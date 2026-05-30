@@ -73,6 +73,9 @@ const I18N = {
     "game.slotsV2.paytable": "Slot V2 Paytable",
     "game.slotsV2.bonusStrip": "BONUS CHESTS",
     "game.slotsV2.bonusStripSub": "3 compasses open the pick game",
+    "game.slotsV2.buyBonus": "BUY BONUS",
+    "game.slotsV2.buyBonusSub": "Instant free spins with boosted multiplier",
+    "game.slotsV2.buy": "Buy",
     "game.slotsV2.bonusTitle": "Bonus Game",
     "game.slotsV2.bonusPick": "Pick a treasure chest",
     "game.slotsV2.bonusContinue": "Continue",
@@ -193,6 +196,9 @@ const I18N = {
     "game.slotsV2.paytable": "Таблица выплат Slot V2",
     "game.slotsV2.bonusStrip": "БОНУСНЫЕ СУНДУКИ",
     "game.slotsV2.bonusStripSub": "3 компаса открывают бонус-игру",
+    "game.slotsV2.buyBonus": "КУПИТЬ БОНУСКУ",
+    "game.slotsV2.buyBonusSub": "Фриспины сразу с повышенным множителем",
+    "game.slotsV2.buy": "Купить",
     "game.slotsV2.bonusTitle": "Бонусная игра",
     "game.slotsV2.bonusPick": "Выбери сундук с призом",
     "game.slotsV2.bonusContinue": "Продолжить",
@@ -356,6 +362,7 @@ function translateGames() {
   if (bonusStripTitle) bonusStripTitle.textContent = t("game.slotsV2.bonusStrip");
   const bonusStripSub = document.querySelector(".slot-v2-bonus-copy span");
   if (bonusStripSub) bonusStripSub.textContent = t("game.slotsV2.bonusStripSub");
+  renderSlotV2BuyBonus();
   setText("#slotV2BonusModal h2", "game.slotsV2.bonusTitle");
   setText(".slot-v2-bonus-head p", "game.slotsV2.bonusPick");
   setText("#slotV2BonusDone", "game.slotsV2.bonusContinue");
@@ -531,6 +538,7 @@ function applyConfig() {
   SLOT_V2_BY_ID = Object.fromEntries(SLOT_V2_SYMBOLS.map((s) => [s.id, s]));
   buildSlotV2Grid();
   buildSlotV2Paytable();
+  renderSlotV2BuyBonus();
   buildRoulette();
   buildMinesBoard();
   buildPlinko();
@@ -710,6 +718,17 @@ function buildSlotV2Paytable() {
   }).join("");
 }
 
+function renderSlotV2BuyBonus() {
+  const wrap = $("slotV2BuyBonus");
+  if (!wrap) return;
+  const packs = config?.slotsV2?.bonusBuys || [];
+  wrap.innerHTML = `
+    <div class="slot-v2-buy-copy"><b>${escapeHtml(t("game.slotsV2.buyBonus"))}</b><span>${escapeHtml(t("game.slotsV2.buyBonusSub"))}</span></div>
+    <div class="slot-v2-buy-packs">
+      ${packs.map((p) => `<button type="button" data-buy-slot-v2="${escapeHtml(p.id)}"><b>${fmt(p.cost)}</b><span>${p.freeSpins} FS · x${p.multiplier}</span></button>`).join("")}
+    </div>`;
+}
+
 function openSlotV2Bonus() {
   const modal = $("slotV2BonusModal");
   $("slotV2BonusResult").textContent = t("game.slotsV2.bonusTriggered");
@@ -757,6 +776,18 @@ async function pickSlotV2Bonus(pick) {
     toast(e.message, "lose");
     buttons.forEach((b) => { b.disabled = false; });
   }
+}
+
+async function buySlotV2Bonus(packageId) {
+  if (busy) return;
+  busy = true;
+  try {
+    const data = await api("/slots-v2/buy-bonus", "POST", { packageId });
+    setPlayer(data.player);
+    const p = data.package;
+    toast(lang === "ru" ? `Куплено: ${p.freeSpins} фриспинов x${p.multiplier}` : `Bought: ${p.freeSpins} free spins x${p.multiplier}`, "win");
+  } catch (e) { toast(e.message, "lose"); }
+  busy = false;
 }
 
 async function spinSlotsV2() {
@@ -1491,6 +1522,10 @@ $("slotV2BonusChests").addEventListener("click", (e) => {
   if (b) pickSlotV2Bonus(Number(b.dataset.pick));
 });
 $("slotV2BonusDone").addEventListener("click", () => $("slotV2BonusModal").classList.add("hidden"));
+$("slotV2BuyBonus").addEventListener("click", (e) => {
+  const b = e.target.closest("button[data-buy-slot-v2]");
+  if (b) buySlotV2Bonus(b.dataset.buySlotV2);
+});
 $("rollBtn").addEventListener("click", rollDice);
 $("diceSlider").addEventListener("input", updateDiceView);
 $("flipBtn").addEventListener("click", flipCoin);
