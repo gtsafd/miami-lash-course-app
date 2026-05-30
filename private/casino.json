@@ -15,7 +15,9 @@
       "history": [],
       "bj": null,
       "nameKey": "alex",
-      "lastRescueBonus": 0
+      "lastRescueBonus": 0,
+      "passwordSalt": "17ac07493e9f989657f88b3fd40a314d",
+      "passwordHash": "f7d5aaeb7f919e439dec44d5f63b2053af19a1d57601d1c362aeef2d6658d673b0fea2d03b5f894bb1e344bb32664607eeb1e92c51c5f66e52c8bf880d07601b"
     },
     {
       "id": "1b80b606-6be2-4504-92ee-4002ba83d27d",
