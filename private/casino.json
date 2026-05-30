@@ -533,16 +533,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 5258.600000000001,
+      "balance": 5458.600000000001,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 0,
       "stats": {
-        "gamesPlayed": 104,
+        "gamesPlayed": 105,
         "wagered": 12418,
-        "won": 3512.2,
+        "won": 3612.2,
         "biggestWin": 1311
       },
       "history": [
+        {
+          "game": "blackjack",
+          "bet": 100,
+          "payout": 200,
+          "net": 100,
+          "detail": "win · you 19 / dealer 17",
+          "at": "2026-05-30T16:37:33.772Z"
+        },
         {
           "game": "blackjack",
           "bet": 100,
@@ -734,14 +742,6 @@
           "net": -51,
           "detail": "🔔 🔔 ⭐ · none",
           "at": "2026-05-30T16:17:11.673Z"
-        },
-        {
-          "game": "slots",
-          "bet": 51,
-          "payout": 0,
-          "net": -51,
-          "detail": "🍋 🔔 ⭐ · none",
-          "at": "2026-05-30T16:17:04.965Z"
         }
       ],
       "bj": {
@@ -929,10 +929,6 @@
           {
             "r": "K",
             "s": "♥"
-          },
-          {
-            "r": "4",
-            "s": "♣"
           }
         ],
         "playerHand": [
@@ -957,11 +953,17 @@
           {
             "r": "3",
             "s": "♦"
+          },
+          {
+            "r": "4",
+            "s": "♣"
           }
         ],
         "bet": 100,
-        "status": "playing",
-        "doubled": false
+        "status": "done",
+        "doubled": false,
+        "result": "win",
+        "payout": 200
       },
       "passwordSalt": "005f9d99e39656944ae2408f8aaa361e",
       "passwordHash": "980c2edfe491cda6e13c3d2bed994b8a70e9e8ee8e2e3d7eac4157f4fc04e61ed598039b3980ff065518a0b3d7fb8bbf3ff56c6847a1f7fce6cefaf89a582666",
