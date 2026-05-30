@@ -19,7 +19,7 @@
           "payout": 0,
           "net": -50,
           "detail": "crashed 1.49x",
-          "at": "2026-05-30T20:21:22.014Z"
+          "at": "2026-05-30T20:21:21.587Z"
         },
         {
           "game": "slotsV2",
@@ -226,7 +226,7 @@
       "crashRound": null,
       "lastCrashPoint": 1.49,
       "lastCrashBet": 50,
-      "lastCrashAt": 1780172482014
+      "lastCrashAt": 1780172481587
     },
     {
       "id": "1b80b606-6be2-4504-92ee-4002ba83d27d",
