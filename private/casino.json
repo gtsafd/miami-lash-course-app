@@ -819,35 +819,6 @@
       "lastRescueBonus": 0
     },
     {
-      "id": "fa51d49e-c0d0-446b-9111-182f4e31fbdb",
-      "name": "ProdCrashFinalTest",
-      "nameKey": "prodcrashfinaltest",
-      "balance": 1001,
-      "createdAt": "2026-05-30T15:55:47.359Z",
-      "lastDailyBonus": 0,
-      "stats": {
-        "gamesPlayed": 1,
-        "wagered": 10,
-        "won": 1,
-        "biggestWin": 1
-      },
-      "history": [
-        {
-          "game": "crash",
-          "bet": 10,
-          "payout": 11,
-          "net": 1,
-          "detail": "cashed 1.18x · crashed 2.61x",
-          "at": "2026-05-30T15:55:50.252Z"
-        }
-      ],
-      "bj": null,
-      "passwordSalt": "3a9740306022f9b605ccb29609846eca",
-      "passwordHash": "7722a46e3a03cfd77e870ed574b4782f585cb6cb5d6a5636cae4a4d0f09ca6325f864933f8939fe4569d196299f28ba0bc0e4bbf61bdbf88a420fb5518caaf55",
-      "lastRescueBonus": 0,
-      "crashRound": null
-    },
-    {
       "id": "874a79bc-a29a-4376-aa95-4f0cdc9421ad",
       "name": "ProdCrashStateFixTest",
       "nameKey": "prodcrashstatefixtest",
