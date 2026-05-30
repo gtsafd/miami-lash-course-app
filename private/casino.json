@@ -221,7 +221,8 @@
       "passwordHash": "f7d5aaeb7f919e439dec44d5f63b2053af19a1d57601d1c362aeef2d6658d673b0fea2d03b5f894bb1e344bb32664607eeb1e92c51c5f66e52c8bf880d07601b",
       "slotV2FreeSpins": 7,
       "slotV2FreeSpinMultiplier": 2,
-      "slotV2Bonus": null
+      "slotV2Bonus": null,
+      "shopBuffs": []
     },
     {
       "id": "1b80b606-6be2-4504-92ee-4002ba83d27d",
@@ -283,7 +284,8 @@
       ],
       "bj": null,
       "slotV2FreeSpins": 0,
-      "slotV2FreeSpinMultiplier": 1
+      "slotV2FreeSpinMultiplier": 1,
+      "shopBuffs": []
     },
     {
       "id": "d4adb383-4fcb-4b07-b8fd-8c32aecaadda",
@@ -304,7 +306,8 @@
       "history": [],
       "bj": null,
       "slotV2FreeSpins": 0,
-      "slotV2FreeSpinMultiplier": 1
+      "slotV2FreeSpinMultiplier": 1,
+      "shopBuffs": []
     },
     {
       "id": "d323792d-d5ba-4706-b5c7-96e246dd68de",
@@ -778,7 +781,8 @@
       },
       "crashRound": null,
       "slotV2FreeSpins": 0,
-      "slotV2FreeSpinMultiplier": 1
+      "slotV2FreeSpinMultiplier": 1,
+      "shopBuffs": []
     },
     {
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
@@ -1226,7 +1230,8 @@
       "lastCrashAt": 1780170779299,
       "slotV2FreeSpins": 2,
       "slotV2FreeSpinMultiplier": 5,
-      "slotV2Bonus": null
+      "slotV2Bonus": null,
+      "shopBuffs": []
     },
     {
       "id": "b40d9fb4-c011-48e4-b324-551185963aea",
@@ -1273,7 +1278,8 @@
         "startedAt": 1780157386010
       },
       "slotV2FreeSpins": 0,
-      "slotV2FreeSpinMultiplier": 1
+      "slotV2FreeSpinMultiplier": 1,
+      "shopBuffs": []
     },
     {
       "id": "dc69a806-f987-4405-95fe-320c5e41d946",
@@ -1303,7 +1309,8 @@
       "passwordHash": "28225fb9aaa569f02a214fa5d5d93f6e0e569bff6b919cd14cbec8a29d5ffc68938fc9d24eb3ef1dbc135098bfc0ed9e63125ecc5ac6ac9c8dd8132ab274d131",
       "lastRescueBonus": 0,
       "slotV2FreeSpins": 0,
-      "slotV2FreeSpinMultiplier": 1
+      "slotV2FreeSpinMultiplier": 1,
+      "shopBuffs": []
     },
     {
       "id": "7dd52cdd-00bf-4fd7-9caa-c778b68f21e5",
@@ -1324,7 +1331,8 @@
       "passwordHash": "9bbbb3928b2adaa5fb7cc3e8e247e5ef0a4a7ec5839a96b05bdd496e0537c7fd39c715f306641be36cd0c0c01fa4037d4581c71644cee651aca1115157e9c48a",
       "lastRescueBonus": 0,
       "slotV2FreeSpins": 0,
-      "slotV2FreeSpinMultiplier": 1
+      "slotV2FreeSpinMultiplier": 1,
+      "shopBuffs": []
     },
     {
       "id": "7a03ae46-a842-47be-beba-28fdd463417e",
@@ -1354,7 +1362,26 @@
       "passwordHash": "5b1213d7e44e9f08b9638a685e2b9114cb59f6e6218aa0782db86af6e6fc8539f9b0cbe034acb49a47b9bf67b49d73bbd7fa924459d9b2ebbcb6c44d47d132d7",
       "lastRescueBonus": 0,
       "slotV2FreeSpins": 5,
-      "slotV2FreeSpinMultiplier": 2
+      "slotV2FreeSpinMultiplier": 2,
+      "shopBuffs": []
+    },
+    {
+      "id": "079718f7-ae4f-441f-b37a-01c87bd8b7fa",
+      "name": "ProdShopProbe17801723715",
+      "nameKey": "prodshopprobe17801723715",
+      "balance": 1000,
+      "createdAt": "2026-05-30T20:19:31.991Z",
+      "lastDailyBonus": 0,
+      "stats": {
+        "gamesPlayed": 0,
+        "wagered": 0,
+        "won": 0,
+        "biggestWin": 0
+      },
+      "history": [],
+      "bj": null,
+      "passwordSalt": "59049b0766654cec7f320540f5687a46",
+      "passwordHash": "512798bd62e46ea145c4e6e3343b14af81a15304cc8ff0c1c58c00969b53710f99c0c7e497ea24661503094bb2628d1cd5ffa93806c5c3360620c0734ee0b265"
     }
   ],
   "config": {
@@ -1572,6 +1599,61 @@
     },
     "blackjack": {
       "blackjackPayout": 1.5
+    },
+    "shop": {
+      "items": [
+        {
+          "id": "scatterCharm",
+          "name": "Compass Charm",
+          "cost": 750,
+          "spins": 20,
+          "effect": {
+            "scatterBoost": 4
+          },
+          "icon": "🧭"
+        },
+        {
+          "id": "wildCharm",
+          "name": "Wild Spark",
+          "cost": 1200,
+          "spins": 15,
+          "effect": {
+            "wildBoost": 4
+          },
+          "icon": "⭐"
+        },
+        {
+          "id": "lossShield",
+          "name": "Loss Shield",
+          "cost": 900,
+          "spins": 12,
+          "effect": {
+            "lossRefundPercent": 25
+          },
+          "icon": "🛡️"
+        },
+        {
+          "id": "multiplierGlow",
+          "name": "Multiplier Glow",
+          "cost": 1500,
+          "spins": 10,
+          "effect": {
+            "winMultiplierBoost": 25
+          },
+          "icon": "✨"
+        },
+        {
+          "id": "bonusMagnet",
+          "name": "Bonus Magnet",
+          "cost": 2500,
+          "spins": 12,
+          "effect": {
+            "scatterBoost": 8,
+            "wildBoost": 2
+          },
+          "icon": "🧲"
+        }
+      ]
     }
   }
 }
