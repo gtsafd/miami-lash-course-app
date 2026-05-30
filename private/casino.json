@@ -130,19 +130,29 @@
       "id": "d323792d-d5ba-4706-b5c7-96e246dd68de",
       "name": "Gary",
       "nameKey": "gary",
-      "balance": 1000,
+      "balance": 1048,
       "createdAt": "2026-05-30T15:45:11.250Z",
       "lastDailyBonus": 0,
       "stats": {
-        "gamesPlayed": 0,
-        "wagered": 0,
-        "won": 0,
-        "biggestWin": 0
+        "gamesPlayed": 1,
+        "wagered": 50,
+        "won": 48,
+        "biggestWin": 48
       },
-      "history": [],
+      "history": [
+        {
+          "game": "dice",
+          "bet": 50,
+          "payout": 98,
+          "net": 48,
+          "detail": "roll 8.03 < 50",
+          "at": "2026-05-30T15:45:19.590Z"
+        }
+      ],
       "bj": null,
       "passwordSalt": "4cf4cb4c03bd92df41d2bb9bb6a80e53",
-      "passwordHash": "21da94a5bb66079a88c23621725c83c93d4b9c94397b24ba685d8de48357748e35c749bc8b8d31a6b630d0f724e82608b5b0dedd527638fef9e3052607690067"
+      "passwordHash": "21da94a5bb66079a88c23621725c83c93d4b9c94397b24ba685d8de48357748e35c749bc8b8d31a6b630d0f724e82608b5b0dedd527638fef9e3052607690067",
+      "lastRescueBonus": 0
     }
   ],
   "config": {
