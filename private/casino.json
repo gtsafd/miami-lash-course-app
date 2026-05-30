@@ -3,24 +3,16 @@
     {
       "id": "690d4b8c-7c3f-40ef-be54-344b45690ef1",
       "name": "Alex",
-      "balance": 888.8,
+      "balance": 988.8,
       "createdAt": "2026-05-29T04:11:58.470Z",
       "lastDailyBonus": 1780170719177,
       "stats": {
-        "gamesPlayed": 36,
-        "wagered": 730,
+        "gamesPlayed": 35,
+        "wagered": 630,
         "won": 29.8,
         "biggestWin": 11.8
       },
       "history": [
-        {
-          "game": "slotsV2",
-          "bet": 100,
-          "payout": 0,
-          "net": -100,
-          "detail": "2 scatter · 0 lines",
-          "at": "2026-05-30T20:02:02.865Z"
-        },
         {
           "game": "slotsV2",
           "bet": 100,
@@ -212,6 +204,14 @@
           "net": -10,
           "detail": "1 scatter · 0 lines",
           "at": "2026-05-30T19:57:05.699Z"
+        },
+        {
+          "game": "slotsV2",
+          "bet": 10,
+          "payout": 0,
+          "net": -10,
+          "detail": "2 scatter · 0 lines",
+          "at": "2026-05-30T19:56:58.740Z"
         }
       ],
       "bj": null,
@@ -783,16 +783,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 4267.20000000001,
+      "balance": 4271.20000000001,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780170464325,
       "stats": {
-        "gamesPlayed": 300,
-        "wagered": 26533,
-        "won": 10054.200000000003,
+        "gamesPlayed": 301,
+        "wagered": 26583,
+        "won": 10058.200000000003,
         "biggestWin": 1311
       },
       "history": [
+        {
+          "game": "slotsV2",
+          "bet": 50,
+          "payout": 54,
+          "net": 4,
+          "detail": "1 scatter · 2 lines",
+          "at": "2026-05-30T20:02:03.391Z"
+        },
         {
           "game": "slotsV2",
           "bet": 50,
@@ -984,14 +992,6 @@
           "net": -150,
           "detail": "crashed 1.3299999999999998x",
           "at": "2026-05-30T19:51:22.638Z"
-        },
-        {
-          "game": "crash",
-          "bet": 150,
-          "payout": 0,
-          "net": -150,
-          "detail": "crashed 4.77x",
-          "at": "2026-05-30T19:51:15.023Z"
         }
       ],
       "bj": {
