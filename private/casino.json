@@ -481,19 +481,26 @@
       "id": "87b5b913-e6d7-46ae-8b28-7f59c502fc49",
       "name": "ProdCrashGraceTest",
       "nameKey": "prodcrashgracetest",
-      "balance": 1000,
+      "balance": 990,
       "createdAt": "2026-05-30T15:54:39.832Z",
       "lastDailyBonus": 0,
       "stats": {
         "gamesPlayed": 0,
-        "wagered": 0,
+        "wagered": 10,
         "won": 0,
         "biggestWin": 0
       },
       "history": [],
       "bj": null,
       "passwordSalt": "0f86cc5ac0ca8d8fc68b7d12a4056730",
-      "passwordHash": "f178e10c1d519dc0e48f04f342f83c7dc666b10a73d456e05f9e9747fe59a28ea26d66817433934156cd5d5c35eddf46b8adc1ae99c48c60d9f80e41a5627086"
+      "passwordHash": "f178e10c1d519dc0e48f04f342f83c7dc666b10a73d456e05f9e9747fe59a28ea26d66817433934156cd5d5c35eddf46b8adc1ae99c48c60d9f80e41a5627086",
+      "lastRescueBonus": 0,
+      "crashRound": {
+        "bet": 10,
+        "crashPoint": 2.2,
+        "startedAt": 1780156481723,
+        "status": "flying"
+      }
     }
   ],
   "config": {
