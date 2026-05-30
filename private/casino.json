@@ -795,6 +795,14 @@
       },
       "history": [
         {
+          "game": "slotsV2 bonus",
+          "bet": 0,
+          "payout": 0,
+          "net": 0,
+          "detail": "8 free spins · +2 multiplier",
+          "at": "2026-05-30T20:14:21.837Z"
+        },
+        {
           "game": "slotsV2",
           "bet": 50,
           "payout": 182,
@@ -985,14 +993,6 @@
           "net": -50,
           "detail": "1 scatter · 0 lines",
           "at": "2026-05-30T20:07:47.889Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 50,
-          "payout": 32,
-          "net": -18,
-          "detail": "1 scatter · 1 lines",
-          "at": "2026-05-30T20:07:42.553Z"
         }
       ],
       "bj": {
@@ -1224,31 +1224,9 @@
       "lastCrashPoint": 1.12,
       "lastCrashBet": 150,
       "lastCrashAt": 1780170779299,
-      "slotV2FreeSpins": 0,
-      "slotV2FreeSpinMultiplier": 1,
-      "slotV2Bonus": {
-        "createdAt": 1780172055821,
-        "prizes": [
-          {
-            "type": "freeSpins",
-            "freeSpins": 8,
-            "chips": 0,
-            "multiplierBoost": 0
-          },
-          {
-            "type": "multiplier",
-            "freeSpins": 8,
-            "chips": 0,
-            "multiplierBoost": 2
-          },
-          {
-            "type": "chips",
-            "freeSpins": 4,
-            "chips": 400,
-            "multiplierBoost": 0
-          }
-        ]
-      }
+      "slotV2FreeSpins": 8,
+      "slotV2FreeSpinMultiplier": 3,
+      "slotV2Bonus": null
     },
     {
       "id": "b40d9fb4-c011-48e4-b324-551185963aea",
