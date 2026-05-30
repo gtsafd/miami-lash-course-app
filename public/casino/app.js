@@ -17,14 +17,14 @@ let crashAnim = null;
 
 const SLOT_SYMBOLS = ["🍒", "🍋", "🔔", "⭐", "💎", "7️⃣"];
 let SLOT_V2_SYMBOLS = [
-  { id: "coin", icon: "🟡", name: "Gold Coin", type: "normal", payout: [0, 0, 4, 12, 40, 120] },
-  { id: "ruby", icon: "♦️", name: "Ruby", type: "normal", payout: [0, 0, 5, 15, 50, 150] },
-  { id: "emerald", icon: "💚", name: "Emerald", type: "normal", payout: [0, 0, 6, 18, 60, 180] },
-  { id: "sapphire", icon: "🔷", name: "Sapphire", type: "normal", payout: [0, 0, 8, 24, 80, 240] },
-  { id: "crown", icon: "👑", name: "Crown", type: "normal", payout: [0, 0, 12, 40, 120, 400] },
-  { id: "chest", icon: "🧰", name: "Chest", type: "normal", payout: [0, 0, 16, 60, 180, 600] },
-  { id: "wild", icon: "⭐", name: "Wild Star", type: "wild", payout: [0, 0, 0, 0, 0, 0] },
-  { id: "scatter", icon: "🧭", name: "Scatter Compass", type: "scatter", payout: [0, 0, 2, 10, 40, 100] }
+  { id: "banana", icon: "🍌", name: "Banana", type: "normal", payout: [0, 0, 4, 12, 40, 120] },
+  { id: "cherry", icon: "🍒", name: "Cherry", type: "normal", payout: [0, 0, 5, 15, 50, 150] },
+  { id: "lemon", icon: "🍋", name: "Lemon", type: "normal", payout: [0, 0, 6, 18, 60, 180] },
+  { id: "bell", icon: "🔔", name: "Bell", type: "normal", payout: [0, 0, 8, 24, 80, 240] },
+  { id: "bar", icon: "▰", name: "BAR", type: "normal", payout: [0, 0, 12, 40, 120, 400] },
+  { id: "seven", icon: "7", name: "Lucky Seven", type: "normal", payout: [0, 0, 16, 60, 180, 600] },
+  { id: "wild", icon: "★", name: "Wild Star", type: "wild", payout: [0, 0, 0, 0, 0, 0] },
+  { id: "scatter", icon: "💎", name: "Bonus Diamond", type: "scatter", payout: [0, 0, 2, 10, 40, 100] }
 ];
 let SLOT_V2_BY_ID = Object.fromEntries(SLOT_V2_SYMBOLS.map((s) => [s.id, s]));
 const EURO_ORDER = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
@@ -73,7 +73,7 @@ const I18N = {
     "game.slotsV2.win": "Win",
     "game.slotsV2.paytable": "Slot V2 Paytable",
     "game.slotsV2.bonusStrip": "BONUS CHESTS",
-    "game.slotsV2.bonusStripSub": "3 compasses open the pick game",
+    "game.slotsV2.bonusStripSub": "3 diamonds open the pick game",
     "game.slotsV2.buyBonus": "BUY BONUS",
     "game.slotsV2.buyBonusSub": "Instant free spins with boosted multiplier",
     "game.slotsV2.buy": "Buy",
@@ -140,7 +140,7 @@ const I18N = {
     "shop.active": "Active buffs",
     "shop.empty": "No active buffs yet.",
     "shop.buy": "Buy",
-    "shop.scatterCharm": "More compass scatters for bonus hunting.",
+    "shop.scatterCharm": "More bonus diamonds for bonus hunting.",
     "shop.wildCharm": "More wild stars on the reels.",
     "shop.lossShield": "Refunds part of losing paid spins.",
     "shop.multiplierGlow": "Boosts Slot V2 wins while active.",
@@ -206,7 +206,7 @@ const I18N = {
     "game.slotsV2.win": "Выигрыш",
     "game.slotsV2.paytable": "Таблица выплат Slot V2",
     "game.slotsV2.bonusStrip": "БОНУСНЫЕ СУНДУКИ",
-    "game.slotsV2.bonusStripSub": "3 компаса открывают бонус-игру",
+    "game.slotsV2.bonusStripSub": "3 алмаза открывают бонус-игру",
     "game.slotsV2.buyBonus": "КУПИТЬ БОНУСКУ",
     "game.slotsV2.buyBonusSub": "Фриспины сразу с повышенным множителем",
     "game.slotsV2.buy": "Купить",
@@ -273,7 +273,7 @@ const I18N = {
     "shop.active": "Активные баффы",
     "shop.empty": "Активных баффов пока нет.",
     "shop.buy": "Купить",
-    "shop.scatterCharm": "Больше компасов scatter для охоты за бонусом.",
+    "shop.scatterCharm": "Больше бонусных алмазов для охоты за бонусом.",
     "shop.wildCharm": "Больше wild-звезд на барабанах.",
     "shop.lossShield": "Возвращает часть проигранной платной ставки.",
     "shop.multiplierGlow": "Повышает выигрыши Slot V2, пока активен.",
