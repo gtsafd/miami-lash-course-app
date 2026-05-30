@@ -130,16 +130,24 @@
       "id": "d323792d-d5ba-4706-b5c7-96e246dd68de",
       "name": "Gary",
       "nameKey": "gary",
-      "balance": 1590,
+      "balance": 1601.8,
       "createdAt": "2026-05-30T15:45:11.250Z",
       "lastDailyBonus": 1780155999926,
       "stats": {
-        "gamesPlayed": 23,
-        "wagered": 1150,
-        "won": 595,
+        "gamesPlayed": 24,
+        "wagered": 1170,
+        "won": 606.8,
         "biggestWin": 131
       },
       "history": [
+        {
+          "game": "slots",
+          "bet": 20,
+          "payout": 31.8,
+          "net": 11.8,
+          "detail": "🍒 🍋 🍒 · two-cherry",
+          "at": "2026-05-30T15:54:41.357Z"
+        },
         {
           "game": "crash",
           "bet": 50,
@@ -481,12 +489,12 @@
       "id": "87b5b913-e6d7-46ae-8b28-7f59c502fc49",
       "name": "ProdCrashGraceTest",
       "nameKey": "prodcrashgracetest",
-      "balance": 990,
+      "balance": 1000,
       "createdAt": "2026-05-30T15:54:39.832Z",
       "lastDailyBonus": 0,
       "stats": {
         "gamesPlayed": 0,
-        "wagered": 10,
+        "wagered": 0,
         "won": 0,
         "biggestWin": 0
       },
@@ -494,13 +502,7 @@
       "bj": null,
       "passwordSalt": "0f86cc5ac0ca8d8fc68b7d12a4056730",
       "passwordHash": "f178e10c1d519dc0e48f04f342f83c7dc666b10a73d456e05f9e9747fe59a28ea26d66817433934156cd5d5c35eddf46b8adc1ae99c48c60d9f80e41a5627086",
-      "lastRescueBonus": 0,
-      "crashRound": {
-        "bet": 10,
-        "crashPoint": 2.2,
-        "startedAt": 1780156481723,
-        "status": "flying"
-      }
+      "lastRescueBonus": 0
     }
   ],
   "config": {
