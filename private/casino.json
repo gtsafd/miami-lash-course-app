@@ -537,12 +537,20 @@
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 0,
       "stats": {
-        "gamesPlayed": 100,
+        "gamesPlayed": 101,
         "wagered": 12018,
         "won": 3512.2,
         "biggestWin": 1311
       },
       "history": [
+        {
+          "game": "blackjack",
+          "bet": 100,
+          "payout": 0,
+          "net": -100,
+          "detail": "lose · you 23 / dealer 20",
+          "at": "2026-05-30T16:37:11.916Z"
+        },
         {
           "game": "crash",
           "bet": 150,
@@ -734,14 +742,6 @@
           "net": -1000,
           "detail": "💎 ⭐ 🍋 · none",
           "at": "2026-05-30T16:15:36.754Z"
-        },
-        {
-          "game": "slots",
-          "bet": 1000,
-          "payout": 0,
-          "net": -1000,
-          "detail": "🔔 🍋 🍋 · none",
-          "at": "2026-05-30T16:15:30.852Z"
         }
       ],
       "bj": {
@@ -929,10 +929,6 @@
           {
             "r": "5",
             "s": "♣"
-          },
-          {
-            "r": "7",
-            "s": "♠"
           }
         ],
         "playerHand": [
@@ -947,6 +943,10 @@
           {
             "r": "5",
             "s": "♥"
+          },
+          {
+            "r": "7",
+            "s": "♠"
           }
         ],
         "dealerHand": [
@@ -960,8 +960,10 @@
           }
         ],
         "bet": 100,
-        "status": "playing",
-        "doubled": false
+        "status": "done",
+        "doubled": false,
+        "result": "lose",
+        "payout": 0
       },
       "passwordSalt": "005f9d99e39656944ae2408f8aaa361e",
       "passwordHash": "980c2edfe491cda6e13c3d2bed994b8a70e9e8ee8e2e3d7eac4157f4fc04e61ed598039b3980ff065518a0b3d7fb8bbf3ff56c6847a1f7fce6cefaf89a582666",
