@@ -48,6 +48,7 @@
 
   <div class="tabs" id="tabs">
     <button class="tab active" data-game="slots"><span class="ico">🎰</span> Slots</button>
+    <button class="tab" data-game="slotsV2"><span class="ico">💎</span> Slot V2</button>
     <button class="tab" data-game="dice"><span class="ico">🎲</span> Dice</button>
     <button class="tab" data-game="coinflip"><span class="ico">🪙</span> Coinflip</button>
     <button class="tab" data-game="roulette"><span class="ico">🎡</span> Roulette</button>
@@ -75,6 +76,38 @@
         </div>
         <div class="paytable" id="slotsPaytable"></div>
         <div class="result-line" id="slotsResult"></div>
+      </section>
+
+      <!-- SLOT V2 -->
+      <section class="panel game slot-v2-panel hidden" data-game="slotsV2">
+        <div class="slot-v2-top">
+          <div>
+            <h2>💎 Slot V2</h2>
+            <p class="sub">Five reels, paylines, wilds, scatters and free spins.</p>
+          </div>
+          <div class="slot-v2-progress">
+            <span>FREE SPINS</span><b id="slotV2Free">0</b>
+            <span>MULTIPLIER</span><b id="slotV2Mult">x1</b>
+          </div>
+        </div>
+        <div class="slot-v2-machine">
+          <div class="slot-v2-jackpot"><span>GRAND</span><b>2,500.00</b></div>
+          <div class="slot-v2-lines">10<br>LINES</div>
+          <div class="slot-v2-reels" id="slotV2Grid"></div>
+          <svg class="slot-v2-overlay" id="slotV2Overlay" viewBox="0 0 500 300" preserveAspectRatio="none"></svg>
+        </div>
+        <div class="slot-v2-controls">
+          <button class="btn ghost sm" id="slotV2InfoBtn" title="Paytable">ℹ</button>
+          <div class="slot-meter"><span>Balance</span><b id="slotV2Balance">0</b></div>
+          <div class="slot-v2-bet">
+            <button id="slotV2BetMinus" type="button">−</button>
+            <label><span>Bet</span><input type="number" class="betInput" data-bet="slotsV2" min="1" value="10" /></label>
+            <button id="slotV2BetPlus" type="button">+</button>
+          </div>
+          <div class="slot-meter"><span>Win</span><b id="slotV2Win">0</b></div>
+          <button class="slot-spin" id="slotV2SpinBtn" type="button">SPIN</button>
+        </div>
+        <div class="result-line" id="slotV2Result"></div>
       </section>
 
       <!-- DICE -->
@@ -254,6 +287,17 @@
       <p class="result-line lose" id="adminLoginErr"></p>
     </div>
     <div id="adminPanel" class="hidden"></div>
+  </div>
+</div>
+
+<!-- SLOT V2 PAYTABLE -->
+<div id="slotV2PaytableModal" class="modal hidden">
+  <div class="modal-card slot-v2-paymodal">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
+      <h2>💎 Slot V2 Paytable</h2>
+      <button class="btn ghost sm" id="slotV2PayClose">Close</button>
+    </div>
+    <div id="slotV2Paytable" class="slot-v2-paytable"></div>
   </div>
 </div>
 

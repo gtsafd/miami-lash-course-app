@@ -16,6 +16,17 @@ let crashPoll = null;
 let crashAnim = null;
 
 const SLOT_SYMBOLS = ["🍒", "🍋", "🔔", "⭐", "💎", "7️⃣"];
+let SLOT_V2_SYMBOLS = [
+  { id: "coin", icon: "🟡", name: "Gold Coin", type: "normal", payout: [0, 0, 4, 12, 40, 120] },
+  { id: "ruby", icon: "♦️", name: "Ruby", type: "normal", payout: [0, 0, 5, 15, 50, 150] },
+  { id: "emerald", icon: "💚", name: "Emerald", type: "normal", payout: [0, 0, 6, 18, 60, 180] },
+  { id: "sapphire", icon: "🔷", name: "Sapphire", type: "normal", payout: [0, 0, 8, 24, 80, 240] },
+  { id: "crown", icon: "👑", name: "Crown", type: "normal", payout: [0, 0, 12, 40, 120, 400] },
+  { id: "chest", icon: "🧰", name: "Chest", type: "normal", payout: [0, 0, 16, 60, 180, 600] },
+  { id: "wild", icon: "⭐", name: "Wild Star", type: "wild", payout: [0, 0, 0, 0, 0, 0] },
+  { id: "scatter", icon: "🧭", name: "Scatter Compass", type: "scatter", payout: [0, 0, 2, 10, 40, 100] }
+];
+let SLOT_V2_BY_ID = Object.fromEntries(SLOT_V2_SYMBOLS.map((s) => [s.id, s]));
 const EURO_ORDER = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
 const RED_SET = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
 
@@ -40,6 +51,7 @@ const I18N = {
     "brand.subtitle": "Virtual Casino",
     "logout": "Exit",
     "tabs.slots": "Slots",
+    "tabs.slotsV2": "Slot V2",
     "tabs.dice": "Dice",
     "tabs.coinflip": "Coinflip",
     "tabs.roulette": "Roulette",
@@ -51,6 +63,14 @@ const I18N = {
     "common.max": "Max",
     "game.slots.sub": "Match symbols across the reels. Rare symbols pay more, cherries can still return small wins.",
     "game.slots.spin": "Spin 🎰",
+    "game.slotsV2.sub": "Modern 5-reel slot with paylines, wilds, scatters and free spins.",
+    "game.slotsV2.spin": "SPIN",
+    "game.slotsV2.free": "FREE SPINS",
+    "game.slotsV2.mult": "MULTIPLIER",
+    "game.slotsV2.balance": "Balance",
+    "game.slotsV2.bet": "Bet",
+    "game.slotsV2.win": "Win",
+    "game.slotsV2.paytable": "Slot V2 Paytable",
     "game.dice.sub": "Choose a target. Roll under it to win. Lower targets pay higher multipliers.",
     "game.dice.last": "Last Roll",
     "game.dice.target": "Target",
@@ -145,6 +165,7 @@ const I18N = {
     "brand.subtitle": "Виртуальное казино",
     "logout": "Выйти",
     "tabs.slots": "Слоты",
+    "tabs.slotsV2": "Slot V2",
     "tabs.dice": "Кости",
     "tabs.coinflip": "Монетка",
     "tabs.roulette": "Рулетка",
@@ -156,6 +177,14 @@ const I18N = {
     "common.max": "Макс",
     "game.slots.sub": "Собери одинаковые символы на барабанах. Редкие символы платят больше, а вишни могут дать маленький выигрыш.",
     "game.slots.spin": "Крутить 🎰",
+    "game.slotsV2.sub": "Современный слот 5 барабанов: линии, wild, scatter и бесплатные спины.",
+    "game.slotsV2.spin": "КРУТИТЬ",
+    "game.slotsV2.free": "ФРИСПИНЫ",
+    "game.slotsV2.mult": "МНОЖИТЕЛЬ",
+    "game.slotsV2.balance": "Баланс",
+    "game.slotsV2.bet": "Ставка",
+    "game.slotsV2.win": "Выигрыш",
+    "game.slotsV2.paytable": "Таблица выплат Slot V2",
     "game.dice.sub": "Выбери цель. Нужно выбросить меньше нее. Чем ниже цель, тем выше множитель.",
     "game.dice.last": "Последний бросок",
     "game.dice.target": "Цель",
@@ -266,6 +295,7 @@ function applyTranslations() {
   setText(".brand span", "brand.subtitle");
   setText("#logoutBtn", "logout");
   document.querySelector('[data-game="slots"]').lastChild.textContent = " " + t("tabs.slots");
+  document.querySelector('[data-game="slotsV2"]').lastChild.textContent = " " + t("tabs.slotsV2");
   document.querySelector('[data-game="dice"]').lastChild.textContent = " " + t("tabs.dice");
   document.querySelector('[data-game="coinflip"]').lastChild.textContent = " " + t("tabs.coinflip");
   document.querySelector('[data-game="roulette"]').lastChild.textContent = " " + t("tabs.roulette");
@@ -290,12 +320,26 @@ function applyTranslations() {
   setText("#adminLoginBtn", "admin.login");
   setText("#adminClose", "admin.close");
   if (player) { renderBonus(); renderHistory(player.history); loadLeaderboard(); }
+  buildSlotV2Paytable();
 }
 
 function translateGames() {
   document.querySelector('[data-game="slots"] h2').textContent = "🎰 " + t("tabs.slots");
   document.querySelector('[data-game="slots"] .sub').textContent = t("game.slots.sub");
   $("spinBtn").textContent = t("game.slots.spin");
+  document.querySelector('[data-game="slotsV2"] h2').textContent = "💎 " + t("tabs.slotsV2");
+  document.querySelector('[data-game="slotsV2"] .sub').textContent = t("game.slotsV2.sub");
+  $("slotV2SpinBtn").textContent = t("game.slotsV2.spin");
+  const slotLabels = document.querySelectorAll(".slot-v2-progress span");
+  if (slotLabels[0]) slotLabels[0].textContent = t("game.slotsV2.free");
+  if (slotLabels[1]) slotLabels[1].textContent = t("game.slotsV2.mult");
+  const slotMeters = document.querySelectorAll(".slot-meter span");
+  if (slotMeters[0]) slotMeters[0].textContent = t("game.slotsV2.balance");
+  if (slotMeters[1]) slotMeters[1].textContent = t("game.slotsV2.win");
+  const slotBetLabel = document.querySelector(".slot-v2-bet label span");
+  if (slotBetLabel) slotBetLabel.textContent = t("game.slotsV2.bet");
+  const payTitle = document.querySelector("#slotV2PaytableModal h2");
+  if (payTitle) payTitle.textContent = "💎 " + t("game.slotsV2.paytable");
   document.querySelector('[data-game="dice"] h2').textContent = "🎲 " + t("tabs.dice");
   document.querySelector('[data-game="dice"] .sub').textContent = t("game.dice.sub");
   document.querySelector("#diceRoll").nextElementSibling.textContent = t("game.dice.last");
@@ -421,6 +465,9 @@ function setPlayer(p) {
   $("stWagered").textContent = fmt(p.stats.wagered);
   $("stWon").textContent = fmt(p.stats.won);
   $("stBig").textContent = fmt(p.stats.biggestWin);
+  $("slotV2Balance").textContent = fmt(p.balance);
+  $("slotV2Free").textContent = fmt(p.slotV2?.freeSpinsLeft || 0);
+  $("slotV2Mult").textContent = "x" + fmt(p.slotV2?.freeSpinMultiplier || 1);
   renderHistory(p.history);
   renderBonus();
   if (p.blackjack) renderBlackjack(p.blackjack);
@@ -460,6 +507,10 @@ function applyConfig() {
   $("slotsPaytable").innerHTML = [...SLOT_SYMBOLS].reverse()
     .map((s) => `<span>${s}${s}${s} <b>${tr[s]}×</b></span>`).join("") +
     `<span>🍒🍒 <b>${config.slots.twoCherry}×</b></span><span>🍒 <b>${config.slots.oneCherry}×</b></span>`;
+  SLOT_V2_SYMBOLS = config.slotsV2?.symbols || SLOT_V2_SYMBOLS;
+  SLOT_V2_BY_ID = Object.fromEntries(SLOT_V2_SYMBOLS.map((s) => [s.id, s]));
+  buildSlotV2Grid();
+  buildSlotV2Paytable();
   buildRoulette();
   buildMinesBoard();
   buildPlinko();
@@ -545,6 +596,122 @@ async function spinSlots() {
     showOutcome("slotsResult", o, o.win ? `You won ${fmt(o.payout)}!` : (o.payout === o.bet ? "Bet returned" : "No match"));
   } catch (e) { toast(e.message, "lose"); }
   busy = false; $("spinBtn").disabled = false;
+}
+
+function buildSlotV2Grid() {
+  const grid = $("slotV2Grid");
+  if (!grid) return;
+  grid.innerHTML = "";
+  for (let reel = 0; reel < 5; reel++) {
+    const col = document.createElement("div");
+    col.className = "slot-v2-reel";
+    col.dataset.reel = String(reel);
+    for (let row = 0; row < 3; row++) {
+      const cell = document.createElement("div");
+      cell.className = "slot-v2-symbol";
+      cell.dataset.reel = String(reel);
+      cell.dataset.row = String(row);
+      const sym = SLOT_V2_SYMBOLS[(reel + row) % SLOT_V2_SYMBOLS.length];
+      cell.dataset.symbol = sym.id;
+      cell.innerHTML = `<span>${sym.icon}</span>`;
+      col.appendChild(cell);
+    }
+    grid.appendChild(col);
+  }
+}
+
+function slotV2Cell(symbolId, reel, row) {
+  const sym = SLOT_V2_BY_ID[symbolId] || SLOT_V2_SYMBOLS[0];
+  return `<div class="slot-v2-symbol" data-reel="${reel}" data-row="${row}" data-symbol="${escapeHtml(sym.id)}"><span>${sym.icon}</span></div>`;
+}
+
+function animateSlotV2Reel(reelEl, finalColumn, index) {
+  return new Promise((resolve) => {
+    reelEl.classList.remove("win");
+    const cycles = 13 + index * 3;
+    let html = "";
+    for (let i = 0; i < cycles; i++) {
+      const sym = SLOT_V2_SYMBOLS[Math.floor(Math.random() * SLOT_V2_SYMBOLS.length)];
+      html += slotV2Cell(sym.id, index, i % 3);
+    }
+    for (let row = 0; row < 3; row++) html += slotV2Cell(finalColumn[row], index, row);
+    reelEl.innerHTML = html;
+    reelEl.style.transition = "none";
+    reelEl.style.transform = "translateY(0)";
+    void reelEl.offsetHeight;
+    const cellH = reelEl.querySelector(".slot-v2-symbol")?.offsetHeight || 92;
+    const duration = Math.round((1450 + index * 360) * SPEED);
+    reelEl.style.transition = `transform ${duration}ms cubic-bezier(.13,.72,.16,1)`;
+    reelEl.style.transform = `translateY(${-cycles * cellH}px)`;
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      reelEl.style.transition = "none";
+      reelEl.style.transform = "translateY(0)";
+      reelEl.innerHTML = finalColumn.map((id, row) => slotV2Cell(id, index, row)).join("");
+      resolve();
+    };
+    reelEl.addEventListener("transitionend", finish, { once: true });
+    setTimeout(finish, duration + 160);
+  });
+}
+
+function clearSlotV2Highlights() {
+  document.querySelectorAll(".slot-v2-symbol").forEach((c) => c.classList.remove("win", "scatter-hit"));
+  $("slotV2Overlay").innerHTML = "";
+}
+
+function drawSlotV2Wins(outcome) {
+  clearSlotV2Highlights();
+  const overlay = $("slotV2Overlay");
+  const colors = ["#ffd166", "#7ff7e5", "#ff5c7c", "#9d7bff", "#4bf27a"];
+  outcome.lineWins.forEach((win, i) => {
+    win.positions.forEach(([reel, row]) => {
+      document.querySelector(`.slot-v2-symbol[data-reel="${reel}"][data-row="${row}"]`)?.classList.add("win");
+    });
+    const points = win.positions.map(([reel, row]) => `${reel * 100 + 50},${row * 100 + 50}`).join(" ");
+    overlay.insertAdjacentHTML("beforeend", `<polyline points="${points}" fill="none" stroke="${colors[i % colors.length]}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />`);
+  });
+  (outcome.scatters || []).forEach(([reel, row]) => {
+    document.querySelector(`.slot-v2-symbol[data-reel="${reel}"][data-row="${row}"]`)?.classList.add("scatter-hit");
+  });
+}
+
+function buildSlotV2Paytable() {
+  const wrap = $("slotV2Paytable");
+  if (!wrap) return;
+  wrap.innerHTML = SLOT_V2_SYMBOLS.map((s) => {
+    const payout = config?.slotsV2?.payouts?.[s.id] || s.payout || [];
+    const note = s.type === "wild" ? (lang === "ru" ? "заменяет обычные символы" : "substitutes normal symbols")
+      : s.type === "scatter" ? (lang === "ru" ? "платит в любом месте и дает фриспины" : "pays anywhere and awards free spins")
+      : (lang === "ru" ? "линия слева направо" : "left-to-right paylines");
+    return `<div class="slot-v2-payrow"><span class="slot-v2-payicon">${s.icon}</span><b>${escapeHtml(s.name)}</b><span>3: ${payout[3] || 0}x</span><span>4: ${payout[4] || 0}x</span><span>5: ${payout[5] || 0}x</span><em>${note}</em></div>`;
+  }).join("");
+}
+
+async function spinSlotsV2() {
+  if (busy) return;
+  const bet = betValue("slotsV2");
+  const free = (player?.slotV2?.freeSpinsLeft || 0) > 0;
+  if (!free && !affordable(bet)) return;
+  busy = true; $("slotV2SpinBtn").disabled = true; $("slotV2Result").textContent = ""; $("slotV2Win").textContent = "0";
+  clearSlotV2Highlights();
+  try {
+    const data = await api("/play/slots-v2", "POST", { bet });
+    const out = data.outcome;
+    const reels = [...document.querySelectorAll(".slot-v2-reel")];
+    await Promise.all(reels.map((r, i) => animateSlotV2Reel(r, out.grid[i], i)));
+    drawSlotV2Wins(out);
+    $("slotV2Win").textContent = fmt(out.payout);
+    setPlayer(data.player);
+    const extra = out.awardedFreeSpins ? (lang === "ru" ? ` +${out.awardedFreeSpins} фриспинов!` : ` +${out.awardedFreeSpins} free spins!`) : "";
+    const msg = out.payout > 0
+      ? (lang === "ru" ? `Выигрыш ${fmt(out.payout)}.${extra}` : `Won ${fmt(out.payout)}.${extra}`)
+      : (lang === "ru" ? `Без выигрыша.${extra}` : `No win.${extra}`);
+    showOutcome("slotV2Result", out, msg);
+  } catch (e) { toast(e.message, "lose"); }
+  busy = false; $("slotV2SpinBtn").disabled = false;
 }
 
 /* ---------- dice ---------- */
@@ -1064,6 +1231,13 @@ function numInput(k, val, step) { return `<label>${k.split(".").pop()}<input typ
 function renderAdmin(c, stats, players) {
   const p = $("adminPanel");
   const slotRows = SLOT_SYMBOLS.map((s) => `<label>${s} weight<input type="number" data-k="slots.weights.${s}" value="${c.slots.weights[s]}" /></label><label>${s} 3×pay<input type="number" data-k="slots.triples.${s}" value="${c.slots.triples[s]}" /></label>`).join("");
+  const slotV2Rows = SLOT_V2_SYMBOLS.map((s) => {
+    const pay = c.slotsV2?.payouts?.[s.id] || s.payout || [];
+    return `<label>${s.icon} ${s.id} weight<input type="number" data-k="slotsV2.weights.${s.id}" value="${c.slotsV2.weights[s.id]}" /></label>
+      <label>${s.icon} 3×<input type="number" data-k="slotsV2.payouts.${s.id}.3" value="${pay[3] || 0}" step="0.01" /></label>
+      <label>${s.icon} 4×<input type="number" data-k="slotsV2.payouts.${s.id}.4" value="${pay[4] || 0}" step="0.01" /></label>
+      <label>${s.icon} 5×<input type="number" data-k="slotsV2.payouts.${s.id}.5" value="${pay[5] || 0}" step="0.01" /></label>`;
+  }).join("");
   const playerRows = (players || []).map((pl) => `
     <div class="player-edit-row" data-player="${escapeHtml(pl.id)}">
       <input type="text" data-player-f="name" value="${escapeHtml(pl.name)}" />
@@ -1104,6 +1278,12 @@ function renderAdmin(c, stats, players) {
     </div></div>
     <div class="admin-sec"><h3>Slots weights &amp; payouts</h3><div class="admin-grid">${slotRows}
       ${numInput("slots.twoCherry", c.slots.twoCherry)}${numInput("slots.oneCherry", c.slots.oneCherry)}
+    </div></div>
+    <div class="admin-sec"><h3>Slot V2 weights, payouts &amp; bonus</h3><div class="admin-grid">
+      ${numInput("slotsV2.freeSpinsAward", c.slotsV2.freeSpinsAward)}
+      ${numInput("slotsV2.freeSpinMultiplierStep", c.slotsV2.freeSpinMultiplierStep, 0.1)}
+      ${numInput("slotsV2.freeSpinMaxMultiplier", c.slotsV2.freeSpinMaxMultiplier, 0.1)}
+      ${slotV2Rows}
     </div></div>
     <div class="admin-sec"><h3>Players</h3>
       <div class="player-edit-head"><span>Name</span><span>Balance</span><span>Games</span><span>Wagered</span><span>Won</span><span>Biggest</span><span>Auth</span><span>Actions</span></div>
@@ -1228,6 +1408,11 @@ $("logoutBtn").addEventListener("click", logout);
 $("bonusBtn").addEventListener("click", claimBonus);
 $("tabs").addEventListener("click", (e) => { const t = e.target.closest(".tab"); if (t) switchGame(t.dataset.game); });
 $("spinBtn").addEventListener("click", spinSlots);
+$("slotV2SpinBtn").addEventListener("click", spinSlotsV2);
+$("slotV2BetMinus").addEventListener("click", () => setBet("slotsV2", Math.max(1, betValue("slotsV2") - 10)));
+$("slotV2BetPlus").addEventListener("click", () => setBet("slotsV2", betValue("slotsV2") + 10));
+$("slotV2InfoBtn").addEventListener("click", () => { buildSlotV2Paytable(); $("slotV2PaytableModal").classList.remove("hidden"); });
+$("slotV2PayClose").addEventListener("click", () => $("slotV2PaytableModal").classList.add("hidden"));
 $("rollBtn").addEventListener("click", rollDice);
 $("diceSlider").addEventListener("input", updateDiceView);
 $("flipBtn").addEventListener("click", flipCoin);
