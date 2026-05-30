@@ -19,7 +19,7 @@
           "payout": 0,
           "net": -550,
           "detail": "crashed 1.16x",
-          "at": "2026-05-30T20:25:07.532Z"
+          "at": "2026-05-30T20:25:07.955Z"
         },
         {
           "game": "crash",
@@ -226,7 +226,7 @@
       "crashRound": null,
       "lastCrashPoint": 1.16,
       "lastCrashBet": 550,
-      "lastCrashAt": 1780172707532
+      "lastCrashAt": 1780172707955
     },
     {
       "id": "1b80b606-6be2-4504-92ee-4002ba83d27d",
