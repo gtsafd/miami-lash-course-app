@@ -524,26 +524,30 @@
       "id": "fa51d49e-c0d0-446b-9111-182f4e31fbdb",
       "name": "ProdCrashFinalTest",
       "nameKey": "prodcrashfinaltest",
-      "balance": 990,
+      "balance": 1001,
       "createdAt": "2026-05-30T15:55:47.359Z",
       "lastDailyBonus": 0,
       "stats": {
-        "gamesPlayed": 0,
+        "gamesPlayed": 1,
         "wagered": 10,
-        "won": 0,
-        "biggestWin": 0
+        "won": 1,
+        "biggestWin": 1
       },
-      "history": [],
+      "history": [
+        {
+          "game": "crash",
+          "bet": 10,
+          "payout": 11,
+          "net": 1,
+          "detail": "cashed 1.18x · crashed 2.61x",
+          "at": "2026-05-30T15:55:50.252Z"
+        }
+      ],
       "bj": null,
       "passwordSalt": "3a9740306022f9b605ccb29609846eca",
       "passwordHash": "7722a46e3a03cfd77e870ed574b4782f585cb6cb5d6a5636cae4a4d0f09ca6325f864933f8939fe4569d196299f28ba0bc0e4bbf61bdbf88a420fb5518caaf55",
       "lastRescueBonus": 0,
-      "crashRound": {
-        "bet": 10,
-        "crashPoint": 2.61,
-        "startedAt": 1780156549244,
-        "status": "flying"
-      }
+      "crashRound": null
     }
   ],
   "config": {
