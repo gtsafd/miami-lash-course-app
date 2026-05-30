@@ -336,16 +336,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 824.1999999999998,
+      "balance": 809.4999999999998,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 0,
       "stats": {
-        "gamesPlayed": 7,
-        "wagered": 390,
+        "gamesPlayed": 8,
+        "wagered": 460,
         "won": 53.10000000000001,
         "biggestWin": 41.30000000000001
       },
       "history": [
+        {
+          "game": "slots",
+          "bet": 70,
+          "payout": 55.300000000000004,
+          "net": -14.699999999999996,
+          "detail": "🍒 🍋 🔔 · one-cherry",
+          "at": "2026-05-30T15:53:15.372Z"
+        },
         {
           "game": "slots",
           "bet": 70,
