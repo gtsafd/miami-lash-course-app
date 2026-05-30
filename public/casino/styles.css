@@ -114,6 +114,11 @@ input:focus { border-color:var(--gold-2); }
 
 /* dice */
 .dice-readout { display:flex; justify-content:space-between; gap:12px; margin:6px 0 18px; }
+.dice-cup { height:106px; display:flex; align-items:center; justify-content:center; gap:18px; margin-bottom:12px; perspective:700px; }
+.die { width:64px; height:64px; display:grid; place-items:center; border-radius:14px; background:linear-gradient(180deg,#fff,#dfe9f2); color:#111; font-size:44px; box-shadow:0 16px 28px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.9); }
+.dice-cup.rolling .die { animation:diceRoll .72s cubic-bezier(.2,.7,.1,1); }
+.dice-cup.rolling .die:nth-child(2) { animation-delay:.06s; }
+@keyframes diceRoll { 0%{transform:translateY(0) rotate(0) rotateX(0)} 35%{transform:translateY(-24px) rotate(150deg) rotateX(220deg)} 70%{transform:translateY(10px) rotate(320deg) rotateX(420deg)} 100%{transform:translateY(0) rotate(360deg) rotateX(540deg)} }
 .stat-box { flex:1; background:var(--bg); border:1px solid var(--line); border-radius:12px; padding:12px; text-align:center; }
 .stat-box b { display:block; font-size:24px; color:var(--gold); }
 .stat-box span { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; }
@@ -173,6 +178,21 @@ input[type=range] { width:100%; accent-color:var(--gold); }
 .card.back { background:repeating-linear-gradient(45deg,#2a3f8f,#2a3f8f 6px,#1d2c66 6px,#1d2c66 12px); }
 .card .b { align-self:flex-end; transform:rotate(180deg); }
 .bj-actions { display:flex; gap:10px; flex-wrap:wrap; }
+
+/* mines + plinko */
+.mines-board { display:grid; grid-template-columns:repeat(5, minmax(42px, 1fr)); gap:8px; margin:10px auto 14px; max-width:390px; }
+.mine-tile { aspect-ratio:1; border:1px solid rgba(255,255,255,.24); border-radius:12px; background:radial-gradient(circle at 35% 25%,#1b9fbb,#07324f 72%); color:#bff7ff; font-size:24px; font-weight:900; box-shadow:inset 0 -12px 18px rgba(0,0,0,.24), 0 8px 18px rgba(0,0,0,.16); transition:transform .18s ease, filter .18s ease; }
+.mine-tile:not(:disabled):hover { transform:translateY(-2px); filter:brightness(1.12); }
+.mine-tile.safe { background:radial-gradient(circle at 35% 25%,#7ff7e5,#0c806e 74%); color:#05251e; }
+.mine-tile.mine-hit { background:radial-gradient(circle at 35% 25%,#ff8aa0,#9e1531 76%); color:#fff; }
+.mine-tile.flipping { animation:tileFlip .24s ease; }
+@keyframes tileFlip { 50%{ transform:rotateY(90deg) scale(.94); } }
+.mines-status { text-align:center; color:var(--muted); font-size:13px; margin-bottom:12px; }
+.plinko-stage { position:relative; height:310px; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:linear-gradient(180deg,rgba(9,88,112,.82),rgba(5,30,49,.86)); margin-bottom:16px; }
+.plinko-pins i { position:absolute; width:8px; height:8px; border-radius:50%; background:#fff8c7; box-shadow:0 0 14px rgba(255,209,102,.65); transform:translate(-50%,-50%); }
+.plinko-ball { position:absolute; left:50%; top:5%; width:20px; height:20px; border-radius:50%; background:radial-gradient(circle at 35% 28%,#fff,#50e5ff 45%,#096cdb); box-shadow:0 0 20px rgba(80,229,255,.8); opacity:0; z-index:3; transition:left .16s linear, top .16s linear; }
+.plinko-buckets { position:absolute; left:8px; right:8px; bottom:8px; display:grid; grid-template-columns:repeat(11,1fr); gap:4px; }
+.plinko-buckets span { min-width:0; padding:7px 2px; border-radius:7px; text-align:center; font-size:11px; font-weight:900; color:#1a1304; background:linear-gradient(180deg,var(--gold),var(--gold-2)); }
 
 /* sidebar */
 .side .panel { margin-bottom:16px; }

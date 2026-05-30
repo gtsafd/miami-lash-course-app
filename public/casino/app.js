@@ -28,7 +28,7 @@ const colorHex = { green: "#1c8f5f", red: "#c0233f", black: "#1b2438" };
 const I18N = {
   en: {
     "gate.title": "Virtual Casino",
-    "gate.copy": "Slots, dice, coinflip, roulette, blackjack & crash — all on free virtual chips. No real money. Start with 1000 chips.",
+    "gate.copy": "Slots, dice, coinflip, roulette, blackjack, mines, plinko & crash — all on free virtual chips. No real money. Start with 1000 chips.",
     "gate.name": "Choose a player name",
     "gate.password": "Password",
     "gate.enter": "Enter the Casino",
@@ -44,12 +44,15 @@ const I18N = {
     "tabs.coinflip": "Coinflip",
     "tabs.roulette": "Roulette",
     "tabs.blackjack": "Blackjack",
+    "tabs.mines": "Mines",
+    "tabs.plinko": "Plinko",
     "tabs.crash": "Crash",
     "common.bet": "Bet (chips)",
     "common.max": "Max",
     "game.slots.sub": "Match symbols across the reels. Rare symbols pay more, cherries can still return small wins.",
     "game.slots.spin": "Spin 🎰",
     "game.dice.sub": "Choose a target. Roll under it to win. Lower targets pay higher multipliers.",
+    "game.dice.last": "Last Roll",
     "game.dice.target": "Target",
     "game.dice.multiplier": "Multiplier",
     "game.dice.chance": "Win Chance",
@@ -86,6 +89,16 @@ const I18N = {
     "game.blackjack.bj": "Blackjack!",
     "game.blackjack.lose": "Dealer wins",
     "game.blackjack.push": "Push — bet returned",
+    "game.mines.sub": "Choose how many mines are hidden. Reveal safe tiles to build a bigger multiplier, then cash out before you hit a mine.",
+    "game.mines.mines": "Mines",
+    "game.mines.start": "Start 💣",
+    "game.mines.cashout": "Cash out",
+    "game.mines.idle": "No active round",
+    "game.mines.safe": "safe tiles",
+    "game.mines.next": "next",
+    "game.mines.cash": "cash",
+    "game.plinko.sub": "Drop the ball through the pins. Edges are rare and pay more; the center is safer but smaller.",
+    "game.plinko.drop": "Drop 🔵",
     "game.crash.sub": "Launch the rocket and cash out before it explodes. The multiplier climbs live, but greed can burn the whole bet.",
     "game.crash.ready": "Ready",
     "game.crash.flying": "Flying",
@@ -118,7 +131,7 @@ const I18N = {
   },
   ru: {
     "gate.title": "Виртуальное казино",
-    "gate.copy": "Слоты, кости, монетка, рулетка, блэкджек и краш — только бесплатные виртуальные фишки. Без реальных денег. Старт: 1000 фишек.",
+    "gate.copy": "Слоты, кости, монетка, рулетка, блэкджек, мины, плинко и краш — только бесплатные виртуальные фишки. Без реальных денег. Старт: 1000 фишек.",
     "gate.name": "Имя игрока",
     "gate.password": "Пароль",
     "gate.enter": "Войти в казино",
@@ -134,12 +147,15 @@ const I18N = {
     "tabs.coinflip": "Монетка",
     "tabs.roulette": "Рулетка",
     "tabs.blackjack": "Блэкджек",
+    "tabs.mines": "Мины",
+    "tabs.plinko": "Плинко",
     "tabs.crash": "Краш",
     "common.bet": "Ставка (фишки)",
     "common.max": "Макс",
     "game.slots.sub": "Собери одинаковые символы на барабанах. Редкие символы платят больше, а вишни могут дать маленький выигрыш.",
     "game.slots.spin": "Крутить 🎰",
     "game.dice.sub": "Выбери цель. Нужно выбросить меньше нее. Чем ниже цель, тем выше множитель.",
+    "game.dice.last": "Последний бросок",
     "game.dice.target": "Цель",
     "game.dice.multiplier": "Множитель",
     "game.dice.chance": "Шанс выигрыша",
@@ -176,6 +192,16 @@ const I18N = {
     "game.blackjack.bj": "Блэкджек!",
     "game.blackjack.lose": "Дилер выиграл",
     "game.blackjack.push": "Ничья — ставка возвращена",
+    "game.mines.sub": "Выбери количество мин. Открывай безопасные клетки, повышай множитель и забирай выигрыш до мины.",
+    "game.mines.mines": "Мины",
+    "game.mines.start": "Старт 💣",
+    "game.mines.cashout": "Забрать",
+    "game.mines.idle": "Раунд не запущен",
+    "game.mines.safe": "безопасных клеток",
+    "game.mines.next": "след.",
+    "game.mines.cash": "забрать",
+    "game.plinko.sub": "Брось шарик через пины. Края выпадают редко и платят больше, центр чаще, но меньше.",
+    "game.plinko.drop": "Бросить 🔵",
     "game.crash.sub": "Запусти ракету и забери выигрыш до взрыва. Коэффициент растет вживую, но жадность может сжечь всю ставку.",
     "game.crash.ready": "Готово",
     "game.crash.flying": "Полет",
@@ -240,6 +266,8 @@ function applyTranslations() {
   document.querySelector('[data-game="coinflip"]').lastChild.textContent = " " + t("tabs.coinflip");
   document.querySelector('[data-game="roulette"]').lastChild.textContent = " " + t("tabs.roulette");
   document.querySelector('[data-game="blackjack"]').lastChild.textContent = " " + t("tabs.blackjack");
+  document.querySelector('[data-game="mines"]').lastChild.textContent = " " + t("tabs.mines");
+  document.querySelector('[data-game="plinko"]').lastChild.textContent = " " + t("tabs.plinko");
   document.querySelector('[data-game="crash"]').lastChild.textContent = " " + t("tabs.crash");
   translateGames();
   setText(".bonus-card h2", "bonus.title");
@@ -266,6 +294,7 @@ function translateGames() {
   $("spinBtn").textContent = t("game.slots.spin");
   document.querySelector('[data-game="dice"] h2').textContent = "🎲 " + t("tabs.dice");
   document.querySelector('[data-game="dice"] .sub').textContent = t("game.dice.sub");
+  document.querySelector("#diceRoll").nextElementSibling.textContent = t("game.dice.last");
   document.querySelector("#diceTargetView").nextElementSibling.textContent = t("game.dice.target");
   document.querySelector("#diceMult").nextElementSibling.textContent = t("game.dice.multiplier");
   document.querySelector("#diceChance").nextElementSibling.textContent = t("game.dice.chance");
@@ -289,6 +318,15 @@ function translateGames() {
   $("hitBtn").textContent = t("game.blackjack.hit");
   $("standBtn").textContent = t("game.blackjack.stand");
   $("doubleBtn").textContent = t("game.blackjack.double");
+  document.querySelector('[data-game="mines"] h2').textContent = "💣 " + t("tabs.mines");
+  document.querySelector('[data-game="mines"] .sub').textContent = t("game.mines.sub");
+  document.querySelector("#minesCount").previousElementSibling.textContent = t("game.mines.mines");
+  $("minesStartBtn").textContent = t("game.mines.start");
+  $("minesCashoutBtn").textContent = t("game.mines.cashout");
+  if (!player?.minesRound) $("minesStatus").textContent = t("game.mines.idle");
+  document.querySelector('[data-game="plinko"] h2').textContent = "🔵 " + t("tabs.plinko");
+  document.querySelector('[data-game="plinko"] .sub').textContent = t("game.plinko.sub");
+  $("plinkoDropBtn").textContent = t("game.plinko.drop");
   document.querySelector('[data-game="crash"] h2').textContent = "🚀 " + t("tabs.crash");
   document.querySelector('[data-game="crash"] .sub').textContent = t("game.crash.sub");
   if (!crashActive) $("crashTag").textContent = t("game.crash.ready");
@@ -383,6 +421,7 @@ function setPlayer(p) {
   renderBonus();
   if (p.blackjack) renderBlackjack(p.blackjack);
   if (p.crashRound && p.crashRound.status === "flying" && !crashActive) startCrashUi(p.crashRound);
+  renderMinesRound(p.minesRound);
 }
 
 /* ---------- auth ---------- */
@@ -418,6 +457,8 @@ function applyConfig() {
     .map((s) => `<span>${s}${s}${s} <b>${tr[s]}×</b></span>`).join("") +
     `<span>🍒🍒 <b>${config.slots.twoCherry}×</b></span><span>🍒 <b>${config.slots.oneCherry}×</b></span>`;
   buildRoulette();
+  buildMinesBoard();
+  buildPlinko();
   mountTelegramLogin();
   updateDiceView();
   translateGames();
@@ -515,15 +556,32 @@ async function rollDice() {
   const bet = betValue("dice");
   if (!affordable(bet)) return;
   busy = true; $("rollBtn").disabled = true;
+  animateDiceCup();
   try {
     const data = await api("/play/dice", "POST", { bet, target: Number($("diceSlider").value) });
     const o = data.outcome;
+    await wait(700);
     $("diceRoll").textContent = o.roll.toFixed(2);
     $("diceRoll").className = o.win ? "win" : "lose";
+    setDiceFaces(o.roll);
     setPlayer(data.player);
-    showOutcome("diceResult", o, `Rolled ${o.roll.toFixed(2)} — ${o.win ? "win " + fmt(o.payout) : "loss"}`);
+    showOutcome("diceResult", o, lang === "ru" ? `Выпало ${o.roll.toFixed(2)} — ${o.win ? "выигрыш " + fmt(o.payout) : "проигрыш"}` : `Rolled ${o.roll.toFixed(2)} — ${o.win ? "win " + fmt(o.payout) : "loss"}`);
   } catch (e) { toast(e.message, "lose"); }
   busy = false; $("rollBtn").disabled = false;
+}
+
+function animateDiceCup() {
+  const cup = $("diceCup");
+  cup.classList.remove("rolling"); void cup.offsetWidth; cup.classList.add("rolling");
+}
+
+function setDiceFaces(roll) {
+  const faces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+  const a = Math.max(0, Math.min(5, Math.floor((roll % 36) / 6)));
+  const b = Math.max(0, Math.min(5, Math.floor((roll % 6))));
+  const dice = document.querySelectorAll("#diceCup .die");
+  dice[0].textContent = faces[a];
+  dice[1].textContent = faces[b];
 }
 
 /* ---------- coinflip ---------- */
@@ -613,6 +671,148 @@ async function spinRoulette() {
     clearRoul();
   } catch (e) { toast(e.message, "lose"); }
   busy = false; $("roulSpinBtn").disabled = false;
+}
+
+/* ---------- mines ---------- */
+function buildMinesBoard() {
+  const board = $("minesBoard");
+  board.innerHTML = "";
+  for (let i = 0; i < 25; i++) {
+    const b = document.createElement("button");
+    b.className = "mine-tile";
+    b.dataset.tile = i;
+    b.textContent = "◇";
+    b.addEventListener("click", () => revealMineTile(i));
+    board.appendChild(b);
+  }
+}
+
+function renderMinesRound(round) {
+  const active = Boolean(round && round.status === "playing");
+  $("minesStartBtn").disabled = active;
+  $("minesCashoutBtn").disabled = !active || !round.revealed.length;
+  document.querySelectorAll(".mine-tile").forEach((tile) => {
+    const idx = Number(tile.dataset.tile);
+    tile.disabled = !active || round.revealed.includes(idx);
+    tile.classList.toggle("safe", active && round.revealed.includes(idx));
+    if (active && round.revealed.includes(idx)) tile.textContent = "💎";
+    else if (!tile.classList.contains("mine-hit")) tile.textContent = "◇";
+  });
+  if (!active) {
+    $("minesStatus").textContent = t("game.mines.idle");
+    return;
+  }
+  $("minesStatus").textContent = `${round.revealed.length} ${t("game.mines.safe")} · ${t("game.mines.next")} ${Number(round.nextMultiplier).toFixed(2)}× · ${t("game.mines.cash")} ${Number(round.cashoutMultiplier).toFixed(2)}×`;
+}
+
+async function startMines() {
+  if (busy) return;
+  const bet = betValue("mines");
+  if (!affordable(bet)) return;
+  busy = true; $("minesResult").textContent = "";
+  document.querySelectorAll(".mine-tile").forEach((t) => { t.className = "mine-tile"; t.textContent = "◇"; });
+  try {
+    const d = await api("/mines/start", "POST", { bet, mines: Number($("minesCount").value) });
+    setPlayer(d.player);
+    renderMinesRound(d.round);
+  } catch (e) { toast(e.message, "lose"); }
+  busy = false;
+}
+
+async function revealMineTile(tile) {
+  if (busy || !player?.minesRound) return;
+  busy = true;
+  const btn = document.querySelector(`.mine-tile[data-tile="${tile}"]`);
+  btn.classList.add("flipping");
+  try {
+    const d = await api("/mines/reveal", "POST", { tile });
+    await wait(220);
+    if (d.round?.status === "lost") {
+      d.round.mineTiles.forEach((idx) => {
+        const tEl = document.querySelector(`.mine-tile[data-tile="${idx}"]`);
+        tEl.classList.add("mine-hit"); tEl.textContent = "💣";
+      });
+      setPlayer(d.player);
+      $("minesResult").className = "result-line lose";
+      $("minesResult").textContent = lang === "ru" ? "Мина! Ставка потеряна." : "Mine hit! Bet lost.";
+      renderMinesRound(null);
+    } else {
+      setPlayer(d.player);
+      renderMinesRound(d.round);
+    }
+  } catch (e) { toast(e.message, "lose"); }
+  busy = false;
+}
+
+async function cashoutMines() {
+  if (busy || !player?.minesRound) return;
+  busy = true;
+  try {
+    const d = await api("/mines/cashout", "POST", {});
+    setPlayer(d.player);
+    renderMinesRound(null);
+    showOutcome("minesResult", d.outcome, lang === "ru" ? `Забрал ${Number(d.outcome.multiplier).toFixed(2)}× — ${fmt(d.outcome.payout)}` : `Cashed ${Number(d.outcome.multiplier).toFixed(2)}× — ${fmt(d.outcome.payout)}`);
+  } catch (e) { toast(e.message, "lose"); }
+  busy = false;
+}
+
+/* ---------- plinko ---------- */
+function buildPlinko() {
+  const pins = $("plinkoPins");
+  const buckets = $("plinkoBuckets");
+  const rows = config?.plinko.rows || 10;
+  pins.innerHTML = "";
+  buckets.innerHTML = "";
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c <= r; c++) {
+      const p = document.createElement("i");
+      p.style.left = `${50 + (c - r / 2) * 8}%`;
+      p.style.top = `${8 + r * 7.2}%`;
+      pins.appendChild(p);
+    }
+  }
+  (config?.plinko.multipliers || []).forEach((m) => {
+    const b = document.createElement("span");
+    b.textContent = `${m}×`;
+    buckets.appendChild(b);
+  });
+}
+
+async function dropPlinko() {
+  if (busy) return;
+  const bet = betValue("plinko");
+  if (!affordable(bet)) return;
+  busy = true; $("plinkoDropBtn").disabled = true; $("plinkoResult").textContent = "";
+  try {
+    const d = await api("/play/plinko", "POST", { bet });
+    await animatePlinko(d.outcome);
+    setPlayer(d.player);
+    showOutcome("plinkoResult", d.outcome, lang === "ru" ? `Ячейка ${d.outcome.bucket} · ${d.outcome.multiplier}× — ${fmt(d.outcome.payout)}` : `Bucket ${d.outcome.bucket} · ${d.outcome.multiplier}× — ${fmt(d.outcome.payout)}`);
+  } catch (e) { toast(e.message, "lose"); }
+  busy = false; $("plinkoDropBtn").disabled = false;
+}
+
+function animatePlinko(outcome) {
+  const ball = $("plinkoBall");
+  const rows = outcome.path.length;
+  let x = 50, y = 4;
+  ball.style.opacity = "1";
+  ball.style.transform = `translate(-50%,-50%) translate(${x - 50}%, ${y}%)`;
+  return new Promise((resolve) => {
+    outcome.path.forEach((step, i) => {
+      setTimeout(() => {
+        x += step ? 4 : -4;
+        y = 10 + i * 7.3;
+        ball.style.left = `${x}%`;
+        ball.style.top = `${y}%`;
+      }, i * 170);
+    });
+    setTimeout(() => {
+      ball.style.left = `${(outcome.bucket / rows) * 90 + 5}%`;
+      ball.style.top = "92%";
+      setTimeout(resolve, 350);
+    }, rows * 170 + 120);
+  });
 }
 
 /* ---------- crash ---------- */
@@ -842,10 +1042,12 @@ function renderAdmin(c, stats, players) {
       ${numInput("economy.rescueBonus", c.economy.rescueBonus)}
       ${numInput("economy.rescueThreshold", c.economy.rescueThreshold)}
     </div></div>
-    <div class="admin-sec"><h3>Coinflip / Dice / Crash / Blackjack chances</h3><div class="admin-grid">
+    <div class="admin-sec"><h3>Coinflip / Dice / Mines / Plinko / Crash / Blackjack chances</h3><div class="admin-grid">
       ${numInput("coinflip.winChancePercent", c.coinflip.winChancePercent)}
       ${numInput("coinflip.winMultiplier", c.coinflip.winMultiplier, 0.01)}
       ${numInput("dice.houseEdgePercent", c.dice.houseEdgePercent, 0.1)}
+      ${numInput("mines.houseEdgePercent", c.mines.houseEdgePercent, 0.1)}
+      ${numInput("plinko.houseEdgePercent", c.plinko.houseEdgePercent, 0.1)}
       ${numInput("crash.houseEdgePercent", c.crash.houseEdgePercent, 0.1)}
       ${numInput("crash.maxMultiplier", c.crash.maxMultiplier)}
       ${numInput("blackjack.blackjackPayout", c.blackjack.blackjackPayout, 0.1)}
@@ -880,7 +1082,7 @@ function renderAdmin(c, stats, players) {
 function collectConfig() {
   const cfg = JSON.parse(JSON.stringify(config)); // start from current public config
   // ensure nested objects exist
-  cfg.economy = cfg.economy || {}; cfg.coinflip = cfg.coinflip || {}; cfg.dice = cfg.dice || {};
+  cfg.economy = cfg.economy || {}; cfg.coinflip = cfg.coinflip || {}; cfg.dice = cfg.dice || {}; cfg.mines = cfg.mines || {}; cfg.plinko = cfg.plinko || {};
   cfg.crash = cfg.crash || {}; cfg.blackjack = cfg.blackjack || {}; cfg.slots = cfg.slots || { weights: {}, triples: {} };
   document.querySelectorAll("#adminPanel [data-k]").forEach((inp) => {
     const path = inp.dataset.k.split("."); let obj = cfg;
@@ -987,6 +1189,9 @@ $("dealBtn").addEventListener("click", dealBlackjack);
 $("hitBtn").addEventListener("click", () => bjAction("hit"));
 $("standBtn").addEventListener("click", () => bjAction("stand"));
 $("doubleBtn").addEventListener("click", () => bjAction("double"));
+$("minesStartBtn").addEventListener("click", startMines);
+$("minesCashoutBtn").addEventListener("click", cashoutMines);
+$("plinkoDropBtn").addEventListener("click", dropPlinko);
 $("crashBtn").addEventListener("click", playCrash);
 $("crashCashoutBtn").addEventListener("click", cashoutCrash);
 $("adminBtn").addEventListener("click", openAdmin);
