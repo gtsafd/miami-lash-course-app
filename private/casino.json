@@ -533,16 +533,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 5455.200000000002,
+      "balance": 5435.200000000002,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 0,
       "stats": {
-        "gamesPlayed": 122,
-        "wagered": 13103,
+        "gamesPlayed": 123,
+        "wagered": 13123,
         "won": 3953.8,
         "biggestWin": 1311
       },
       "history": [
+        {
+          "game": "slots",
+          "bet": 20,
+          "payout": 0,
+          "net": -20,
+          "detail": "⭐ 💎 🍋 · none",
+          "at": "2026-05-30T16:41:43.646Z"
+        },
         {
           "game": "slots",
           "bet": 20,
@@ -734,14 +742,6 @@
           "net": -150,
           "detail": "crashed 1.45x",
           "at": "2026-05-30T16:36:40.948Z"
-        },
-        {
-          "game": "crash",
-          "bet": 150,
-          "payout": 0,
-          "net": -150,
-          "detail": "crashed 6.84x",
-          "at": "2026-05-30T16:36:36.331Z"
         }
       ],
       "bj": {
