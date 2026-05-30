@@ -836,31 +836,6 @@
       "passwordSalt": "e6840f88338aa4928d8d38f8fa29b8a3",
       "passwordHash": "073f79927786d255ab5cbf48e8187b5649e142aca51423d718a7b458857b65cd5716a4bad0a7d0cb886d66017cea67ecde6297a5dbea358b988f48d1006bd430",
       "lastRescueBonus": 0
-    },
-    {
-      "id": "edea5abc-b3ae-4025-9378-d0ec6bc20520",
-      "name": "ProdCrashProbe1780157089",
-      "nameKey": "prodcrashprobe1780157089",
-      "balance": 990,
-      "createdAt": "2026-05-30T16:04:49.716Z",
-      "lastDailyBonus": 0,
-      "stats": {
-        "gamesPlayed": 0,
-        "wagered": 10,
-        "won": 0,
-        "biggestWin": 0
-      },
-      "history": [],
-      "bj": null,
-      "passwordSalt": "0ebc98ac8bd8e2b68949d796e50e4bfc",
-      "passwordHash": "60a21d428ac280f72ff10bdd494708f073f7ed8aa34ae0fc6a2e86d9c641bfcaac864c418b9f7697c03979926d0e9abc50f46f7c567ac7bbd9858016613be3c8",
-      "lastRescueBonus": 0,
-      "crashRound": {
-        "bet": 10,
-        "crashPoint": 15.78,
-        "startedAt": 1780157091659,
-        "status": "flying"
-      }
     }
   ],
   "config": {
