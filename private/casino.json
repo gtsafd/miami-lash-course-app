@@ -591,16 +591,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 4204.20000000001,
+      "balance": 4574.20000000001,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780170464325,
       "stats": {
-        "gamesPlayed": 290,
+        "gamesPlayed": 291,
         "wagered": 25923,
-        "won": 9764.200000000003,
+        "won": 9984.200000000003,
         "biggestWin": 1311
       },
       "history": [
+        {
+          "game": "crash",
+          "bet": 150,
+          "payout": 370,
+          "net": 220,
+          "detail": "cashed 2.47x · crashed 3.87x",
+          "at": "2026-05-30T19:52:48.714Z"
+        },
         {
           "game": "crash",
           "bet": 150,
@@ -792,14 +800,6 @@
           "net": -300,
           "detail": "0 scatter · 0 lines",
           "at": "2026-05-30T19:50:06.391Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 300,
-          "payout": 0,
-          "net": -300,
-          "detail": "0 scatter · 0 lines",
-          "at": "2026-05-30T19:50:00.577Z"
         }
       ],
       "bj": {
@@ -1027,12 +1027,7 @@
       "passwordHash": "980c2edfe491cda6e13c3d2bed994b8a70e9e8ee8e2e3d7eac4157f4fc04e61ed598039b3980ff065518a0b3d7fb8bbf3ff56c6847a1f7fce6cefaf89a582666",
       "lastRescueBonus": 0,
       "minesRound": null,
-      "crashRound": {
-        "bet": 150,
-        "crashPoint": 3.87,
-        "startedAt": 1780170764862,
-        "status": "flying"
-      },
+      "crashRound": null,
       "lastCrashPoint": 1.69,
       "lastCrashBet": 150,
       "lastCrashAt": 1780170762649,
