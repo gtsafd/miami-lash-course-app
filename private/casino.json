@@ -353,7 +353,8 @@
         ],
         "revealed": [
           21,
-          2
+          2,
+          10
         ],
         "status": "playing",
         "startedAt": 1780156888221
@@ -585,7 +586,8 @@
       "history": [],
       "bj": null,
       "passwordSalt": "e6840f88338aa4928d8d38f8fa29b8a3",
-      "passwordHash": "073f79927786d255ab5cbf48e8187b5649e142aca51423d718a7b458857b65cd5716a4bad0a7d0cb886d66017cea67ecde6297a5dbea358b988f48d1006bd430"
+      "passwordHash": "073f79927786d255ab5cbf48e8187b5649e142aca51423d718a7b458857b65cd5716a4bad0a7d0cb886d66017cea67ecde6297a5dbea358b988f48d1006bd430",
+      "lastRescueBonus": 0
     }
   ],
   "config": {
