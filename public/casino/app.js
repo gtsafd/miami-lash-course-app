@@ -854,13 +854,15 @@ async function checkCrashState() {
     const data = await api("/play/crash/state", "POST", {});
     if (!data.round || data.round.status === "crashed") {
       stopCrashUi();
-      const cp = data.round?.crashPoint || data.round?.multiplier || 1;
+      const cp = data.round?.crashPoint || data.round?.multiplier || null;
       $("crashMult").classList.add("boom");
-      $("crashMult").textContent = `💥 ${Number(cp).toFixed(2)}×`;
+      $("crashMult").textContent = cp ? `💥 ${Number(cp).toFixed(2)}×` : "💥";
       $("crashRocket").textContent = "💥";
       setPlayer(data.player);
       $("crashResult").className = "result-line lose";
-      $("crashResult").textContent = lang === "ru" ? `Ракета взорвалась на ${Number(cp).toFixed(2)}×. Ставка потеряна.` : `Rocket exploded at ${Number(cp).toFixed(2)}×. Bet lost.`;
+      $("crashResult").textContent = cp
+        ? (lang === "ru" ? `Ракета взорвалась на ${Number(cp).toFixed(2)}×. Ставка потеряна.` : `Rocket exploded at ${Number(cp).toFixed(2)}×. Bet lost.`)
+        : (lang === "ru" ? "Ракета взорвалась слишком рано. Ставка потеряна." : "Rocket exploded too early. Bet lost.");
       await wait(850);
       resetCrashReady();
     }
