@@ -533,16 +533,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 5478.600000000001,
+      "balance": 5526.600000000001,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 0,
       "stats": {
-        "gamesPlayed": 111,
-        "wagered": 12818,
-        "won": 3832.2,
+        "gamesPlayed": 112,
+        "wagered": 12868,
+        "won": 3880.2,
         "biggestWin": 1311
       },
       "history": [
+        {
+          "game": "dice",
+          "bet": 50,
+          "payout": 98,
+          "net": 48,
+          "detail": "roll 42.20 < 50",
+          "at": "2026-05-30T16:38:46.362Z"
+        },
         {
           "game": "coinflip",
           "bet": 50,
@@ -734,14 +742,6 @@
           "net": -120,
           "detail": "⭐ 🍋 🔔 · none",
           "at": "2026-05-30T16:18:25.005Z"
-        },
-        {
-          "game": "slots",
-          "bet": 120,
-          "payout": 0,
-          "net": -120,
-          "detail": "🍋 ⭐ 🔔 · none",
-          "at": "2026-05-30T16:18:19.369Z"
         }
       ],
       "bj": {
