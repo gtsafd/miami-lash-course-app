@@ -7,12 +7,20 @@
       "createdAt": "2026-05-29T04:11:58.470Z",
       "lastDailyBonus": 1780170719177,
       "stats": {
-        "gamesPlayed": 53,
+        "gamesPlayed": 54,
         "wagered": 3130,
         "won": 1464.8,
         "biggestWin": 692
       },
       "history": [
+        {
+          "game": "slotsV2",
+          "bet": 0,
+          "payout": 0,
+          "net": 0,
+          "detail": "free spin · 1 scatter · 0 lines",
+          "at": "2026-05-30T20:12:08.514Z"
+        },
         {
           "game": "slotsV2",
           "bet": 0,
@@ -204,14 +212,6 @@
           "net": -100,
           "detail": "0 scatter · 0 lines",
           "at": "2026-05-30T20:01:38.825Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 10,
-          "payout": 0,
-          "net": -10,
-          "detail": "0 scatter · 0 lines",
-          "at": "2026-05-30T20:01:32.065Z"
         }
       ],
       "bj": null,
@@ -219,7 +219,7 @@
       "lastRescueBonus": 0,
       "passwordSalt": "17ac07493e9f989657f88b3fd40a314d",
       "passwordHash": "f7d5aaeb7f919e439dec44d5f63b2053af19a1d57601d1c362aeef2d6658d673b0fea2d03b5f894bb1e344bb32664607eeb1e92c51c5f66e52c8bf880d07601b",
-      "slotV2FreeSpins": 5,
+      "slotV2FreeSpins": 4,
       "slotV2FreeSpinMultiplier": 2,
       "slotV2Bonus": null
     },
@@ -784,24 +784,16 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 1031.2000000000098,
+      "balance": 945.2000000000098,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780170464325,
       "stats": {
-        "gamesPlayed": 364,
-        "wagered": 31233,
-        "won": 10684.200000000003,
+        "gamesPlayed": 363,
+        "wagered": 31183,
+        "won": 10598.200000000003,
         "biggestWin": 1311
       },
       "history": [
-        {
-          "game": "slotsV2",
-          "bet": 50,
-          "payout": 136,
-          "net": 86,
-          "detail": "0 scatter · 2 lines",
-          "at": "2026-05-30T20:12:08.405Z"
-        },
         {
           "game": "slotsV2",
           "bet": 50,
@@ -993,6 +985,14 @@
           "net": -50,
           "detail": "2 scatter · 0 lines",
           "at": "2026-05-30T20:07:36.505Z"
+        },
+        {
+          "game": "slotsV2",
+          "bet": 50,
+          "payout": 0,
+          "net": -50,
+          "detail": "0 scatter · 0 lines",
+          "at": "2026-05-30T20:07:30.787Z"
         }
       ],
       "bj": {
