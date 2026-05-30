@@ -71,6 +71,8 @@ const I18N = {
     "game.slotsV2.bet": "Bet",
     "game.slotsV2.win": "Win",
     "game.slotsV2.paytable": "Slot V2 Paytable",
+    "game.slotsV2.bonusStrip": "BONUS CHESTS",
+    "game.slotsV2.bonusStripSub": "3 compasses open the pick game",
     "game.slotsV2.bonusTitle": "Bonus Game",
     "game.slotsV2.bonusPick": "Pick a treasure chest",
     "game.slotsV2.bonusContinue": "Continue",
@@ -189,6 +191,8 @@ const I18N = {
     "game.slotsV2.bet": "Ставка",
     "game.slotsV2.win": "Выигрыш",
     "game.slotsV2.paytable": "Таблица выплат Slot V2",
+    "game.slotsV2.bonusStrip": "БОНУСНЫЕ СУНДУКИ",
+    "game.slotsV2.bonusStripSub": "3 компаса открывают бонус-игру",
     "game.slotsV2.bonusTitle": "Бонусная игра",
     "game.slotsV2.bonusPick": "Выбери сундук с призом",
     "game.slotsV2.bonusContinue": "Продолжить",
@@ -348,6 +352,10 @@ function translateGames() {
   if (slotBetLabel) slotBetLabel.textContent = t("game.slotsV2.bet");
   const payTitle = document.querySelector("#slotV2PaytableModal h2");
   if (payTitle) payTitle.textContent = "💎 " + t("game.slotsV2.paytable");
+  const bonusStripTitle = document.querySelector(".slot-v2-bonus-copy b");
+  if (bonusStripTitle) bonusStripTitle.textContent = t("game.slotsV2.bonusStrip");
+  const bonusStripSub = document.querySelector(".slot-v2-bonus-copy span");
+  if (bonusStripSub) bonusStripSub.textContent = t("game.slotsV2.bonusStripSub");
   setText("#slotV2BonusModal h2", "game.slotsV2.bonusTitle");
   setText(".slot-v2-bonus-head p", "game.slotsV2.bonusPick");
   setText("#slotV2BonusDone", "game.slotsV2.bonusContinue");
@@ -723,6 +731,13 @@ function describeSlotV2Prize(prize) {
   return bits.join(" · ") || (lang === "ru" ? "Пусто" : "Empty");
 }
 
+function pulseSlotV2BonusStrip() {
+  const strip = $("slotV2BonusStrip");
+  strip.classList.remove("lit");
+  void strip.offsetWidth;
+  strip.classList.add("lit");
+}
+
 async function pickSlotV2Bonus(pick) {
   const buttons = [...document.querySelectorAll("#slotV2BonusChests button")];
   buttons.forEach((b) => { b.disabled = true; });
@@ -764,7 +779,10 @@ async function spinSlotsV2() {
       ? (lang === "ru" ? `Выигрыш ${fmt(out.payout)}.${extra}` : `Won ${fmt(out.payout)}.${extra}`)
       : (lang === "ru" ? `Без выигрыша.${extra}` : `No win.${extra}`);
     showOutcome("slotV2Result", out, msg);
-    if (out.bonusTriggered) setTimeout(openSlotV2Bonus, 650);
+    if (out.bonusTriggered) {
+      pulseSlotV2BonusStrip();
+      setTimeout(openSlotV2Bonus, 650);
+    }
   } catch (e) { toast(e.message, "lose"); }
   busy = false; $("slotV2SpinBtn").disabled = false;
 }
