@@ -150,6 +150,21 @@ input:focus { border-color:var(--gold-2); }
 .slot-v2-payrow { display:grid; grid-template-columns:42px 1fr repeat(3,70px); gap:8px; align-items:center; padding:10px; border:1px solid var(--line); border-radius:10px; background:rgba(4,12,24,.55); }
 .slot-v2-payrow em { grid-column:2 / -1; color:var(--muted); font-size:12px; font-style:normal; }
 .slot-v2-payicon { width:38px; height:38px; display:grid; place-items:center; border-radius:50%; background:#14213d; font-size:24px; }
+.slot-v2-bonus-card { text-align:center; overflow:hidden; background:
+  radial-gradient(circle at 50% 8%, rgba(255,209,102,.28), transparent 10rem),
+  radial-gradient(circle at 12% 82%, rgba(127,247,229,.18), transparent 12rem),
+  linear-gradient(180deg,rgba(19,18,45,.96),rgba(8,17,32,.98)); }
+.slot-v2-bonus-head span { display:inline-grid; place-items:center; width:58px; height:58px; border-radius:50%; background:radial-gradient(circle at 35% 24%,#fff3b0,#c7791a 56%,#4e1b11); font-size:32px; box-shadow:0 0 28px rgba(255,209,102,.35); }
+.slot-v2-bonus-head h2 { margin:10px 0 4px; color:var(--gold); }
+.slot-v2-bonus-head p { margin:0 0 18px; color:var(--muted); }
+.slot-v2-bonus-chests { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:16px 0; }
+.slot-v2-bonus-chests button { min-height:150px; border:1px solid rgba(255,209,102,.42); border-radius:14px; background:radial-gradient(circle at 50% 18%,#51381c,#141c35 68%); color:#fff; display:grid; place-items:center; gap:8px; padding:14px; box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 18px 36px rgba(0,0,0,.28); transition:transform .18s ease, filter .18s ease, border-color .18s ease; }
+.slot-v2-bonus-chests button:not(:disabled):hover { transform:translateY(-4px); filter:brightness(1.12); border-color:var(--gold); }
+.slot-v2-bonus-chests button span { font-size:54px; filter:drop-shadow(0 12px 14px rgba(0,0,0,.32)); }
+.slot-v2-bonus-chests button b { font-size:14px; color:var(--gold); min-height:34px; display:grid; place-items:center; }
+.slot-v2-bonus-chests button.revealed { animation:bonusReveal .42s ease; }
+.slot-v2-bonus-chests button.picked { border-color:#7ff7e5; box-shadow:0 0 26px rgba(127,247,229,.32), inset 0 1px 0 rgba(255,255,255,.18); }
+@keyframes bonusReveal { 45%{ transform:rotateY(90deg) scale(.96); } }
 @media (max-width:720px){
   .slot-v2-top, .slot-v2-controls { grid-template-columns:1fr; display:grid; }
   .slot-v2-machine { padding-left:44px; }
@@ -159,6 +174,7 @@ input:focus { border-color:var(--gold-2); }
   .slot-v2-overlay { left:44px; width:calc(100% - 62px); height:255px; }
   .slot-spin { width:100%; height:58px; }
   .slot-v2-payrow { grid-template-columns:38px 1fr; }
+  .slot-v2-bonus-chests { grid-template-columns:1fr; }
 }
 
 /* dice */

@@ -71,6 +71,10 @@ const I18N = {
     "game.slotsV2.bet": "Bet",
     "game.slotsV2.win": "Win",
     "game.slotsV2.paytable": "Slot V2 Paytable",
+    "game.slotsV2.bonusTitle": "Bonus Game",
+    "game.slotsV2.bonusPick": "Pick a treasure chest",
+    "game.slotsV2.bonusContinue": "Continue",
+    "game.slotsV2.bonusTriggered": "Bonus triggered! Pick a chest.",
     "game.dice.sub": "Choose a target. Roll under it to win. Lower targets pay higher multipliers.",
     "game.dice.last": "Last Roll",
     "game.dice.target": "Target",
@@ -185,6 +189,10 @@ const I18N = {
     "game.slotsV2.bet": "Ставка",
     "game.slotsV2.win": "Выигрыш",
     "game.slotsV2.paytable": "Таблица выплат Slot V2",
+    "game.slotsV2.bonusTitle": "Бонусная игра",
+    "game.slotsV2.bonusPick": "Выбери сундук с призом",
+    "game.slotsV2.bonusContinue": "Продолжить",
+    "game.slotsV2.bonusTriggered": "Бонус открыт! Выбери сундук.",
     "game.dice.sub": "Выбери цель. Нужно выбросить меньше нее. Чем ниже цель, тем выше множитель.",
     "game.dice.last": "Последний бросок",
     "game.dice.target": "Цель",
@@ -340,6 +348,9 @@ function translateGames() {
   if (slotBetLabel) slotBetLabel.textContent = t("game.slotsV2.bet");
   const payTitle = document.querySelector("#slotV2PaytableModal h2");
   if (payTitle) payTitle.textContent = "💎 " + t("game.slotsV2.paytable");
+  setText("#slotV2BonusModal h2", "game.slotsV2.bonusTitle");
+  setText(".slot-v2-bonus-head p", "game.slotsV2.bonusPick");
+  setText("#slotV2BonusDone", "game.slotsV2.bonusContinue");
   document.querySelector('[data-game="dice"] h2').textContent = "🎲 " + t("tabs.dice");
   document.querySelector('[data-game="dice"] .sub').textContent = t("game.dice.sub");
   document.querySelector("#diceRoll").nextElementSibling.textContent = t("game.dice.last");
@@ -468,6 +479,7 @@ function setPlayer(p) {
   $("slotV2Balance").textContent = fmt(p.balance);
   $("slotV2Free").textContent = fmt(p.slotV2?.freeSpinsLeft || 0);
   $("slotV2Mult").textContent = "x" + fmt(p.slotV2?.freeSpinMultiplier || 1);
+  if (p.slotV2?.bonusPending) openSlotV2Bonus();
   renderHistory(p.history);
   renderBonus();
   if (p.blackjack) renderBlackjack(p.blackjack);
@@ -690,6 +702,48 @@ function buildSlotV2Paytable() {
   }).join("");
 }
 
+function openSlotV2Bonus() {
+  const modal = $("slotV2BonusModal");
+  $("slotV2BonusResult").textContent = t("game.slotsV2.bonusTriggered");
+  $("slotV2BonusResult").className = "result-line neutral";
+  $("slotV2BonusDone").classList.add("hidden");
+  document.querySelectorAll("#slotV2BonusChests button").forEach((b) => {
+    b.disabled = false;
+    b.className = "";
+    b.innerHTML = "<span>🧰</span><b>?</b>";
+  });
+  modal.classList.remove("hidden");
+}
+
+function describeSlotV2Prize(prize) {
+  const bits = [];
+  if (prize.freeSpins) bits.push(lang === "ru" ? `${prize.freeSpins} фриспинов` : `${prize.freeSpins} free spins`);
+  if (prize.chips) bits.push(lang === "ru" ? `${fmt(prize.chips)} фишек` : `${fmt(prize.chips)} chips`);
+  if (prize.multiplierBoost) bits.push(lang === "ru" ? `+${prize.multiplierBoost} к множителю` : `+${prize.multiplierBoost} multiplier`);
+  return bits.join(" · ") || (lang === "ru" ? "Пусто" : "Empty");
+}
+
+async function pickSlotV2Bonus(pick) {
+  const buttons = [...document.querySelectorAll("#slotV2BonusChests button")];
+  buttons.forEach((b) => { b.disabled = true; });
+  try {
+    const data = await api("/slots-v2/bonus-pick", "POST", { pick });
+    data.reveal.forEach((prize, index) => {
+      const b = buttons[index];
+      b.classList.toggle("picked", Boolean(prize.picked));
+      b.classList.add("revealed");
+      b.innerHTML = `<span>${prize.picked ? "🏆" : "🧰"}</span><b>${escapeHtml(describeSlotV2Prize(prize))}</b>`;
+    });
+    setPlayer(data.player);
+    $("slotV2BonusResult").textContent = (lang === "ru" ? "Твой приз: " : "Your prize: ") + describeSlotV2Prize(data.prize);
+    $("slotV2BonusResult").className = "result-line win";
+    $("slotV2BonusDone").classList.remove("hidden");
+  } catch (e) {
+    toast(e.message, "lose");
+    buttons.forEach((b) => { b.disabled = false; });
+  }
+}
+
 async function spinSlotsV2() {
   if (busy) return;
   const bet = betValue("slotsV2");
@@ -705,11 +759,12 @@ async function spinSlotsV2() {
     drawSlotV2Wins(out);
     $("slotV2Win").textContent = fmt(out.payout);
     setPlayer(data.player);
-    const extra = out.awardedFreeSpins ? (lang === "ru" ? ` +${out.awardedFreeSpins} фриспинов!` : ` +${out.awardedFreeSpins} free spins!`) : "";
+    const extra = out.bonusTriggered ? (lang === "ru" ? " Бонуска открыта!" : " Bonus game opened!") : "";
     const msg = out.payout > 0
       ? (lang === "ru" ? `Выигрыш ${fmt(out.payout)}.${extra}` : `Won ${fmt(out.payout)}.${extra}`)
       : (lang === "ru" ? `Без выигрыша.${extra}` : `No win.${extra}`);
     showOutcome("slotV2Result", out, msg);
+    if (out.bonusTriggered) setTimeout(openSlotV2Bonus, 650);
   } catch (e) { toast(e.message, "lose"); }
   busy = false; $("slotV2SpinBtn").disabled = false;
 }
@@ -1413,6 +1468,11 @@ $("slotV2BetMinus").addEventListener("click", () => setBet("slotsV2", Math.max(1
 $("slotV2BetPlus").addEventListener("click", () => setBet("slotsV2", betValue("slotsV2") + 10));
 $("slotV2InfoBtn").addEventListener("click", () => { buildSlotV2Paytable(); $("slotV2PaytableModal").classList.remove("hidden"); });
 $("slotV2PayClose").addEventListener("click", () => $("slotV2PaytableModal").classList.add("hidden"));
+$("slotV2BonusChests").addEventListener("click", (e) => {
+  const b = e.target.closest("button[data-pick]");
+  if (b) pickSlotV2Bonus(Number(b.dataset.pick));
+});
+$("slotV2BonusDone").addEventListener("click", () => $("slotV2BonusModal").classList.add("hidden"));
 $("rollBtn").addEventListener("click", rollDice);
 $("diceSlider").addEventListener("input", updateDiceView);
 $("flipBtn").addEventListener("click", flipCoin);
