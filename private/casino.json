@@ -130,9 +130,9 @@
       "id": "d323792d-d5ba-4706-b5c7-96e246dd68de",
       "name": "Gary",
       "nameKey": "gary",
-      "balance": 1075,
+      "balance": 1575,
       "createdAt": "2026-05-30T15:45:11.250Z",
-      "lastDailyBonus": 0,
+      "lastDailyBonus": 1780155999926,
       "stats": {
         "gamesPlayed": 9,
         "wagered": 450,
