@@ -591,12 +591,12 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 4804.20000000001,
+      "balance": 4654.20000000001,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780170464325,
       "stats": {
         "gamesPlayed": 287,
-        "wagered": 25323,
+        "wagered": 25473,
         "won": 9764.200000000003,
         "biggestWin": 1311
       },
@@ -1027,7 +1027,12 @@
       "passwordHash": "980c2edfe491cda6e13c3d2bed994b8a70e9e8ee8e2e3d7eac4157f4fc04e61ed598039b3980ff065518a0b3d7fb8bbf3ff56c6847a1f7fce6cefaf89a582666",
       "lastRescueBonus": 0,
       "minesRound": null,
-      "crashRound": null,
+      "crashRound": {
+        "bet": 150,
+        "crashPoint": 1.12,
+        "startedAt": 1780170752614,
+        "status": "flying"
+      },
       "lastCrashPoint": 1.58,
       "lastCrashBet": 150,
       "lastCrashAt": 1780170750441,
