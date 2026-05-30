@@ -458,25 +458,6 @@
       }
     },
     {
-      "id": "01fbff89-2dce-4646-bdce-36a3cd1b2368",
-      "name": "ввввв",
-      "nameKey": "ввввв",
-      "balance": 1000,
-      "createdAt": "2026-05-29T04:56:26.744Z",
-      "lastDailyBonus": 0,
-      "stats": {
-        "gamesPlayed": 0,
-        "wagered": 0,
-        "won": 0,
-        "biggestWin": 0
-      },
-      "history": [],
-      "bj": null,
-      "passwordSalt": "63cbfdaac355550ddcd8a0380159c4ba",
-      "passwordHash": "d0008dbcfb673954ef4694e19d298cecd9ef7f5b3c26023120d46b738ca119288c2a2a099dd2cb62525581565feaf3c3b9bc0f273fab71290884eb33f9fbe0d5",
-      "lastRescueBonus": 0
-    },
-    {
       "id": "d4adb383-4fcb-4b07-b8fd-8c32aecaadda",
       "name": "дядя Юра",
       "nameKey": "дядя юра",
