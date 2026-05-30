@@ -535,12 +535,20 @@
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 0,
       "stats": {
-        "gamesPlayed": 56,
+        "gamesPlayed": 57,
         "wagered": 3645,
         "won": 1380.3,
         "biggestWin": 597.8
       },
       "history": [
+        {
+          "game": "mines",
+          "bet": 50,
+          "payout": 0,
+          "net": -50,
+          "detail": "5 mines · hit mine",
+          "at": "2026-05-30T16:10:53.616Z"
+        },
         {
           "game": "mines",
           "bet": 50,
@@ -732,34 +740,13 @@
           "net": -70,
           "detail": "🍋 ⭐ 🍋 · none",
           "at": "2026-05-30T16:05:08.129Z"
-        },
-        {
-          "game": "slots",
-          "bet": 70,
-          "payout": 111.30000000000001,
-          "net": 41.30000000000001,
-          "detail": "7️⃣ 🍒 🍒 · two-cherry",
-          "at": "2026-05-30T16:05:00.362Z"
         }
       ],
       "bj": null,
       "passwordSalt": "005f9d99e39656944ae2408f8aaa361e",
       "passwordHash": "980c2edfe491cda6e13c3d2bed994b8a70e9e8ee8e2e3d7eac4157f4fc04e61ed598039b3980ff065518a0b3d7fb8bbf3ff56c6847a1f7fce6cefaf89a582666",
       "lastRescueBonus": 0,
-      "minesRound": {
-        "bet": 50,
-        "mines": 5,
-        "mineTiles": [
-          8,
-          12,
-          9,
-          2,
-          21
-        ],
-        "revealed": [],
-        "status": "playing",
-        "startedAt": 1780157450823
-      }
+      "minesRound": null
     },
     {
       "id": "b40d9fb4-c011-48e4-b324-551185963aea",
