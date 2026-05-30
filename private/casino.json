@@ -788,12 +788,20 @@
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780170464325,
       "stats": {
-        "gamesPlayed": 351,
+        "gamesPlayed": 352,
         "wagered": 30033,
         "won": 10507.200000000003,
         "biggestWin": 1311
       },
       "history": [
+        {
+          "game": "slotsV2",
+          "bet": 0,
+          "payout": 0,
+          "net": 0,
+          "detail": "free spin · 0 scatter · 0 lines",
+          "at": "2026-05-30T20:09:02.395Z"
+        },
         {
           "game": "slotsV2",
           "bet": 0,
@@ -985,14 +993,6 @@
           "net": 168,
           "detail": "0 scatter · 1 lines",
           "at": "2026-05-30T20:06:19.415Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 50,
-          "payout": 0,
-          "net": -50,
-          "detail": "0 scatter · 0 lines",
-          "at": "2026-05-30T20:06:13.713Z"
         }
       ],
       "bj": {
@@ -1224,7 +1224,7 @@
       "lastCrashPoint": 1.12,
       "lastCrashBet": 150,
       "lastCrashAt": 1780170779299,
-      "slotV2FreeSpins": 4,
+      "slotV2FreeSpins": 3,
       "slotV2FreeSpinMultiplier": 2
     },
     {
