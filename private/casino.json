@@ -3,16 +3,24 @@
     {
       "id": "690d4b8c-7c3f-40ef-be54-344b45690ef1",
       "name": "Alex",
-      "balance": 1282.8000000000002,
+      "balance": 2299.8,
       "createdAt": "2026-05-29T04:11:58.470Z",
       "lastDailyBonus": 1780170719177,
       "stats": {
-        "gamesPlayed": 85,
+        "gamesPlayed": 86,
         "wagered": 12305,
-        "won": 5440.8,
+        "won": 5907.8,
         "biggestWin": 692
       },
       "history": [
+        {
+          "game": "crash",
+          "bet": 550,
+          "payout": 1017,
+          "net": 467,
+          "detail": "cashed 1.85x · crashed 2.15x",
+          "at": "2026-05-30T20:24:18.867Z"
+        },
         {
           "game": "crash",
           "bet": 550,
@@ -204,14 +212,6 @@
           "net": 0,
           "detail": "free spin · 0 scatter · 0 lines",
           "at": "2026-05-30T20:17:31.608Z"
-        },
-        {
-          "game": "slotsV2 bonus",
-          "bet": 0,
-          "payout": 0,
-          "net": 0,
-          "detail": "8 free spins · +1 multiplier",
-          "at": "2026-05-30T20:17:24.589Z"
         }
       ],
       "bj": null,
@@ -223,12 +223,7 @@
       "slotV2FreeSpinMultiplier": 3,
       "slotV2Bonus": null,
       "shopBuffs": [],
-      "crashRound": {
-        "bet": 550,
-        "crashPoint": 2.15,
-        "startedAt": 1780172656146,
-        "status": "flying"
-      },
+      "crashRound": null,
       "lastCrashPoint": 1.87,
       "lastCrashBet": 550,
       "lastCrashAt": 1780172651545
