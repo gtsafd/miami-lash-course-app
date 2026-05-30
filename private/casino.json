@@ -336,16 +336,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 654.7999999999997,
+      "balance": 584.7999999999997,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 0,
       "stats": {
-        "gamesPlayed": 11,
-        "wagered": 670,
+        "gamesPlayed": 12,
+        "wagered": 740,
         "won": 53.10000000000001,
         "biggestWin": 41.30000000000001
       },
       "history": [
+        {
+          "game": "slots",
+          "bet": 70,
+          "payout": 0,
+          "net": -70,
+          "detail": "⭐ 🔔 🍋 · none",
+          "at": "2026-05-30T15:53:41.800Z"
+        },
         {
           "game": "slots",
           "bet": 70,
@@ -448,22 +456,26 @@
       "createdAt": "2026-05-30T15:53:37.091Z",
       "lastDailyBonus": 0,
       "stats": {
-        "gamesPlayed": 0,
+        "gamesPlayed": 1,
         "wagered": 10,
         "won": 0,
         "biggestWin": 0
       },
-      "history": [],
+      "history": [
+        {
+          "game": "crash",
+          "bet": 10,
+          "payout": 0,
+          "net": -10,
+          "detail": "crashed 1.05x",
+          "at": "2026-05-30T15:53:41.800Z"
+        }
+      ],
       "bj": null,
       "passwordSalt": "bbc455755744e08d6b54fc0cef51c7ab",
       "passwordHash": "d63b4a461cbc442a451c9c45c28db941a382229884a30c3459abe013fb3a3f38b9327f46719008d7ee12bcc1cee7bf86ac5c9f5badeba7cea483899d37492f9a",
       "lastRescueBonus": 0,
-      "crashRound": {
-        "bet": 10,
-        "crashPoint": 1.05,
-        "startedAt": 1780156418056,
-        "status": "flying"
-      }
+      "crashRound": null
     }
   ],
   "config": {
