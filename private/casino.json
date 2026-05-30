@@ -801,7 +801,9 @@
           1,
           12
         ],
-        "revealed": [],
+        "revealed": [
+          17
+        ],
         "status": "playing",
         "startedAt": 1780157386010
       }
