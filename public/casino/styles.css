@@ -129,10 +129,20 @@ input:focus { border-color:var(--gold-2); }
 .slot-v2-lines { position:absolute; left:10px; top:45%; transform:translateY(-50%); width:38px; padding:10px 4px; text-align:center; color:#ffd166; border:2px solid #91651c; border-radius:9px; background:#16233d; font-size:12px; font-weight:900; }
 .slot-v2-reels { position:relative; display:grid; grid-template-columns:repeat(5, minmax(54px, 1fr)); gap:5px; height:300px; overflow:hidden; border:2px solid #9d6d23; border-radius:10px; background:#070d1d; }
 .slot-v2-reel { display:flex; flex-direction:column; will-change:transform; min-width:0; }
-.slot-v2-symbol { height:100px; min-height:100px; display:grid; place-items:center; border:1px solid rgba(255,255,255,.08); background:radial-gradient(circle at 45% 24%,#223964,#0b1327 72%); box-shadow:inset 0 -18px 22px rgba(0,0,0,.25); }
-.slot-v2-symbol span { display:grid; place-items:center; width:68px; height:68px; border-radius:50%; font-size:38px; background:radial-gradient(circle at 35% 25%,rgba(255,255,255,.22),rgba(255,255,255,.02) 62%); filter:drop-shadow(0 8px 12px rgba(0,0,0,.38)); }
-.slot-v2-symbol[data-symbol="wild"] span { color:#ffd166; text-shadow:0 0 18px rgba(255,209,102,.8); }
-.slot-v2-symbol[data-symbol="scatter"] span { color:#7ff7e5; text-shadow:0 0 18px rgba(127,247,229,.75); }
+.slot-v2-reel.spinning .slot-v2-symbol { filter:blur(1.2px) brightness(1.18); }
+.slot-v2-symbol { height:100px; min-height:100px; display:grid; place-items:center; border:1px solid rgba(255,255,255,.10); background:linear-gradient(180deg,#172345,#080f22); box-shadow:inset 0 -18px 22px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.12); overflow:hidden; position:relative; }
+.slot-v2-symbol::before { content:""; position:absolute; inset:8px; border-radius:14px; background:radial-gradient(circle at 32% 18%,rgba(255,255,255,.24),transparent 36%), linear-gradient(145deg,rgba(255,209,102,.20),rgba(127,247,229,.05)); border:1px solid rgba(255,255,255,.16); box-shadow:inset 0 -10px 18px rgba(0,0,0,.24); }
+.slot-v2-symbol::after { content:""; position:absolute; inset:9px; border-radius:14px; background:linear-gradient(120deg,transparent 0 38%,rgba(255,255,255,.22) 46%,transparent 56%); opacity:.42; }
+.slot-v2-symbol span { position:relative; z-index:1; display:grid; place-items:center; width:66px; height:66px; border-radius:16px; font-size:0; background:radial-gradient(circle at 35% 25%,rgba(255,255,255,.58),rgba(255,255,255,.08) 62%); filter:drop-shadow(0 10px 14px rgba(0,0,0,.42)); transform:rotate(45deg); border:2px solid rgba(255,255,255,.30); }
+.slot-v2-symbol span i { display:grid; place-items:center; width:100%; height:100%; transform:rotate(-45deg); font-style:normal; font-size:36px; text-shadow:0 3px 8px rgba(0,0,0,.35); }
+.slot-v2-symbol[data-symbol="coin"] span { border-radius:50%; background:radial-gradient(circle at 35% 25%,#fff5b8,#ffd166 48%,#9d5f12); }
+.slot-v2-symbol[data-symbol="ruby"] span { background:linear-gradient(145deg,#ff9bb1,#d61646 55%,#5b0820); }
+.slot-v2-symbol[data-symbol="emerald"] span { background:linear-gradient(145deg,#9dffd2,#0ca66d 55%,#06422d); }
+.slot-v2-symbol[data-symbol="sapphire"] span { background:linear-gradient(145deg,#b6f4ff,#1774ff 55%,#10215e); }
+.slot-v2-symbol[data-symbol="crown"] span { background:linear-gradient(145deg,#fff1ad,#f0a51d 55%,#703c08); }
+.slot-v2-symbol[data-symbol="chest"] span { background:linear-gradient(145deg,#ffe0a8,#9c5522 55%,#361407); }
+.slot-v2-symbol[data-symbol="wild"] span { color:#ffd166; background:radial-gradient(circle at 35% 25%,#fff8bd,#9d61ff 58%,#2a0a62); box-shadow:0 0 24px rgba(255,209,102,.45); }
+.slot-v2-symbol[data-symbol="scatter"] span { color:#7ff7e5; background:radial-gradient(circle at 35% 25%,#e5fffb,#12adbd 58%,#10304a); box-shadow:0 0 24px rgba(127,247,229,.45); }
 .slot-v2-symbol.win { animation:slotV2Win .92s ease infinite alternate; }
 .slot-v2-symbol.scatter-hit { outline:2px solid #7ff7e5; outline-offset:-5px; }
 .slot-v2-overlay { position:absolute; left:58px; right:18px; top:48px; height:300px; width:calc(100% - 76px); pointer-events:none; filter:drop-shadow(0 0 8px rgba(255,209,102,.6)); }
@@ -182,6 +192,17 @@ input:focus { border-color:var(--gold-2); }
 .slot-v2-bonus-chests button.revealed { animation:bonusReveal .42s ease; }
 .slot-v2-bonus-chests button.picked { border-color:#7ff7e5; box-shadow:0 0 26px rgba(127,247,229,.32), inset 0 1px 0 rgba(255,255,255,.18); }
 @keyframes bonusReveal { 45%{ transform:rotateY(90deg) scale(.96); } }
+.shop-panel { background:linear-gradient(180deg,rgba(12,48,58,.90),rgba(6,21,39,.90)); }
+.shop-active { margin:14px 0 18px; padding:12px; border:1px solid rgba(127,247,229,.22); border-radius:12px; background:rgba(4,18,31,.62); }
+.shop-active h3 { margin:0 0 10px; color:#7ff7e5; font-size:14px; text-transform:uppercase; letter-spacing:.08em; }
+.shop-buffs { display:flex; gap:8px; flex-wrap:wrap; }
+.shop-buffs span { padding:7px 10px; border-radius:999px; border:1px solid rgba(255,209,102,.34); background:rgba(255,209,102,.10); color:var(--gold); font-size:12px; font-weight:800; }
+.shop-items { display:grid; gap:10px; }
+.shop-item { display:grid; grid-template-columns:58px 1fr auto; gap:12px; align-items:center; padding:13px; border:1px solid rgba(255,255,255,.18); border-radius:12px; background:linear-gradient(90deg,rgba(8,22,42,.78),rgba(9,54,64,.58)); }
+.shop-icon { width:52px; height:52px; display:grid; place-items:center; border-radius:14px; font-size:28px; background:radial-gradient(circle at 35% 25%,rgba(255,255,255,.22),rgba(255,209,102,.12)); border:1px solid rgba(255,209,102,.24); }
+.shop-item h3 { margin:0 0 4px; color:var(--gold); font-size:16px; }
+.shop-item p { margin:0; color:var(--muted); font-size:13px; }
+.shop-item em { display:block; margin-top:5px; color:#7ff7e5; font-style:normal; font-size:12px; }
 @media (max-width:720px){
   .slot-v2-top, .slot-v2-controls { grid-template-columns:1fr; display:grid; }
   .slot-v2-machine { padding-left:44px; }
@@ -195,6 +216,7 @@ input:focus { border-color:var(--gold-2); }
   .slot-spin { width:100%; height:58px; }
   .slot-v2-payrow { grid-template-columns:38px 1fr; }
   .slot-v2-bonus-chests { grid-template-columns:1fr; }
+  .shop-item { grid-template-columns:1fr; }
 }
 
 /* dice */

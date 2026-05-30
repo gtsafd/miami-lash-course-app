@@ -59,6 +59,7 @@ const I18N = {
     "tabs.mines": "Mines",
     "tabs.plinko": "Plinko",
     "tabs.crash": "Crash",
+    "tabs.shop": "Shop",
     "common.bet": "Bet (chips)",
     "common.max": "Max",
     "game.slots.sub": "Match symbols across the reels. Rare symbols pay more, cherries can still return small wins.",
@@ -135,6 +136,15 @@ const I18N = {
     "game.crash.cashout": "Cash out",
     "game.crash.cashed": "Cashed out",
     "game.crash.could": "Could have reached",
+    "shop.sub": "Buy temporary Slot V2 buffs with virtual chips.",
+    "shop.active": "Active buffs",
+    "shop.empty": "No active buffs yet.",
+    "shop.buy": "Buy",
+    "shop.scatterCharm": "More compass scatters for bonus hunting.",
+    "shop.wildCharm": "More wild stars on the reels.",
+    "shop.lossShield": "Refunds part of losing paid spins.",
+    "shop.multiplierGlow": "Boosts Slot V2 wins while active.",
+    "shop.bonusMagnet": "Strong bonus hunt: more scatters and wilds.",
     "bonus.title": "🎁 Free Chips",
     "bonus.copy": "Claim a daily bonus, or a top-up if you go broke.",
     "bonus.claim": "Claim Bonus",
@@ -182,6 +192,7 @@ const I18N = {
     "tabs.mines": "Мины",
     "tabs.plinko": "Плинко",
     "tabs.crash": "Краш",
+    "tabs.shop": "Магазин",
     "common.bet": "Ставка (фишки)",
     "common.max": "Макс",
     "game.slots.sub": "Собери одинаковые символы на барабанах. Редкие символы платят больше, а вишни могут дать маленький выигрыш.",
@@ -258,6 +269,15 @@ const I18N = {
     "game.crash.cashout": "Забрать",
     "game.crash.cashed": "Забрал",
     "game.crash.could": "Можно было держать до",
+    "shop.sub": "Покупай временные баффы для Slot V2 за виртуальные фишки.",
+    "shop.active": "Активные баффы",
+    "shop.empty": "Активных баффов пока нет.",
+    "shop.buy": "Купить",
+    "shop.scatterCharm": "Больше компасов scatter для охоты за бонусом.",
+    "shop.wildCharm": "Больше wild-звезд на барабанах.",
+    "shop.lossShield": "Возвращает часть проигранной платной ставки.",
+    "shop.multiplierGlow": "Повышает выигрыши Slot V2, пока активен.",
+    "shop.bonusMagnet": "Сильная охота за бонусом: больше scatter и wild.",
     "bonus.title": "🎁 Бесплатные фишки",
     "bonus.copy": "Забирай ежедневный бонус или пополнение, если фишки почти закончились.",
     "bonus.claim": "Забрать бонус",
@@ -321,6 +341,7 @@ function applyTranslations() {
   document.querySelector('[data-game="mines"]').lastChild.textContent = " " + t("tabs.mines");
   document.querySelector('[data-game="plinko"]').lastChild.textContent = " " + t("tabs.plinko");
   document.querySelector('[data-game="crash"]').lastChild.textContent = " " + t("tabs.crash");
+  document.querySelector('[data-game="shop"]').lastChild.textContent = " " + t("tabs.shop");
   translateGames();
   setText(".bonus-card h2", "bonus.title");
   setText(".bonus-card .sub", "bonus.copy");
@@ -406,6 +427,9 @@ function translateGames() {
   if (!crashActive) $("crashTag").textContent = t("game.crash.ready");
   $("crashBtn").textContent = t("game.crash.launch");
   $("crashCashoutBtn").textContent = t("game.crash.cashout");
+  document.querySelector('[data-game="shop"] h2').textContent = "🛍️ " + t("tabs.shop");
+  document.querySelector('[data-game="shop"] .sub').textContent = t("shop.sub");
+  renderShop();
   document.querySelectorAll(".field label").forEach((label) => {
     if (/^Bet \(chips\)$|^Ставка \(фишки\)$/.test(label.textContent.trim())) label.textContent = t("common.bet");
   });
@@ -495,6 +519,7 @@ function setPlayer(p) {
   $("slotV2Free").textContent = fmt(p.slotV2?.freeSpinsLeft || 0);
   $("slotV2Mult").textContent = "x" + fmt(p.slotV2?.freeSpinMultiplier || 1);
   if (p.slotV2?.bonusPending) openSlotV2Bonus();
+  renderShop();
   renderHistory(p.history);
   renderBonus();
   if (p.blackjack) renderBlackjack(p.blackjack);
@@ -539,6 +564,7 @@ function applyConfig() {
   buildSlotV2Grid();
   buildSlotV2Paytable();
   renderSlotV2BuyBonus();
+  renderShop();
   buildRoulette();
   buildMinesBoard();
   buildPlinko();
@@ -641,7 +667,7 @@ function buildSlotV2Grid() {
       cell.dataset.row = String(row);
       const sym = SLOT_V2_SYMBOLS[(reel + row) % SLOT_V2_SYMBOLS.length];
       cell.dataset.symbol = sym.id;
-      cell.innerHTML = `<span>${sym.icon}</span>`;
+      cell.innerHTML = `<span><i>${sym.icon}</i></span>`;
       col.appendChild(cell);
     }
     grid.appendChild(col);
@@ -650,12 +676,13 @@ function buildSlotV2Grid() {
 
 function slotV2Cell(symbolId, reel, row) {
   const sym = SLOT_V2_BY_ID[symbolId] || SLOT_V2_SYMBOLS[0];
-  return `<div class="slot-v2-symbol" data-reel="${reel}" data-row="${row}" data-symbol="${escapeHtml(sym.id)}"><span>${sym.icon}</span></div>`;
+  return `<div class="slot-v2-symbol" data-reel="${reel}" data-row="${row}" data-symbol="${escapeHtml(sym.id)}"><span><i>${sym.icon}</i></span></div>`;
 }
 
 function animateSlotV2Reel(reelEl, finalColumn, index) {
   return new Promise((resolve) => {
     reelEl.classList.remove("win");
+    reelEl.classList.add("spinning");
     const cycles = 13 + index * 3;
     let html = "";
     for (let i = 0; i < cycles; i++) {
@@ -678,6 +705,7 @@ function animateSlotV2Reel(reelEl, finalColumn, index) {
       reelEl.style.transition = "none";
       reelEl.style.transform = "translateY(0)";
       reelEl.innerHTML = finalColumn.map((id, row) => slotV2Cell(id, index, row)).join("");
+      reelEl.classList.remove("spinning");
       resolve();
     };
     reelEl.addEventListener("transitionend", finish, { once: true });
@@ -816,6 +844,46 @@ async function spinSlotsV2() {
     }
   } catch (e) { toast(e.message, "lose"); }
   busy = false; $("slotV2SpinBtn").disabled = false;
+}
+
+function shopItemDescription(id) {
+  return t("shop." + id);
+}
+
+function effectText(effect) {
+  const bits = [];
+  if (effect.scatterBoost) bits.push(`Scatter +${effect.scatterBoost}`);
+  if (effect.wildBoost) bits.push(`Wild +${effect.wildBoost}`);
+  if (effect.lossRefundPercent) bits.push(`${effect.lossRefundPercent}% ${lang === "ru" ? "возврат" : "refund"}`);
+  if (effect.winMultiplierBoost) bits.push(`+${effect.winMultiplierBoost}% ${lang === "ru" ? "к выигрышу" : "wins"}`);
+  return bits.join(" · ");
+}
+
+function renderShop() {
+  const itemsWrap = $("shopItems");
+  const activeWrap = $("shopActive");
+  if (!itemsWrap || !activeWrap || !config) return;
+  const buffs = player?.shopBuffs || [];
+  activeWrap.innerHTML = `<h3>${escapeHtml(t("shop.active"))}</h3>` + (buffs.length
+    ? `<div class="shop-buffs">${buffs.map((b) => `<span>${b.icon || "✨"} ${escapeHtml(b.name)} · ${b.spinsLeft}</span>`).join("")}</div>`
+    : `<div class="neutral">${escapeHtml(t("shop.empty"))}</div>`);
+  itemsWrap.innerHTML = (config.shop?.items || []).map((item) => `
+    <article class="shop-item">
+      <div class="shop-icon">${item.icon}</div>
+      <div><h3>${escapeHtml(item.name)}</h3><p>${escapeHtml(shopItemDescription(item.id))}</p><em>${escapeHtml(effectText(item.effect || {}))} · ${item.spins} ${lang === "ru" ? "спинов" : "spins"}</em></div>
+      <button class="btn" data-shop-buy="${escapeHtml(item.id)}">${escapeHtml(t("shop.buy"))} · ${fmt(item.cost)}</button>
+    </article>`).join("");
+}
+
+async function buyShopItem(itemId) {
+  if (busy) return;
+  busy = true;
+  try {
+    const data = await api("/shop/buy", "POST", { itemId });
+    setPlayer(data.player);
+    toast((lang === "ru" ? "Куплено: " : "Bought: ") + data.item.name, "win");
+  } catch (e) { toast(e.message, "lose"); }
+  busy = false;
 }
 
 /* ---------- dice ---------- */
@@ -1525,6 +1593,10 @@ $("slotV2BonusDone").addEventListener("click", () => $("slotV2BonusModal").class
 $("slotV2BuyBonus").addEventListener("click", (e) => {
   const b = e.target.closest("button[data-buy-slot-v2]");
   if (b) buySlotV2Bonus(b.dataset.buySlotV2);
+});
+$("shopItems").addEventListener("click", (e) => {
+  const b = e.target.closest("button[data-shop-buy]");
+  if (b) buyShopItem(b.dataset.shopBuy);
 });
 $("rollBtn").addEventListener("click", rollDice);
 $("diceSlider").addEventListener("input", updateDiceView);
