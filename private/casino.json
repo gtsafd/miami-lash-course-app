@@ -370,7 +370,9 @@
           14,
           10
         ],
-        "revealed": [],
+        "revealed": [
+          24
+        ],
         "status": "playing",
         "startedAt": 1780156919825
       },
