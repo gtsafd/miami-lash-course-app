@@ -234,17 +234,25 @@
       "nameKey": "alex 🌴",
       "telegramId": "5638062250",
       "telegramUsername": "Alex_Kozak",
-      "balance": 995.8,
+      "balance": 985.8,
       "createdAt": "2026-05-29T04:55:58.436Z",
       "lastDailyBonus": 1780146058419,
       "lastRescueBonus": 0,
       "stats": {
-        "gamesPlayed": 8,
-        "wagered": 140,
+        "gamesPlayed": 9,
+        "wagered": 150,
         "won": 60,
         "biggestWin": 25
       },
       "history": [
+        {
+          "game": "slotsV2",
+          "bet": 10,
+          "payout": 0,
+          "net": -10,
+          "detail": "0 scatter · 0 lines",
+          "at": "2026-05-30T23:00:33.169Z"
+        },
         {
           "game": "slotsV2",
           "bet": 10,
@@ -1499,16 +1507,86 @@
         }
       ],
       "weights": {
+        "banana": 24,
+        "cherry": 20,
+        "lemon": 18,
+        "bell": 16,
+        "bar": 10,
+        "seven": 8,
+        "wild": 5,
+        "scatter": 6,
         "coin": 24,
         "ruby": 20,
         "emerald": 18,
         "sapphire": 16,
         "crown": 10,
-        "chest": 8,
-        "wild": 5,
-        "scatter": 6
+        "chest": 8
       },
       "payouts": {
+        "banana": [
+          0,
+          0,
+          4,
+          4.85,
+          16.19,
+          48.58
+        ],
+        "cherry": [
+          0,
+          0,
+          5,
+          6.07,
+          20.24,
+          60.73
+        ],
+        "lemon": [
+          0,
+          0,
+          6,
+          7.28,
+          24.29,
+          72.88
+        ],
+        "bell": [
+          0,
+          0,
+          8,
+          9.71,
+          32.39,
+          97.17
+        ],
+        "bar": [
+          0,
+          0,
+          12,
+          16.19,
+          48.58,
+          161.96
+        ],
+        "seven": [
+          0,
+          0,
+          16,
+          24.29,
+          72.88,
+          242.94
+        ],
+        "wild": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "scatter": [
+          0,
+          0,
+          2,
+          1.47,
+          5.9,
+          14.77
+        ],
         "coin": [
           0,
           0,
@@ -1556,22 +1634,6 @@
           21.89,
           65.68,
           218.95
-        ],
-        "wild": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
-        ],
-        "scatter": [
-          0,
-          0,
-          2,
-          3.64,
-          14.59,
-          36.48
         ]
       }
     },
