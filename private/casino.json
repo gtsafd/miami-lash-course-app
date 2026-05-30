@@ -18,48 +18,6 @@
       "lastRescueBonus": 0
     },
     {
-      "id": "dba8207f-7a0c-48d8-8f48-1cbc4ffc183c",
-      "name": "ff",
-      "balance": 1340,
-      "createdAt": "2026-05-29T04:12:05.951Z",
-      "lastDailyBonus": 0,
-      "stats": {
-        "gamesPlayed": 3,
-        "wagered": 160,
-        "won": 360,
-        "biggestWin": 360
-      },
-      "history": [
-        {
-          "game": "slots",
-          "bet": 120,
-          "payout": 480,
-          "net": 360,
-          "detail": "🍒 🍒 🍒 · triple",
-          "at": "2026-05-29T04:14:45.515Z"
-        },
-        {
-          "game": "slots",
-          "bet": 20,
-          "payout": 0,
-          "net": -20,
-          "detail": "⭐ 🍋 🔔 · none",
-          "at": "2026-05-29T04:14:41.304Z"
-        },
-        {
-          "game": "slots",
-          "bet": 20,
-          "payout": 20,
-          "net": 0,
-          "detail": "🍒 🔔 ⭐ · one-cherry",
-          "at": "2026-05-29T04:12:09.091Z"
-        }
-      ],
-      "bj": null,
-      "nameKey": "ff",
-      "lastRescueBonus": 0
-    },
-    {
       "id": "19e6d18c-965f-459b-b4ba-7cadb7533706",
       "name": "dd",
       "balance": 250,
