@@ -130,16 +130,24 @@
       "id": "d323792d-d5ba-4706-b5c7-96e246dd68de",
       "name": "Gary",
       "nameKey": "gary",
-      "balance": 1556,
+      "balance": 1506,
       "createdAt": "2026-05-30T15:45:11.250Z",
       "lastDailyBonus": 1780155999926,
       "stats": {
-        "gamesPlayed": 12,
-        "wagered": 650,
+        "gamesPlayed": 13,
+        "wagered": 700,
         "won": 311,
         "biggestWin": 131
       },
       "history": [
+        {
+          "game": "crash",
+          "bet": 50,
+          "payout": 0,
+          "net": -50,
+          "detail": "crashed 1.79x",
+          "at": "2026-05-30T15:47:04.301Z"
+        },
         {
           "game": "crash",
           "bet": 50,
@@ -244,8 +252,8 @@
       "minesRound": null,
       "crashRound": {
         "bet": 50,
-        "crashPoint": 1.79,
-        "startedAt": 1780156020240,
+        "crashPoint": 3.8,
+        "startedAt": 1780156024301,
         "status": "flying"
       }
     }
