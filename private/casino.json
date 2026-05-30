@@ -130,16 +130,24 @@
       "id": "d323792d-d5ba-4706-b5c7-96e246dd68de",
       "name": "Gary",
       "nameKey": "gary",
-      "balance": 1276.8,
+      "balance": 1126.8,
       "createdAt": "2026-05-30T15:45:11.250Z",
       "lastDailyBonus": 1780155999926,
       "stats": {
-        "gamesPlayed": 33,
-        "wagered": 1970,
+        "gamesPlayed": 34,
+        "wagered": 2120,
         "won": 831.8,
         "biggestWin": 139
       },
       "history": [
+        {
+          "game": "crash",
+          "bet": 150,
+          "payout": 0,
+          "net": -150,
+          "detail": "crashed 3.07x",
+          "at": "2026-05-30T15:58:01.185Z"
+        },
         {
           "game": "crash",
           "bet": 150,
@@ -331,14 +339,6 @@
           "net": -50,
           "detail": "crashed 2.49x",
           "at": "2026-05-30T15:46:48.890Z"
-        },
-        {
-          "game": "plinko",
-          "bet": 50,
-          "payout": 138,
-          "net": 88,
-          "detail": "bucket 1 · 3x",
-          "at": "2026-05-30T15:46:34.314Z"
         }
       ],
       "bj": null,
@@ -348,8 +348,8 @@
       "minesRound": null,
       "crashRound": {
         "bet": 150,
-        "crashPoint": 3.07,
-        "startedAt": 1780156675315,
+        "crashPoint": 1.56,
+        "startedAt": 1780156682085,
         "status": "flying"
       }
     },
