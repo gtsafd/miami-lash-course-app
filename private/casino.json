@@ -531,16 +531,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 173.29999999999905,
+      "balance": 146.29999999999905,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 0,
       "stats": {
-        "gamesPlayed": 60,
-        "wagered": 3795,
+        "gamesPlayed": 61,
+        "wagered": 3845,
         "won": 1380.3,
         "biggestWin": 597.8
       },
       "history": [
+        {
+          "game": "plinko",
+          "bet": 50,
+          "payout": 23,
+          "net": -27,
+          "detail": "bucket 5 · 0.5x",
+          "at": "2026-05-30T16:11:21.267Z"
+        },
         {
           "game": "plinko",
           "bet": 50,
@@ -732,14 +740,6 @@
           "net": -14.699999999999996,
           "detail": "🍋 🍒 🔔 · one-cherry",
           "at": "2026-05-30T16:06:12.085Z"
-        },
-        {
-          "game": "slots",
-          "bet": 70,
-          "payout": 111.30000000000001,
-          "net": 41.30000000000001,
-          "detail": "🍒 🍒 💎 · two-cherry",
-          "at": "2026-05-30T16:06:05.474Z"
         }
       ],
       "bj": null,
