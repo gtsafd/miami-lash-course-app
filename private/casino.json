@@ -130,16 +130,24 @@
       "id": "d323792d-d5ba-4706-b5c7-96e246dd68de",
       "name": "Gary",
       "nameKey": "gary",
-      "balance": 948,
+      "balance": 1042,
       "createdAt": "2026-05-30T15:45:11.250Z",
       "lastDailyBonus": 0,
       "stats": {
-        "gamesPlayed": 2,
+        "gamesPlayed": 3,
         "wagered": 150,
-        "won": 48,
+        "won": 92,
         "biggestWin": 48
       },
       "history": [
+        {
+          "game": "mines",
+          "bet": 50,
+          "payout": 94,
+          "net": 44,
+          "detail": "3 safe · 1.89x",
+          "at": "2026-05-30T15:46:03.165Z"
+        },
         {
           "game": "mines",
           "bet": 50,
@@ -161,24 +169,7 @@
       "passwordSalt": "4cf4cb4c03bd92df41d2bb9bb6a80e53",
       "passwordHash": "21da94a5bb66079a88c23621725c83c93d4b9c94397b24ba685d8de48357748e35c749bc8b8d31a6b630d0f724e82608b5b0dedd527638fef9e3052607690067",
       "lastRescueBonus": 0,
-      "minesRound": {
-        "bet": 50,
-        "mines": 5,
-        "mineTiles": [
-          18,
-          9,
-          22,
-          23,
-          13
-        ],
-        "revealed": [
-          6,
-          3,
-          14
-        ],
-        "status": "playing",
-        "startedAt": 1780155950540
-      }
+      "minesRound": null
     }
   ],
   "config": {
