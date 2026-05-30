@@ -463,34 +463,17 @@
       "nameKey": "дядя юра",
       "telegramId": "6180057058",
       "telegramUsername": "",
-      "balance": 1007.5999999999999,
+      "balance": 1000,
       "createdAt": "2026-05-29T14:15:56.730Z",
       "lastDailyBonus": 0,
       "lastRescueBonus": 0,
       "stats": {
-        "gamesPlayed": 2,
-        "wagered": 40,
-        "won": 11.8,
-        "biggestWin": 11.8
+        "gamesPlayed": 0,
+        "wagered": 0,
+        "won": 0,
+        "biggestWin": 0
       },
-      "history": [
-        {
-          "game": "slots",
-          "bet": 20,
-          "payout": 31.8,
-          "net": 11.8,
-          "detail": "🍒 🍒 ⭐ · two-cherry",
-          "at": "2026-05-29T14:16:21.866Z"
-        },
-        {
-          "game": "slots",
-          "bet": 20,
-          "payout": 15.8,
-          "net": -4.199999999999999,
-          "detail": "🍒 🍋 ⭐ · one-cherry",
-          "at": "2026-05-29T14:16:02.270Z"
-        }
-      ],
+      "history": [],
       "bj": null
     }
   ],
@@ -506,7 +489,7 @@
     },
     "coinflip": {
       "winChancePercent": 49,
-      "winMultiplier": 1.98
+      "winMultiplier": 1.97
     },
     "dice": {
       "houseEdgePercent": 2
@@ -521,15 +504,15 @@
         "7️⃣": 5
       },
       "triples": {
-        "🍒": 4,
-        "🍋": 6,
-        "🔔": 12,
-        "⭐": 25,
-        "💎": 60,
-        "7️⃣": 150
+        "🍒": 3.18,
+        "🍋": 4.77,
+        "🔔": 9.54,
+        "⭐": 19.87,
+        "💎": 47.7,
+        "7️⃣": 119.26
       },
-      "twoCherry": 2,
-      "oneCherry": 1
+      "twoCherry": 1.59,
+      "oneCherry": 0.79
     },
     "roulette": {
       "enabled": true
@@ -544,37 +527,37 @@
         },
         {
           "label": "1.5x",
-          "multiplier": 1.5,
+          "multiplier": 0.48,
           "weight": 25,
           "color": "#2fe6a0"
         },
         {
           "label": "2x",
-          "multiplier": 2,
+          "multiplier": 0.64,
           "weight": 18,
           "color": "#9d7bff"
         },
         {
           "label": "3x",
-          "multiplier": 3,
+          "multiplier": 0.96,
           "weight": 13,
           "color": "#ffce54"
         },
         {
           "label": "5x",
-          "multiplier": 5,
+          "multiplier": 1.6,
           "weight": 8,
           "color": "#ff8c42"
         },
         {
           "label": "10x",
-          "multiplier": 10,
+          "multiplier": 3.21,
           "weight": 4,
           "color": "#ff5c7c"
         },
         {
           "label": "50x",
-          "multiplier": 50,
+          "multiplier": 16.06,
           "weight": 2,
           "color": "#ff2d6f"
         }
