@@ -1369,19 +1369,42 @@
       "id": "079718f7-ae4f-441f-b37a-01c87bd8b7fa",
       "name": "ProdShopProbe17801723715",
       "nameKey": "prodshopprobe17801723715",
-      "balance": 1000,
+      "balance": 250,
       "createdAt": "2026-05-30T20:19:31.991Z",
       "lastDailyBonus": 0,
       "stats": {
         "gamesPlayed": 0,
-        "wagered": 0,
+        "wagered": 750,
         "won": 0,
         "biggestWin": 0
       },
-      "history": [],
+      "history": [
+        {
+          "game": "shop",
+          "bet": 750,
+          "payout": 0,
+          "net": -750,
+          "detail": "Compass Charm",
+          "at": "2026-05-30T20:19:32.951Z"
+        }
+      ],
       "bj": null,
       "passwordSalt": "59049b0766654cec7f320540f5687a46",
-      "passwordHash": "512798bd62e46ea145c4e6e3343b14af81a15304cc8ff0c1c58c00969b53710f99c0c7e497ea24661503094bb2628d1cd5ffa93806c5c3360620c0734ee0b265"
+      "passwordHash": "512798bd62e46ea145c4e6e3343b14af81a15304cc8ff0c1c58c00969b53710f99c0c7e497ea24661503094bb2628d1cd5ffa93806c5c3360620c0734ee0b265",
+      "lastRescueBonus": 0,
+      "slotV2FreeSpins": 0,
+      "slotV2FreeSpinMultiplier": 1,
+      "shopBuffs": [
+        {
+          "id": "scatterCharm",
+          "name": "Compass Charm",
+          "icon": "🧭",
+          "spinsLeft": 20,
+          "effect": {
+            "scatterBoost": 4
+          }
+        }
+      ]
     }
   ],
   "config": {
