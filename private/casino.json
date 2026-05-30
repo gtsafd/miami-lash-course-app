@@ -531,16 +531,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 595.9999999999991,
+      "balance": 525.9999999999991,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 0,
       "stats": {
-        "gamesPlayed": 42,
-        "wagered": 2840,
+        "gamesPlayed": 43,
+        "wagered": 2910,
         "won": 1121.3,
         "biggestWin": 597.8
       },
       "history": [
+        {
+          "game": "slots",
+          "bet": 70,
+          "payout": 0,
+          "net": -70,
+          "detail": "💎 🍋 🔔 · none",
+          "at": "2026-05-30T16:06:50.342Z"
+        },
         {
           "game": "slots",
           "bet": 70,
@@ -732,14 +740,6 @@
           "net": -70,
           "detail": "🍋 💎 7️⃣ · none",
           "at": "2026-05-30T16:02:29.521Z"
-        },
-        {
-          "game": "slots",
-          "bet": 70,
-          "payout": 55.300000000000004,
-          "net": -14.699999999999996,
-          "detail": "🔔 🍋 🍒 · one-cherry",
-          "at": "2026-05-30T16:02:22.441Z"
         }
       ],
       "bj": null,
@@ -763,7 +763,8 @@
       "history": [],
       "bj": null,
       "passwordSalt": "64b09cad1af12084e61be33b73bd9deb",
-      "passwordHash": "077fd2b4e11d8a2b887c7ac452912b7317306fd2f9038aa37237db006dd5e726ed15ac7ac9927ccf34e003421f4fada083d25e5ff903f49f9fc9a4ef9e60c273"
+      "passwordHash": "077fd2b4e11d8a2b887c7ac452912b7317306fd2f9038aa37237db006dd5e726ed15ac7ac9927ccf34e003421f4fada083d25e5ff903f49f9fc9a4ef9e60c273",
+      "lastRescueBonus": 0
     }
   ],
   "config": {
