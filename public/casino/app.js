@@ -104,6 +104,8 @@ const I18N = {
     "game.crash.flying": "Flying",
     "game.crash.launch": "Launch 🚀",
     "game.crash.cashout": "Cash out",
+    "game.crash.cashed": "Cashed out",
+    "game.crash.could": "Could have reached",
     "bonus.title": "🎁 Free Chips",
     "bonus.copy": "Claim a daily bonus, or a top-up if you go broke.",
     "bonus.claim": "Claim Bonus",
@@ -207,6 +209,8 @@ const I18N = {
     "game.crash.flying": "Полет",
     "game.crash.launch": "Запуск 🚀",
     "game.crash.cashout": "Забрать",
+    "game.crash.cashed": "Забрал",
+    "game.crash.could": "Можно было держать до",
     "bonus.title": "🎁 Бесплатные фишки",
     "bonus.copy": "Забирай ежедневный бонус или пополнение, если фишки почти закончились.",
     "bonus.claim": "Забрать бонус",
@@ -876,16 +880,31 @@ async function cashoutCrash() {
     setPlayer(data.player);
     const o = data.outcome;
     if (o.crashed) {
+      stopCrashUi();
       $("crashMult").classList.add("boom");
       $("crashMult").textContent = `💥 ${Number(o.crashPoint).toFixed(2)}×`;
       $("crashRocket").textContent = "💥";
       showOutcome("crashResult", { win: false }, lang === "ru" ? `Не успел: взрыв на ${Number(o.crashPoint).toFixed(2)}×` : `Too late: crashed at ${Number(o.crashPoint).toFixed(2)}×`);
+      await wait(850);
+      resetCrashReady();
     } else {
+      crashActive = false;
+      clearInterval(crashPoll);
+      cancelAnimationFrame(crashAnim);
+      $("crashCashoutBtn").disabled = true;
+      $("crashBtn").disabled = true;
       $("crashMult").textContent = `${Number(o.multiplier).toFixed(2)}×`;
-      showOutcome("crashResult", { win: true }, lang === "ru" ? `Забрал на ${Number(o.multiplier).toFixed(2)}× — выигрыш ${fmt(o.payout)}` : `Cashed out at ${Number(o.multiplier).toFixed(2)}× — won ${fmt(o.payout)}`);
+      showOutcome("crashResult", { win: true }, `${t("game.crash.cashed")} ${Number(o.multiplier).toFixed(2)}× — ${fmt(o.payout)}`);
+      await animateCrashAfterCashout(o.multiplier, o.crashPoint);
+      $("crashMult").classList.add("boom");
+      $("crashMult").textContent = `💥 ${Number(o.crashPoint).toFixed(2)}×`;
+      $("crashRocket").textContent = "💥";
+      $("crashResult").className = "result-line neutral";
+      $("crashResult").textContent = `${t("game.crash.could")} ${Number(o.crashPoint).toFixed(2)}×`;
+      await wait(1100);
+      resetCrashReady();
+      $("crashBtn").disabled = false;
     }
-    await wait(850);
-    resetCrashReady();
   } catch (e) {
     $("crashCashoutBtn").disabled = false;
     toast(e.message, "lose");
@@ -897,15 +916,42 @@ function animateCrashLive(startedAt) {
   const mult = $("crashMult"), rocket = $("crashRocket");
   function frame() {
     if (!crashActive) return;
-    const elapsed = Math.max(0, Date.now() - startedAt) / 1000;
-    const m = Math.floor((1 + Math.pow(elapsed / 2.15, 1.42)) * 100) / 100;
-    const p = Math.min(.98, Math.log(m) / Math.log(20));
+    const m = clientCrashMultiplier(startedAt);
+    positionRocket(m);
     mult.textContent = `${m.toFixed(2)}×`;
-    rocket.style.left = (8 + p * 78) + "%";
-    rocket.style.bottom = (4 + p * 72) + "%";
     crashAnim = requestAnimationFrame(frame);
   }
   frame();
+}
+
+function clientCrashMultiplier(startedAt) {
+  const elapsed = Math.max(0, Date.now() - startedAt) / 1000;
+  return Math.floor((1 + Math.pow(elapsed / 3, 1.55)) * 100) / 100;
+}
+
+function positionRocket(multiplier) {
+  const p = Math.min(.98, Math.log(Math.max(1.01, multiplier)) / Math.log(26));
+  const wobble = Math.sin(Date.now() / 190) * 1.2;
+  $("crashRocket").style.left = (7 + p * 80) + "%";
+  $("crashRocket").style.bottom = (5 + p * 73 + wobble) + "%";
+}
+
+function animateCrashAfterCashout(fromMultiplier, crashPoint) {
+  return new Promise((resolve) => {
+    const start = performance.now();
+    const from = Math.max(1, Number(fromMultiplier) || 1);
+    const to = Math.max(from + .01, Number(crashPoint) || from + .2);
+    const duration = Math.min(8000, Math.max(1500, 900 + 1900 * Math.log(to / from + 1)));
+    function frame(now) {
+      const progress = Math.min(1, (now - start) / duration);
+      const ease = progress < .75 ? Math.pow(progress / .75, 1.35) * .82 : .82 + ((progress - .75) / .25) * .18;
+      const m = from + (to - from) * ease;
+      $("crashMult").textContent = `${m.toFixed(2)}×`;
+      positionRocket(m);
+      if (progress < 1) requestAnimationFrame(frame); else resolve();
+    }
+    requestAnimationFrame(frame);
+  });
 }
 
 function stopCrashUi() {
@@ -917,6 +963,8 @@ function stopCrashUi() {
 }
 
 function resetCrashReady() {
+  $("crashMult").classList.remove("boom");
+  $("crashMult").textContent = "1.00×";
   $("crashRocket").textContent = "🚀";
   $("crashRocket").style.left = "8px";
   $("crashRocket").style.bottom = "8px";

@@ -154,17 +154,27 @@ input[type=range] { width:100%; accent-color:var(--gold); }
 .chip-pick.active { border-style:solid; border-color:var(--gold); box-shadow:0 0 0 3px rgba(255,206,84,.2); }
 
 /* crash */
-.crash-stage { position:relative; height:240px; background:linear-gradient(180deg,#87e7f4 0%,#25a9be 42%,#0a5d78 43%,#082d48 100%); border:1px solid var(--line); border-radius:14px; overflow:hidden; margin-bottom:16px; box-shadow:inset 0 0 40px rgba(255,255,255,.12); }
-.crash-stage::before { content:""; position:absolute; left:10%; top:12%; width:74px; height:74px; border-radius:50%; background:radial-gradient(circle,#fff8bf 0 28%,#ffd166 30% 55%,transparent 57%); filter:blur(.2px); opacity:.9; }
-.crash-stage::after { content:""; position:absolute; left:0; right:0; bottom:0; height:48px; background:linear-gradient(180deg,#f9d88c,#e6b257); opacity:.95; }
+.crash-stage { position:relative; height:270px; background:
+  radial-gradient(circle at 18% 24%, rgba(255,255,255,.95) 0 1px, transparent 2px),
+  radial-gradient(circle at 72% 18%, rgba(255,255,255,.78) 0 1px, transparent 2px),
+  radial-gradient(circle at 38% 68%, rgba(127,247,229,.7) 0 1px, transparent 2px),
+  radial-gradient(circle at 78% 72%, rgba(255,209,102,.8) 0 1px, transparent 2px),
+  radial-gradient(circle at 84% 22%, rgba(130,96,255,.35), transparent 7rem),
+  linear-gradient(180deg,#071326 0%,#090b2e 48%,#16082e 100%);
+  border:1px solid rgba(127,247,229,.26); border-radius:14px; overflow:hidden; margin-bottom:16px; box-shadow:inset 0 0 48px rgba(106,234,255,.14), 0 22px 52px rgba(0,0,0,.28); }
+.crash-stage::before { content:""; position:absolute; right:-38px; bottom:-58px; width:154px; height:154px; border-radius:50%; background:radial-gradient(circle at 35% 28%,#ffe8a3,#d77e4a 43%,#5d2a7b 72%,transparent 74%); opacity:.72; filter:drop-shadow(0 0 28px rgba(255,120,76,.45)); }
+.crash-stage::after { content:""; position:absolute; inset:0; background:linear-gradient(115deg, transparent 0 42%, rgba(127,247,229,.12) 50%, transparent 62%); mix-blend-mode:screen; animation:spaceSweep 6s ease-in-out infinite; }
 .crash-grid { position:absolute; inset:0; background:
-  radial-gradient(ellipse at 50% 76%, rgba(255,255,255,.26), transparent 22%),
-  repeating-radial-gradient(ellipse at 50% 100%, rgba(255,255,255,.20) 0 2px, transparent 3px 22px);
-  opacity:.55; animation:waves 7s linear infinite; }
-@keyframes waves { from { transform:translateX(0); } to { transform:translateX(-28px); } }
-.crash-mult { position:absolute; inset:0; display:grid; place-items:center; font-size:56px; font-weight:900; color:var(--emerald); text-shadow:0 0 22px rgba(47,230,160,.5); z-index:2; }
+  radial-gradient(circle at 24% 38%, rgba(255,255,255,.65) 0 1px, transparent 2px),
+  radial-gradient(circle at 58% 35%, rgba(255,255,255,.5) 0 1px, transparent 2px),
+  radial-gradient(circle at 47% 12%, rgba(255,255,255,.5) 0 1px, transparent 2px);
+  background-size:180px 120px, 230px 160px, 140px 100px; opacity:.8; animation:starsDrift 12s linear infinite; }
+@keyframes starsDrift { from { transform:translateX(0); } to { transform:translateX(-180px); } }
+@keyframes spaceSweep { 0%,100%{ transform:translateX(-35%); opacity:.25; } 50%{ transform:translateX(35%); opacity:.65; } }
+.crash-mult { position:absolute; inset:0; display:grid; place-items:center; font-size:56px; font-weight:900; color:#7ff7e5; text-shadow:0 0 22px rgba(47,230,160,.7), 0 0 42px rgba(80,229,255,.32); z-index:2; }
 .crash-mult.boom { color:var(--red); text-shadow:0 0 26px rgba(255,92,124,.6); }
-.crash-rocket { position:absolute; bottom:8px; left:8px; font-size:34px; z-index:3; transition:none; }
+.crash-rocket { position:absolute; bottom:8px; left:8px; font-size:38px; z-index:3; transition:none; filter:drop-shadow(0 0 14px rgba(255,209,102,.72)); }
+.crash-rocket::after { content:""; position:absolute; right:25px; top:50%; width:42px; height:8px; border-radius:999px; background:linear-gradient(90deg, transparent, rgba(255,209,102,.45), rgba(80,229,255,.75)); transform:translateY(-50%); filter:blur(1px); }
 .crash-target-tag { position:absolute; top:10px; right:12px; font-size:12px; color:var(--muted); z-index:2; }
 
 /* blackjack */
