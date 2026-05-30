@@ -32,6 +32,8 @@ const I18N = {
     "gate.enter": "Enter the Casino",
     "gate.or": "or",
     "gate.telegramMissing": "Telegram login appears after TELEGRAM_BOT_USERNAME is configured.",
+    "gate.telegramApp": "For app confirmation without phone entry, open this casino from Telegram.",
+    "gate.telegramOpen": "Open in Telegram",
     "gate.note": "Virtual chips have no monetary value and cannot be purchased or cashed out.",
     "brand.subtitle": "Virtual Casino",
     "logout": "Exit",
@@ -68,6 +70,8 @@ const I18N = {
     "gate.enter": "Войти в казино",
     "gate.or": "или",
     "gate.telegramMissing": "Вход через Telegram появится после настройки TELEGRAM_BOT_USERNAME.",
+    "gate.telegramApp": "Чтобы вход был через подтверждение в приложении без ввода номера, открой казино из Telegram.",
+    "gate.telegramOpen": "Открыть в Telegram",
     "gate.note": "Виртуальные фишки не имеют денежной стоимости, их нельзя купить или вывести.",
     "brand.subtitle": "Виртуальное казино",
     "logout": "Выйти",
@@ -153,6 +157,22 @@ window.onTelegramAuth = async function onTelegramAuth(user) {
   } catch (e) { toast(e.message, "lose"); }
 };
 
+async function tryTelegramWebAppLogin() {
+  const initData = window.Telegram?.WebApp?.initData || "";
+  if (!initData || token) return false;
+  try {
+    window.Telegram.WebApp.ready();
+    window.Telegram.WebApp.expand();
+    const data = await api("/telegram-webapp", "POST", { initData });
+    token = data.token; localStorage.setItem("nc_token", token);
+    setPlayer(data.player); showApp();
+    return true;
+  } catch (e) {
+    toast(e.message, "lose");
+    return false;
+  }
+}
+
 function mountTelegramLogin() {
   const wrap = $("telegramLogin");
   const username = config?.auth?.telegramBotUsername;
@@ -171,6 +191,10 @@ function mountTelegramLogin() {
   script.dataset.requestAccess = "write";
   script.dataset.onauth = "onTelegramAuth(user)";
   wrap.appendChild(script);
+  const helper = document.createElement("div");
+  helper.className = "telegram-helper";
+  helper.innerHTML = `<span>${escapeHtml(t("gate.telegramApp"))}</span><a class="btn ghost sm" href="https://t.me/${encodeURIComponent(username.replace(/^@/, ""))}?start=casino" target="_blank" rel="noopener">${escapeHtml(t("gate.telegramOpen"))}</a>`;
+  wrap.appendChild(helper);
 }
 
 async function api(path, method = "GET", body, useAdmin) {
@@ -226,6 +250,7 @@ function logout() { localStorage.removeItem("nc_token"); token = ""; player = nu
 async function boot() {
   try { config = (await api("/config")).config; } catch { config = null; }
   applyConfig();
+  if (await tryTelegramWebAppLogin()) return;
   if (token) {
     try { setPlayer((await api("/me")).player); showApp(); return; }
     catch { localStorage.removeItem("nc_token"); token = ""; }
@@ -592,7 +617,7 @@ async function loadAdmin() {
     const d = await api("/admin/state", "GET", null, true);
     $("adminLoginView").classList.add("hidden");
     $("adminPanel").classList.remove("hidden");
-    renderAdmin(d.config, d.stats);
+    renderAdmin(d.config, d.stats, d.players || []);
   } catch (e) {
     adminToken = ""; localStorage.removeItem("nc_admin");
     $("adminLoginView").classList.remove("hidden"); $("adminPanel").classList.add("hidden");
@@ -600,7 +625,7 @@ async function loadAdmin() {
   }
 }
 function numInput(k, val, step) { return `<label>${k.split(".").pop()}<input type="number" data-k="${k}" value="${val}" step="${step || 1}" /></label>`; }
-function renderAdmin(c, stats) {
+function renderAdmin(c, stats, players) {
   const p = $("adminPanel");
   let wheelRows = c.wheel.segments.map((s, i) => `
     <div class="wheel-edit-row" data-seg="${i}">
@@ -611,6 +636,19 @@ function renderAdmin(c, stats) {
       <button class="btn danger sm" data-seg-del="${i}">✕</button>
     </div>`).join("");
   const slotRows = SLOT_SYMBOLS.map((s) => `<label>${s} weight<input type="number" data-k="slots.weights.${s}" value="${c.slots.weights[s]}" /></label><label>${s} 3×pay<input type="number" data-k="slots.triples.${s}" value="${c.slots.triples[s]}" /></label>`).join("");
+  const playerRows = (players || []).map((pl) => `
+    <div class="player-edit-row" data-player="${escapeHtml(pl.id)}">
+      <input type="text" data-player-f="name" value="${escapeHtml(pl.name)}" />
+      <input type="number" data-player-f="balance" value="${pl.balance}" />
+      <input type="number" data-player-f="gamesPlayed" value="${pl.stats.gamesPlayed}" title="Games played" />
+      <input type="number" data-player-f="wagered" value="${pl.stats.wagered}" title="Wagered" />
+      <input type="number" data-player-f="won" value="${pl.stats.won}" title="Won" />
+      <input type="number" data-player-f="biggestWin" value="${pl.stats.biggestWin}" title="Biggest win" />
+      <span class="player-provider">${pl.authProvider}${pl.telegramUsername ? " @" + escapeHtml(pl.telegramUsername) : ""}</span>
+      <button class="btn sm" data-player-save="${escapeHtml(pl.id)}">Save</button>
+      <button class="btn ghost sm" data-player-reset="${escapeHtml(pl.id)}">Reset</button>
+      <button class="btn danger sm" data-player-del="${escapeHtml(pl.id)}">Delete</button>
+    </div>`).join("") || '<p class="sub">No players yet.</p>';
   p.innerHTML = `
     <div class="admin-stats">
       <div><b>${fmt(stats.players)}</b><span>Players</span></div>
@@ -641,6 +679,15 @@ function renderAdmin(c, stats) {
       <button class="btn ghost sm" id="addSegBtn">+ Add segment</button>
       <p class="sub" style="margin:8px 0 0;">Higher weight = more likely. Multiplier 0 = lose, 2 = double, etc.</p>
     </div>
+    <div class="admin-sec"><h3>Players</h3>
+      <div class="player-edit-head"><span>Name</span><span>Balance</span><span>Games</span><span>Wagered</span><span>Won</span><span>Biggest</span><span>Auth</span><span>Actions</span></div>
+      <div id="playerEdit">${playerRows}</div>
+      <div class="admin-actions">
+        <button class="btn ghost" id="resetAllResultsBtn">Reset all results</button>
+        <button class="btn ghost" id="resetAllWithBalanceBtn">Reset all + starting balance</button>
+        <button class="btn danger" id="deleteAllPlayersBtn">Delete all players</button>
+      </div>
+    </div>
     <div class="admin-actions">
       <button class="btn" id="adminSaveBtn">Save changes</button>
       <button class="btn ghost" id="adminResetBtn">Reset to defaults</button>
@@ -649,8 +696,14 @@ function renderAdmin(c, stats) {
   $("addSegBtn").addEventListener("click", () => addSegRow());
   $("adminSaveBtn").addEventListener("click", saveAdmin);
   $("adminResetBtn").addEventListener("click", resetAdmin);
+  $("resetAllResultsBtn").addEventListener("click", () => resetPlayerResultsAdmin(null, false));
+  $("resetAllWithBalanceBtn").addEventListener("click", () => resetPlayerResultsAdmin(null, true));
+  $("deleteAllPlayersBtn").addEventListener("click", deleteAllPlayersAdmin);
   $("adminLogoutBtn").addEventListener("click", () => { adminToken = ""; localStorage.removeItem("nc_admin"); $("adminPanel").classList.add("hidden"); $("adminLoginView").classList.remove("hidden"); });
   p.querySelectorAll("[data-seg-del]").forEach((b) => b.addEventListener("click", () => { b.closest(".wheel-edit-row").remove(); }));
+  p.querySelectorAll("[data-player-save]").forEach((b) => b.addEventListener("click", () => savePlayerAdmin(b.dataset.playerSave)));
+  p.querySelectorAll("[data-player-reset]").forEach((b) => b.addEventListener("click", () => resetPlayerResultsAdmin([b.dataset.playerReset], true)));
+  p.querySelectorAll("[data-player-del]").forEach((b) => b.addEventListener("click", () => deletePlayerAdmin(b.dataset.playerDel)));
 }
 function addSegRow() {
   const wrap = $("wheelEdit");
@@ -683,13 +736,78 @@ async function saveAdmin() {
     const d = await api("/admin/config", "PUT", { config: collectConfig() }, true);
     config = (await api("/config")).config;
     applyConfig();
-    renderAdmin(d.config, (await api("/admin/state", "GET", null, true)).stats);
+    const state = await api("/admin/state", "GET", null, true);
+    renderAdmin(d.config, state.stats, state.players || []);
     toast("Settings saved", "win");
   } catch (e) { toast(e.message, "lose"); }
 }
 async function resetAdmin() {
-  try { const d = await api("/admin/reset", "POST", {}, true); config = (await api("/config")).config; applyConfig(); renderAdmin(d.config, (await api("/admin/state", "GET", null, true)).stats); toast("Reset to defaults", "win"); }
+  try {
+    const d = await api("/admin/reset", "POST", {}, true);
+    config = (await api("/config")).config;
+    applyConfig();
+    const state = await api("/admin/state", "GET", null, true);
+    renderAdmin(d.config, state.stats, state.players || []);
+    toast("Reset to defaults", "win");
+  }
   catch (e) { toast(e.message, "lose"); }
+}
+
+function playerRow(id) {
+  return document.querySelector(`.player-edit-row[data-player="${CSS.escape(id)}"]`);
+}
+
+async function savePlayerAdmin(id) {
+  const row = playerRow(id);
+  if (!row) return;
+  const body = {
+    id,
+    name: row.querySelector('[data-player-f="name"]').value,
+    balance: Number(row.querySelector('[data-player-f="balance"]').value),
+    stats: {
+      gamesPlayed: Number(row.querySelector('[data-player-f="gamesPlayed"]').value),
+      wagered: Number(row.querySelector('[data-player-f="wagered"]').value),
+      won: Number(row.querySelector('[data-player-f="won"]').value),
+      biggestWin: Number(row.querySelector('[data-player-f="biggestWin"]').value)
+    }
+  };
+  try {
+    await api("/admin/player", "PUT", body, true);
+    await loadAdmin();
+    loadLeaderboard();
+    toast("Player saved", "win");
+  } catch (e) { toast(e.message, "lose"); }
+}
+
+async function deletePlayerAdmin(id) {
+  if (!confirm("Delete this player completely?")) return;
+  try {
+    await api("/admin/player", "DELETE", { id }, true);
+    await loadAdmin();
+    loadLeaderboard();
+    toast("Player deleted", "win");
+  } catch (e) { toast(e.message, "lose"); }
+}
+
+async function resetPlayerResultsAdmin(ids, resetBalance) {
+  const msg = ids ? "Reset this player's results?" : resetBalance ? "Reset all results and balances?" : "Reset all player results?";
+  if (!confirm(msg)) return;
+  try {
+    await api("/admin/players/reset-results", "POST", { ids, resetBalance }, true);
+    await loadAdmin();
+    loadLeaderboard();
+    toast("Results reset", "win");
+  } catch (e) { toast(e.message, "lose"); }
+}
+
+async function deleteAllPlayersAdmin() {
+  if (!confirm("Delete all players and all results?")) return;
+  try {
+    await api("/admin/players/delete-all", "POST", {}, true);
+    await loadAdmin();
+    loadLeaderboard();
+    toast("All players deleted", "win");
+  } catch (e) { toast(e.message, "lose"); }
 }
 
 /* ---------- wiring ---------- */
