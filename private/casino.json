@@ -537,12 +537,20 @@
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 0,
       "stats": {
-        "gamesPlayed": 98,
+        "gamesPlayed": 99,
         "wagered": 11768,
         "won": 2201.2,
         "biggestWin": 597
       },
       "history": [
+        {
+          "game": "crash",
+          "bet": 150,
+          "payout": 0,
+          "net": -150,
+          "detail": "crashed 1.45x",
+          "at": "2026-05-30T16:36:40.535Z"
+        },
         {
           "game": "crash",
           "bet": 150,
@@ -734,14 +742,6 @@
           "net": -1000,
           "detail": "🍋 🍋 🔔 · none",
           "at": "2026-05-30T16:15:24.262Z"
-        },
-        {
-          "game": "slots",
-          "bet": 1000,
-          "payout": 790,
-          "net": -210,
-          "detail": "🍋 🍒 💎 · one-cherry",
-          "at": "2026-05-30T16:15:17.820Z"
         }
       ],
       "bj": null,
@@ -749,15 +749,10 @@
       "passwordHash": "980c2edfe491cda6e13c3d2bed994b8a70e9e8ee8e2e3d7eac4157f4fc04e61ed598039b3980ff065518a0b3d7fb8bbf3ff56c6847a1f7fce6cefaf89a582666",
       "lastRescueBonus": 0,
       "minesRound": null,
-      "crashRound": {
-        "bet": 150,
-        "crashPoint": 1.45,
-        "startedAt": 1780158998568,
-        "status": "flying"
-      },
-      "lastCrashPoint": 6.84,
+      "crashRound": null,
+      "lastCrashPoint": 1.45,
       "lastCrashBet": 150,
-      "lastCrashAt": 1780158996331
+      "lastCrashAt": 1780159000535
     },
     {
       "id": "b40d9fb4-c011-48e4-b324-551185963aea",
