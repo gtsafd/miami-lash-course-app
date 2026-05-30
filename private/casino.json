@@ -768,12 +768,12 @@
       "id": "b40d9fb4-c011-48e4-b324-551185963aea",
       "name": "Alexx",
       "nameKey": "alexx",
-      "balance": 1490,
+      "balance": 1440,
       "createdAt": "2026-05-30T16:06:46.678Z",
       "lastDailyBonus": 1780157295182,
       "stats": {
         "gamesPlayed": 1,
-        "wagered": 10,
+        "wagered": 60,
         "won": 0,
         "biggestWin": 0
       },
@@ -790,7 +790,21 @@
       "bj": null,
       "passwordSalt": "64b09cad1af12084e61be33b73bd9deb",
       "passwordHash": "077fd2b4e11d8a2b887c7ac452912b7317306fd2f9038aa37237db006dd5e726ed15ac7ac9927ccf34e003421f4fada083d25e5ff903f49f9fc9a4ef9e60c273",
-      "lastRescueBonus": 0
+      "lastRescueBonus": 0,
+      "minesRound": {
+        "bet": 50,
+        "mines": 5,
+        "mineTiles": [
+          9,
+          13,
+          23,
+          1,
+          12
+        ],
+        "revealed": [],
+        "status": "playing",
+        "startedAt": 1780157386010
+      }
     }
   ],
   "config": {
