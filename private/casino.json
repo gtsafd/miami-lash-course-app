@@ -3,13 +3,13 @@
     {
       "id": "690d4b8c-7c3f-40ef-be54-344b45690ef1",
       "name": "Alex",
-      "balance": 0.8000000000001819,
+      "balance": 2000,
       "createdAt": "2026-05-29T04:11:58.470Z",
       "lastDailyBonus": 1780170719177,
       "stats": {
         "gamesPlayed": 94,
         "wagered": 18101,
-        "won": 7204.8,
+        "won": 7204,
         "biggestWin": 692
       },
       "history": [
