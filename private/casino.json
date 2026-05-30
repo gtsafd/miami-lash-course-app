@@ -134,12 +134,20 @@
       "createdAt": "2026-05-30T15:45:11.250Z",
       "lastDailyBonus": 1780155999926,
       "stats": {
-        "gamesPlayed": 63,
+        "gamesPlayed": 64,
         "wagered": 5609,
         "won": 1676.8,
         "biggestWin": 184
       },
       "history": [
+        {
+          "game": "blackjack",
+          "bet": 889,
+          "payout": 0,
+          "net": -889,
+          "detail": "lose · you 24 / dealer 20",
+          "at": "2026-05-30T16:03:43.094Z"
+        },
         {
           "game": "blackjack",
           "bet": 100,
@@ -331,14 +339,6 @@
           "net": 46,
           "detail": "cashed 1.31x · crashed 1.46x",
           "at": "2026-05-30T15:58:27.521Z"
-        },
-        {
-          "game": "crash",
-          "bet": 150,
-          "payout": 243,
-          "net": 93,
-          "detail": "cashed 1.62x · crashed 2.29x",
-          "at": "2026-05-30T15:58:20.269Z"
         }
       ],
       "bj": {
@@ -526,14 +526,6 @@
           {
             "r": "8",
             "s": "♠"
-          },
-          {
-            "r": "K",
-            "s": "♠"
-          },
-          {
-            "r": "8",
-            "s": "♥"
           }
         ],
         "playerHand": [
@@ -543,6 +535,14 @@
           },
           {
             "r": "2",
+            "s": "♠"
+          },
+          {
+            "r": "8",
+            "s": "♥"
+          },
+          {
+            "r": "K",
             "s": "♠"
           }
         ],
@@ -557,8 +557,10 @@
           }
         ],
         "bet": 889,
-        "status": "playing",
-        "doubled": false
+        "status": "done",
+        "doubled": false,
+        "result": "lose",
+        "payout": 0
       },
       "passwordSalt": "4cf4cb4c03bd92df41d2bb9bb6a80e53",
       "passwordHash": "21da94a5bb66079a88c23621725c83c93d4b9c94397b24ba685d8de48357748e35c749bc8b8d31a6b630d0f724e82608b5b0dedd527638fef9e3052607690067",
@@ -911,31 +913,6 @@
       "passwordSalt": "e6840f88338aa4928d8d38f8fa29b8a3",
       "passwordHash": "073f79927786d255ab5cbf48e8187b5649e142aca51423d718a7b458857b65cd5716a4bad0a7d0cb886d66017cea67ecde6297a5dbea358b988f48d1006bd430",
       "lastRescueBonus": 0
-    },
-    {
-      "id": "4997b2b5-1db7-4af9-a2c3-af5a3d124cad",
-      "name": "ProdNoOneXTest",
-      "nameKey": "prodnoonextest",
-      "balance": 990,
-      "createdAt": "2026-05-30T16:03:41.696Z",
-      "lastDailyBonus": 0,
-      "stats": {
-        "gamesPlayed": 0,
-        "wagered": 10,
-        "won": 0,
-        "biggestWin": 0
-      },
-      "history": [],
-      "bj": null,
-      "passwordSalt": "89028e4e0f9d242b606128e2416c0cba",
-      "passwordHash": "706f26889e5c448b58ed25989fe1d1cd18ad534409ee08c60895588bfd7c81799915260d5faa0817d348517701541408623a3676627f67c06399aee243cb8412",
-      "lastRescueBonus": 0,
-      "crashRound": {
-        "bet": 10,
-        "crashPoint": 1.23,
-        "startedAt": 1780157024383,
-        "status": "flying"
-      }
     }
   ],
   "config": {
