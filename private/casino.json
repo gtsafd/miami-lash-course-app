@@ -18,48 +18,6 @@
       "lastRescueBonus": 0
     },
     {
-      "id": "19e6d18c-965f-459b-b4ba-7cadb7533706",
-      "name": "dd",
-      "balance": 250,
-      "createdAt": "2026-05-29T04:15:01.481Z",
-      "lastDailyBonus": 1780028106214,
-      "stats": {
-        "gamesPlayed": 3,
-        "wagered": 2250,
-        "won": 250,
-        "biggestWin": 250
-      },
-      "history": [
-        {
-          "game": "coinflip",
-          "bet": 500,
-          "payout": 0,
-          "net": -500,
-          "detail": "heads · landed tails",
-          "at": "2026-05-29T04:15:34.814Z"
-        },
-        {
-          "game": "coinflip",
-          "bet": 250,
-          "payout": 500,
-          "net": 250,
-          "detail": "heads · landed heads",
-          "at": "2026-05-29T04:15:30.346Z"
-        },
-        {
-          "game": "coinflip",
-          "bet": 1500,
-          "payout": 0,
-          "net": -1500,
-          "detail": "heads · landed tails",
-          "at": "2026-05-29T04:15:19.817Z"
-        }
-      ],
-      "bj": null,
-      "nameKey": "dd",
-      "lastRescueBonus": 0
-    },
-    {
       "id": "411ebbd9-6720-49ea-8a69-fc8af751f158",
       "name": "CodexTest",
       "nameKey": "codextest",
