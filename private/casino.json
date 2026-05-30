@@ -519,6 +519,24 @@
       "passwordSalt": "0f86cc5ac0ca8d8fc68b7d12a4056730",
       "passwordHash": "f178e10c1d519dc0e48f04f342f83c7dc666b10a73d456e05f9e9747fe59a28ea26d66817433934156cd5d5c35eddf46b8adc1ae99c48c60d9f80e41a5627086",
       "lastRescueBonus": 0
+    },
+    {
+      "id": "fa51d49e-c0d0-446b-9111-182f4e31fbdb",
+      "name": "ProdCrashFinalTest",
+      "nameKey": "prodcrashfinaltest",
+      "balance": 1000,
+      "createdAt": "2026-05-30T15:55:47.359Z",
+      "lastDailyBonus": 0,
+      "stats": {
+        "gamesPlayed": 0,
+        "wagered": 0,
+        "won": 0,
+        "biggestWin": 0
+      },
+      "history": [],
+      "bj": null,
+      "passwordSalt": "3a9740306022f9b605ccb29609846eca",
+      "passwordHash": "7722a46e3a03cfd77e870ed574b4782f585cb6cb5d6a5636cae4a4d0f09ca6325f864933f8939fe4569d196299f28ba0bc0e4bbf61bdbf88a420fb5518caaf55"
     }
   ],
   "config": {
