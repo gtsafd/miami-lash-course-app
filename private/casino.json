@@ -88,19 +88,29 @@
       "id": "6b742b75-6fb0-492e-98ae-a1fdf117e54f",
       "name": "ProdNewGamesTest",
       "nameKey": "prodnewgamestest",
-      "balance": 1000,
+      "balance": 997,
       "createdAt": "2026-05-30T15:10:44.543Z",
       "lastDailyBonus": 0,
       "stats": {
-        "gamesPlayed": 0,
-        "wagered": 0,
+        "gamesPlayed": 1,
+        "wagered": 10,
         "won": 0,
         "biggestWin": 0
       },
-      "history": [],
+      "history": [
+        {
+          "game": "plinko",
+          "bet": 10,
+          "payout": 7,
+          "net": -3,
+          "detail": "bucket 4 · 0.8x",
+          "at": "2026-05-30T15:10:45.918Z"
+        }
+      ],
       "bj": null,
       "passwordSalt": "baef0bd936d6770a64c80a7e55ead967",
-      "passwordHash": "a88bd1b54e8d7c4f779640e317d1d620bc48d0482fe66b8190450a46aff99eb0083a2e8b957c26d1c6953816ec623a67db54a0938cd9b5239832f1bf3d4cbf11"
+      "passwordHash": "a88bd1b54e8d7c4f779640e317d1d620bc48d0482fe66b8190450a46aff99eb0083a2e8b957c26d1c6953816ec623a67db54a0938cd9b5239832f1bf3d4cbf11",
+      "lastRescueBonus": 0
     }
   ],
   "config": {
