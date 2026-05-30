@@ -17,7 +17,9 @@
       "nameKey": "alex",
       "lastRescueBonus": 0,
       "passwordSalt": "17ac07493e9f989657f88b3fd40a314d",
-      "passwordHash": "f7d5aaeb7f919e439dec44d5f63b2053af19a1d57601d1c362aeef2d6658d673b0fea2d03b5f894bb1e344bb32664607eeb1e92c51c5f66e52c8bf880d07601b"
+      "passwordHash": "f7d5aaeb7f919e439dec44d5f63b2053af19a1d57601d1c362aeef2d6658d673b0fea2d03b5f894bb1e344bb32664607eeb1e92c51c5f66e52c8bf880d07601b",
+      "slotV2FreeSpins": 0,
+      "slotV2FreeSpinMultiplier": 1
     },
     {
       "id": "1b80b606-6be2-4504-92ee-4002ba83d27d",
@@ -36,7 +38,9 @@
         "biggestWin": 0
       },
       "history": [],
-      "bj": null
+      "bj": null,
+      "slotV2FreeSpins": 0,
+      "slotV2FreeSpinMultiplier": 1
     },
     {
       "id": "d4adb383-4fcb-4b07-b8fd-8c32aecaadda",
@@ -55,7 +59,9 @@
         "biggestWin": 0
       },
       "history": [],
-      "bj": null
+      "bj": null,
+      "slotV2FreeSpins": 0,
+      "slotV2FreeSpinMultiplier": 1
     },
     {
       "id": "d323792d-d5ba-4706-b5c7-96e246dd68de",
@@ -527,7 +533,9 @@
         "status": "playing",
         "startedAt": 1780156940348
       },
-      "crashRound": null
+      "crashRound": null,
+      "slotV2FreeSpins": 0,
+      "slotV2FreeSpinMultiplier": 1
     },
     {
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
@@ -972,7 +980,9 @@
       "crashRound": null,
       "lastCrashPoint": 1.45,
       "lastCrashBet": 150,
-      "lastCrashAt": 1780159000948
+      "lastCrashAt": 1780159000948,
+      "slotV2FreeSpins": 0,
+      "slotV2FreeSpinMultiplier": 1
     },
     {
       "id": "b40d9fb4-c011-48e4-b324-551185963aea",
@@ -1017,7 +1027,27 @@
         ],
         "status": "playing",
         "startedAt": 1780157386010
-      }
+      },
+      "slotV2FreeSpins": 0,
+      "slotV2FreeSpinMultiplier": 1
+    },
+    {
+      "id": "dc69a806-f987-4405-95fe-320c5e41d946",
+      "name": "ProdSlotV21780170060642",
+      "nameKey": "prodslotv21780170060642",
+      "balance": 1000,
+      "createdAt": "2026-05-30T19:41:01.214Z",
+      "lastDailyBonus": 0,
+      "stats": {
+        "gamesPlayed": 0,
+        "wagered": 0,
+        "won": 0,
+        "biggestWin": 0
+      },
+      "history": [],
+      "bj": null,
+      "passwordSalt": "273b9a9c6258b692a92ed549724e98d7",
+      "passwordHash": "28225fb9aaa569f02a214fa5d5d93f6e0e569bff6b919cd14cbec8a29d5ffc68938fc9d24eb3ef1dbc135098bfc0ed9e63125ecc5ac6ac9c8dd8132ab274d131"
     }
   ],
   "config": {
@@ -1056,6 +1086,89 @@
       },
       "twoCherry": 1.59,
       "oneCherry": 0.79
+    },
+    "slotsV2": {
+      "reels": 5,
+      "rows": 3,
+      "freeSpinsAward": 8,
+      "freeSpinMultiplierStep": 1,
+      "freeSpinMaxMultiplier": 5,
+      "weights": {
+        "coin": 24,
+        "ruby": 20,
+        "emerald": 18,
+        "sapphire": 16,
+        "crown": 10,
+        "chest": 8,
+        "wild": 5,
+        "scatter": 4
+      },
+      "payouts": {
+        "coin": [
+          0,
+          0,
+          4,
+          4.52,
+          15.08,
+          45.24
+        ],
+        "ruby": [
+          0,
+          0,
+          5,
+          5.65,
+          18.85,
+          56.55
+        ],
+        "emerald": [
+          0,
+          0,
+          6,
+          6.78,
+          22.62,
+          67.86
+        ],
+        "sapphire": [
+          0,
+          0,
+          8,
+          9.04,
+          30.16,
+          90.48
+        ],
+        "crown": [
+          0,
+          0,
+          12,
+          15.08,
+          45.24,
+          150.81
+        ],
+        "chest": [
+          0,
+          0,
+          16,
+          22.62,
+          67.86,
+          226.22
+        ],
+        "wild": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "scatter": [
+          0,
+          0,
+          2,
+          3.77,
+          15.08,
+          37.7
+        ]
+      }
     },
     "roulette": {
       "enabled": true
