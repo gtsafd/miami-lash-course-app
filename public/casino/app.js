@@ -9,9 +9,11 @@ let roulChip = 5;
 let roulBets = {};
 let busy = false;
 let roulRot = 0;
-let fortuneRot = 0;
 let lang = localStorage.getItem("nc_lang") || "en";
 const SPEED = 1.35;
+let crashActive = false;
+let crashPoll = null;
+let crashAnim = null;
 
 const SLOT_SYMBOLS = ["🍒", "🍋", "🔔", "⭐", "💎", "7️⃣"];
 const EURO_ORDER = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
@@ -26,7 +28,7 @@ const colorHex = { green: "#1c8f5f", red: "#c0233f", black: "#1b2438" };
 const I18N = {
   en: {
     "gate.title": "Virtual Casino",
-    "gate.copy": "Slots, dice, coinflip, roulette, blackjack, wheel & crash — all on free virtual chips. No real money. Start with 1000 chips.",
+    "gate.copy": "Slots, dice, coinflip, roulette, blackjack & crash — all on free virtual chips. No real money. Start with 1000 chips.",
     "gate.name": "Choose a player name",
     "gate.password": "Password",
     "gate.enter": "Enter the Casino",
@@ -42,12 +44,61 @@ const I18N = {
     "tabs.coinflip": "Coinflip",
     "tabs.roulette": "Roulette",
     "tabs.blackjack": "Blackjack",
-    "tabs.wheel": "Wheel",
     "tabs.crash": "Crash",
+    "common.bet": "Bet (chips)",
+    "common.max": "Max",
+    "game.slots.sub": "Match symbols across the reels. Rare symbols pay more, cherries can still return small wins.",
+    "game.slots.spin": "Spin 🎰",
+    "game.dice.sub": "Choose a target. Roll under it to win. Lower targets pay higher multipliers.",
+    "game.dice.target": "Target",
+    "game.dice.multiplier": "Multiplier",
+    "game.dice.chance": "Win Chance",
+    "game.dice.roll": "Roll 🎲",
+    "game.coin.sub": "Pick heads or tails. The server flips the coin with a house edge.",
+    "game.coin.heads": "Heads",
+    "game.coin.tails": "Tails",
+    "game.coin.flip": "Flip 🪙",
+    "game.roulette.sub": "Pick a chip value, click bets to stack chips, then spin the wheel.",
+    "game.roulette.chip": "Chip",
+    "game.roulette.total": "Total bet",
+    "game.roulette.spin": "Spin 🎡",
+    "game.roulette.clear": "Clear bets",
+    "game.roulette.red": "Red",
+    "game.roulette.black": "Black",
+    "game.roulette.even": "Even",
+    "game.roulette.odd": "Odd",
+    "game.roulette.low": "1-18",
+    "game.roulette.high": "19-36",
+    "game.roulette.dozen1": "1st 12",
+    "game.roulette.dozen2": "2nd 12",
+    "game.roulette.dozen3": "3rd 12",
+    "game.roulette.column1": "Col 1",
+    "game.roulette.column2": "Col 2",
+    "game.roulette.column3": "Col 3",
+    "game.blackjack.sub": "Dealer stands on 17. Blackjack pays according to admin settings.",
+    "game.blackjack.dealer": "Dealer",
+    "game.blackjack.you": "You",
+    "game.blackjack.deal": "Deal 🃏",
+    "game.blackjack.hit": "Hit",
+    "game.blackjack.stand": "Stand",
+    "game.blackjack.double": "Double",
+    "game.blackjack.win": "You win!",
+    "game.blackjack.bj": "Blackjack!",
+    "game.blackjack.lose": "Dealer wins",
+    "game.blackjack.push": "Push — bet returned",
+    "game.crash.sub": "Launch the rocket and cash out before it explodes. The multiplier climbs live, but greed can burn the whole bet.",
+    "game.crash.ready": "Ready",
+    "game.crash.flying": "Flying",
+    "game.crash.launch": "Launch 🚀",
+    "game.crash.cashout": "Cash out",
     "bonus.title": "🎁 Free Chips",
     "bonus.copy": "Claim a daily bonus, or a top-up if you go broke.",
     "bonus.claim": "Claim Bonus",
     "stats.title": "📊 Your Stats",
+    "stats.games": "Games played",
+    "stats.wagered": "Total wagered",
+    "stats.won": "Net won",
+    "stats.biggest": "Biggest win",
     "leaderboard.title": "🏆 Leaderboard",
     "history.title": "🧾 Recent Bets",
     "admin.title": "⚙ Casino Admin",
@@ -60,11 +111,14 @@ const I18N = {
     "msg.notEnough": "Not enough chips",
     "msg.noBets": "No bets yet.",
     "msg.noPlayers": "No players yet.",
-    "msg.loading": "Loading..."
+    "msg.loading": "Loading...",
+    "msg.placeBet": "Place at least one bet",
+    "msg.won": "won",
+    "msg.noWin": "no win"
   },
   ru: {
     "gate.title": "Виртуальное казино",
-    "gate.copy": "Слоты, кости, монетка, рулетка, блэкджек, колесо и краш — только бесплатные виртуальные фишки. Без реальных денег. Старт: 1000 фишек.",
+    "gate.copy": "Слоты, кости, монетка, рулетка, блэкджек и краш — только бесплатные виртуальные фишки. Без реальных денег. Старт: 1000 фишек.",
     "gate.name": "Имя игрока",
     "gate.password": "Пароль",
     "gate.enter": "Войти в казино",
@@ -80,12 +134,61 @@ const I18N = {
     "tabs.coinflip": "Монетка",
     "tabs.roulette": "Рулетка",
     "tabs.blackjack": "Блэкджек",
-    "tabs.wheel": "Колесо",
     "tabs.crash": "Краш",
+    "common.bet": "Ставка (фишки)",
+    "common.max": "Макс",
+    "game.slots.sub": "Собери одинаковые символы на барабанах. Редкие символы платят больше, а вишни могут дать маленький выигрыш.",
+    "game.slots.spin": "Крутить 🎰",
+    "game.dice.sub": "Выбери цель. Нужно выбросить меньше нее. Чем ниже цель, тем выше множитель.",
+    "game.dice.target": "Цель",
+    "game.dice.multiplier": "Множитель",
+    "game.dice.chance": "Шанс выигрыша",
+    "game.dice.roll": "Бросить 🎲",
+    "game.coin.sub": "Выбери орел или решка. Монетку подбрасывает сервер с преимуществом казино.",
+    "game.coin.heads": "Орел",
+    "game.coin.tails": "Решка",
+    "game.coin.flip": "Подбросить 🪙",
+    "game.roulette.sub": "Выбери фишку, ставь на поля и запускай рулетку.",
+    "game.roulette.chip": "Фишка",
+    "game.roulette.total": "Ставка всего",
+    "game.roulette.spin": "Крутить 🎡",
+    "game.roulette.clear": "Очистить ставки",
+    "game.roulette.red": "Красное",
+    "game.roulette.black": "Черное",
+    "game.roulette.even": "Чет",
+    "game.roulette.odd": "Нечет",
+    "game.roulette.low": "1-18",
+    "game.roulette.high": "19-36",
+    "game.roulette.dozen1": "1-я 12",
+    "game.roulette.dozen2": "2-я 12",
+    "game.roulette.dozen3": "3-я 12",
+    "game.roulette.column1": "Кол. 1",
+    "game.roulette.column2": "Кол. 2",
+    "game.roulette.column3": "Кол. 3",
+    "game.blackjack.sub": "Дилер останавливается на 17. Выплата за блэкджек задается в админке.",
+    "game.blackjack.dealer": "Дилер",
+    "game.blackjack.you": "Ты",
+    "game.blackjack.deal": "Раздать 🃏",
+    "game.blackjack.hit": "Еще",
+    "game.blackjack.stand": "Стоп",
+    "game.blackjack.double": "Удвоить",
+    "game.blackjack.win": "Ты выиграл!",
+    "game.blackjack.bj": "Блэкджек!",
+    "game.blackjack.lose": "Дилер выиграл",
+    "game.blackjack.push": "Ничья — ставка возвращена",
+    "game.crash.sub": "Запусти ракету и забери выигрыш до взрыва. Коэффициент растет вживую, но жадность может сжечь всю ставку.",
+    "game.crash.ready": "Готово",
+    "game.crash.flying": "Полет",
+    "game.crash.launch": "Запуск 🚀",
+    "game.crash.cashout": "Забрать",
     "bonus.title": "🎁 Бесплатные фишки",
     "bonus.copy": "Забирай ежедневный бонус или пополнение, если фишки почти закончились.",
     "bonus.claim": "Забрать бонус",
     "stats.title": "📊 Твоя статистика",
+    "stats.games": "Игр сыграно",
+    "stats.wagered": "Всего ставок",
+    "stats.won": "Выиграно",
+    "stats.biggest": "Лучший выигрыш",
     "leaderboard.title": "🏆 Таблица лидеров",
     "history.title": "🧾 Последние ставки",
     "admin.title": "⚙ Админка казино",
@@ -98,7 +201,10 @@ const I18N = {
     "msg.notEnough": "Недостаточно фишек",
     "msg.noBets": "Ставок пока нет.",
     "msg.noPlayers": "Игроков пока нет.",
-    "msg.loading": "Загрузка..."
+    "msg.loading": "Загрузка...",
+    "msg.placeBet": "Сделай хотя бы одну ставку",
+    "msg.won": "выигрыш",
+    "msg.noWin": "без выигрыша"
   }
 };
 
@@ -108,6 +214,7 @@ function setLang(next) {
   lang = next === "ru" ? "ru" : "en";
   localStorage.setItem("nc_lang", lang);
   applyTranslations();
+  if (config) buildRoulette();
 }
 
 function setText(selector, key) {
@@ -133,11 +240,15 @@ function applyTranslations() {
   document.querySelector('[data-game="coinflip"]').lastChild.textContent = " " + t("tabs.coinflip");
   document.querySelector('[data-game="roulette"]').lastChild.textContent = " " + t("tabs.roulette");
   document.querySelector('[data-game="blackjack"]').lastChild.textContent = " " + t("tabs.blackjack");
-  document.querySelector('[data-game="wheel"]').lastChild.textContent = " " + t("tabs.wheel");
   document.querySelector('[data-game="crash"]').lastChild.textContent = " " + t("tabs.crash");
+  translateGames();
   setText(".bonus-card h2", "bonus.title");
   setText(".bonus-card .sub", "bonus.copy");
   setText(".side .panel:nth-child(2) h2", "stats.title");
+  setText("#stGames + span", "stats.games");
+  setText("#stWagered + span", "stats.wagered");
+  setText("#stWon + span", "stats.won");
+  setText("#stBig + span", "stats.biggest");
   setText(".side .panel:nth-child(3) h2", "leaderboard.title");
   setText(".side .panel:nth-child(4) h2", "history.title");
   setText("#adminModal h2", "admin.title");
@@ -146,7 +257,47 @@ function applyTranslations() {
   $("adminPass").placeholder = t("admin.pass");
   setText("#adminLoginBtn", "admin.login");
   setText("#adminClose", "admin.close");
-  if (player) renderBonus();
+  if (player) { renderBonus(); renderHistory(player.history); loadLeaderboard(); }
+}
+
+function translateGames() {
+  document.querySelector('[data-game="slots"] h2').textContent = "🎰 " + t("tabs.slots");
+  document.querySelector('[data-game="slots"] .sub').textContent = t("game.slots.sub");
+  $("spinBtn").textContent = t("game.slots.spin");
+  document.querySelector('[data-game="dice"] h2').textContent = "🎲 " + t("tabs.dice");
+  document.querySelector('[data-game="dice"] .sub').textContent = t("game.dice.sub");
+  document.querySelector("#diceTargetView").nextElementSibling.textContent = t("game.dice.target");
+  document.querySelector("#diceMult").nextElementSibling.textContent = t("game.dice.multiplier");
+  document.querySelector("#diceChance").nextElementSibling.textContent = t("game.dice.chance");
+  $("rollBtn").textContent = t("game.dice.roll");
+  document.querySelector('[data-game="coinflip"] h2').textContent = "🪙 " + t("tabs.coinflip");
+  document.querySelector('[data-game="coinflip"] .sub').textContent = t("game.coin.sub");
+  document.querySelector('[data-side="heads"]').textContent = t("game.coin.heads");
+  document.querySelector('[data-side="tails"]').textContent = t("game.coin.tails");
+  $("flipBtn").textContent = t("game.coin.flip");
+  document.querySelector('[data-game="roulette"] h2').textContent = "🎡 " + t("tabs.roulette");
+  document.querySelector('[data-game="roulette"] .sub').textContent = t("game.roulette.sub");
+  document.querySelector(".chip-tray .lbl").textContent = t("game.roulette.chip") + ":";
+  document.querySelector("#roulTotal").previousSibling.textContent = t("game.roulette.total") + ": ";
+  $("roulSpinBtn").textContent = t("game.roulette.spin");
+  $("roulClearBtn").textContent = t("game.roulette.clear");
+  document.querySelector('[data-game="blackjack"] h2').textContent = "🃏 " + t("tabs.blackjack");
+  document.querySelector('[data-game="blackjack"] .sub').textContent = t("game.blackjack.sub");
+  document.querySelector("#dealerVal").previousSibling.textContent = t("game.blackjack.dealer") + " ";
+  document.querySelector("#playerVal").previousSibling.textContent = t("game.blackjack.you") + " ";
+  $("dealBtn").textContent = t("game.blackjack.deal");
+  $("hitBtn").textContent = t("game.blackjack.hit");
+  $("standBtn").textContent = t("game.blackjack.stand");
+  $("doubleBtn").textContent = t("game.blackjack.double");
+  document.querySelector('[data-game="crash"] h2').textContent = "🚀 " + t("tabs.crash");
+  document.querySelector('[data-game="crash"] .sub').textContent = t("game.crash.sub");
+  if (!crashActive) $("crashTag").textContent = t("game.crash.ready");
+  $("crashBtn").textContent = t("game.crash.launch");
+  $("crashCashoutBtn").textContent = t("game.crash.cashout");
+  document.querySelectorAll(".field label").forEach((label) => {
+    if (/^Bet \(chips\)$|^Ставка \(фишки\)$/.test(label.textContent.trim())) label.textContent = t("common.bet");
+  });
+  document.querySelectorAll('[data-set="max"]').forEach((b) => { b.textContent = t("common.max"); });
 }
 
 window.onTelegramAuth = async function onTelegramAuth(user) {
@@ -231,6 +382,7 @@ function setPlayer(p) {
   renderHistory(p.history);
   renderBonus();
   if (p.blackjack) renderBlackjack(p.blackjack);
+  if (p.crashRound && p.crashRound.status === "flying" && !crashActive) startCrashUi(p.crashRound);
 }
 
 /* ---------- auth ---------- */
@@ -266,9 +418,9 @@ function applyConfig() {
     .map((s) => `<span>${s}${s}${s} <b>${tr[s]}×</b></span>`).join("") +
     `<span>🍒🍒 <b>${config.slots.twoCherry}×</b></span><span>🍒 <b>${config.slots.oneCherry}×</b></span>`;
   buildRoulette();
-  buildFortune();
   mountTelegramLogin();
   updateDiceView();
+  translateGames();
 }
 
 /* ---------- bonus ---------- */
@@ -416,7 +568,10 @@ function buildRoulette() {
   const wrap = $("roulBets");
   const cells = [];
   for (let num = 0; num <= 36; num++) cells.push({ key: "s" + num, type: "straight", value: num, label: String(num), cls: num === 0 ? "" : (RED_SET.has(num) ? "r" : "b") });
-  const outside = [["red","Red","r"],["black","Black","b"],["even","Even",""],["odd","Odd",""],["low","1-18",""],["high","19-36",""],["dozen","1st 12","",1],["dozen","2nd 12","",2],["dozen","3rd 12","",3],["column","Col 1","",1],["column","Col 2","",2],["column","Col 3","",3]];
+  const outside = [
+    ["red", t("game.roulette.red"), "r"], ["black", t("game.roulette.black"), "b"], ["even", t("game.roulette.even"), ""], ["odd", t("game.roulette.odd"), ""], ["low", t("game.roulette.low"), ""], ["high", t("game.roulette.high"), ""],
+    ["dozen", t("game.roulette.dozen1"), "", 1], ["dozen", t("game.roulette.dozen2"), "", 2], ["dozen", t("game.roulette.dozen3"), "", 3], ["column", t("game.roulette.column1"), "", 1], ["column", t("game.roulette.column2"), "", 2], ["column", t("game.roulette.column3"), "", 3]
+  ];
   outside.forEach(([type,label,cls,val]) => cells.push({ key: type + (val||""), type, value: val ?? type, label, cls }));
   wrap.innerHTML = "";
   cells.forEach((c) => {
@@ -438,7 +593,7 @@ function clearRoul() { roulBets = {}; document.querySelectorAll("#roulBets .stak
 async function spinRoulette() {
   if (busy) return;
   const bets = Object.values(roulBets);
-  if (!bets.length) return toast("Place at least one bet", "");
+  if (!bets.length) return toast(t("msg.placeBet"), "");
   const total = bets.reduce((a, b) => a + b.amount, 0);
   if (!affordable(total)) return;
   busy = true; $("roulSpinBtn").disabled = true; $("roulResult").textContent = "";
@@ -454,87 +609,118 @@ async function spinRoulette() {
     $("roulHub").textContent = o.result;
     $("roulHub").style.color = o.color === "black" ? "#fff" : colorHex[o.color];
     setPlayer(data.player);
-    showOutcome("roulResult", o, `${o.result} ${o.color} — ${o.win ? "won " + fmt(o.payout) : "no win"}`);
+    showOutcome("roulResult", o, `${o.result} ${o.color} — ${o.win ? t("msg.won") + " " + fmt(o.payout) : t("msg.noWin")}`);
     clearRoul();
   } catch (e) { toast(e.message, "lose"); }
   busy = false; $("roulSpinBtn").disabled = false;
 }
 
-/* ---------- wheel of fortune ---------- */
-function buildFortune() {
-  const disc = $("fortuneDisc");
-  const segs = config?.wheel.segments || [];
-  const n = segs.length || 1, seg = 360 / n, R = 96;
-  let stops = segs.map((s, i) => `${s.color} ${i * seg}deg ${(i + 1) * seg}deg`);
-  disc.style.background = `conic-gradient(${stops.join(",")})`;
-  disc.querySelectorAll(".fortune-label").forEach((e) => e.remove());
-  segs.forEach((s, i) => {
-    const a = i * seg + seg / 2;
-    const el = document.createElement("div");
-    el.className = "fortune-label"; el.textContent = s.label;
-    el.style.color = "#0b0f1a";
-    el.style.transform = `translate(-50%,-50%) rotate(${a}deg) translateY(-${R}px) rotate(${-a}deg)`;
-    disc.appendChild(el);
-  });
-}
-async function spinFortune() {
-  if (busy) return;
-  const bet = betValue("wheel");
-  if (!affordable(bet)) return;
-  busy = true; $("wheelSpinBtn").disabled = true; $("wheelResult").textContent = "";
-  try {
-    const data = await api("/play/wheel", "POST", { bet });
-    const o = data.outcome;
-    const segs = config.wheel.segments, n = segs.length, seg = 360 / n;
-    const targetDeg = ((-(o.index * seg + seg / 2)) % 360 + 360) % 360;
-    fortuneRot = Math.ceil((fortuneRot + 5 * 360 - targetDeg) / 360) * 360 + targetDeg;
-    $("fortuneDisc").style.transform = `rotate(${fortuneRot}deg)`;
-    await wait(Math.round(6100 * SPEED));
-    setPlayer(data.player);
-    showOutcome("wheelResult", o, `${o.label} — ${o.win ? "won " + fmt(o.payout) : (o.multiplier === 1 ? "bet returned" : "no win")}`);
-  } catch (e) { toast(e.message, "lose"); }
-  busy = false; $("wheelSpinBtn").disabled = false;
-}
-
 /* ---------- crash ---------- */
 async function playCrash() {
-  if (busy) return;
+  if (crashActive) return cashoutCrash();
   const bet = betValue("crash");
   if (!affordable(bet)) return;
-  let target = Math.round(Number($("crashTarget").value) * 100) / 100;
-  if (!Number.isFinite(target) || target < 1.01) target = 1.01;
-  busy = true; $("crashBtn").disabled = true; $("crashResult").textContent = "";
-  $("crashTag").textContent = `Target: ${target.toFixed(2)}×`;
+  busy = true; $("crashResult").textContent = "";
   const mult = $("crashMult"), rocket = $("crashRocket");
   mult.classList.remove("boom"); mult.textContent = "1.00×";
+  rocket.textContent = "🚀";
+  rocket.style.left = "8px"; rocket.style.bottom = "8px";
   try {
-    const data = await api("/play/crash", "POST", { bet, target });
-    const o = data.outcome;
-    const endM = o.win ? target : o.crashPoint;
-    const dur = Math.round(Math.min(6500, Math.max(1200, 1100 + 950 * Math.log(endM))) * SPEED);
-    await animateCrash(endM, dur, mult, rocket);
-    if (o.win) { mult.textContent = `${target.toFixed(2)}×`; }
-    else { mult.classList.add("boom"); mult.textContent = `💥 ${o.crashPoint.toFixed(2)}×`; rocket.textContent = "💥"; }
+    const data = await api("/play/crash/start", "POST", { bet });
     setPlayer(data.player);
-    showOutcome("crashResult", o, o.win ? `Cashed out at ${target.toFixed(2)}× — won ${fmt(o.payout)}` : `Crashed at ${o.crashPoint.toFixed(2)}× — lost ${fmt(bet)}`);
-    await wait(700); rocket.textContent = "🚀";
+    startCrashUi(data.round);
   } catch (e) { toast(e.message, "lose"); }
-  busy = false; $("crashBtn").disabled = false;
+  busy = false;
 }
-function animateCrash(endM, dur, mult, rocket) {
-  return new Promise((resolve) => {
-    const start = performance.now();
-    function frame(now) {
-      let p = Math.min(1, (now - start) / dur);
-      const ease = Math.pow(p, 1.7);
-      const m = 1 + (endM - 1) * ease;
-      mult.textContent = `${m.toFixed(2)}×`;
-      rocket.style.left = (8 + ease * 78) + "%";
-      rocket.style.bottom = (4 + ease * 72) + "%";
-      if (p < 1) requestAnimationFrame(frame); else resolve();
+
+function startCrashUi(round) {
+  if (!round) return;
+  crashActive = true;
+  $("crashBtn").disabled = true;
+  $("crashCashoutBtn").disabled = false;
+  $("crashTag").textContent = t("game.crash.flying");
+  animateCrashLive(round.startedAt);
+  clearInterval(crashPoll);
+  crashPoll = setInterval(checkCrashState, 420);
+}
+
+async function checkCrashState() {
+  if (!crashActive) return;
+  try {
+    const data = await api("/play/crash/state", "POST", {});
+    if (!data.round || data.round.status === "crashed") {
+      stopCrashUi();
+      const cp = data.round?.crashPoint || data.round?.multiplier || 1;
+      $("crashMult").classList.add("boom");
+      $("crashMult").textContent = `💥 ${Number(cp).toFixed(2)}×`;
+      $("crashRocket").textContent = "💥";
+      setPlayer(data.player);
+      $("crashResult").className = "result-line lose";
+      $("crashResult").textContent = lang === "ru" ? `Ракета взорвалась на ${Number(cp).toFixed(2)}×. Ставка потеряна.` : `Rocket exploded at ${Number(cp).toFixed(2)}×. Bet lost.`;
+      await wait(850);
+      resetCrashReady();
     }
-    requestAnimationFrame(frame);
-  });
+  } catch (e) {
+    stopCrashUi();
+    toast(e.message, "lose");
+    resetCrashReady();
+  }
+}
+
+async function cashoutCrash() {
+  if (!crashActive) return;
+  $("crashCashoutBtn").disabled = true;
+  try {
+    const data = await api("/play/crash/cashout", "POST", {});
+    stopCrashUi();
+    setPlayer(data.player);
+    const o = data.outcome;
+    if (o.crashed) {
+      $("crashMult").classList.add("boom");
+      $("crashMult").textContent = `💥 ${Number(o.crashPoint).toFixed(2)}×`;
+      $("crashRocket").textContent = "💥";
+      showOutcome("crashResult", { win: false }, lang === "ru" ? `Не успел: взрыв на ${Number(o.crashPoint).toFixed(2)}×` : `Too late: crashed at ${Number(o.crashPoint).toFixed(2)}×`);
+    } else {
+      $("crashMult").textContent = `${Number(o.multiplier).toFixed(2)}×`;
+      showOutcome("crashResult", { win: true }, lang === "ru" ? `Забрал на ${Number(o.multiplier).toFixed(2)}× — выигрыш ${fmt(o.payout)}` : `Cashed out at ${Number(o.multiplier).toFixed(2)}× — won ${fmt(o.payout)}`);
+    }
+    await wait(850);
+    resetCrashReady();
+  } catch (e) {
+    $("crashCashoutBtn").disabled = false;
+    toast(e.message, "lose");
+  }
+}
+
+function animateCrashLive(startedAt) {
+  cancelAnimationFrame(crashAnim);
+  const mult = $("crashMult"), rocket = $("crashRocket");
+  function frame() {
+    if (!crashActive) return;
+    const elapsed = Math.max(0, Date.now() - startedAt) / 1000;
+    const m = Math.floor((1 + Math.pow(elapsed / 2.15, 1.42)) * 100) / 100;
+    const p = Math.min(.98, Math.log(m) / Math.log(20));
+    mult.textContent = `${m.toFixed(2)}×`;
+    rocket.style.left = (8 + p * 78) + "%";
+    rocket.style.bottom = (4 + p * 72) + "%";
+    crashAnim = requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+function stopCrashUi() {
+  crashActive = false;
+  clearInterval(crashPoll);
+  cancelAnimationFrame(crashAnim);
+  $("crashCashoutBtn").disabled = true;
+  $("crashBtn").disabled = false;
+}
+
+function resetCrashReady() {
+  $("crashRocket").textContent = "🚀";
+  $("crashRocket").style.left = "8px";
+  $("crashRocket").style.bottom = "8px";
+  $("crashTag").textContent = t("game.crash.ready");
 }
 
 /* ---------- blackjack ---------- */
@@ -558,7 +744,7 @@ function renderBlackjack(bj) {
   $("bjBetRow").classList.toggle("hidden", playing);
   $("doubleBtn").disabled = !bj.canDouble;
   if (bj.status === "done") {
-    const map = { win: ["You win!", "win"], blackjack: ["Blackjack!", "win"], lose: ["Dealer wins", "lose"], push: ["Push — bet returned", "neutral"] };
+    const map = { win: [t("game.blackjack.win"), "win"], blackjack: [t("game.blackjack.bj"), "win"], lose: [t("game.blackjack.lose"), "lose"], push: [t("game.blackjack.push"), "neutral"] };
     const [msg, cls] = map[bj.result] || ["", "neutral"];
     const r = $("bjResult"); r.textContent = msg; r.className = "result-line " + cls;
     if (cls === "win") toast(msg + " +" + fmt(bj.payout), "win"); else if (cls === "lose") toast(msg, "lose");
@@ -582,7 +768,7 @@ function showOutcome(elId, o, msg) {
 }
 function renderHistory(hist) {
   const wrap = $("history");
-  if (!hist || !hist.length) { wrap.innerHTML = '<div class="neutral" style="font-size:13px;">No bets yet.</div>'; return; }
+  if (!hist || !hist.length) { wrap.innerHTML = `<div class="neutral" style="font-size:13px;">${escapeHtml(t("msg.noBets"))}</div>`; return; }
   wrap.innerHTML = hist.slice(0, 12).map((h) => {
     const sign = h.net > 0 ? "+" : ""; const cls = h.net > 0 ? "pos" : (h.net < 0 ? "neg" : "");
     return `<div class="hist-row"><span class="g">${h.game}</span><span class="n ${cls}">${sign}${fmt(h.net)}</span></div>`;
@@ -592,7 +778,7 @@ async function loadLeaderboard() {
   try {
     const data = await api("/leaderboard");
     const wrap = $("leaderboard");
-    if (!data.leaderboard.length) { wrap.innerHTML = '<div class="neutral" style="font-size:13px;">No players yet.</div>'; return; }
+    if (!data.leaderboard.length) { wrap.innerHTML = `<div class="neutral" style="font-size:13px;">${escapeHtml(t("msg.noPlayers"))}</div>`; return; }
     wrap.innerHTML = data.leaderboard.map((p, i) => `<div class="lb-row"><span><span class="lb-rank">${i+1}</span>${escapeHtml(p.name)}</span><span style="color:var(--gold);font-weight:700;">🪙 ${fmt(p.balance)}</span></div>`).join("");
   } catch {}
 }
@@ -627,14 +813,6 @@ async function loadAdmin() {
 function numInput(k, val, step) { return `<label>${k.split(".").pop()}<input type="number" data-k="${k}" value="${val}" step="${step || 1}" /></label>`; }
 function renderAdmin(c, stats, players) {
   const p = $("adminPanel");
-  let wheelRows = c.wheel.segments.map((s, i) => `
-    <div class="wheel-edit-row" data-seg="${i}">
-      <input type="text" data-seg-f="label" value="${escapeHtml(s.label)}" placeholder="label" />
-      <input type="number" data-seg-f="multiplier" value="${s.multiplier}" step="0.1" placeholder="mult" />
-      <input type="number" data-seg-f="weight" value="${s.weight}" placeholder="weight" />
-      <input type="color" data-seg-f="color" value="${s.color}" />
-      <button class="btn danger sm" data-seg-del="${i}">✕</button>
-    </div>`).join("");
   const slotRows = SLOT_SYMBOLS.map((s) => `<label>${s} weight<input type="number" data-k="slots.weights.${s}" value="${c.slots.weights[s]}" /></label><label>${s} 3×pay<input type="number" data-k="slots.triples.${s}" value="${c.slots.triples[s]}" /></label>`).join("");
   const playerRows = (players || []).map((pl) => `
     <div class="player-edit-row" data-player="${escapeHtml(pl.id)}">
@@ -675,10 +853,6 @@ function renderAdmin(c, stats, players) {
     <div class="admin-sec"><h3>Slots weights &amp; payouts</h3><div class="admin-grid">${slotRows}
       ${numInput("slots.twoCherry", c.slots.twoCherry)}${numInput("slots.oneCherry", c.slots.oneCherry)}
     </div></div>
-    <div class="admin-sec"><h3>Wheel of Fortune segments</h3><div id="wheelEdit">${wheelRows}</div>
-      <button class="btn ghost sm" id="addSegBtn">+ Add segment</button>
-      <p class="sub" style="margin:8px 0 0;">Higher weight = more likely. Multiplier 0 = lose, 2 = double, etc.</p>
-    </div>
     <div class="admin-sec"><h3>Players</h3>
       <div class="player-edit-head"><span>Name</span><span>Balance</span><span>Games</span><span>Wagered</span><span>Won</span><span>Biggest</span><span>Auth</span><span>Actions</span></div>
       <div id="playerEdit">${playerRows}</div>
@@ -693,25 +867,15 @@ function renderAdmin(c, stats, players) {
       <button class="btn ghost" id="adminResetBtn">Reset to defaults</button>
       <button class="adm-link" id="adminLogoutBtn">Log out of admin</button>
     </div>`;
-  $("addSegBtn").addEventListener("click", () => addSegRow());
   $("adminSaveBtn").addEventListener("click", saveAdmin);
   $("adminResetBtn").addEventListener("click", resetAdmin);
   $("resetAllResultsBtn").addEventListener("click", () => resetPlayerResultsAdmin(null, false));
   $("resetAllWithBalanceBtn").addEventListener("click", () => resetPlayerResultsAdmin(null, true));
   $("deleteAllPlayersBtn").addEventListener("click", deleteAllPlayersAdmin);
   $("adminLogoutBtn").addEventListener("click", () => { adminToken = ""; localStorage.removeItem("nc_admin"); $("adminPanel").classList.add("hidden"); $("adminLoginView").classList.remove("hidden"); });
-  p.querySelectorAll("[data-seg-del]").forEach((b) => b.addEventListener("click", () => { b.closest(".wheel-edit-row").remove(); }));
   p.querySelectorAll("[data-player-save]").forEach((b) => b.addEventListener("click", () => savePlayerAdmin(b.dataset.playerSave)));
   p.querySelectorAll("[data-player-reset]").forEach((b) => b.addEventListener("click", () => resetPlayerResultsAdmin([b.dataset.playerReset], true)));
   p.querySelectorAll("[data-player-del]").forEach((b) => b.addEventListener("click", () => deletePlayerAdmin(b.dataset.playerDel)));
-}
-function addSegRow() {
-  const wrap = $("wheelEdit");
-  const div = document.createElement("div");
-  div.className = "wheel-edit-row";
-  div.innerHTML = `<input type="text" data-seg-f="label" value="2x" /><input type="number" data-seg-f="multiplier" value="2" step="0.1" /><input type="number" data-seg-f="weight" value="10" /><input type="color" data-seg-f="color" value="#9d7bff" /><button class="btn danger sm">✕</button>`;
-  div.querySelector("button").addEventListener("click", () => div.remove());
-  wrap.appendChild(div);
 }
 function collectConfig() {
   const cfg = JSON.parse(JSON.stringify(config)); // start from current public config
@@ -723,12 +887,6 @@ function collectConfig() {
     for (let i = 0; i < path.length - 1; i++) { obj[path[i]] = obj[path[i]] || {}; obj = obj[path[i]]; }
     obj[path[path.length - 1]] = Number(inp.value);
   });
-  cfg.wheel = { segments: [...document.querySelectorAll("#wheelEdit .wheel-edit-row")].map((row) => ({
-    label: row.querySelector('[data-seg-f="label"]').value,
-    multiplier: Number(row.querySelector('[data-seg-f="multiplier"]').value),
-    weight: Number(row.querySelector('[data-seg-f="weight"]').value),
-    color: row.querySelector('[data-seg-f="color"]').value
-  })) };
   return cfg;
 }
 async function saveAdmin() {
@@ -829,9 +987,8 @@ $("dealBtn").addEventListener("click", dealBlackjack);
 $("hitBtn").addEventListener("click", () => bjAction("hit"));
 $("standBtn").addEventListener("click", () => bjAction("stand"));
 $("doubleBtn").addEventListener("click", () => bjAction("double"));
-$("wheelSpinBtn").addEventListener("click", spinFortune);
 $("crashBtn").addEventListener("click", playCrash);
-$("crashTarget").addEventListener("input", () => { const v = Number($("crashTarget").value); $("crashTag").textContent = `Target: ${(Number.isFinite(v) ? v : 0).toFixed(2)}×`; });
+$("crashCashoutBtn").addEventListener("click", cashoutCrash);
 $("adminBtn").addEventListener("click", openAdmin);
 $("adminClose").addEventListener("click", closeAdmin);
 $("adminLoginBtn").addEventListener("click", adminLogin);

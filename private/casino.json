@@ -143,7 +143,7 @@
       ]
     },
     "crash": {
-      "houseEdgePercent": 3,
+      "houseEdgePercent": 7,
       "maxMultiplier": 1000
     },
     "blackjack": {
