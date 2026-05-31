@@ -1461,6 +1461,24 @@
           }
         }
       ]
+    },
+    {
+      "id": "e88d4a64-2b40-400f-b5f8-ed62283cc49b",
+      "name": "AlexKozak",
+      "nameKey": "alexkozak",
+      "balance": 1000,
+      "createdAt": "2026-05-31T23:35:08.830Z",
+      "lastDailyBonus": 0,
+      "stats": {
+        "gamesPlayed": 0,
+        "wagered": 0,
+        "won": 0,
+        "biggestWin": 0
+      },
+      "history": [],
+      "bj": null,
+      "passwordSalt": "04f45a0f35d779f453b0c340d90858cc",
+      "passwordHash": "e3732f1a2501c64ea62519f4ac23aaf4e449d7865de38a413dc0c764044ff35ce78201b3e535be1fe8fa76e6d1b429ea59134f8b3dff6c5202f159c7073fe4ff"
     }
   ],
   "config": {
