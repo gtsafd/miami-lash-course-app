@@ -828,12 +828,20 @@
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780170464325,
       "stats": {
-        "gamesPlayed": 472,
+        "gamesPlayed": 473,
         "wagered": 45283,
         "won": 58657.200000000004,
         "biggestWin": 7688
       },
       "history": [
+        {
+          "game": "slotsV2",
+          "bet": 0,
+          "payout": 0,
+          "net": 0,
+          "detail": "free spin · 0 scatter · 0 lines",
+          "at": "2026-05-31T14:58:48.265Z"
+        },
         {
           "game": "slotsV2",
           "bet": 0,
@@ -1025,14 +1033,6 @@
           "net": 600,
           "detail": "4 free spins · 600 chips",
           "at": "2026-05-31T14:56:04.791Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 0,
-          "payout": 1038,
-          "net": 1038,
-          "detail": "free spin · 3 scatter · 1 lines",
-          "at": "2026-05-31T14:55:58.461Z"
         }
       ],
       "bj": {
@@ -1264,20 +1264,10 @@
       "lastCrashPoint": 1.12,
       "lastCrashBet": 150,
       "lastCrashAt": 1780170779299,
-      "slotV2FreeSpins": 34,
+      "slotV2FreeSpins": 33,
       "slotV2FreeSpinMultiplier": 5,
       "slotV2Bonus": null,
-      "shopBuffs": [
-        {
-          "id": "multiplierGlow",
-          "name": "Multiplier Glow",
-          "icon": "✨",
-          "spinsLeft": 1,
-          "effect": {
-            "winMultiplierBoost": 25
-          }
-        }
-      ]
+      "shopBuffs": []
     },
     {
       "id": "b40d9fb4-c011-48e4-b324-551185963aea",
