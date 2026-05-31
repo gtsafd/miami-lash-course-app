@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 128">
+  <defs>
+    <linearGradient id="gold" x1="0" x2="1"><stop stop-color="#fff7b8"/><stop offset=".5" stop-color="#ffbf2b"/><stop offset="1" stop-color="#8f4200"/></linearGradient>
+    <linearGradient id="ice" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#efffff"/><stop offset=".45" stop-color="#5ee6ff"/><stop offset="1" stop-color="#1266ba"/></linearGradient>
+  </defs>
+  <g filter="drop-shadow(0 10px 8px rgba(0,0,0,.5))">
+    <path d="M90 9 139 48 113 88H67L41 48Z" fill="url(#ice)" stroke="#e4ffff" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M41 48h98M68 88 58 48 90 9l32 39-10 40M58 48h64" fill="none" stroke="#fff" stroke-width="2" opacity=".55"/>
+    <path d="M18 77h144l9 17-15 25H24L9 94Z" fill="#be1b1b" stroke="url(#gold)" stroke-width="5" stroke-linejoin="round"/>
+    <text x="90" y="108" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-size="31" fill="#fff1a3" stroke="#602000" stroke-width="3" paint-order="stroke">BONUS</text>
+  </g>
+</svg>

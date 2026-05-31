@@ -16,21 +16,22 @@ let crashPoll = null;
 let crashAnim = null;
 
 const SLOT_SYMBOLS = ["🍒", "🍋", "🔔", "⭐", "💎", "7️⃣"];
+const slotV2Asset = (id) => `assets/slot-v2/${id}.svg`;
 let SLOT_V2_SYMBOLS = [
-  { id: "grape", icon: "🍇", name: "Grapes", type: "normal", payout: [0, 0, 3, 10, 34, 105] },
-  { id: "watermelon", icon: "🍉", name: "Watermelon", type: "normal", payout: [0, 0, 4, 12, 40, 125] },
-  { id: "apple", icon: "🍎", name: "Apple", type: "normal", payout: [0, 0, 5, 15, 50, 150] },
-  { id: "lemon", icon: "🍋", name: "Lemon", type: "normal", payout: [0, 0, 6, 18, 60, 180] },
-  { id: "cherry", icon: "🍒", name: "Cherry", type: "normal", payout: [0, 0, 7, 21, 70, 210] },
-  { id: "orange", icon: "🍊", name: "Orange", type: "normal", payout: [0, 0, 8, 24, 80, 240] },
-  { id: "star", icon: "★", name: "Golden Star", type: "normal", payout: [0, 0, 10, 34, 110, 330] },
-  { id: "seven", icon: "7", name: "Lucky Seven", type: "normal", payout: [0, 0, 16, 60, 180, 600] },
-  { id: "bell", icon: "🔔", name: "Bell", type: "normal", payout: [0, 0, 14, 48, 145, 480] },
-  { id: "plum", icon: "🟣", name: "Plum", type: "normal", payout: [0, 0, 9, 28, 90, 280] },
-  { id: "wild", icon: "WILD", name: "Wild Crown", type: "wild", payout: [0, 0, 0, 0, 0, 0] },
-  { id: "scatter", icon: "$", name: "Scatter Coin", type: "scatter", payout: [0, 0, 2, 10, 40, 100] },
-  { id: "bonus", icon: "BONUS", name: "Bonus Diamond", type: "bonus", payout: [0, 0, 0, 0, 0, 0] },
-  { id: "goodluck", icon: "LUCK", name: "Good Luck", type: "luck", payout: [0, 0, 0, 3, 12, 35] }
+  { id: "grape", icon: "🍇", asset: slotV2Asset("grape"), name: "Grapes", type: "normal", payout: [0, 0, 3, 10, 34, 105] },
+  { id: "watermelon", icon: "🍉", asset: slotV2Asset("watermelon"), name: "Watermelon", type: "normal", payout: [0, 0, 4, 12, 40, 125] },
+  { id: "apple", icon: "🍎", asset: slotV2Asset("apple"), name: "Apple", type: "normal", payout: [0, 0, 5, 15, 50, 150] },
+  { id: "lemon", icon: "🍋", asset: slotV2Asset("lemon"), name: "Lemon", type: "normal", payout: [0, 0, 6, 18, 60, 180] },
+  { id: "cherry", icon: "🍒", asset: slotV2Asset("cherry"), name: "Cherry", type: "normal", payout: [0, 0, 7, 21, 70, 210] },
+  { id: "orange", icon: "🍊", asset: slotV2Asset("orange"), name: "Orange", type: "normal", payout: [0, 0, 8, 24, 80, 240] },
+  { id: "star", icon: "★", asset: slotV2Asset("star"), name: "Golden Star", type: "normal", payout: [0, 0, 10, 34, 110, 330] },
+  { id: "seven", icon: "7", asset: slotV2Asset("seven"), name: "Lucky Seven", type: "normal", payout: [0, 0, 16, 60, 180, 600] },
+  { id: "bell", icon: "🔔", asset: slotV2Asset("bell"), name: "Bell", type: "normal", payout: [0, 0, 14, 48, 145, 480] },
+  { id: "plum", icon: "🟣", asset: slotV2Asset("plum"), name: "Plum", type: "normal", payout: [0, 0, 9, 28, 90, 280] },
+  { id: "wild", icon: "WILD", asset: slotV2Asset("wild"), name: "Wild Crown", type: "wild", payout: [0, 0, 0, 0, 0, 0] },
+  { id: "scatter", icon: "$", asset: slotV2Asset("scatter"), name: "Scatter Coin", type: "scatter", payout: [0, 0, 2, 10, 40, 100] },
+  { id: "bonus", icon: "BONUS", asset: slotV2Asset("bonus"), name: "Bonus Diamond", type: "bonus", payout: [0, 0, 0, 0, 0, 0] },
+  { id: "goodluck", icon: "LUCK", asset: slotV2Asset("goodluck"), name: "Good Luck", type: "luck", payout: [0, 0, 0, 3, 12, 35] }
 ];
 let SLOT_V2_BY_ID = Object.fromEntries(SLOT_V2_SYMBOLS.map((s) => [s.id, s]));
 const EURO_ORDER = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
@@ -673,16 +674,23 @@ function buildSlotV2Grid() {
       cell.dataset.row = String(row);
       const sym = SLOT_V2_SYMBOLS[(reel + row) % SLOT_V2_SYMBOLS.length];
       cell.dataset.symbol = sym.id;
-      cell.innerHTML = `<span><i>${sym.icon}</i></span>`;
+      cell.innerHTML = slotV2SymbolMarkup(sym);
       col.appendChild(cell);
     }
     grid.appendChild(col);
   }
 }
 
+function slotV2SymbolMarkup(sym) {
+  if (sym?.asset) {
+    return `<span><img src="${escapeHtml(sym.asset)}" alt="${escapeHtml(sym.name || sym.id)}" loading="eager" draggable="false" /></span>`;
+  }
+  return `<span><i>${escapeHtml(sym?.icon || "?")}</i></span>`;
+}
+
 function slotV2Cell(symbolId, reel, row) {
   const sym = SLOT_V2_BY_ID[symbolId] || SLOT_V2_SYMBOLS[0];
-  return `<div class="slot-v2-symbol" data-reel="${reel}" data-row="${row}" data-symbol="${escapeHtml(sym.id)}"><span><i>${sym.icon}</i></span></div>`;
+  return `<div class="slot-v2-symbol" data-reel="${reel}" data-row="${row}" data-symbol="${escapeHtml(sym.id)}">${slotV2SymbolMarkup(sym)}</div>`;
 }
 
 function animateSlotV2Reel(reelEl, finalColumn, index) {
@@ -747,8 +755,10 @@ function buildSlotV2Paytable() {
     const payout = config?.slotsV2?.payouts?.[s.id] || s.payout || [];
     const note = s.type === "wild" ? (lang === "ru" ? "заменяет обычные символы" : "substitutes normal symbols")
       : s.type === "scatter" ? (lang === "ru" ? "платит в любом месте и дает фриспины" : "pays anywhere and awards free spins")
+      : s.type === "bonus" ? (lang === "ru" ? "3+ открывают бонусную игру" : "3+ open the bonus game")
+      : s.type === "luck" ? (lang === "ru" ? "3+ дают выплату удачи" : "3+ pay a luck prize")
       : (lang === "ru" ? "линия слева направо" : "left-to-right paylines");
-    return `<div class="slot-v2-payrow"><span class="slot-v2-payicon">${s.icon}</span><b>${escapeHtml(s.name)}</b><span>3: ${payout[3] || 0}x</span><span>4: ${payout[4] || 0}x</span><span>5: ${payout[5] || 0}x</span><em>${note}</em></div>`;
+    return `<div class="slot-v2-payrow"><span class="slot-v2-payicon">${slotV2SymbolMarkup(s)}</span><b>${escapeHtml(s.name)}</b><span>3: ${payout[3] || 0}x</span><span>4: ${payout[4] || 0}x</span><span>5: ${payout[5] || 0}x</span><em>${note}</em></div>`;
   }).join("");
 }
 

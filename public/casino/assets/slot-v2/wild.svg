@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 128">
+  <defs>
+    <linearGradient id="gold" x1="0" x2="1"><stop stop-color="#fff7b8"/><stop offset=".5" stop-color="#ffbf2b"/><stop offset="1" stop-color="#8f4200"/></linearGradient>
+    <linearGradient id="red" x1="0" x2="0" y1="0" y2="1"><stop stop-color="#ffe072"/><stop offset=".18" stop-color="#ff4535"/><stop offset=".8" stop-color="#7a0613"/></linearGradient>
+  </defs>
+  <g filter="drop-shadow(0 10px 8px rgba(0,0,0,.5))">
+    <path d="M28 44h124l15 18-14 48H27L13 62Z" fill="url(#red)" stroke="url(#gold)" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M55 42 66 18l16 22 14-27 14 27 18-22 7 24Z" fill="url(#gold)" stroke="#fff0a0" stroke-width="3" stroke-linejoin="round"/>
+    <text x="90" y="88" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-size="38" fill="#fff4a8" stroke="#602000" stroke-width="3" paint-order="stroke">WILD</text>
+  </g>
+</svg>

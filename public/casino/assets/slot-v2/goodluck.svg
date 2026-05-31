@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 128">
+  <defs>
+    <linearGradient id="gold" x1="0" x2="1"><stop stop-color="#fff7b8"/><stop offset=".5" stop-color="#ffbf2b"/><stop offset="1" stop-color="#8f4200"/></linearGradient>
+    <radialGradient id="badge" cx="35%" cy="25%" r="75%"><stop offset="0" stop-color="#96fff4"/><stop offset=".42" stop-color="#de37df"/><stop offset="1" stop-color="#43105e"/></radialGradient>
+  </defs>
+  <g filter="drop-shadow(0 10px 8px rgba(0,0,0,.5))">
+    <circle cx="90" cy="64" r="55" fill="url(#badge)" stroke="url(#gold)" stroke-width="7"/>
+    <circle cx="90" cy="64" r="45" fill="none" stroke="#fff3a2" stroke-width="2" stroke-dasharray="6 7" opacity=".8"/>
+    <text x="90" y="57" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-size="31" fill="#fff1a3" stroke="#62133a" stroke-width="3" paint-order="stroke">GOOD</text>
+    <text x="90" y="89" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-size="31" fill="#fff1a3" stroke="#62133a" stroke-width="3" paint-order="stroke">LUCK</text>
+  </g>
+</svg>

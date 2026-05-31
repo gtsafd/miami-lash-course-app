@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 128">
+  <defs>
+    <linearGradient id="gold" x1="0" x2="1"><stop stop-color="#fff7b8"/><stop offset=".5" stop-color="#ffbf2b"/><stop offset="1" stop-color="#8f4200"/></linearGradient>
+    <radialGradient id="coin" cx="35%" cy="25%" r="70%"><stop offset="0" stop-color="#fff6c1"/><stop offset=".35" stop-color="#e8372c"/><stop offset="1" stop-color="#760b13"/></radialGradient>
+  </defs>
+  <g filter="drop-shadow(0 10px 8px rgba(0,0,0,.5))">
+    <circle cx="90" cy="48" r="34" fill="url(#coin)" stroke="url(#gold)" stroke-width="6"/>
+    <text x="90" y="62" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-size="42" fill="#ffeaa0" stroke="#6d160d" stroke-width="4" paint-order="stroke">$</text>
+    <path d="M24 76h132l9 16-12 25H27L15 92Z" fill="#b61717" stroke="url(#gold)" stroke-width="5" stroke-linejoin="round"/>
+    <text x="90" y="107" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-size="25" fill="#fff1a3" stroke="#602000" stroke-width="3" paint-order="stroke">SCATTER</text>
+  </g>
+</svg>

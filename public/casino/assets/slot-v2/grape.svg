@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <radialGradient id="g" cx="35%" cy="25%" r="70%"><stop offset="0" stop-color="#fff"/><stop offset=".22" stop-color="#d884ff"/><stop offset=".72" stop-color="#7b18b8"/><stop offset="1" stop-color="#30004e"/></radialGradient>
+    <linearGradient id="leaf" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#b9ff63"/><stop offset=".55" stop-color="#20a640"/><stop offset="1" stop-color="#075318"/></linearGradient>
+  </defs>
+  <path fill="none" stroke="#8b4b21" stroke-width="5" stroke-linecap="round" d="M62 24c6-10 17-11 24-15"/>
+  <path fill="url(#leaf)" stroke="#0e6423" stroke-width="2" d="M58 26C35 12 20 18 12 36c20 6 36 2 46-10Z"/>
+  <path fill="url(#leaf)" stroke="#0e6423" stroke-width="2" d="M67 25c15-18 34-14 45 1-15 13-33 13-45-1Z"/>
+  <g filter="drop-shadow(0 9px 8px rgba(0,0,0,.45))">
+    <circle cx="48" cy="42" r="15" fill="url(#g)" stroke="#f6b7ff" stroke-width="2"/>
+    <circle cx="70" cy="43" r="15" fill="url(#g)" stroke="#f6b7ff" stroke-width="2"/>
+    <circle cx="36" cy="63" r="15" fill="url(#g)" stroke="#f6b7ff" stroke-width="2"/>
+    <circle cx="60" cy="64" r="16" fill="url(#g)" stroke="#f6b7ff" stroke-width="2"/>
+    <circle cx="84" cy="63" r="15" fill="url(#g)" stroke="#f6b7ff" stroke-width="2"/>
+    <circle cx="48" cy="86" r="15" fill="url(#g)" stroke="#f6b7ff" stroke-width="2"/>
+    <circle cx="73" cy="87" r="15" fill="url(#g)" stroke="#f6b7ff" stroke-width="2"/>
+    <circle cx="61" cy="107" r="14" fill="url(#g)" stroke="#f6b7ff" stroke-width="2"/>
+  </g>
+</svg>

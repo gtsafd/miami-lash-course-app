@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <radialGradient id="c" cx="35%" cy="24%" r="70%"><stop offset="0" stop-color="#fff1df"/><stop offset=".22" stop-color="#ff6175"/><stop offset=".72" stop-color="#d40027"/><stop offset="1" stop-color="#650012"/></radialGradient>
+    <linearGradient id="leaf" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#c7ff61"/><stop offset=".6" stop-color="#1fad40"/><stop offset="1" stop-color="#064c15"/></linearGradient>
+  </defs>
+  <path fill="none" stroke="#6b3517" stroke-width="5" stroke-linecap="round" d="M45 55c6-26 26-37 50-42M83 56c-1-21 4-35 12-43"/>
+  <path fill="url(#leaf)" stroke="#0b6c25" stroke-width="2" d="M87 21c13-17 33-12 39 4-14 9-28 8-39-4Z"/>
+  <g filter="drop-shadow(0 10px 8px rgba(0,0,0,.45))">
+    <circle cx="42" cy="76" r="31" fill="url(#c)" stroke="#ff9dae" stroke-width="2"/>
+    <circle cx="86" cy="78" r="30" fill="url(#c)" stroke="#ff9dae" stroke-width="2"/>
+    <ellipse cx="31" cy="62" rx="8" ry="12" fill="#fff" opacity=".28" transform="rotate(35 31 62)"/>
+    <ellipse cx="76" cy="64" rx="8" ry="12" fill="#fff" opacity=".28" transform="rotate(35 76 64)"/>
+  </g>
+</svg>
