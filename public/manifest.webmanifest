@@ -1,17 +1,17 @@
 {
-  "name": "Miami Lash Course",
-  "short_name": "Lash Course",
-  "description": "Private lash training course by Hanna Kozak in Miami.",
+  "name": "Kozak Alex",
+  "short_name": "Kozak Alex",
+  "description": "Personal brand website for Kozak Alex.",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#fff1ec",
-  "theme_color": "#e94d7b",
+  "background_color": "#f7f4ee",
+  "theme_color": "#07111f",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "./assets/girls-miami.png",
-      "sizes": "864x1821",
-      "type": "image/png",
+      "src": "./assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
       "purpose": "any"
     }
   ]
