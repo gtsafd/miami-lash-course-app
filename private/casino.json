@@ -1265,7 +1265,9 @@
         "mineTiles": [
           3
         ],
-        "revealed": [],
+        "revealed": [
+          1
+        ],
         "status": "playing",
         "startedAt": 1780264639194
       },
