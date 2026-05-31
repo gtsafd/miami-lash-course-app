@@ -17,14 +17,20 @@ let crashAnim = null;
 
 const SLOT_SYMBOLS = ["🍒", "🍋", "🔔", "⭐", "💎", "7️⃣"];
 let SLOT_V2_SYMBOLS = [
-  { id: "banana", icon: "🍌", name: "Banana", type: "normal", payout: [0, 0, 4, 12, 40, 120] },
-  { id: "cherry", icon: "🍒", name: "Cherry", type: "normal", payout: [0, 0, 5, 15, 50, 150] },
+  { id: "grape", icon: "🍇", name: "Grapes", type: "normal", payout: [0, 0, 3, 10, 34, 105] },
+  { id: "watermelon", icon: "🍉", name: "Watermelon", type: "normal", payout: [0, 0, 4, 12, 40, 125] },
+  { id: "apple", icon: "🍎", name: "Apple", type: "normal", payout: [0, 0, 5, 15, 50, 150] },
   { id: "lemon", icon: "🍋", name: "Lemon", type: "normal", payout: [0, 0, 6, 18, 60, 180] },
-  { id: "bell", icon: "🔔", name: "Bell", type: "normal", payout: [0, 0, 8, 24, 80, 240] },
-  { id: "bar", icon: "▰", name: "BAR", type: "normal", payout: [0, 0, 12, 40, 120, 400] },
+  { id: "cherry", icon: "🍒", name: "Cherry", type: "normal", payout: [0, 0, 7, 21, 70, 210] },
+  { id: "orange", icon: "🍊", name: "Orange", type: "normal", payout: [0, 0, 8, 24, 80, 240] },
+  { id: "star", icon: "★", name: "Golden Star", type: "normal", payout: [0, 0, 10, 34, 110, 330] },
   { id: "seven", icon: "7", name: "Lucky Seven", type: "normal", payout: [0, 0, 16, 60, 180, 600] },
-  { id: "wild", icon: "★", name: "Wild Star", type: "wild", payout: [0, 0, 0, 0, 0, 0] },
-  { id: "scatter", icon: "💎", name: "Bonus Diamond", type: "scatter", payout: [0, 0, 2, 10, 40, 100] }
+  { id: "bell", icon: "🔔", name: "Bell", type: "normal", payout: [0, 0, 14, 48, 145, 480] },
+  { id: "plum", icon: "🟣", name: "Plum", type: "normal", payout: [0, 0, 9, 28, 90, 280] },
+  { id: "wild", icon: "WILD", name: "Wild Crown", type: "wild", payout: [0, 0, 0, 0, 0, 0] },
+  { id: "scatter", icon: "$", name: "Scatter Coin", type: "scatter", payout: [0, 0, 2, 10, 40, 100] },
+  { id: "bonus", icon: "BONUS", name: "Bonus Diamond", type: "bonus", payout: [0, 0, 0, 0, 0, 0] },
+  { id: "goodluck", icon: "LUCK", name: "Good Luck", type: "luck", payout: [0, 0, 0, 3, 12, 35] }
 ];
 let SLOT_V2_BY_ID = Object.fromEntries(SLOT_V2_SYMBOLS.map((s) => [s.id, s]));
 const EURO_ORDER = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
@@ -729,7 +735,7 @@ function drawSlotV2Wins(outcome) {
     const points = win.positions.map(([reel, row]) => `${reel * 100 + 50},${row * 100 + 50}`).join(" ");
     overlay.insertAdjacentHTML("beforeend", `<polyline points="${points}" fill="none" stroke="${colors[i % colors.length]}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" />`);
   });
-  (outcome.scatters || []).forEach(([reel, row]) => {
+  [...(outcome.scatters || []), ...(outcome.bonusSymbols || []), ...(outcome.luckSymbols || [])].forEach(([reel, row]) => {
     document.querySelector(`.slot-v2-symbol[data-reel="${reel}"][data-row="${row}"]`)?.classList.add("scatter-hit");
   });
 }
