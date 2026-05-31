@@ -1273,16 +1273,24 @@
       "id": "b40d9fb4-c011-48e4-b324-551185963aea",
       "name": "Alexx",
       "nameKey": "alexx",
-      "balance": 1440,
+      "balance": 1430,
       "createdAt": "2026-05-30T16:06:46.678Z",
       "lastDailyBonus": 1780157295182,
       "stats": {
-        "gamesPlayed": 1,
-        "wagered": 60,
+        "gamesPlayed": 2,
+        "wagered": 70,
         "won": 0,
         "biggestWin": 0
       },
       "history": [
+        {
+          "game": "slotsV2",
+          "bet": 10,
+          "payout": 0,
+          "net": -10,
+          "detail": "0 scatter · 0 bonus · 0 luck · 0 lines",
+          "at": "2026-05-31T23:06:10.667Z"
+        },
         {
           "game": "roulette",
           "bet": 10,
