@@ -1267,7 +1267,8 @@
         ],
         "revealed": [
           1,
-          6
+          6,
+          21
         ],
         "status": "playing",
         "startedAt": 1780264639194
