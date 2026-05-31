@@ -824,16 +824,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 30733.20000000001,
+      "balance": 35288.20000000001,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780170464325,
       "stats": {
-        "gamesPlayed": 469,
+        "gamesPlayed": 470,
         "wagered": 45283,
-        "won": 53799.200000000004,
+        "won": 58354.200000000004,
         "biggestWin": 7688
       },
       "history": [
+        {
+          "game": "slotsV2",
+          "bet": 0,
+          "payout": 4555,
+          "net": 4555,
+          "detail": "free spin · 0 scatter · 1 lines",
+          "at": "2026-05-31T14:58:26.542Z"
+        },
         {
           "game": "slotsV2",
           "bet": 0,
@@ -1025,14 +1033,6 @@
           "net": 1799,
           "detail": "free spin · 2 scatter · 3 lines",
           "at": "2026-05-31T14:55:28.809Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 0,
-          "payout": 3642,
-          "net": 3642,
-          "detail": "free spin · 1 scatter · 3 lines",
-          "at": "2026-05-31T14:55:21.606Z"
         }
       ],
       "bj": {
@@ -1264,7 +1264,7 @@
       "lastCrashPoint": 1.12,
       "lastCrashBet": 150,
       "lastCrashAt": 1780170779299,
-      "slotV2FreeSpins": 37,
+      "slotV2FreeSpins": 36,
       "slotV2FreeSpinMultiplier": 5,
       "slotV2Bonus": null,
       "shopBuffs": [
@@ -1272,7 +1272,7 @@
           "id": "scatterCharm",
           "name": "Diamond Charm",
           "icon": "💎",
-          "spinsLeft": 3,
+          "spinsLeft": 2,
           "effect": {
             "scatterBoost": 4
           }
@@ -1281,7 +1281,7 @@
           "id": "multiplierGlow",
           "name": "Multiplier Glow",
           "icon": "✨",
-          "spinsLeft": 4,
+          "spinsLeft": 3,
           "effect": {
             "winMultiplierBoost": 25
           }
