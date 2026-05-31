@@ -1273,12 +1273,12 @@
       "id": "b40d9fb4-c011-48e4-b324-551185963aea",
       "name": "Alexx",
       "nameKey": "alexx",
-      "balance": 250,
+      "balance": 0,
       "createdAt": "2026-05-30T16:06:46.678Z",
       "lastDailyBonus": 1780268957807,
       "stats": {
         "gamesPlayed": 3,
-        "wagered": 2000,
+        "wagered": 2250,
         "won": 0,
         "biggestWin": 0
       },
@@ -1332,7 +1332,12 @@
       "slotV2FreeSpins": 0,
       "slotV2FreeSpinMultiplier": 1,
       "shopBuffs": [],
-      "crashRound": null,
+      "crashRound": {
+        "bet": 250,
+        "crashPoint": 1.4,
+        "startedAt": 1780270544826,
+        "status": "flying"
+      },
       "lastCrashPoint": 1.26,
       "lastCrashBet": 1930,
       "lastCrashAt": 1780268967521
