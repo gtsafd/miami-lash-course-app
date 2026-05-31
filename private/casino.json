@@ -1717,21 +1717,21 @@
       "items": [
         {
           "id": "scatterCharm",
-          "name": "Compass Charm",
-          "cost": 750,
-          "spins": 20,
+          "name": "Diamond Charm",
+          "cost": 900,
+          "spins": 14,
           "effect": {
-            "scatterBoost": 4
+            "scatterBoost": 2
           },
-          "icon": "🧭"
+          "icon": "💎"
         },
         {
           "id": "wildCharm",
           "name": "Wild Spark",
-          "cost": 1200,
-          "spins": 15,
+          "cost": 1400,
+          "spins": 10,
           "effect": {
-            "wildBoost": 4
+            "wildBoost": 2
           },
           "icon": "⭐"
         },
@@ -1748,21 +1748,21 @@
         {
           "id": "multiplierGlow",
           "name": "Multiplier Glow",
-          "cost": 1500,
-          "spins": 10,
+          "cost": 1800,
+          "spins": 8,
           "effect": {
-            "winMultiplierBoost": 25
+            "winMultiplierBoost": 12
           },
           "icon": "✨"
         },
         {
           "id": "bonusMagnet",
           "name": "Bonus Magnet",
-          "cost": 2500,
-          "spins": 12,
+          "cost": 3500,
+          "spins": 8,
           "effect": {
-            "scatterBoost": 8,
-            "wildBoost": 2
+            "scatterBoost": 3,
+            "wildBoost": 1
           },
           "icon": "🧲"
         }
