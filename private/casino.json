@@ -3,16 +3,24 @@
     {
       "id": "690d4b8c-7c3f-40ef-be54-344b45690ef1",
       "name": "Alex",
-      "balance": 2056.2000000000003,
+      "balance": 2036.2000000000003,
       "createdAt": "2026-05-29T04:11:58.470Z",
       "lastDailyBonus": 1780268122373,
       "stats": {
-        "gamesPlayed": 142,
-        "wagered": 19281,
+        "gamesPlayed": 143,
+        "wagered": 19381,
         "won": 7702.4,
         "biggestWin": 692
       },
       "history": [
+        {
+          "game": "slotsV2",
+          "bet": 100,
+          "payout": 80,
+          "net": -20,
+          "detail": "0 scatter · 0 bonus · 0 luck · 1 lines",
+          "at": "2026-05-31T22:56:16.455Z"
+        },
         {
           "game": "slotsV2",
           "bet": 100,
@@ -204,14 +212,6 @@
           "net": 2,
           "detail": "1 scatter · 2 bonus · 0 luck · 1 lines",
           "at": "2026-05-31T15:36:54.349Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 10,
-          "payout": 0,
-          "net": -10,
-          "detail": "0 scatter · 0 bonus · 0 luck · 0 lines",
-          "at": "2026-05-31T15:28:56.937Z"
         }
       ],
       "bj": null,
