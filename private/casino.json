@@ -3,16 +3,24 @@
     {
       "id": "690d4b8c-7c3f-40ef-be54-344b45690ef1",
       "name": "Alex",
-      "balance": 2288.2000000000003,
+      "balance": 2278.2000000000003,
       "createdAt": "2026-05-29T04:11:58.470Z",
       "lastDailyBonus": 1780170719177,
       "stats": {
-        "gamesPlayed": 127,
-        "wagered": 18401,
+        "gamesPlayed": 128,
+        "wagered": 18411,
         "won": 7702.4,
         "biggestWin": 692
       },
       "history": [
+        {
+          "game": "slotsV2",
+          "bet": 10,
+          "payout": 0,
+          "net": -10,
+          "detail": "1 scatter · 0 bonus · 0 luck · 0 lines",
+          "at": "2026-05-31T15:44:22.650Z"
+        },
         {
           "game": "slots",
           "bet": 20,
@@ -204,14 +212,6 @@
           "net": -10,
           "detail": "0 scatter · 0 lines",
           "at": "2026-05-31T15:15:17.985Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 10,
-          "payout": 24,
-          "net": 14,
-          "detail": "0 scatter · 1 lines",
-          "at": "2026-05-31T15:15:11.137Z"
         }
       ],
       "bj": null,
@@ -1483,27 +1483,27 @@
     "slotsV2": {
       "reels": 5,
       "rows": 3,
-      "freeSpinsAward": 8,
-      "freeSpinMultiplierStep": 1,
-      "freeSpinMaxMultiplier": 5,
+      "freeSpinsAward": 5,
+      "freeSpinMultiplierStep": 0.5,
+      "freeSpinMaxMultiplier": 3,
       "bonusBuys": [
         {
           "id": "starter",
-          "cost": 1000,
-          "freeSpins": 5,
-          "multiplier": 2
+          "cost": 3600,
+          "freeSpins": 4,
+          "multiplier": 1.5
         },
         {
           "id": "plus",
-          "cost": 2000,
-          "freeSpins": 8,
-          "multiplier": 3
+          "cost": 7200,
+          "freeSpins": 6,
+          "multiplier": 2
         },
         {
           "id": "mega",
-          "cost": 5000,
-          "freeSpins": 15,
-          "multiplier": 4
+          "cost": 15000,
+          "freeSpins": 10,
+          "multiplier": 2.5
         }
       ],
       "weights": {
@@ -1513,52 +1513,52 @@
         "lemon": 18,
         "cherry": 20,
         "orange": 16,
-        "star": 13,
-        "seven": 8,
-        "bell": 16,
+        "star": 11,
+        "seven": 5,
+        "bell": 8,
         "plum": 15,
-        "wild": 5,
-        "scatter": 6,
-        "bonus": 4,
-        "goodluck": 4
+        "wild": 2,
+        "scatter": 3,
+        "bonus": 2,
+        "goodluck": 2
       },
       "payouts": {
         "grape": [
           0,
           0,
+          1,
           3,
-          10,
-          34,
-          105
+          12,
+          45
         ],
         "watermelon": [
           0,
           0,
+          1,
           4,
-          12,
-          40,
-          125
+          14,
+          55
         ],
         "apple": [
           0,
           0,
+          1,
           5,
-          15,
-          50,
-          150
+          18,
+          70
         ],
         "lemon": [
           0,
           0,
+          1,
           6,
-          7.28,
-          24.29,
+          22,
           72.88
         ],
         "cherry": [
           0,
           0,
-          5,
+          1,
           6.07,
           20.24,
           60.73
@@ -1566,31 +1566,31 @@
         "orange": [
           0,
           0,
+          1,
           8,
-          24,
-          80,
-          240
+          30,
+          120
         ],
         "star": [
           0,
           0,
+          2,
           10,
-          34,
-          110,
-          330
+          42,
+          170
         ],
         "seven": [
           0,
           0,
+          3,
           16,
-          24.29,
           72.88,
           242.94
         ],
         "bell": [
           0,
           0,
-          8,
+          2,
           9.71,
           32.39,
           97.17
@@ -1598,10 +1598,10 @@
         "plum": [
           0,
           0,
+          1,
           9,
-          28,
-          90,
-          280
+          34,
+          135
         ],
         "wild": [
           0,
@@ -1614,7 +1614,7 @@
         "scatter": [
           0,
           0,
-          2,
+          0,
           1.47,
           5.9,
           14.77
@@ -1631,9 +1631,9 @@
           0,
           0,
           0,
-          3,
-          12,
-          35
+          1,
+          4,
+          14
         ]
       }
     },
