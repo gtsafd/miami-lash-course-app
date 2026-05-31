@@ -18,20 +18,20 @@ let crashAnim = null;
 const SLOT_SYMBOLS = ["🍒", "🍋", "🔔", "⭐", "💎", "7️⃣"];
 const slotV2Asset = (id) => `assets/slot-v2/${id}.svg`;
 let SLOT_V2_SYMBOLS = [
-  { id: "grape", icon: "🍇", asset: slotV2Asset("grape"), name: "Grapes", type: "normal", payout: [0, 0, 3, 10, 34, 105] },
-  { id: "watermelon", icon: "🍉", asset: slotV2Asset("watermelon"), name: "Watermelon", type: "normal", payout: [0, 0, 4, 12, 40, 125] },
-  { id: "apple", icon: "🍎", asset: slotV2Asset("apple"), name: "Apple", type: "normal", payout: [0, 0, 5, 15, 50, 150] },
-  { id: "lemon", icon: "🍋", asset: slotV2Asset("lemon"), name: "Lemon", type: "normal", payout: [0, 0, 6, 18, 60, 180] },
-  { id: "cherry", icon: "🍒", asset: slotV2Asset("cherry"), name: "Cherry", type: "normal", payout: [0, 0, 7, 21, 70, 210] },
-  { id: "orange", icon: "🍊", asset: slotV2Asset("orange"), name: "Orange", type: "normal", payout: [0, 0, 8, 24, 80, 240] },
-  { id: "star", icon: "★", asset: slotV2Asset("star"), name: "Golden Star", type: "normal", payout: [0, 0, 10, 34, 110, 330] },
-  { id: "seven", icon: "7", asset: slotV2Asset("seven"), name: "Lucky Seven", type: "normal", payout: [0, 0, 16, 60, 180, 600] },
-  { id: "bell", icon: "🔔", asset: slotV2Asset("bell"), name: "Bell", type: "normal", payout: [0, 0, 14, 48, 145, 480] },
-  { id: "plum", icon: "🟣", asset: slotV2Asset("plum"), name: "Plum", type: "normal", payout: [0, 0, 9, 28, 90, 280] },
+  { id: "grape", icon: "🍇", asset: slotV2Asset("grape"), name: "Grapes", type: "normal", payout: [0, 0, 1, 3, 12, 45] },
+  { id: "watermelon", icon: "🍉", asset: slotV2Asset("watermelon"), name: "Watermelon", type: "normal", payout: [0, 0, 1, 4, 14, 55] },
+  { id: "apple", icon: "🍎", asset: slotV2Asset("apple"), name: "Apple", type: "normal", payout: [0, 0, 1, 5, 18, 70] },
+  { id: "lemon", icon: "🍋", asset: slotV2Asset("lemon"), name: "Lemon", type: "normal", payout: [0, 0, 1, 6, 22, 85] },
+  { id: "cherry", icon: "🍒", asset: slotV2Asset("cherry"), name: "Cherry", type: "normal", payout: [0, 0, 1, 7, 26, 100] },
+  { id: "orange", icon: "🍊", asset: slotV2Asset("orange"), name: "Orange", type: "normal", payout: [0, 0, 1, 8, 30, 120] },
+  { id: "star", icon: "★", asset: slotV2Asset("star"), name: "Golden Star", type: "normal", payout: [0, 0, 2, 10, 42, 170] },
+  { id: "seven", icon: "7", asset: slotV2Asset("seven"), name: "Lucky Seven", type: "normal", payout: [0, 0, 3, 16, 80, 320] },
+  { id: "bell", icon: "🔔", asset: slotV2Asset("bell"), name: "Bell", type: "normal", payout: [0, 0, 2, 13, 58, 240] },
+  { id: "plum", icon: "🟣", asset: slotV2Asset("plum"), name: "Plum", type: "normal", payout: [0, 0, 1, 9, 34, 135] },
   { id: "wild", icon: "WILD", asset: slotV2Asset("wild"), name: "Wild Crown", type: "wild", payout: [0, 0, 0, 0, 0, 0] },
-  { id: "scatter", icon: "$", asset: slotV2Asset("scatter"), name: "Scatter Coin", type: "scatter", payout: [0, 0, 2, 10, 40, 100] },
+  { id: "scatter", icon: "$", asset: slotV2Asset("scatter"), name: "Scatter Coin", type: "scatter", payout: [0, 0, 0, 4, 18, 60] },
   { id: "bonus", icon: "BONUS", asset: slotV2Asset("bonus"), name: "Bonus Diamond", type: "bonus", payout: [0, 0, 0, 0, 0, 0] },
-  { id: "goodluck", icon: "LUCK", asset: slotV2Asset("goodluck"), name: "Good Luck", type: "luck", payout: [0, 0, 0, 3, 12, 35] }
+  { id: "goodluck", icon: "LUCK", asset: slotV2Asset("goodluck"), name: "Good Luck", type: "luck", payout: [0, 0, 0, 1, 4, 14] }
 ];
 let SLOT_V2_BY_ID = Object.fromEntries(SLOT_V2_SYMBOLS.map((s) => [s.id, s]));
 const EURO_ORDER = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
