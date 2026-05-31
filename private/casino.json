@@ -824,16 +824,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 8661.20000000001,
+      "balance": 16349.20000000001,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780170464325,
       "stats": {
-        "gamesPlayed": 446,
+        "gamesPlayed": 447,
         "wagered": 43783,
-        "won": 30227.200000000004,
-        "biggestWin": 5691
+        "won": 37915.200000000004,
+        "biggestWin": 7688
       },
       "history": [
+        {
+          "game": "slotsV2",
+          "bet": 0,
+          "payout": 7688,
+          "net": 7688,
+          "detail": "free spin · 5 scatter · 1 lines",
+          "at": "2026-05-31T14:54:53.192Z"
+        },
         {
           "game": "slotsV2 bonus",
           "bet": 0,
@@ -1025,14 +1033,6 @@
           "net": -50,
           "detail": "1 scatter · 0 lines",
           "at": "2026-05-31T14:51:47.965Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 50,
-          "payout": 0,
-          "net": -50,
-          "detail": "1 scatter · 0 lines",
-          "at": "2026-05-31T14:50:44.433Z"
         }
       ],
       "bj": {
@@ -1264,15 +1264,37 @@
       "lastCrashPoint": 1.12,
       "lastCrashBet": 150,
       "lastCrashAt": 1780170779299,
-      "slotV2FreeSpins": 28,
+      "slotV2FreeSpins": 27,
       "slotV2FreeSpinMultiplier": 5,
-      "slotV2Bonus": null,
+      "slotV2Bonus": {
+        "createdAt": 1780239293192,
+        "prizes": [
+          {
+            "type": "chips",
+            "freeSpins": 4,
+            "chips": 500,
+            "multiplierBoost": 0
+          },
+          {
+            "type": "multiplier",
+            "freeSpins": 8,
+            "chips": 0,
+            "multiplierBoost": 2
+          },
+          {
+            "type": "freeSpins",
+            "freeSpins": 8,
+            "chips": 0,
+            "multiplierBoost": 0
+          }
+        ]
+      },
       "shopBuffs": [
         {
           "id": "scatterCharm",
           "name": "Diamond Charm",
           "icon": "💎",
-          "spinsLeft": 26,
+          "spinsLeft": 25,
           "effect": {
             "scatterBoost": 4
           }
