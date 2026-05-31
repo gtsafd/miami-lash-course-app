@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "/casino",
+      "destination": "/casino/",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/:path*",
