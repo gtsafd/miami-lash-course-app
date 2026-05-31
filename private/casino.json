@@ -835,6 +835,14 @@
       },
       "history": [
         {
+          "game": "slotsV2 bonus",
+          "bet": 0,
+          "payout": 0,
+          "net": 0,
+          "detail": "8 free spins",
+          "at": "2026-05-31T14:54:28.359Z"
+        },
+        {
           "game": "slotsV2",
           "bet": 0,
           "payout": 2950,
@@ -1025,14 +1033,6 @@
           "net": 0,
           "detail": "free spin · 1 scatter · 0 lines",
           "at": "2026-05-31T14:50:16.457Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 0,
-          "payout": 182,
-          "net": 182,
-          "detail": "free spin · 0 scatter · 2 lines",
-          "at": "2026-05-31T14:50:09.631Z"
         }
       ],
       "bj": {
@@ -1264,31 +1264,9 @@
       "lastCrashPoint": 1.12,
       "lastCrashBet": 150,
       "lastCrashAt": 1780170779299,
-      "slotV2FreeSpins": 6,
+      "slotV2FreeSpins": 14,
       "slotV2FreeSpinMultiplier": 5,
-      "slotV2Bonus": {
-        "createdAt": 1780239262221,
-        "prizes": [
-          {
-            "type": "multiplier",
-            "freeSpins": 8,
-            "chips": 0,
-            "multiplierBoost": 2
-          },
-          {
-            "type": "freeSpins",
-            "freeSpins": 8,
-            "chips": 0,
-            "multiplierBoost": 0
-          },
-          {
-            "type": "chips",
-            "freeSpins": 4,
-            "chips": 1000,
-            "multiplierBoost": 0
-          }
-        ]
-      },
+      "slotV2Bonus": null,
       "shopBuffs": [
         {
           "id": "scatterCharm",
