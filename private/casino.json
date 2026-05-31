@@ -3,7 +3,7 @@
     {
       "id": "690d4b8c-7c3f-40ef-be54-344b45690ef1",
       "name": "Alex",
-      "balance": 0.20000000000027285,
+      "balance": 250.20000000000027,
       "createdAt": "2026-05-29T04:11:58.470Z",
       "lastDailyBonus": 1780268122373,
       "stats": {
@@ -216,7 +216,7 @@
       ],
       "bj": null,
       "nameKey": "alex",
-      "lastRescueBonus": 0,
+      "lastRescueBonus": 1780268502525,
       "passwordSalt": "17ac07493e9f989657f88b3fd40a314d",
       "passwordHash": "f7d5aaeb7f919e439dec44d5f63b2053af19a1d57601d1c362aeef2d6658d673b0fea2d03b5f894bb1e344bb32664607eeb1e92c51c5f66e52c8bf880d07601b",
       "slotV2FreeSpins": 0,
