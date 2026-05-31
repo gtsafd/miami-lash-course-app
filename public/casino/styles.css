@@ -1,8 +1,8 @@
 :root {
-  --bg: #071827; --bg-2: #06354d; --panel: rgba(7, 30, 48, .78); --line: rgba(255,255,255,.22);
-  --text: #fffaf0; --muted: #bce7ef; --gold: #ffd166; --gold-2: #ff9f1c;
-  --emerald: #20e6b6; --red: #ff4d6d; --purple: #7b61ff; --aqua: #2ec4b6; --coral: #ff6b5f;
-  --shadow: 0 22px 70px rgba(0, 44, 76, .38); --radius: 18px;
+  --bg: #05060d; --bg-2: #0b1020; --panel: rgba(9, 12, 26, .84); --line: rgba(255,255,255,.16);
+  --text: #f8f9ff; --muted: #aeb6cd; --gold: #ff2fa3; --gold-2: #20d8ff;
+  --emerald: #20f0c8; --red: #ff4f8b; --purple: #8a4dff; --aqua: #20d8ff; --coral: #ff2fa3;
+  --shadow: 0 26px 80px rgba(0,0,0,.48), 0 0 42px rgba(255,47,163,.12); --radius: 14px;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
@@ -11,23 +11,26 @@ body {
   font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
   color: var(--text);
   background:
-    linear-gradient(180deg, rgba(255, 184, 92, .18), rgba(0, 170, 196, .10) 38%, rgba(5, 20, 34, .82)),
-    url("https://images.unsplash.com/photo-1627673937552-f5d326e5158f?auto=format&fit=crop&w=2400&q=90") center top / cover fixed,
-    linear-gradient(180deg, #7de3f3, #11617b 46%, #071827);
+    linear-gradient(90deg, rgba(5,6,13,.98), rgba(5,6,13,.84) 48%, rgba(5,6,13,.48)),
+    linear-gradient(180deg, rgba(255,47,163,.16), rgba(32,216,255,.08) 38%, rgba(5,6,13,.94)),
+    url("https://images.unsplash.com/photo-1514214246283-d427a95c5d2f?auto=format&fit=crop&w=2400&q=88") center / cover fixed,
+    #05060d;
   min-height: 100vh; -webkit-tap-highlight-color: transparent;
 }
 body::before {
   content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
   background:
-    radial-gradient(circle at 12% 12%, rgba(255,220,130,.52), transparent 9rem),
-    radial-gradient(circle at 82% 8%, rgba(109,245,225,.18), transparent 18rem),
-    linear-gradient(180deg, rgba(5,23,34,.12), rgba(5,23,34,.72));
+    radial-gradient(circle at 14% 14%, rgba(255,47,163,.30), transparent 15rem),
+    radial-gradient(circle at 82% 10%, rgba(32,216,255,.24), transparent 19rem),
+    radial-gradient(circle at 72% 84%, rgba(138,77,255,.20), transparent 18rem),
+    linear-gradient(180deg, rgba(5,6,13,.16), rgba(5,6,13,.82));
 }
 body::after {
   content:""; position:fixed; inset:-20% -10%; pointer-events:none; z-index:0;
   background:
-    radial-gradient(ellipse at 28% 8%, rgba(255,255,255,.25), transparent 18rem),
-    linear-gradient(110deg, transparent 0 42%, rgba(255,255,255,.10) 48%, transparent 56%);
+    radial-gradient(ellipse at 20% 18%, rgba(255,47,163,.18), transparent 18rem),
+    radial-gradient(ellipse at 78% 16%, rgba(32,216,255,.14), transparent 20rem),
+    linear-gradient(110deg, transparent 0 42%, rgba(32,216,255,.10) 48%, rgba(255,47,163,.08) 53%, transparent 60%);
   mix-blend-mode: screen;
   animation: sunDrift 14s ease-in-out infinite alternate;
 }
@@ -360,4 +363,323 @@ input[type=range] { width:100%; accent-color:var(--gold); }
   .player-edit-head { display:none; }
   .player-edit-row { grid-template-columns:1fr 1fr; }
   .player-provider { grid-column:1 / -1; }
+}
+
+/* Neon Miami casino skin */
+.gate-card,
+.topbar,
+.panel,
+.modal-card {
+  background:
+    linear-gradient(135deg, rgba(255,47,163,.10), transparent 34%),
+    linear-gradient(315deg, rgba(32,216,255,.10), transparent 38%),
+    linear-gradient(180deg, rgba(10,13,29,.88), rgba(4,6,15,.82));
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: var(--radius);
+  box-shadow:
+    0 24px 80px rgba(0,0,0,.52),
+    0 0 0 1px rgba(255,47,163,.08),
+    inset 0 1px 0 rgba(255,255,255,.10);
+  backdrop-filter: blur(18px) saturate(1.15);
+}
+
+.gate-card {
+  animation: none;
+}
+
+.gate-card::before,
+.topbar::before,
+.panel::before,
+.modal-card::before {
+  background:
+    linear-gradient(115deg, transparent 0 35%, rgba(255,47,163,.14) 44%, rgba(32,216,255,.12) 52%, transparent 62%);
+}
+
+.logo,
+.brand b,
+.panel h2,
+.modal-card h2 {
+  letter-spacing: .04em;
+  text-shadow: 0 0 18px rgba(32,216,255,.28), 0 0 28px rgba(255,47,163,.22);
+}
+
+.logo,
+.brand b {
+  color: #f8f9ff;
+}
+
+.brand b::first-letter,
+.logo::first-letter {
+  color: var(--gold);
+}
+
+.gate-card h1,
+.panel h2,
+.slot-v2-bonus-head h2 {
+  background: linear-gradient(90deg, #fff, var(--aqua) 35%, var(--gold) 72%, #fff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.brand span,
+.gate-card p,
+.panel .sub,
+.field label,
+.slot-v2-progress span,
+.slot-meter span,
+.slot-v2-bet span,
+.shop-item p,
+.muted-note,
+.who {
+  color: var(--muted);
+}
+
+.btn,
+.tab.active,
+.lang-btn.active,
+.slot-spin {
+  color: #fff;
+  background:
+    radial-gradient(circle at 35% 18%, rgba(255,255,255,.34), transparent 22%),
+    linear-gradient(135deg, #ff2fa3, #8a4dff 52%, #20d8ff);
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 0 24px rgba(255,47,163,.30), 0 10px 28px rgba(0,0,0,.32);
+}
+
+.btn.ghost,
+.tab,
+.chips-quick button,
+.chip-pick,
+.roul-bets button,
+.slot-v2-bet button {
+  color: var(--text);
+  background: rgba(5,8,18,.70);
+  border: 1px solid rgba(255,255,255,.16);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.btn.ghost:hover,
+.tab:hover,
+.chips-quick button:hover,
+.chip-pick:hover,
+.roul-bets button:hover {
+  border-color: rgba(32,216,255,.62);
+  box-shadow: 0 0 18px rgba(32,216,255,.18), inset 0 1px 0 rgba(255,255,255,.10);
+}
+
+.btn.danger {
+  color: #fff;
+  background: linear-gradient(135deg, #ff4f8b, #ff2fa3);
+}
+
+.chip-balance,
+.stat-box,
+.stat-grid div,
+.admin-stats div,
+.slot-meter,
+.slot-v2-progress,
+input[type=text],
+input[type=password],
+input[type=number] {
+  background: rgba(5,8,18,.76);
+  border: 1px solid rgba(255,255,255,.16);
+  color: var(--text);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 0 22px rgba(32,216,255,.08);
+}
+
+input:focus {
+  border-color: var(--aqua);
+  box-shadow: 0 0 0 3px rgba(32,216,255,.16), inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.chip-balance b,
+.stat-box b,
+.stat-grid b,
+.admin-stats b,
+.slot-meter b,
+.slot-v2-progress b,
+.slot-v2-buy-copy b,
+.shop-active h3,
+.shop-item em {
+  color: var(--aqua);
+}
+
+.tab.active {
+  border-color: rgba(255,47,163,.52);
+}
+
+.topbar {
+  top: 8px;
+  border-radius: 14px;
+}
+
+.top-actions {
+  background: rgba(5,8,18,.36);
+  border: 1px solid rgba(255,255,255,.10);
+  border-radius: 14px;
+  padding: 10px;
+}
+
+.reel,
+.slot-v2-machine,
+.slot-v2-reels,
+.felt,
+.plinko-stage,
+.crash-stage {
+  background:
+    radial-gradient(circle at 18% 20%, rgba(255,47,163,.18), transparent 8rem),
+    radial-gradient(circle at 86% 72%, rgba(32,216,255,.16), transparent 10rem),
+    linear-gradient(180deg, #0d1226, #040712);
+  border-color: rgba(255,255,255,.16);
+  box-shadow: inset 0 0 42px rgba(32,216,255,.08), 0 22px 56px rgba(0,0,0,.36);
+}
+
+.slot-v2-panel,
+.shop-panel {
+  border-color: rgba(255,47,163,.22);
+}
+
+.slot-v2-jackpot {
+  border: 1px solid rgba(255,47,163,.55);
+  background: linear-gradient(180deg, rgba(255,47,163,.38), rgba(52,7,42,.88));
+  box-shadow: 0 0 28px rgba(255,47,163,.26);
+}
+
+.slot-v2-jackpot span,
+.slot-v2-jackpot b,
+.slot-v2-lines,
+.slot-v2-bonus-copy b,
+.slot-v2-buy-packs button b,
+.slot-v2-payrow b,
+.shop-item h3,
+.admin-sec h3,
+.lb-rank,
+.paytable span b {
+  color: var(--gold);
+}
+
+.slot-v2-lines {
+  background: rgba(6,8,19,.88);
+  border-color: rgba(32,216,255,.46);
+  box-shadow: 0 0 18px rgba(32,216,255,.16);
+}
+
+.slot-v2-reels {
+  border-color: rgba(32,216,255,.30);
+}
+
+.slot-v2-symbol {
+  background:
+    radial-gradient(circle at 50% 26%, rgba(255,255,255,.09), transparent 32%),
+    linear-gradient(180deg, #111936, #060915);
+  border-color: rgba(255,255,255,.10);
+}
+
+.slot-v2-symbol::before {
+  background:
+    radial-gradient(circle at 32% 18%, rgba(255,255,255,.14), transparent 36%),
+    linear-gradient(145deg, rgba(255,47,163,.16), rgba(32,216,255,.08));
+  border-color: rgba(255,255,255,.14);
+}
+
+.slot-v2-symbol.scatter-hit {
+  outline-color: var(--aqua);
+}
+
+.slot-v2-bonus-strip,
+.slot-v2-buy-bonus,
+.shop-active,
+.shop-item,
+.admin-sec,
+.slot-v2-payrow {
+  background:
+    linear-gradient(135deg, rgba(255,47,163,.10), transparent 36%),
+    linear-gradient(315deg, rgba(32,216,255,.08), transparent 44%),
+    rgba(5,8,18,.66);
+  border-color: rgba(255,255,255,.14);
+}
+
+.slot-v2-buy-packs button,
+.slot-v2-bonus-chests button {
+  background:
+    radial-gradient(circle at 35% 22%, rgba(255,47,163,.24), transparent 34%),
+    linear-gradient(180deg, #131a34, #060915);
+  border-color: rgba(255,47,163,.32);
+  color: #fff;
+}
+
+.slot-v2-buy-packs button:hover,
+.slot-v2-bonus-chests button:not(:disabled):hover {
+  border-color: var(--aqua);
+  box-shadow: 0 0 24px rgba(32,216,255,.18);
+}
+
+.shop-icon,
+.slot-v2-payicon,
+.wheel-hub {
+  background:
+    radial-gradient(circle at 35% 25%, rgba(255,255,255,.26), transparent 24%),
+    linear-gradient(135deg, rgba(255,47,163,.42), rgba(32,216,255,.24));
+  border-color: rgba(255,255,255,.16);
+}
+
+.wheel-pointer {
+  border-top-color: var(--gold);
+}
+
+.wheel-disc {
+  border-color: rgba(255,47,163,.35);
+  box-shadow: 0 0 0 4px rgba(32,216,255,.08), 0 24px 70px rgba(0,0,0,.42), inset 0 0 28px rgba(255,255,255,.10);
+}
+
+.coin-face {
+  color: #fff;
+  background: radial-gradient(circle at 35% 30%, #fff, #ff2fa3 42%, #530034 76%);
+  box-shadow: 0 12px 30px rgba(255,47,163,.34), inset 0 -6px 14px rgba(0,0,0,.25);
+}
+
+.coin-face.tails {
+  color: #03111c;
+  background: radial-gradient(circle at 35% 30%, #fff, #20d8ff 48%, #0d4d8c);
+}
+
+.die,
+.card {
+  box-shadow: 0 10px 26px rgba(0,0,0,.40), 0 0 18px rgba(255,47,163,.10), inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+.mine-tile {
+  background:
+    radial-gradient(circle at 35% 25%, rgba(32,216,255,.50), transparent 34%),
+    linear-gradient(180deg, #101936, #050814);
+  border-color: rgba(255,255,255,.16);
+}
+
+.mine-tile.safe {
+  background: radial-gradient(circle at 35% 25%, #20f0c8, #0b7a68 74%);
+}
+
+.plinko-buckets span,
+.roul-bets button .stake {
+  color: #fff;
+  background: linear-gradient(135deg, var(--gold), var(--purple));
+}
+
+.toast {
+  background: rgba(5,8,18,.92);
+  border-color: rgba(255,255,255,.16);
+  box-shadow: 0 18px 48px rgba(0,0,0,.42), 0 0 28px rgba(255,47,163,.16);
+}
+
+@media (max-width:720px){
+  body {
+    background-position: center top;
+  }
+  .topbar {
+    top: 6px;
+  }
+  .top-actions {
+    padding: 8px;
+  }
 }
