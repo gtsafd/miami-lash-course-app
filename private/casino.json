@@ -1273,7 +1273,7 @@
       "id": "b40d9fb4-c011-48e4-b324-551185963aea",
       "name": "Alexx",
       "nameKey": "alexx",
-      "balance": 0,
+      "balance": 250,
       "createdAt": "2026-05-30T16:06:46.678Z",
       "lastDailyBonus": 1780268957807,
       "stats": {
@@ -1311,7 +1311,7 @@
       "bj": null,
       "passwordSalt": "64b09cad1af12084e61be33b73bd9deb",
       "passwordHash": "077fd2b4e11d8a2b887c7ac452912b7317306fd2f9038aa37237db006dd5e726ed15ac7ac9927ccf34e003421f4fada083d25e5ff903f49f9fc9a4ef9e60c273",
-      "lastRescueBonus": 0,
+      "lastRescueBonus": 1780270538424,
       "minesRound": {
         "bet": 50,
         "mines": 5,
@@ -1478,7 +1478,11 @@
       "history": [],
       "bj": null,
       "passwordSalt": "04f45a0f35d779f453b0c340d90858cc",
-      "passwordHash": "e3732f1a2501c64ea62519f4ac23aaf4e449d7865de38a413dc0c764044ff35ce78201b3e535be1fe8fa76e6d1b429ea59134f8b3dff6c5202f159c7073fe4ff"
+      "passwordHash": "e3732f1a2501c64ea62519f4ac23aaf4e449d7865de38a413dc0c764044ff35ce78201b3e535be1fe8fa76e6d1b429ea59134f8b3dff6c5202f159c7073fe4ff",
+      "lastRescueBonus": 0,
+      "slotV2FreeSpins": 0,
+      "slotV2FreeSpinMultiplier": 1,
+      "shopBuffs": []
     }
   ],
   "config": {
