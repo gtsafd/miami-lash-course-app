@@ -824,16 +824,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 6484.20000000001,
+      "balance": 6507.20000000001,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780170464325,
       "stats": {
-        "gamesPlayed": 437,
-        "wagered": 39733,
-        "won": 24050.200000000004,
+        "gamesPlayed": 438,
+        "wagered": 39783,
+        "won": 24073.200000000004,
         "biggestWin": 5691
       },
       "history": [
+        {
+          "game": "slotsV2",
+          "bet": 50,
+          "payout": 73,
+          "net": 23,
+          "detail": "3 scatter · 0 lines",
+          "at": "2026-05-31T14:53:22.326Z"
+        },
         {
           "game": "slotsV2",
           "bet": 50,
@@ -1025,14 +1033,6 @@
           "net": -23,
           "detail": "1 scatter · 1 lines",
           "at": "2026-05-30T22:23:50.728Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 50,
-          "payout": 0,
-          "net": -50,
-          "detail": "1 scatter · 0 lines",
-          "at": "2026-05-30T22:23:44.570Z"
         }
       ],
       "bj": {
@@ -1266,13 +1266,35 @@
       "lastCrashAt": 1780170779299,
       "slotV2FreeSpins": 0,
       "slotV2FreeSpinMultiplier": 1,
-      "slotV2Bonus": null,
+      "slotV2Bonus": {
+        "createdAt": 1780239202326,
+        "prizes": [
+          {
+            "type": "multiplier",
+            "freeSpins": 8,
+            "chips": 0,
+            "multiplierBoost": 1
+          },
+          {
+            "type": "chips",
+            "freeSpins": 4,
+            "chips": 450,
+            "multiplierBoost": 0
+          },
+          {
+            "type": "freeSpins",
+            "freeSpins": 8,
+            "chips": 0,
+            "multiplierBoost": 0
+          }
+        ]
+      },
       "shopBuffs": [
         {
           "id": "scatterCharm",
           "name": "Diamond Charm",
           "icon": "💎",
-          "spinsLeft": 35,
+          "spinsLeft": 34,
           "effect": {
             "scatterBoost": 4
           }
