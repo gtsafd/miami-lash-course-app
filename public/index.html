@@ -255,6 +255,11 @@
         <span class="digit-flap digit-top" aria-hidden="true"><span class="digit-num">${digit}</span></span>
         <span class="digit-flap digit-bottom" aria-hidden="true"><span class="digit-num">${digit}</span></span>
       `;
+      const finishDigit = (tile, digit) => {
+        tile.classList.remove("is-flipping");
+        tile.dataset.value = digit;
+        tile.innerHTML = digitMarkup(digit);
+      };
       const makeDigit = (digit) => {
         const node = document.createElement("span");
         node.className = "digit";
@@ -283,13 +288,14 @@
           const oldDigit = previous[index] || tile.dataset.value || "0";
           tile.classList.remove("is-flipping");
           tile.innerHTML = `
-            <span class="digit-current digit-num">${digit}</span>
+            <span class="digit-current digit-num">${oldDigit}</span>
             <span class="digit-flap digit-top" aria-hidden="true"><span class="digit-num">${oldDigit}</span></span>
             <span class="digit-flap digit-bottom" aria-hidden="true"><span class="digit-num">${digit}</span></span>
           `;
-          tile.dataset.value = digit;
+          tile.dataset.value = oldDigit;
           void tile.offsetWidth;
           tile.classList.add("is-flipping");
+          window.setTimeout(() => finishDigit(tile, digit), 720);
         });
       };
       const tick = () => {
