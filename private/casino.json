@@ -3,16 +3,24 @@
     {
       "id": "690d4b8c-7c3f-40ef-be54-344b45690ef1",
       "name": "Alex",
-      "balance": 956,
+      "balance": 946,
       "createdAt": "2026-05-29T04:11:58.470Z",
       "lastDailyBonus": 1780268122373,
       "stats": {
-        "gamesPlayed": 187,
-        "wagered": 29789,
+        "gamesPlayed": 188,
+        "wagered": 29799,
         "won": 9406,
         "biggestWin": 692
       },
       "history": [
+        {
+          "game": "slotsV2",
+          "bet": 10,
+          "payout": 0,
+          "net": -10,
+          "detail": "1 scatter · 0 bonus · 0 luck · 0 lines",
+          "at": "2026-06-01T03:22:29.117Z"
+        },
         {
           "game": "slotsV2",
           "bet": 10,
@@ -204,14 +212,6 @@
           "net": -100,
           "detail": "0 scatter · 0 bonus · 0 luck · 0 lines",
           "at": "2026-05-31T23:03:26.171Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 100,
-          "payout": 0,
-          "net": -100,
-          "detail": "2 scatter · 0 bonus · 0 luck · 0 lines",
-          "at": "2026-05-31T23:03:19.327Z"
         }
       ],
       "bj": null,
@@ -1508,7 +1508,11 @@
       "history": [],
       "bj": null,
       "passwordSalt": "c3c9f3f727b7e092148fd240c9411017",
-      "passwordHash": "d033e50a869f8c0fc4d6ce1d1d36bc89f9231c9bc3843c3eb9930737232566cdfe8fa85f9e4109d053c0cb78b3808e267114fd7a606b8e196048ab9e8c9362ba"
+      "passwordHash": "d033e50a869f8c0fc4d6ce1d1d36bc89f9231c9bc3843c3eb9930737232566cdfe8fa85f9e4109d053c0cb78b3808e267114fd7a606b8e196048ab9e8c9362ba",
+      "lastRescueBonus": 0,
+      "slotV2FreeSpins": 0,
+      "slotV2FreeSpinMultiplier": 1,
+      "shopBuffs": []
     }
   ],
   "config": {
