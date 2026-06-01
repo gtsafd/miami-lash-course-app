@@ -145,6 +145,7 @@
         font-variant-numeric: tabular-nums;
       }
       .digit-current { inset: 0; z-index: 1; }
+      .digit-static,
       .digit-flap {
         position: absolute;
         left: 0;
@@ -154,7 +155,18 @@
         backface-visibility: hidden;
         transform-style: preserve-3d;
       }
+      .digit-static .digit-num,
       .digit-flap .digit-num { height: 200%; }
+      .digit-static-top {
+        top: 0;
+        z-index: 2;
+      }
+      .digit-static-top .digit-num { top: 0; }
+      .digit-static-bottom {
+        bottom: 0;
+        z-index: 1;
+      }
+      .digit-static-bottom .digit-num { bottom: 0; }
       .digit-top {
         top: 0;
         z-index: 4;
@@ -174,8 +186,8 @@
           rgba(13,13,18,.98);
       }
       .digit-bottom .digit-num { bottom: 0; }
-      .digit.is-flipping .digit-top { animation: flipTop .34s ease-in forwards; }
-      .digit.is-flipping .digit-bottom { animation: flipBottom .34s ease-out .32s forwards; }
+      .digit.is-flipping .digit-current { display: none; }
+      .digit.is-flipping .digit-bottom { animation: flipBottom .46s ease-out forwards; }
       @keyframes flipTop {
         from { transform: rotateX(0); }
         to { transform: rotateX(-90deg); }
@@ -289,13 +301,14 @@
           tile.classList.remove("is-flipping");
           tile.innerHTML = `
             <span class="digit-current digit-num">${oldDigit}</span>
-            <span class="digit-flap digit-top" aria-hidden="true"><span class="digit-num">${oldDigit}</span></span>
+            <span class="digit-static digit-static-top" aria-hidden="true"><span class="digit-num">${digit}</span></span>
+            <span class="digit-static digit-static-bottom" aria-hidden="true"><span class="digit-num">${oldDigit}</span></span>
             <span class="digit-flap digit-bottom" aria-hidden="true"><span class="digit-num">${digit}</span></span>
           `;
           tile.dataset.value = oldDigit;
           void tile.offsetWidth;
           tile.classList.add("is-flipping");
-          window.setTimeout(() => finishDigit(tile, digit), 720);
+          window.setTimeout(() => finishDigit(tile, digit), 520);
         });
       };
       const tick = () => {
