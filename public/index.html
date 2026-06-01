@@ -80,13 +80,18 @@
         gap: 14px;
         justify-items: center;
       }
-      .flip {
+      .value {
+        width: 100%;
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(0, 1fr);
+        gap: clamp(4px, .75vw, 10px);
+      }
+      .digit {
         position: relative;
         width: 100%;
         aspect-ratio: 1.08 / 1;
         min-height: 128px;
-        display: grid;
-        place-items: center;
         overflow: hidden;
         border: 1px solid rgba(255,255,255,.16);
         border-radius: clamp(12px, 1.6vw, 22px);
@@ -99,8 +104,9 @@
           inset 0 1px 0 rgba(255,255,255,.28),
           inset 0 -14px 26px rgba(0,0,0,.32);
         backdrop-filter: blur(10px) saturate(1.1);
+        perspective: 520px;
       }
-      .flip::before {
+      .digit::before {
         content: "";
         position: absolute;
         left: 0;
@@ -109,9 +115,9 @@
         height: 2px;
         background: rgba(0,0,0,.62);
         box-shadow: 0 -1px 0 rgba(255,255,255,.10), 0 1px 0 rgba(255,255,255,.08);
-        z-index: 2;
+        z-index: 5;
       }
-      .flip::after {
+      .digit::after {
         content: "";
         position: absolute;
         inset: 0;
@@ -120,10 +126,15 @@
           linear-gradient(115deg, transparent 0 36%, rgba(255,255,255,.12) 46%, transparent 58%);
         opacity: .42;
         pointer-events: none;
+        z-index: 6;
       }
-      .num {
-        position: relative;
-        z-index: 1;
+      .digit-num {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        place-items: center;
         font-size: clamp(54px, 9vw, 128px);
         line-height: .8;
         letter-spacing: .02em;
@@ -132,6 +143,46 @@
           0 2px 0 rgba(255,255,255,.18),
           0 8px 12px rgba(0,0,0,.48);
         font-variant-numeric: tabular-nums;
+      }
+      .digit-current { inset: 0; z-index: 1; }
+      .digit-flap {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        overflow: hidden;
+        backface-visibility: hidden;
+        transform-style: preserve-3d;
+      }
+      .digit-flap .digit-num { height: 200%; }
+      .digit-top {
+        top: 0;
+        z-index: 4;
+        transform-origin: center bottom;
+        background:
+          linear-gradient(180deg, rgba(255,255,255,.20), rgba(255,255,255,.04)),
+          rgba(20,20,24,.98);
+      }
+      .digit-top .digit-num { top: 0; }
+      .digit-bottom {
+        bottom: 0;
+        z-index: 3;
+        transform-origin: center top;
+        transform: rotateX(90deg);
+        background:
+          linear-gradient(180deg, rgba(0,0,0,.34), rgba(255,255,255,.06)),
+          rgba(13,13,18,.98);
+      }
+      .digit-bottom .digit-num { bottom: 0; }
+      .digit.is-flipping .digit-top { animation: flipTop .34s ease-in forwards; }
+      .digit.is-flipping .digit-bottom { animation: flipBottom .34s ease-out .32s forwards; }
+      @keyframes flipTop {
+        from { transform: rotateX(0); }
+        to { transform: rotateX(-90deg); }
+      }
+      @keyframes flipBottom {
+        from { transform: rotateX(90deg); }
+        to { transform: rotateX(0); }
       }
       .label {
         color: #d7a529;
@@ -157,11 +208,12 @@
         h1 { font-size: clamp(46px, 16vw, 74px); }
         .countdown { gap: 7px; }
         .unit { gap: 8px; }
-        .flip {
+        .value { gap: 3px; }
+        .digit {
           min-height: 74px;
           border-radius: 11px;
         }
-        .num { font-size: clamp(34px, 13vw, 54px); }
+        .digit-num { font-size: clamp(34px, 13vw, 54px); }
         .label {
           font-size: 9px;
           letter-spacing: .04em;
@@ -176,19 +228,19 @@
       <h1><span>Coming Soon</span></h1>
       <section class="countdown" aria-label="Countdown to November 19, 2026 in Miami">
         <div class="unit">
-          <div class="flip"><span class="num" id="days">000</span></div>
+          <div class="value" id="days" aria-label="Days"></div>
           <div class="label">Days</div>
         </div>
         <div class="unit">
-          <div class="flip"><span class="num" id="hours">00</span></div>
+          <div class="value" id="hours" aria-label="Hours"></div>
           <div class="label">Hours</div>
         </div>
         <div class="unit">
-          <div class="flip"><span class="num" id="minutes">00</span></div>
+          <div class="value" id="minutes" aria-label="Minutes"></div>
           <div class="label">Minutes</div>
         </div>
         <div class="unit">
-          <div class="flip"><span class="num" id="seconds">00</span></div>
+          <div class="value" id="seconds" aria-label="Seconds"></div>
           <div class="label">Seconds</div>
         </div>
       </section>
@@ -196,10 +248,49 @@
     </main>
     <script>
       const target = new Date("2026-11-19T00:00:00-05:00").getTime();
+      const values = { days: "", hours: "", minutes: "", seconds: "" };
       const pad = (value, size = 2) => String(Math.max(0, value)).padStart(size, "0");
-      const setText = (id, value) => {
+      const digitMarkup = (digit) => `
+        <span class="digit-current digit-num">${digit}</span>
+        <span class="digit-flap digit-top" aria-hidden="true"><span class="digit-num">${digit}</span></span>
+        <span class="digit-flap digit-bottom" aria-hidden="true"><span class="digit-num">${digit}</span></span>
+      `;
+      const makeDigit = (digit) => {
+        const node = document.createElement("span");
+        node.className = "digit";
+        node.dataset.value = digit;
+        node.innerHTML = digitMarkup(digit);
+        return node;
+      };
+      const setValue = (id, value) => {
         const node = document.getElementById(id);
-        if (node.textContent !== value) node.textContent = value;
+        node.setAttribute("aria-label", `${node.getAttribute("aria-label").split(":")[0]}: ${value}`);
+        if (!values[id]) {
+          values[id] = value;
+          node.replaceChildren(...value.split("").map(makeDigit));
+          return;
+        }
+        if (values[id] === value) return;
+        const previous = values[id].padStart(value.length, "0");
+        values[id] = value;
+        value.split("").forEach((digit, index) => {
+          let tile = node.children[index];
+          if (!tile) {
+            tile = makeDigit(digit);
+            node.appendChild(tile);
+          }
+          if (tile.dataset.value === digit) return;
+          const oldDigit = previous[index] || tile.dataset.value || "0";
+          tile.classList.remove("is-flipping");
+          tile.innerHTML = `
+            <span class="digit-current digit-num">${digit}</span>
+            <span class="digit-flap digit-top" aria-hidden="true"><span class="digit-num">${oldDigit}</span></span>
+            <span class="digit-flap digit-bottom" aria-hidden="true"><span class="digit-num">${digit}</span></span>
+          `;
+          tile.dataset.value = digit;
+          void tile.offsetWidth;
+          tile.classList.add("is-flipping");
+        });
       };
       const tick = () => {
         const left = Math.max(0, target - Date.now());
@@ -208,10 +299,10 @@
         const hours = Math.floor((totalSeconds % 86400) / 3600);
         const minutes = Math.floor((totalSeconds % 3600) / 60);
         const seconds = totalSeconds % 60;
-        setText("days", pad(days, 3));
-        setText("hours", pad(hours));
-        setText("minutes", pad(minutes));
-        setText("seconds", pad(seconds));
+        setValue("days", pad(days, 3));
+        setValue("hours", pad(hours));
+        setValue("minutes", pad(minutes));
+        setValue("seconds", pad(seconds));
       };
       tick();
       setInterval(tick, 1000);
