@@ -1513,6 +1513,24 @@
       "slotV2FreeSpins": 0,
       "slotV2FreeSpinMultiplier": 1,
       "shopBuffs": []
+    },
+    {
+      "id": "2babf710-7848-4eb8-aa89-0922fe451a7e",
+      "name": "LiveSmooth",
+      "nameKey": "livesmooth",
+      "balance": 1000,
+      "createdAt": "2026-06-01T03:28:50.383Z",
+      "lastDailyBonus": 0,
+      "stats": {
+        "gamesPlayed": 0,
+        "wagered": 0,
+        "won": 0,
+        "biggestWin": 0
+      },
+      "history": [],
+      "bj": null,
+      "passwordSalt": "a14d5dfe90d112409700c93872db2e79",
+      "passwordHash": "454920c2929634b0a6cc829c52970b1ddc69b3f6b9e21826f131e5ca608f74ac331b2baf49ad31e87c0faf721dd43d317b137e401585a23468506cb2c162e599"
     }
   ],
   "config": {
