@@ -1491,6 +1491,24 @@
       "slotV2FreeSpins": 0,
       "slotV2FreeSpinMultiplier": 1,
       "shopBuffs": []
+    },
+    {
+      "id": "cbfc2324-2575-477a-a23f-54c1fc3206d8",
+      "name": "ProdVisualTest",
+      "nameKey": "prodvisualtest",
+      "balance": 1000,
+      "createdAt": "2026-06-01T03:22:26.331Z",
+      "lastDailyBonus": 0,
+      "stats": {
+        "gamesPlayed": 0,
+        "wagered": 0,
+        "won": 0,
+        "biggestWin": 0
+      },
+      "history": [],
+      "bj": null,
+      "passwordSalt": "c3c9f3f727b7e092148fd240c9411017",
+      "passwordHash": "d033e50a869f8c0fc4d6ce1d1d36bc89f9231c9bc3843c3eb9930737232566cdfe8fa85f9e4109d053c0cb78b3808e267114fd7a606b8e196048ab9e8c9362ba"
     }
   ],
   "config": {
