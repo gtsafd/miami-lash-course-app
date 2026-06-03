@@ -824,16 +824,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 7007920.2,
+      "balance": 7007020.2,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780526014215,
       "stats": {
         "gamesPlayed": 626,
-        "wagered": 320193,
+        "wagered": 321093,
         "won": 7299896.2,
         "biggestWin": 1416000
       },
       "history": [
+        {
+          "game": "shop",
+          "bet": 900,
+          "payout": 0,
+          "net": -900,
+          "detail": "Loss Shield",
+          "at": "2026-06-03T22:33:53.378Z"
+        },
         {
           "game": "shop",
           "bet": 1400,
@@ -1025,14 +1033,6 @@
           "net": -900,
           "detail": "Diamond Charm",
           "at": "2026-06-03T22:32:08.953Z"
-        },
-        {
-          "game": "shop",
-          "bet": 900,
-          "payout": 0,
-          "net": -900,
-          "detail": "Diamond Charm",
-          "at": "2026-06-03T22:32:06.275Z"
         }
       ],
       "bj": {
@@ -1284,6 +1284,15 @@
           "spinsLeft": 20,
           "effect": {
             "wildBoost": 2
+          }
+        },
+        {
+          "id": "lossShield",
+          "name": "Loss Shield",
+          "icon": "🛡️",
+          "spinsLeft": 12,
+          "effect": {
+            "lossRefundPercent": 25
           }
         }
       ]
