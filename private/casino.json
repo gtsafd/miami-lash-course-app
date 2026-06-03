@@ -824,16 +824,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 7005220.2,
+      "balance": 7001720.2,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780526014215,
       "stats": {
         "gamesPlayed": 626,
-        "wagered": 322893,
+        "wagered": 326393,
         "won": 7299896.2,
         "biggestWin": 1416000
       },
       "history": [
+        {
+          "game": "shop",
+          "bet": 3500,
+          "payout": 0,
+          "net": -3500,
+          "detail": "Bonus Magnet",
+          "at": "2026-06-03T22:33:56.819Z"
+        },
         {
           "game": "shop",
           "bet": 1800,
@@ -1025,14 +1033,6 @@
           "net": -900,
           "detail": "Diamond Charm",
           "at": "2026-06-03T22:32:11.854Z"
-        },
-        {
-          "game": "shop",
-          "bet": 900,
-          "payout": 0,
-          "net": -900,
-          "detail": "Diamond Charm",
-          "at": "2026-06-03T22:32:10.490Z"
         }
       ],
       "bj": {
@@ -1302,6 +1302,16 @@
           "spinsLeft": 8,
           "effect": {
             "winMultiplierBoost": 12
+          }
+        },
+        {
+          "id": "bonusMagnet",
+          "name": "Bonus Magnet",
+          "icon": "🧲",
+          "spinsLeft": 8,
+          "effect": {
+            "scatterBoost": 3,
+            "wildBoost": 1
           }
         }
       ]
