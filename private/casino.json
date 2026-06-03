@@ -828,12 +828,20 @@
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780526014215,
       "stats": {
-        "gamesPlayed": 668,
+        "gamesPlayed": 669,
         "wagered": 517293,
         "won": 9758296.2,
         "biggestWin": 1416000
       },
       "history": [
+        {
+          "game": "mines",
+          "bet": 100000,
+          "payout": 0,
+          "net": -100000,
+          "detail": "5 mines · hit mine",
+          "at": "2026-06-03T22:39:10.945Z"
+        },
         {
           "game": "slotsV2",
           "bet": 0,
@@ -1025,14 +1033,6 @@
           "net": -15000,
           "detail": "10 free spins · x2.5",
           "at": "2026-06-03T22:36:32.950Z"
-        },
-        {
-          "game": "slotsV2 buy bonus",
-          "bet": 15000,
-          "payout": 0,
-          "net": -15000,
-          "detail": "10 free spins · x2.5",
-          "at": "2026-06-03T22:36:32.026Z"
         }
       ],
       "bj": {
@@ -1259,23 +1259,7 @@
       "passwordSalt": "005f9d99e39656944ae2408f8aaa361e",
       "passwordHash": "980c2edfe491cda6e13c3d2bed994b8a70e9e8ee8e2e3d7eac4157f4fc04e61ed598039b3980ff065518a0b3d7fb8bbf3ff56c6847a1f7fce6cefaf89a582666",
       "lastRescueBonus": 0,
-      "minesRound": {
-        "bet": 100000,
-        "mines": 5,
-        "mineTiles": [
-          0,
-          13,
-          3,
-          19,
-          11
-        ],
-        "revealed": [
-          7,
-          20
-        ],
-        "status": "playing",
-        "startedAt": 1780526345160
-      },
+      "minesRound": null,
       "crashRound": null,
       "lastCrashPoint": 1.12,
       "lastCrashBet": 150,
