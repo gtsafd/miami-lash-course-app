@@ -824,16 +824,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 7140220.2,
+      "balance": 7040220.2,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780264615102,
       "stats": {
-        "gamesPlayed": 624,
-        "wagered": 187393,
+        "gamesPlayed": 625,
+        "wagered": 287393,
         "won": 7299896.2,
         "biggestWin": 1416000
       },
       "history": [
+        {
+          "game": "slotsV2",
+          "bet": 100000,
+          "payout": 0,
+          "net": -100000,
+          "detail": "0 scatter · 0 bonus · 0 luck · 0 lines",
+          "at": "2026-06-03T22:33:28.631Z"
+        },
         {
           "game": "slotsV2",
           "bet": 0,
@@ -1025,14 +1033,6 @@
           "net": 182100,
           "detail": "free spin · 0 scatter · 0 bonus · 1 luck · 1 lines",
           "at": "2026-06-01T22:59:23.332Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 0,
-          "payout": 0,
-          "net": 0,
-          "detail": "free spin · 1 scatter · 0 bonus · 0 luck · 0 lines",
-          "at": "2026-06-01T22:59:17.914Z"
         }
       ],
       "bj": {
@@ -1272,7 +1272,7 @@
           "id": "scatterCharm",
           "name": "Diamond Charm",
           "icon": "💎",
-          "spinsLeft": 102,
+          "spinsLeft": 101,
           "effect": {
             "scatterBoost": 2
           }
