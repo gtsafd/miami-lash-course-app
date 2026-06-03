@@ -840,7 +840,7 @@
           "payout": 0,
           "net": -50000,
           "detail": "crashed 1.12x",
-          "at": "2026-06-03T22:41:29.053Z"
+          "at": "2026-06-03T22:41:29.470Z"
         },
         {
           "game": "crash",
@@ -1263,7 +1263,7 @@
       "crashRound": null,
       "lastCrashPoint": 1.12,
       "lastCrashBet": 50000,
-      "lastCrashAt": 1780526489053,
+      "lastCrashAt": 1780526489470,
       "slotV2FreeSpins": 35,
       "slotV2FreeSpinMultiplier": 3,
       "slotV2Bonus": null,
