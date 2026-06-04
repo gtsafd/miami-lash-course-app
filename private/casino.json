@@ -853,49 +853,6 @@
       "achievements": {}
     },
     {
-      "id": "7a03ae46-a842-47be-beba-28fdd463417e",
-      "name": "ProdBuyBonus178017169159",
-      "nameKey": "prodbuybonus178017169159",
-      "balance": 0,
-      "createdAt": "2026-05-30T20:08:12.012Z",
-      "lastDailyBonus": 0,
-      "stats": {
-        "gamesPlayed": 0,
-        "wagered": 1000,
-        "won": 0,
-        "biggestWin": 0
-      },
-      "history": [
-        {
-          "game": "slotsV2 buy bonus",
-          "bet": 1000,
-          "payout": 0,
-          "net": -1000,
-          "detail": "5 free spins · x2",
-          "at": "2026-05-30T20:08:13.191Z"
-        }
-      ],
-      "bj": null,
-      "passwordSalt": "31bcbb61bdf4b5bed21cf8e31cfdf3e4",
-      "passwordHash": "5b1213d7e44e9f08b9638a685e2b9114cb59f6e6218aa0782db86af6e6fc8539f9b0cbe034acb49a47b9bf67b49d73bbd7fa924459d9b2ebbcb6c44d47d132d7",
-      "lastRescueBonus": 0,
-      "slotV2FreeSpins": 5,
-      "slotV2FreeSpinMultiplier": 2,
-      "shopBuffs": [],
-      "slotV2Progress": {
-        "spins": 0,
-        "wagered": 0,
-        "wins": 0,
-        "lossStreak": 0,
-        "maxLossStreak": 0,
-        "multiLineHits": 0,
-        "scatterHits": 0,
-        "bonusTriggers": 0,
-        "bigWins": 0
-      },
-      "achievements": {}
-    },
-    {
       "id": "079718f7-ae4f-441f-b37a-01c87bd8b7fa",
       "name": "ProdShopProbe17801723715",
       "nameKey": "prodshopprobe17801723715",
