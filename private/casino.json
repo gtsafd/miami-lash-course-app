@@ -824,16 +824,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 1440000,
+      "balance": 1438200,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780526014215,
       "stats": {
         "gamesPlayed": 910,
-        "wagered": 2983793,
+        "wagered": 2985593,
         "won": 15063296,
         "biggestWin": 1416000
       },
       "history": [
+        {
+          "game": "shop",
+          "bet": 1800,
+          "payout": 0,
+          "net": -1800,
+          "detail": "Multiplier Glow",
+          "at": "2026-06-04T23:05:56.044Z"
+        },
         {
           "game": "shop",
           "bet": 3500,
@@ -1025,14 +1033,6 @@
           "net": -100000,
           "detail": "5 mines · hit mine",
           "at": "2026-06-04T23:04:04.502Z"
-        },
-        {
-          "game": "mines",
-          "bet": 100000,
-          "payout": 245000,
-          "net": 145000,
-          "detail": "4 safe · 2.45x",
-          "at": "2026-06-04T23:03:56.072Z"
         }
       ],
       "bj": {
@@ -1299,7 +1299,7 @@
           "id": "multiplierGlow",
           "name": "Multiplier Glow",
           "icon": "✨",
-          "spinsLeft": 16,
+          "spinsLeft": 24,
           "effect": {
             "winMultiplierBoost": 12
           }
