@@ -246,17 +246,33 @@
       "nameKey": "alex 🌴",
       "telegramId": "5638062250",
       "telegramUsername": "Alex_Kozak",
-      "balance": 1165.8,
+      "balance": 1140.8,
       "createdAt": "2026-05-29T04:55:58.436Z",
       "lastDailyBonus": 1780616033953,
       "lastRescueBonus": 0,
       "stats": {
-        "gamesPlayed": 21,
-        "wagered": 900,
-        "won": 295,
+        "gamesPlayed": 22,
+        "wagered": 1000,
+        "won": 370,
         "biggestWin": 100
       },
       "history": [
+        {
+          "game": "achievement",
+          "bet": 0,
+          "payout": 75,
+          "net": 75,
+          "detail": "Comeback Fuel",
+          "at": "2026-06-04T23:35:52.496Z"
+        },
+        {
+          "game": "slotsV2",
+          "bet": 100,
+          "payout": 0,
+          "net": -100,
+          "detail": "1 scatter · 0 bonus · 0 luck · 0 lines",
+          "at": "2026-06-04T23:35:52.496Z"
+        },
         {
           "game": "slotsV2",
           "bet": 100,
@@ -440,14 +456,6 @@
           "net": -20,
           "detail": "0 scatter · 0 lines",
           "at": "2026-05-30T19:43:50.725Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 20,
-          "payout": 0,
-          "net": -20,
-          "detail": "1 scatter · 0 lines",
-          "at": "2026-05-30T19:43:40.148Z"
         }
       ],
       "bj": null,
@@ -455,11 +463,11 @@
       "slotV2FreeSpinMultiplier": 1,
       "shopBuffs": [],
       "slotV2Progress": {
-        "spins": 12,
-        "wagered": 750,
+        "spins": 13,
+        "wagered": 850,
         "wins": 2,
-        "lossStreak": 4,
-        "maxLossStreak": 4,
+        "lossStreak": 5,
+        "maxLossStreak": 5,
         "multiLineHits": 0,
         "scatterHits": 0,
         "bonusTriggers": 0,
@@ -477,6 +485,10 @@
         "warmup": {
           "unlockedAt": "2026-06-04T23:35:30.622Z",
           "reward": 60
+        },
+        "comeback": {
+          "unlockedAt": "2026-06-04T23:35:52.496Z",
+          "reward": 75
         }
       }
     },
