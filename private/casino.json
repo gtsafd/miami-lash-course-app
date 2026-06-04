@@ -824,16 +824,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 1438200,
+      "balance": 1423200,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780526014215,
       "stats": {
         "gamesPlayed": 915,
-        "wagered": 2985593,
+        "wagered": 3000593,
         "won": 15063296,
         "biggestWin": 1416000
       },
       "history": [
+        {
+          "game": "slotsV2 buy bonus",
+          "bet": 15000,
+          "payout": 0,
+          "net": -15000,
+          "detail": "10 free spins · x2.5",
+          "at": "2026-06-04T23:06:34.410Z"
+        },
         {
           "game": "slotsV2",
           "bet": 0,
@@ -1025,14 +1033,6 @@
           "net": 0,
           "detail": "free spin · 0 scatter · 0 bonus · 0 luck · 0 lines",
           "at": "2026-06-04T23:05:02.871Z"
-        },
-        {
-          "game": "mines",
-          "bet": 100000,
-          "payout": 322000,
-          "net": 222000,
-          "detail": "5 safe · 3.22x",
-          "at": "2026-06-04T23:04:53.950Z"
         }
       ],
       "bj": {
@@ -1264,8 +1264,8 @@
       "lastCrashPoint": 1.55,
       "lastCrashBet": 50000,
       "lastCrashAt": 1780526500019,
-      "slotV2FreeSpins": 0,
-      "slotV2FreeSpinMultiplier": 1,
+      "slotV2FreeSpins": 10,
+      "slotV2FreeSpinMultiplier": 2.5,
       "slotV2Bonus": null,
       "shopBuffs": [
         {
