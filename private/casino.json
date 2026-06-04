@@ -246,17 +246,25 @@
       "nameKey": "alex 🌴",
       "telegramId": "5638062250",
       "telegramUsername": "Alex_Kozak",
-      "balance": 1375.8,
+      "balance": 1325.8,
       "createdAt": "2026-05-29T04:55:58.436Z",
       "lastDailyBonus": 1780616033953,
       "lastRescueBonus": 0,
       "stats": {
-        "gamesPlayed": 17,
-        "wagered": 550,
+        "gamesPlayed": 18,
+        "wagered": 600,
         "won": 235,
         "biggestWin": 100
       },
       "history": [
+        {
+          "game": "slotsV2",
+          "bet": 50,
+          "payout": 0,
+          "net": -50,
+          "detail": "0 scatter · 0 bonus · 0 luck · 0 lines",
+          "at": "2026-06-04T23:35:22.856Z"
+        },
         {
           "game": "slotsV2",
           "bet": 50,
@@ -415,10 +423,10 @@
       "slotV2FreeSpinMultiplier": 1,
       "shopBuffs": [],
       "slotV2Progress": {
-        "spins": 8,
-        "wagered": 400,
+        "spins": 9,
+        "wagered": 450,
         "wins": 2,
-        "lossStreak": 0,
+        "lossStreak": 1,
         "maxLossStreak": 3,
         "multiLineHits": 0,
         "scatterHits": 0,
