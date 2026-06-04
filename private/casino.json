@@ -824,13 +824,13 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 11533220.2,
+      "balance": 5000,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780526014215,
       "stats": {
         "gamesPlayed": 791,
         "wagered": 2154993,
-        "won": 12856996.2,
+        "won": 12856996,
         "biggestWin": 1416000
       },
       "history": [
