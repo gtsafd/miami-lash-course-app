@@ -828,12 +828,20 @@
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780526014215,
       "stats": {
-        "gamesPlayed": 904,
+        "gamesPlayed": 905,
         "wagered": 2964493,
         "won": 15063296,
         "biggestWin": 1416000
       },
       "history": [
+        {
+          "game": "slotsV2",
+          "bet": 0,
+          "payout": 0,
+          "net": 0,
+          "detail": "free spin · 0 scatter · 0 bonus · 0 luck · 0 lines",
+          "at": "2026-06-04T23:05:02.871Z"
+        },
         {
           "game": "mines",
           "bet": 100000,
@@ -1025,14 +1033,6 @@
           "net": 0,
           "detail": "free spin · 0 scatter · 0 bonus · 1 luck · 0 lines",
           "at": "2026-06-04T23:01:51.595Z"
-        },
-        {
-          "game": "slotsV2 buy bonus",
-          "bet": 15000,
-          "payout": 0,
-          "net": -15000,
-          "detail": "10 free spins · x2.5",
-          "at": "2026-06-04T23:01:48.412Z"
         }
       ],
       "bj": {
@@ -1264,20 +1264,10 @@
       "lastCrashPoint": 1.55,
       "lastCrashBet": 50000,
       "lastCrashAt": 1780526500019,
-      "slotV2FreeSpins": 11,
+      "slotV2FreeSpins": 10,
       "slotV2FreeSpinMultiplier": 3,
       "slotV2Bonus": null,
-      "shopBuffs": [
-        {
-          "id": "scatterCharm",
-          "name": "Diamond Charm",
-          "icon": "💎",
-          "spinsLeft": 1,
-          "effect": {
-            "scatterBoost": 2
-          }
-        }
-      ]
+      "shopBuffs": []
     },
     {
       "id": "b40d9fb4-c011-48e4-b324-551185963aea",
