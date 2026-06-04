@@ -226,7 +226,19 @@
       "crashRound": null,
       "lastCrashPoint": 1.42,
       "lastCrashBet": 395,
-      "lastCrashAt": 1780268518907
+      "lastCrashAt": 1780268518907,
+      "slotV2Progress": {
+        "spins": 0,
+        "wagered": 0,
+        "wins": 0,
+        "lossStreak": 0,
+        "maxLossStreak": 0,
+        "multiLineHits": 0,
+        "scatterHits": 0,
+        "bonusTriggers": 0,
+        "bigWins": 0
+      },
+      "achievements": {}
     },
     {
       "id": "1b80b606-6be2-4504-92ee-4002ba83d27d",
@@ -321,7 +333,19 @@
       "bj": null,
       "slotV2FreeSpins": 0,
       "slotV2FreeSpinMultiplier": 1,
-      "shopBuffs": []
+      "shopBuffs": [],
+      "slotV2Progress": {
+        "spins": 0,
+        "wagered": 0,
+        "wins": 0,
+        "lossStreak": 0,
+        "maxLossStreak": 0,
+        "multiLineHits": 0,
+        "scatterHits": 0,
+        "bonusTriggers": 0,
+        "bigWins": 0
+      },
+      "achievements": {}
     },
     {
       "id": "d4adb383-4fcb-4b07-b8fd-8c32aecaadda",
@@ -343,482 +367,19 @@
       "bj": null,
       "slotV2FreeSpins": 0,
       "slotV2FreeSpinMultiplier": 1,
-      "shopBuffs": []
-    },
-    {
-      "id": "d323792d-d5ba-4706-b5c7-96e246dd68de",
-      "name": "Gary",
-      "nameKey": "gary",
-      "balance": 0.7999999999999545,
-      "createdAt": "2026-05-30T15:45:11.250Z",
-      "lastDailyBonus": 1780155999926,
-      "stats": {
-        "gamesPlayed": 65,
-        "wagered": 5859,
-        "won": 1676.8,
-        "biggestWin": 184
+      "shopBuffs": [],
+      "slotV2Progress": {
+        "spins": 0,
+        "wagered": 0,
+        "wins": 0,
+        "lossStreak": 0,
+        "maxLossStreak": 0,
+        "multiLineHits": 0,
+        "scatterHits": 0,
+        "bonusTriggers": 0,
+        "bigWins": 0
       },
-      "history": [
-        {
-          "game": "blackjack",
-          "bet": 250,
-          "payout": 0,
-          "net": -250,
-          "detail": "lose · you 15 / dealer 18",
-          "at": "2026-05-30T16:03:56.449Z"
-        },
-        {
-          "game": "blackjack",
-          "bet": 889,
-          "payout": 0,
-          "net": -889,
-          "detail": "lose · you 24 / dealer 20",
-          "at": "2026-05-30T16:03:43.094Z"
-        },
-        {
-          "game": "blackjack",
-          "bet": 100,
-          "payout": 200,
-          "net": 100,
-          "detail": "win · you 19 / dealer 24",
-          "at": "2026-05-30T16:03:30.596Z"
-        },
-        {
-          "game": "mines",
-          "bet": 50,
-          "payout": 0,
-          "net": -50,
-          "detail": "20 mines · hit mine",
-          "at": "2026-05-30T16:02:16.759Z"
-        },
-        {
-          "game": "mines",
-          "bet": 50,
-          "payout": 234,
-          "net": 184,
-          "detail": "1 safe · 4.69x",
-          "at": "2026-05-30T16:02:10.372Z"
-        },
-        {
-          "game": "mines",
-          "bet": 50,
-          "payout": 234,
-          "net": 184,
-          "detail": "1 safe · 4.69x",
-          "at": "2026-05-30T16:02:04.519Z"
-        },
-        {
-          "game": "mines",
-          "bet": 50,
-          "payout": 83,
-          "net": 33,
-          "detail": "11 safe · 1.67x",
-          "at": "2026-05-30T16:01:52.128Z"
-        },
-        {
-          "game": "plinko",
-          "bet": 50,
-          "payout": 50,
-          "net": 0,
-          "detail": "bucket 3 · 1.1x",
-          "at": "2026-05-30T16:01:14.218Z"
-        },
-        {
-          "game": "plinko",
-          "bet": 50,
-          "payout": 69,
-          "net": 19,
-          "detail": "bucket 8 · 1.5x",
-          "at": "2026-05-30T16:01:08.457Z"
-        },
-        {
-          "game": "plinko",
-          "bet": 50,
-          "payout": 23,
-          "net": -27,
-          "detail": "bucket 5 · 0.5x",
-          "at": "2026-05-30T16:01:04.849Z"
-        },
-        {
-          "game": "plinko",
-          "bet": 50,
-          "payout": 50,
-          "net": 0,
-          "detail": "bucket 3 · 1.1x",
-          "at": "2026-05-30T16:01:01.077Z"
-        },
-        {
-          "game": "plinko",
-          "bet": 50,
-          "payout": 36,
-          "net": -14,
-          "detail": "bucket 6 · 0.8x",
-          "at": "2026-05-30T16:00:57.385Z"
-        },
-        {
-          "game": "plinko",
-          "bet": 50,
-          "payout": 50,
-          "net": 0,
-          "detail": "bucket 3 · 1.1x",
-          "at": "2026-05-30T16:00:51.815Z"
-        },
-        {
-          "game": "plinko",
-          "bet": 50,
-          "payout": 50,
-          "net": 0,
-          "detail": "bucket 3 · 1.1x",
-          "at": "2026-05-30T16:00:48.337Z"
-        },
-        {
-          "game": "plinko",
-          "bet": 50,
-          "payout": 50,
-          "net": 0,
-          "detail": "bucket 7 · 1.1x",
-          "at": "2026-05-30T16:00:43.782Z"
-        },
-        {
-          "game": "plinko",
-          "bet": 50,
-          "payout": 50,
-          "net": 0,
-          "detail": "bucket 7 · 1.1x",
-          "at": "2026-05-30T16:00:39.844Z"
-        },
-        {
-          "game": "plinko",
-          "bet": 50,
-          "payout": 50,
-          "net": 0,
-          "detail": "bucket 3 · 1.1x",
-          "at": "2026-05-30T16:00:35.902Z"
-        },
-        {
-          "game": "plinko",
-          "bet": 50,
-          "payout": 36,
-          "net": -14,
-          "detail": "bucket 6 · 0.8x",
-          "at": "2026-05-30T16:00:31.954Z"
-        },
-        {
-          "game": "plinko",
-          "bet": 50,
-          "payout": 23,
-          "net": -27,
-          "detail": "bucket 5 · 0.5x",
-          "at": "2026-05-30T16:00:27.776Z"
-        },
-        {
-          "game": "crash",
-          "bet": 150,
-          "payout": 0,
-          "net": -150,
-          "detail": "crashed 1.32x",
-          "at": "2026-05-30T16:00:27.776Z"
-        },
-        {
-          "game": "crash",
-          "bet": 150,
-          "payout": 0,
-          "net": -150,
-          "detail": "crashed 1.12x",
-          "at": "2026-05-30T15:59:05.221Z"
-        },
-        {
-          "game": "crash",
-          "bet": 150,
-          "payout": 270,
-          "net": 120,
-          "detail": "cashed 1.8x · crashed 5.24x",
-          "at": "2026-05-30T15:58:56.254Z"
-        },
-        {
-          "game": "crash",
-          "bet": 150,
-          "payout": 0,
-          "net": -150,
-          "detail": "crashed 1.17x",
-          "at": "2026-05-30T15:58:52.746Z"
-        },
-        {
-          "game": "crash",
-          "bet": 150,
-          "payout": 156,
-          "net": 6,
-          "detail": "cashed 1.04x · crashed 23.79x",
-          "at": "2026-05-30T15:58:40.121Z"
-        },
-        {
-          "game": "crash",
-          "bet": 150,
-          "payout": 210,
-          "net": 60,
-          "detail": "cashed 1.4x · crashed 1.49x",
-          "at": "2026-05-30T15:58:34.357Z"
-        }
-      ],
-      "bj": {
-        "deck": [
-          {
-            "r": "Q",
-            "s": "♠"
-          },
-          {
-            "r": "10",
-            "s": "♦"
-          },
-          {
-            "r": "9",
-            "s": "♦"
-          },
-          {
-            "r": "A",
-            "s": "♦"
-          },
-          {
-            "r": "9",
-            "s": "♣"
-          },
-          {
-            "r": "K",
-            "s": "♥"
-          },
-          {
-            "r": "8",
-            "s": "♣"
-          },
-          {
-            "r": "4",
-            "s": "♦"
-          },
-          {
-            "r": "2",
-            "s": "♦"
-          },
-          {
-            "r": "6",
-            "s": "♦"
-          },
-          {
-            "r": "Q",
-            "s": "♣"
-          },
-          {
-            "r": "J",
-            "s": "♠"
-          },
-          {
-            "r": "10",
-            "s": "♠"
-          },
-          {
-            "r": "K",
-            "s": "♣"
-          },
-          {
-            "r": "7",
-            "s": "♦"
-          },
-          {
-            "r": "4",
-            "s": "♥"
-          },
-          {
-            "r": "Q",
-            "s": "♦"
-          },
-          {
-            "r": "J",
-            "s": "♦"
-          },
-          {
-            "r": "J",
-            "s": "♣"
-          },
-          {
-            "r": "A",
-            "s": "♥"
-          },
-          {
-            "r": "5",
-            "s": "♦"
-          },
-          {
-            "r": "7",
-            "s": "♣"
-          },
-          {
-            "r": "3",
-            "s": "♠"
-          },
-          {
-            "r": "8",
-            "s": "♥"
-          },
-          {
-            "r": "2",
-            "s": "♥"
-          },
-          {
-            "r": "6",
-            "s": "♠"
-          },
-          {
-            "r": "10",
-            "s": "♥"
-          },
-          {
-            "r": "A",
-            "s": "♣"
-          },
-          {
-            "r": "2",
-            "s": "♠"
-          },
-          {
-            "r": "A",
-            "s": "♠"
-          },
-          {
-            "r": "6",
-            "s": "♣"
-          },
-          {
-            "r": "4",
-            "s": "♣"
-          },
-          {
-            "r": "9",
-            "s": "♥"
-          },
-          {
-            "r": "3",
-            "s": "♣"
-          },
-          {
-            "r": "5",
-            "s": "♣"
-          },
-          {
-            "r": "K",
-            "s": "♦"
-          },
-          {
-            "r": "4",
-            "s": "♠"
-          },
-          {
-            "r": "3",
-            "s": "♦"
-          },
-          {
-            "r": "5",
-            "s": "♠"
-          },
-          {
-            "r": "3",
-            "s": "♥"
-          },
-          {
-            "r": "7",
-            "s": "♥"
-          },
-          {
-            "r": "10",
-            "s": "♣"
-          },
-          {
-            "r": "6",
-            "s": "♥"
-          },
-          {
-            "r": "7",
-            "s": "♠"
-          },
-          {
-            "r": "J",
-            "s": "♥"
-          },
-          {
-            "r": "K",
-            "s": "♠"
-          },
-          {
-            "r": "9",
-            "s": "♠"
-          }
-        ],
-        "playerHand": [
-          {
-            "r": "5",
-            "s": "♥"
-          },
-          {
-            "r": "2",
-            "s": "♣"
-          },
-          {
-            "r": "8",
-            "s": "♦"
-          }
-        ],
-        "dealerHand": [
-          {
-            "r": "Q",
-            "s": "♥"
-          },
-          {
-            "r": "8",
-            "s": "♠"
-          }
-        ],
-        "bet": 250,
-        "status": "done",
-        "doubled": false,
-        "result": "lose",
-        "payout": 0
-      },
-      "passwordSalt": "4cf4cb4c03bd92df41d2bb9bb6a80e53",
-      "passwordHash": "21da94a5bb66079a88c23621725c83c93d4b9c94397b24ba685d8de48357748e35c749bc8b8d31a6b630d0f724e82608b5b0dedd527638fef9e3052607690067",
-      "lastRescueBonus": 1780157027984,
-      "minesRound": {
-        "bet": 50,
-        "mines": 20,
-        "mineTiles": [
-          16,
-          4,
-          24,
-          23,
-          19,
-          18,
-          14,
-          7,
-          10,
-          17,
-          6,
-          13,
-          2,
-          15,
-          9,
-          21,
-          11,
-          3,
-          1,
-          8
-        ],
-        "revealed": [
-          22
-        ],
-        "status": "playing",
-        "startedAt": 1780156940348
-      },
-      "crashRound": null,
-      "slotV2FreeSpins": 0,
-      "slotV2FreeSpinMultiplier": 1,
-      "shopBuffs": []
+      "achievements": {}
     },
     {
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
@@ -1277,7 +838,19 @@
             "scatterBoost": 2
           }
         }
-      ]
+      ],
+      "slotV2Progress": {
+        "spins": 0,
+        "wagered": 0,
+        "wins": 0,
+        "lossStreak": 0,
+        "maxLossStreak": 0,
+        "multiLineHits": 0,
+        "scatterHits": 0,
+        "bonusTriggers": 0,
+        "bigWins": 0
+      },
+      "achievements": {}
     },
     {
       "id": "b40d9fb4-c011-48e4-b324-551185963aea",
@@ -1353,7 +926,19 @@
       "crashRound": null,
       "lastCrashPoint": 1.4,
       "lastCrashBet": 250,
-      "lastCrashAt": 1780270546849
+      "lastCrashAt": 1780270546849,
+      "slotV2Progress": {
+        "spins": 0,
+        "wagered": 0,
+        "wins": 0,
+        "lossStreak": 0,
+        "maxLossStreak": 0,
+        "multiLineHits": 0,
+        "scatterHits": 0,
+        "bonusTriggers": 0,
+        "bigWins": 0
+      },
+      "achievements": {}
     },
     {
       "id": "dc69a806-f987-4405-95fe-320c5e41d946",
@@ -1384,7 +969,19 @@
       "lastRescueBonus": 0,
       "slotV2FreeSpins": 0,
       "slotV2FreeSpinMultiplier": 1,
-      "shopBuffs": []
+      "shopBuffs": [],
+      "slotV2Progress": {
+        "spins": 0,
+        "wagered": 0,
+        "wins": 0,
+        "lossStreak": 0,
+        "maxLossStreak": 0,
+        "multiLineHits": 0,
+        "scatterHits": 0,
+        "bonusTriggers": 0,
+        "bigWins": 0
+      },
+      "achievements": {}
     },
     {
       "id": "7dd52cdd-00bf-4fd7-9caa-c778b68f21e5",
@@ -1406,7 +1003,19 @@
       "lastRescueBonus": 0,
       "slotV2FreeSpins": 0,
       "slotV2FreeSpinMultiplier": 1,
-      "shopBuffs": []
+      "shopBuffs": [],
+      "slotV2Progress": {
+        "spins": 0,
+        "wagered": 0,
+        "wins": 0,
+        "lossStreak": 0,
+        "maxLossStreak": 0,
+        "multiLineHits": 0,
+        "scatterHits": 0,
+        "bonusTriggers": 0,
+        "bigWins": 0
+      },
+      "achievements": {}
     },
     {
       "id": "7a03ae46-a842-47be-beba-28fdd463417e",
@@ -1437,7 +1046,19 @@
       "lastRescueBonus": 0,
       "slotV2FreeSpins": 5,
       "slotV2FreeSpinMultiplier": 2,
-      "shopBuffs": []
+      "shopBuffs": [],
+      "slotV2Progress": {
+        "spins": 0,
+        "wagered": 0,
+        "wins": 0,
+        "lossStreak": 0,
+        "maxLossStreak": 0,
+        "multiLineHits": 0,
+        "scatterHits": 0,
+        "bonusTriggers": 0,
+        "bigWins": 0
+      },
+      "achievements": {}
     },
     {
       "id": "079718f7-ae4f-441f-b37a-01c87bd8b7fa",
@@ -1478,7 +1099,19 @@
             "scatterBoost": 4
           }
         }
-      ]
+      ],
+      "slotV2Progress": {
+        "spins": 0,
+        "wagered": 0,
+        "wins": 0,
+        "lossStreak": 0,
+        "maxLossStreak": 0,
+        "multiLineHits": 0,
+        "scatterHits": 0,
+        "bonusTriggers": 0,
+        "bigWins": 0
+      },
+      "achievements": {}
     },
     {
       "id": "e88d4a64-2b40-400f-b5f8-ed62283cc49b",
@@ -1500,7 +1133,19 @@
       "lastRescueBonus": 0,
       "slotV2FreeSpins": 0,
       "slotV2FreeSpinMultiplier": 1,
-      "shopBuffs": []
+      "shopBuffs": [],
+      "slotV2Progress": {
+        "spins": 0,
+        "wagered": 0,
+        "wins": 0,
+        "lossStreak": 0,
+        "maxLossStreak": 0,
+        "multiLineHits": 0,
+        "scatterHits": 0,
+        "bonusTriggers": 0,
+        "bigWins": 0
+      },
+      "achievements": {}
     },
     {
       "id": "cbfc2324-2575-477a-a23f-54c1fc3206d8",
@@ -1522,7 +1167,19 @@
       "lastRescueBonus": 0,
       "slotV2FreeSpins": 0,
       "slotV2FreeSpinMultiplier": 1,
-      "shopBuffs": []
+      "shopBuffs": [],
+      "slotV2Progress": {
+        "spins": 0,
+        "wagered": 0,
+        "wins": 0,
+        "lossStreak": 0,
+        "maxLossStreak": 0,
+        "multiLineHits": 0,
+        "scatterHits": 0,
+        "bonusTriggers": 0,
+        "bigWins": 0
+      },
+      "achievements": {}
     },
     {
       "id": "2babf710-7848-4eb8-aa89-0922fe451a7e",
@@ -1553,7 +1210,19 @@
       "lastRescueBonus": 0,
       "slotV2FreeSpins": 0,
       "slotV2FreeSpinMultiplier": 1,
-      "shopBuffs": []
+      "shopBuffs": [],
+      "slotV2Progress": {
+        "spins": 0,
+        "wagered": 0,
+        "wins": 0,
+        "lossStreak": 0,
+        "maxLossStreak": 0,
+        "multiLineHits": 0,
+        "scatterHits": 0,
+        "bonusTriggers": 0,
+        "bigWins": 0
+      },
+      "achievements": {}
     }
   ],
   "config": {
@@ -1596,6 +1265,8 @@
     "slotsV2": {
       "reels": 5,
       "rows": 3,
+      "winChancePercent": 24,
+      "maxRoundPayoutMultiplier": 120,
       "freeSpinsAward": 5,
       "freeSpinMultiplierStep": 0.5,
       "freeSpinMaxMultiplier": 3,
