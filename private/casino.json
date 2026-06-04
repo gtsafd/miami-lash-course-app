@@ -885,49 +885,6 @@
         "bigWins": 0
       },
       "achievements": {}
-    },
-    {
-      "id": "2babf710-7848-4eb8-aa89-0922fe451a7e",
-      "name": "LiveSmooth",
-      "nameKey": "livesmooth",
-      "balance": 990,
-      "createdAt": "2026-06-01T03:28:50.383Z",
-      "lastDailyBonus": 0,
-      "stats": {
-        "gamesPlayed": 1,
-        "wagered": 10,
-        "won": 0,
-        "biggestWin": 0
-      },
-      "history": [
-        {
-          "game": "slotsV2",
-          "bet": 10,
-          "payout": 0,
-          "net": -10,
-          "detail": "0 scatter · 0 bonus · 0 luck · 0 lines",
-          "at": "2026-06-01T03:28:51.721Z"
-        }
-      ],
-      "bj": null,
-      "passwordSalt": "a14d5dfe90d112409700c93872db2e79",
-      "passwordHash": "454920c2929634b0a6cc829c52970b1ddc69b3f6b9e21826f131e5ca608f74ac331b2baf49ad31e87c0faf721dd43d317b137e401585a23468506cb2c162e599",
-      "lastRescueBonus": 0,
-      "slotV2FreeSpins": 0,
-      "slotV2FreeSpinMultiplier": 1,
-      "shopBuffs": [],
-      "slotV2Progress": {
-        "spins": 0,
-        "wagered": 0,
-        "wins": 0,
-        "lossStreak": 0,
-        "maxLossStreak": 0,
-        "multiLineHits": 0,
-        "scatterHits": 0,
-        "bonusTriggers": 0,
-        "bigWins": 0
-      },
-      "achievements": {}
     }
   ],
   "config": {
