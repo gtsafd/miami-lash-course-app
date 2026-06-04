@@ -246,17 +246,33 @@
       "nameKey": "alex 🌴",
       "telegramId": "5638062250",
       "telegramUsername": "Alex_Kozak",
-      "balance": 1485.8,
+      "balance": 1460.8,
       "createdAt": "2026-05-29T04:55:58.436Z",
       "lastDailyBonus": 1780616033953,
       "lastRescueBonus": 0,
       "stats": {
-        "gamesPlayed": 9,
-        "wagered": 150,
-        "won": 60,
+        "gamesPlayed": 10,
+        "wagered": 200,
+        "won": 85,
         "biggestWin": 25
       },
       "history": [
+        {
+          "game": "achievement",
+          "bet": 0,
+          "payout": 25,
+          "net": 25,
+          "detail": "First Pull",
+          "at": "2026-06-04T23:34:15.774Z"
+        },
+        {
+          "game": "slotsV2",
+          "bet": 50,
+          "payout": 0,
+          "net": -50,
+          "detail": "0 scatter · 1 bonus · 1 luck · 0 lines",
+          "at": "2026-06-04T23:34:15.774Z"
+        },
         {
           "game": "slotsV2",
           "bet": 10,
@@ -335,17 +351,22 @@
       "slotV2FreeSpinMultiplier": 1,
       "shopBuffs": [],
       "slotV2Progress": {
-        "spins": 0,
-        "wagered": 0,
+        "spins": 1,
+        "wagered": 50,
         "wins": 0,
-        "lossStreak": 0,
-        "maxLossStreak": 0,
+        "lossStreak": 1,
+        "maxLossStreak": 1,
         "multiLineHits": 0,
         "scatterHits": 0,
         "bonusTriggers": 0,
         "bigWins": 0
       },
-      "achievements": {}
+      "achievements": {
+        "first_spin": {
+          "unlockedAt": "2026-06-04T23:34:15.774Z",
+          "reward": 25
+        }
+      }
     },
     {
       "id": "d4adb383-4fcb-4b07-b8fd-8c32aecaadda",
