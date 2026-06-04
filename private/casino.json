@@ -853,40 +853,6 @@
       "achievements": {}
     },
     {
-      "id": "7dd52cdd-00bf-4fd7-9caa-c778b68f21e5",
-      "name": "ProdBonusProbe1780170863",
-      "nameKey": "prodbonusprobe1780170863",
-      "balance": 1000,
-      "createdAt": "2026-05-30T19:54:24.139Z",
-      "lastDailyBonus": 0,
-      "stats": {
-        "gamesPlayed": 0,
-        "wagered": 0,
-        "won": 0,
-        "biggestWin": 0
-      },
-      "history": [],
-      "bj": null,
-      "passwordSalt": "4dab12652740d0e9891b6d917a7ec0e5",
-      "passwordHash": "9bbbb3928b2adaa5fb7cc3e8e247e5ef0a4a7ec5839a96b05bdd496e0537c7fd39c715f306641be36cd0c0c01fa4037d4581c71644cee651aca1115157e9c48a",
-      "lastRescueBonus": 0,
-      "slotV2FreeSpins": 0,
-      "slotV2FreeSpinMultiplier": 1,
-      "shopBuffs": [],
-      "slotV2Progress": {
-        "spins": 0,
-        "wagered": 0,
-        "wins": 0,
-        "lossStreak": 0,
-        "maxLossStreak": 0,
-        "multiLineHits": 0,
-        "scatterHits": 0,
-        "bonusTriggers": 0,
-        "bigWins": 0
-      },
-      "achievements": {}
-    },
-    {
       "id": "7a03ae46-a842-47be-beba-28fdd463417e",
       "name": "ProdBuyBonus178017169159",
       "nameKey": "prodbuybonus178017169159",
