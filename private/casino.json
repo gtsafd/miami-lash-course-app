@@ -534,12 +534,20 @@
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780526014215,
       "stats": {
-        "gamesPlayed": 961,
+        "gamesPlayed": 962,
         "wagered": 3366993,
         "won": 18110826,
         "biggestWin": 1416000
       },
       "history": [
+        {
+          "game": "slotsV2",
+          "bet": 0,
+          "payout": 0,
+          "net": 0,
+          "detail": "free spin · 1 scatter · 0 bonus · 0 luck · 0 lines",
+          "at": "2026-06-05T00:33:27.925Z"
+        },
         {
           "game": "slotsV2",
           "bet": 0,
@@ -731,14 +739,6 @@
           "net": 25,
           "detail": "First Pull",
           "at": "2026-06-05T00:32:01.907Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 100000,
-          "payout": 25000,
-          "net": -75000,
-          "detail": "0 scatter · 0 bonus · 1 luck · 0 lines · shield +25000",
-          "at": "2026-06-05T00:32:01.906Z"
         }
       ],
       "bj": {
@@ -970,7 +970,7 @@
       "lastCrashPoint": 1.55,
       "lastCrashBet": 50000,
       "lastCrashAt": 1780526500019,
-      "slotV2FreeSpins": 58,
+      "slotV2FreeSpins": 57,
       "slotV2FreeSpinMultiplier": 3,
       "slotV2Bonus": null,
       "shopBuffs": [
@@ -978,7 +978,7 @@
           "id": "scatterCharm",
           "name": "Diamond Charm",
           "icon": "💎",
-          "spinsLeft": 33,
+          "spinsLeft": 32,
           "effect": {
             "scatterBoost": 2
           }
@@ -987,7 +987,7 @@
           "id": "wildCharm",
           "name": "Wild Spark",
           "icon": "⭐",
-          "spinsLeft": 27,
+          "spinsLeft": 26,
           "effect": {
             "wildBoost": 2
           }
@@ -996,7 +996,7 @@
           "id": "lossShield",
           "name": "Loss Shield",
           "icon": "🛡️",
-          "spinsLeft": 11,
+          "spinsLeft": 10,
           "effect": {
             "lossRefundPercent": 25
           }
@@ -1005,7 +1005,7 @@
           "id": "multiplierGlow",
           "name": "Multiplier Glow",
           "icon": "✨",
-          "spinsLeft": 35,
+          "spinsLeft": 34,
           "effect": {
             "winMultiplierBoost": 12
           }
@@ -1014,7 +1014,7 @@
           "id": "bonusMagnet",
           "name": "Bonus Magnet",
           "icon": "🧲",
-          "spinsLeft": 11,
+          "spinsLeft": 10,
           "effect": {
             "scatterBoost": 3,
             "wildBoost": 1
@@ -1022,10 +1022,10 @@
         }
       ],
       "slotV2Progress": {
-        "spins": 13,
+        "spins": 14,
         "wagered": 100000,
         "wins": 2,
-        "lossStreak": 1,
+        "lossStreak": 2,
         "maxLossStreak": 7,
         "multiLineHits": 0,
         "scatterHits": 0,
