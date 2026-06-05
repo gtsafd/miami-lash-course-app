@@ -534,12 +534,20 @@
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780526014215,
       "stats": {
-        "gamesPlayed": 1023,
+        "gamesPlayed": 1024,
         "wagered": 3440393,
         "won": 29240670,
         "biggestWin": 4032000
       },
       "history": [
+        {
+          "game": "slotsV2",
+          "bet": 0,
+          "payout": 0,
+          "net": 0,
+          "detail": "free spin · 0 scatter · 0 bonus · 1 luck · 0 lines",
+          "at": "2026-06-05T00:40:05.330Z"
+        },
         {
           "game": "slotsV2",
           "bet": 0,
@@ -731,14 +739,6 @@
           "net": 0,
           "detail": "free spin · 0 scatter · 0 bonus · 0 luck · 0 lines",
           "at": "2026-06-05T00:37:58.978Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 0,
-          "payout": 0,
-          "net": 0,
-          "detail": "free spin · 0 scatter · 0 bonus · 0 luck · 0 lines",
-          "at": "2026-06-05T00:37:53.636Z"
         }
       ],
       "bj": {
@@ -970,7 +970,7 @@
       "lastCrashPoint": 1.55,
       "lastCrashBet": 50000,
       "lastCrashAt": 1780526500019,
-      "slotV2FreeSpins": 26,
+      "slotV2FreeSpins": 25,
       "slotV2FreeSpinMultiplier": 3,
       "slotV2Bonus": null,
       "shopBuffs": [
@@ -978,7 +978,7 @@
           "id": "scatterCharm",
           "name": "Diamond Charm",
           "icon": "💎",
-          "spinsLeft": 57,
+          "spinsLeft": 56,
           "effect": {
             "scatterBoost": 2
           }
@@ -987,7 +987,7 @@
           "id": "bonusMagnet",
           "name": "Bonus Magnet",
           "icon": "🧲",
-          "spinsLeft": 5,
+          "spinsLeft": 4,
           "effect": {
             "scatterBoost": 3,
             "wildBoost": 1
@@ -997,17 +997,17 @@
           "id": "multiplierGlow",
           "name": "Multiplier Glow",
           "icon": "✨",
-          "spinsLeft": 13,
+          "spinsLeft": 12,
           "effect": {
             "winMultiplierBoost": 12
           }
         }
       ],
       "slotV2Progress": {
-        "spins": 75,
+        "spins": 76,
         "wagered": 100000,
         "wins": 20,
-        "lossStreak": 8,
+        "lossStreak": 9,
         "maxLossStreak": 11,
         "multiLineHits": 0,
         "scatterHits": 0,
