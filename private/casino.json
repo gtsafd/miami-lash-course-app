@@ -530,16 +530,32 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 3882755,
+      "balance": 3994795,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780526014215,
       "stats": {
-        "gamesPlayed": 951,
+        "gamesPlayed": 952,
         "wagered": 3366993,
-        "won": 17864251,
+        "won": 17976291,
         "biggestWin": 1416000
       },
       "history": [
+        {
+          "game": "achievement",
+          "bet": 0,
+          "payout": 40,
+          "net": 40,
+          "detail": "First Spark",
+          "at": "2026-06-05T00:32:31.987Z"
+        },
+        {
+          "game": "slotsV2",
+          "bet": 0,
+          "payout": 112000,
+          "net": 112000,
+          "detail": "free spin · 0 scatter · 0 bonus · 0 luck · 1 lines",
+          "at": "2026-06-05T00:32:31.987Z"
+        },
         {
           "game": "slotsV2",
           "bet": 0,
@@ -723,22 +739,6 @@
           "net": -900,
           "detail": "Loss Shield",
           "at": "2026-06-05T00:31:41.237Z"
-        },
-        {
-          "game": "shop",
-          "bet": 1400,
-          "payout": 0,
-          "net": -1400,
-          "detail": "Wild Spark",
-          "at": "2026-06-05T00:31:38.791Z"
-        },
-        {
-          "game": "shop",
-          "bet": 1400,
-          "payout": 0,
-          "net": -1400,
-          "detail": "Wild Spark",
-          "at": "2026-06-05T00:31:37.861Z"
         }
       ],
       "bj": {
@@ -970,15 +970,15 @@
       "lastCrashPoint": 1.55,
       "lastCrashBet": 50000,
       "lastCrashAt": 1780526500019,
-      "slotV2FreeSpins": 68,
-      "slotV2FreeSpinMultiplier": 2.5,
+      "slotV2FreeSpins": 67,
+      "slotV2FreeSpinMultiplier": 3,
       "slotV2Bonus": null,
       "shopBuffs": [
         {
           "id": "scatterCharm",
           "name": "Diamond Charm",
           "icon": "💎",
-          "spinsLeft": 43,
+          "spinsLeft": 42,
           "effect": {
             "scatterBoost": 2
           }
@@ -987,7 +987,7 @@
           "id": "wildCharm",
           "name": "Wild Spark",
           "icon": "⭐",
-          "spinsLeft": 37,
+          "spinsLeft": 36,
           "effect": {
             "wildBoost": 2
           }
@@ -996,7 +996,7 @@
           "id": "lossShield",
           "name": "Loss Shield",
           "icon": "🛡️",
-          "spinsLeft": 21,
+          "spinsLeft": 20,
           "effect": {
             "lossRefundPercent": 25
           }
@@ -1005,7 +1005,7 @@
           "id": "multiplierGlow",
           "name": "Multiplier Glow",
           "icon": "✨",
-          "spinsLeft": 45,
+          "spinsLeft": 44,
           "effect": {
             "winMultiplierBoost": 12
           }
@@ -1014,7 +1014,7 @@
           "id": "bonusMagnet",
           "name": "Bonus Magnet",
           "icon": "🧲",
-          "spinsLeft": 21,
+          "spinsLeft": 20,
           "effect": {
             "scatterBoost": 3,
             "wildBoost": 1
@@ -1022,10 +1022,10 @@
         }
       ],
       "slotV2Progress": {
-        "spins": 3,
+        "spins": 4,
         "wagered": 100000,
-        "wins": 0,
-        "lossStreak": 3,
+        "wins": 1,
+        "lossStreak": 0,
         "maxLossStreak": 3,
         "multiLineHits": 0,
         "scatterHits": 0,
@@ -1040,6 +1040,10 @@
         "regular": {
           "unlockedAt": "2026-06-05T00:32:01.907Z",
           "reward": 110
+        },
+        "first_win": {
+          "unlockedAt": "2026-06-05T00:32:31.987Z",
+          "reward": 40
         }
       }
     }
