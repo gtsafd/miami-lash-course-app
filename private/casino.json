@@ -530,16 +530,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 4083920,
+      "balance": 4082120,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780526014215,
       "stats": {
         "gamesPlayed": 948,
-        "wagered": 3140693,
+        "wagered": 3142493,
         "won": 17864116,
         "biggestWin": 1416000
       },
       "history": [
+        {
+          "game": "shop",
+          "bet": 1800,
+          "payout": 0,
+          "net": -1800,
+          "detail": "Multiplier Glow",
+          "at": "2026-06-05T00:31:44.446Z"
+        },
         {
           "game": "shop",
           "bet": 900,
@@ -731,14 +739,6 @@
           "net": 200000,
           "detail": "2 free spins · 200000 chips",
           "at": "2026-06-04T23:08:32.630Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 0,
-          "payout": 493920,
-          "net": 493920,
-          "detail": "free spin · 3 scatter · 0 bonus · 0 luck · 0 lines",
-          "at": "2026-06-04T23:08:26.406Z"
         }
       ],
       "bj": {
@@ -999,6 +999,15 @@
           "spinsLeft": 24,
           "effect": {
             "lossRefundPercent": 25
+          }
+        },
+        {
+          "id": "multiplierGlow",
+          "name": "Multiplier Glow",
+          "icon": "✨",
+          "spinsLeft": 8,
+          "effect": {
+            "winMultiplierBoost": 12
           }
         }
       ],
