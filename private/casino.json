@@ -534,12 +534,20 @@
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780526014215,
       "stats": {
-        "gamesPlayed": 1036,
+        "gamesPlayed": 1037,
         "wagered": 3440393,
         "won": 30853470,
         "biggestWin": 4032000
       },
       "history": [
+        {
+          "game": "slotsV2",
+          "bet": 0,
+          "payout": 0,
+          "net": 0,
+          "detail": "free spin · 0 scatter · 1 bonus · 0 luck · 0 lines",
+          "at": "2026-06-05T00:41:17.910Z"
+        },
         {
           "game": "slotsV2",
           "bet": 0,
@@ -731,14 +739,6 @@
           "net": -1800,
           "detail": "Multiplier Glow",
           "at": "2026-06-05T00:39:17.700Z"
-        },
-        {
-          "game": "shop",
-          "bet": 1800,
-          "payout": 0,
-          "net": -1800,
-          "detail": "Multiplier Glow",
-          "at": "2026-06-05T00:39:16.215Z"
         }
       ],
       "bj": {
@@ -970,7 +970,7 @@
       "lastCrashPoint": 1.55,
       "lastCrashBet": 50000,
       "lastCrashAt": 1780526500019,
-      "slotV2FreeSpins": 13,
+      "slotV2FreeSpins": 12,
       "slotV2FreeSpinMultiplier": 3,
       "slotV2Bonus": null,
       "shopBuffs": [
@@ -978,17 +978,17 @@
           "id": "scatterCharm",
           "name": "Diamond Charm",
           "icon": "💎",
-          "spinsLeft": 44,
+          "spinsLeft": 43,
           "effect": {
             "scatterBoost": 2
           }
         }
       ],
       "slotV2Progress": {
-        "spins": 88,
+        "spins": 89,
         "wagered": 100000,
         "wins": 22,
-        "lossStreak": 1,
+        "lossStreak": 2,
         "maxLossStreak": 12,
         "multiLineHits": 0,
         "scatterHits": 0,
