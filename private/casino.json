@@ -530,16 +530,40 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 4062620,
+      "balance": 3987755,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780526014215,
       "stats": {
-        "gamesPlayed": 948,
-        "wagered": 3161993,
-        "won": 17864116,
+        "gamesPlayed": 949,
+        "wagered": 3261993,
+        "won": 17864251,
         "biggestWin": 1416000
       },
       "history": [
+        {
+          "game": "achievement",
+          "bet": 0,
+          "payout": 110,
+          "net": 110,
+          "detail": "Regular",
+          "at": "2026-06-05T00:32:01.907Z"
+        },
+        {
+          "game": "achievement",
+          "bet": 0,
+          "payout": 25,
+          "net": 25,
+          "detail": "First Pull",
+          "at": "2026-06-05T00:32:01.907Z"
+        },
+        {
+          "game": "slotsV2",
+          "bet": 100000,
+          "payout": 25000,
+          "net": -75000,
+          "detail": "0 scatter · 0 bonus · 1 luck · 0 lines · shield +25000",
+          "at": "2026-06-05T00:32:01.906Z"
+        },
         {
           "game": "shop",
           "bet": 3500,
@@ -715,30 +739,6 @@
           "net": 0,
           "detail": "free spin · 2 scatter · 0 bonus · 0 luck · 0 lines",
           "at": "2026-06-04T23:09:29.536Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 0,
-          "payout": 0,
-          "net": 0,
-          "detail": "free spin · 1 scatter · 0 bonus · 0 luck · 0 lines",
-          "at": "2026-06-04T23:09:24.301Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 0,
-          "payout": 0,
-          "net": 0,
-          "detail": "free spin · 2 scatter · 0 bonus · 1 luck · 0 lines",
-          "at": "2026-06-04T23:09:19.239Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 0,
-          "payout": 0,
-          "net": 0,
-          "detail": "free spin · 2 scatter · 0 bonus · 0 luck · 0 lines",
-          "at": "2026-06-04T23:09:13.926Z"
         }
       ],
       "bj": {
@@ -978,7 +978,7 @@
           "id": "scatterCharm",
           "name": "Diamond Charm",
           "icon": "💎",
-          "spinsLeft": 46,
+          "spinsLeft": 45,
           "effect": {
             "scatterBoost": 2
           }
@@ -987,7 +987,7 @@
           "id": "wildCharm",
           "name": "Wild Spark",
           "icon": "⭐",
-          "spinsLeft": 40,
+          "spinsLeft": 39,
           "effect": {
             "wildBoost": 2
           }
@@ -996,7 +996,7 @@
           "id": "lossShield",
           "name": "Loss Shield",
           "icon": "🛡️",
-          "spinsLeft": 24,
+          "spinsLeft": 23,
           "effect": {
             "lossRefundPercent": 25
           }
@@ -1005,7 +1005,7 @@
           "id": "multiplierGlow",
           "name": "Multiplier Glow",
           "icon": "✨",
-          "spinsLeft": 48,
+          "spinsLeft": 47,
           "effect": {
             "winMultiplierBoost": 12
           }
@@ -1014,7 +1014,7 @@
           "id": "bonusMagnet",
           "name": "Bonus Magnet",
           "icon": "🧲",
-          "spinsLeft": 24,
+          "spinsLeft": 23,
           "effect": {
             "scatterBoost": 3,
             "wildBoost": 1
@@ -1022,17 +1022,26 @@
         }
       ],
       "slotV2Progress": {
-        "spins": 0,
-        "wagered": 0,
+        "spins": 1,
+        "wagered": 100000,
         "wins": 0,
-        "lossStreak": 0,
-        "maxLossStreak": 0,
+        "lossStreak": 1,
+        "maxLossStreak": 1,
         "multiLineHits": 0,
         "scatterHits": 0,
         "bonusTriggers": 0,
         "bigWins": 0
       },
-      "achievements": {}
+      "achievements": {
+        "first_spin": {
+          "unlockedAt": "2026-06-05T00:32:01.907Z",
+          "reward": 25
+        },
+        "regular": {
+          "unlockedAt": "2026-06-05T00:32:01.907Z",
+          "reward": 110
+        }
+      }
     }
   ],
   "config": {
