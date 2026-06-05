@@ -530,16 +530,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 16788674,
+      "balance": 16785174,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780526014215,
       "stats": {
         "gamesPlayed": 1037,
-        "wagered": 3450293,
+        "wagered": 3453793,
         "won": 30853470,
         "biggestWin": 4032000
       },
       "history": [
+        {
+          "game": "shop",
+          "bet": 3500,
+          "payout": 0,
+          "net": -3500,
+          "detail": "Bonus Magnet",
+          "at": "2026-06-05T00:41:31.464Z"
+        },
         {
           "game": "shop",
           "bet": 1800,
@@ -731,14 +739,6 @@
           "net": 0,
           "detail": "free spin · 0 scatter · 0 bonus · 0 luck · 0 lines",
           "at": "2026-06-05T00:39:43.803Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 0,
-          "payout": 0,
-          "net": 0,
-          "detail": "free spin · 2 scatter · 0 bonus · 0 luck · 0 lines",
-          "at": "2026-06-05T00:39:38.460Z"
         }
       ],
       "bj": {
@@ -990,6 +990,16 @@
           "spinsLeft": 40,
           "effect": {
             "winMultiplierBoost": 12
+          }
+        },
+        {
+          "id": "bonusMagnet",
+          "name": "Bonus Magnet",
+          "icon": "🧲",
+          "spinsLeft": 8,
+          "effect": {
+            "scatterBoost": 3,
+            "wildBoost": 1
           }
         }
       ],
