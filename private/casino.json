@@ -530,16 +530,24 @@
       "id": "047c01bc-3c55-41bd-9d34-d7a66acaa3b1",
       "name": "Mike",
       "nameKey": "mike",
-      "balance": 4091320,
+      "balance": 4089920,
       "createdAt": "2026-05-30T15:51:54.973Z",
       "lastDailyBonus": 1780526014215,
       "stats": {
         "gamesPlayed": 948,
-        "wagered": 3133293,
+        "wagered": 3134693,
         "won": 17864116,
         "biggestWin": 1416000
       },
       "history": [
+        {
+          "game": "shop",
+          "bet": 1400,
+          "payout": 0,
+          "net": -1400,
+          "detail": "Wild Spark",
+          "at": "2026-06-05T00:31:35.722Z"
+        },
         {
           "game": "shop",
           "bet": 900,
@@ -731,14 +739,6 @@
           "net": 0,
           "detail": "free spin · 1 scatter · 0 bonus · 0 luck · 0 lines",
           "at": "2026-06-04T23:08:00.235Z"
-        },
-        {
-          "game": "slotsV2",
-          "bet": 0,
-          "payout": 0,
-          "net": 0,
-          "detail": "free spin · 0 scatter · 2 bonus · 0 luck · 0 lines",
-          "at": "2026-06-04T23:07:45.058Z"
         }
       ],
       "bj": {
@@ -981,6 +981,15 @@
           "spinsLeft": 46,
           "effect": {
             "scatterBoost": 2
+          }
+        },
+        {
+          "id": "wildCharm",
+          "name": "Wild Spark",
+          "icon": "⭐",
+          "spinsLeft": 10,
+          "effect": {
+            "wildBoost": 2
           }
         }
       ],
