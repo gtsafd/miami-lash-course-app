@@ -1047,17 +1047,25 @@
       "nameKey": "jimmy hart",
       "telegramId": "8588519541",
       "telegramUsername": "",
-      "balance": 930.9999999999998,
+      "balance": 926.7999999999997,
       "createdAt": "2026-06-30T13:22:39.793Z",
       "lastDailyBonus": 0,
       "lastRescueBonus": 0,
       "stats": {
-        "gamesPlayed": 9,
-        "wagered": 180,
+        "gamesPlayed": 10,
+        "wagered": 200,
         "won": 23.6,
         "biggestWin": 11.8
       },
       "history": [
+        {
+          "game": "slots",
+          "bet": 20,
+          "payout": 15.8,
+          "net": -4.199999999999999,
+          "detail": "🍒 ⭐ ⭐ · one-cherry",
+          "at": "2026-06-30T13:23:41.722Z"
+        },
         {
           "game": "slots",
           "bet": 20,
