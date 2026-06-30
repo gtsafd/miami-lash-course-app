@@ -1040,6 +1040,25 @@
           "reward": 180
         }
       }
+    },
+    {
+      "id": "df60ce72-8bb9-4d85-a972-0e796dffd75d",
+      "name": "JIMMY Hart",
+      "nameKey": "jimmy hart",
+      "telegramId": "8588519541",
+      "telegramUsername": "",
+      "balance": 1000,
+      "createdAt": "2026-06-30T13:22:39.793Z",
+      "lastDailyBonus": 0,
+      "lastRescueBonus": 0,
+      "stats": {
+        "gamesPlayed": 0,
+        "wagered": 0,
+        "won": 0,
+        "biggestWin": 0
+      },
+      "history": [],
+      "bj": null
     }
   ],
   "config": {
